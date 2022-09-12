@@ -1,5 +1,5 @@
 <template>
-  <section id="menuHeader">
+  <div id="menuHeader">
     <!-- drawer -->
     <v-navigation-drawer
       id="toggleBar"
@@ -101,7 +101,7 @@
         </v-list-item-group>
       </v-list>
     </v-menu>
-  </section>
+  </div>
 </template>
 
 <script>

@@ -1,7 +1,6 @@
 <template>
-  <section id="header">
+  <div id="header">
     <MenuHeader ref="menu"></MenuHeader>
-    <Alerts ref="alerts"></Alerts>
     <v-app-bar id="headerApp" color="transparent" height="100px" fixed class="font2 isolate">
       <aside class="acenter gap2" style="padding-left:calc(48px + 2em">
         <aside class="sidebar divcol acenter jspace isolate" :class="{active: sidebar}">
@@ -52,7 +51,7 @@
         </div>
       </aside>
     </v-app-bar>
-  </section>
+  </div>
 </template>
 
 <script>
