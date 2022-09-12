@@ -12,7 +12,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - detextre4-nuxt2',
+    titleTemplate: '%s - Music Feast',
     title: 'Home',
     htmlAttrs: {
       lang: 'en',
@@ -33,8 +33,6 @@ export default {
       // <!-- fonts -->
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
-      //   <!-- league gothic -->
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=League+Gothic&display=swap' },
     ],
     script: [
       // {
@@ -131,12 +129,12 @@ export default {
   },
 
   router: {
-    base: '/detextre4-nuxt2/',
+    base: '/music-feast/',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: '/detextre4-nuxt2/',
+    publicPath: '/music-feast/',
     plugins: [
       new webpack.ProvidePlugin({
         // global modules
