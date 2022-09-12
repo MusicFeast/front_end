@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "HeroPage",
+  name: "HeroSection",
   data() {
     return {
     }

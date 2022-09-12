@@ -9,7 +9,7 @@ export const state = () => ({
     email: 'john.doe@doe.com',
     wallet: 'detextre4.testnet',
   },
-})
+});
 
 export const mutations = {
   Avatar (state, avatar) {state.user.perfil = avatar},
@@ -18,7 +18,7 @@ export const mutations = {
     if (theme === "dark") {state.overlay.opacity = "0.5"; state.overlay.color = "black"}
     if (theme === "light") {state.overlay.opacity = "0.2"; state.overlay.color = "white"}
   },
-}
+};
 
 export const actions = {
   CambiarTheme({commit}, theme) {
@@ -26,7 +26,11 @@ export const actions = {
     localStorage.setItem("theme", theme);
     commit( "CambiarTheme", theme)
   },
-}
+  GenerateAlert({commit}, {key, title, desc}) {
+    this.$router.app.$children[this.$router.app.$children.findIndex(data=>data._uid === 11)].$refs.alerts.
+      GenerateAlert(key, title, desc);
+  },
+};
 
 export const getters = {
-}
+};

@@ -10,8 +10,10 @@
       <!-- <v-icon :style="`color: ${item.color} !important`" size="2.5rem">{{ item.icon }}</v-icon> -->
       <img :src="require(`~/assets/sources/icons/${item.icon}.svg`)" :alt="`${item.key} Icon`">
       <div class="divcol">
-        <h3 class="font1">{{$t(item.title)}}</h3>
-        <p class="font2 p">{{$t(item.desc)}}</p>
+        <h3 v-if="item.title_default" class="font1">{{$t(item.title_default)}}</h3>
+        <h3 v-else class="font1">{{item.title}}</h3>
+        <p v-if="item.desc_default" class="font2 p">{{$t(item.desc_default)}}</p>
+        <p v-else class="font2 p">{{item.desc}}</p>
       </div>
     </v-snackbar>
   </div>
@@ -22,22 +24,14 @@ export default {
   name: "AlertsComponent",
   data() {
     return {
-      alert: true,
       dataAlerts: []
     };
   },
   methods: {
-    ClearAlerts() {this.dataAlerts=[]},
-    Alerts(key, title, desc) {
-
-      // clear alerts
-      setTimeout(() => {
-        this.ClearAlerts()
-      }, 5000);
-
+    GenerateAlert(key, title, desc) {
       // create alert
       let alert = {};
-      if (title&&desc) {
+      if (title && desc) {
         alert = {
           key,
           title,
@@ -51,7 +45,7 @@ export default {
         alert = {
           key,
           title,
-          desc: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
+          desc_default: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
           // icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
           icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
           color: key === 'success' ? '#A4FDDF' : key === 'cancel' ? 'rgb(200, 0, 0)' : null,
@@ -60,7 +54,7 @@ export default {
       } else if (desc) {
         alert = {
           key,
-          title: key,
+          title_default: key,
           desc,
           // icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
           icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
@@ -70,15 +64,19 @@ export default {
       } else {
         alert = {
           key,
-          title: key,
-          desc: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
+          title_default: key,
+          desc_default: `text${key.replace(/^\w/, (c) => c.toUpperCase())}`,
           // icon: key === 'success' ? 'mdi-check-circle' : key === 'cancel' ? 'mdi-close-circle' : null,
           icon: key === 'success' ? 'success' : key === 'cancel' ? 'cancel' : null,
           color: key === 'success' ? '#A4FDDF' : key === 'cancel' ? 'rgb(200, 0, 0)' : null,
           model: true,
         }
-      }
-      this.dataAlerts.push(alert)
+      };
+      this.dataAlerts.push(alert);
+      // clear alerts
+      setTimeout(() => {
+        this.dataAlerts.splice(this.dataAlerts.shift(), 0)
+      }, 5000);
     },
   }
 };
