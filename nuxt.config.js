@@ -68,6 +68,7 @@ export default {
     '~/plugins/i18n-routing.js',
     '~/plugins/apexchart.js',
     '~/plugins/googleMaps.js',
+    '~/plugins/vue-debounce.js',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
