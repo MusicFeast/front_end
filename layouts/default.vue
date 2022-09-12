@@ -12,6 +12,7 @@
 <script>
 export default {
   name: "DefaultLayout",
+  middleware: 'authenticated',
   data() {
     return {
       wrapperSpace: true,

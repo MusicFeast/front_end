@@ -36,7 +36,7 @@
             </a>
           </v-col>
 
-          <v-btn id="botonLogin" href="#" @click="login()">
+          <v-btn id="botonLogin" @click="login()">
             <span class="h9_em">Login</span>
           </v-btn>
         </v-col>
@@ -82,7 +82,10 @@ export default {
     login() {
       const user = this.dataLogin[0].model;
       const clave = this.dataLogin[1].model;
-      if (user !== null && clave !== null) {this.$router.push('/')}
+      if (user !== null && clave !== null) {
+        localStorage.setItem('auth', true);
+        this.$router.push('/');
+      }
     },
     unlock() {
       this.Unlock = true;

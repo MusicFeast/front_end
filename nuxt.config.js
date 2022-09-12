@@ -12,7 +12,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - MusicFeast',
+    titleTemplate: '%s - detextre4-nuxt2',
     title: 'Home',
     htmlAttrs: {
       lang: 'en',
@@ -130,12 +130,12 @@ export default {
   },
 
   router: {
-    base: '/music-feast/'
+    base: '/detextre4-nuxt2/',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: '/music-feast/',
+    publicPath: '/detextre4-nuxt2/',
     plugins: [
       new webpack.ProvidePlugin({
         // global modules
