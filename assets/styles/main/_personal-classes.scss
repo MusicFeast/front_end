@@ -708,7 +708,7 @@
     right: -10% !important;
     height: $split-thickness !important;
     border-radius: $split-thickness !important;
-    margin-top: -($split-thickness / 2) !important;
+    margin-top: calc(($split-thickness / 2) * -1) !important;
     background: $clr-hover !important;
     transform: scale(0) !important;
     transition: transform .8s cubic-bezier(.16,1.08,.38,.98) !important;
