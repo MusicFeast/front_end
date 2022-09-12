@@ -26,13 +26,14 @@ export default {
     link: [
       // <-- main -->
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { id: 'theme', as: "style", rel: 'stylesheet preload prefetch', href: '/themes/light/theme.css', crossorigin: 'anonymous' },
+      { id: 'theme', as: "style", rel: 'stylesheet preload prefetch', href: '/themes/dark/theme.css', crossorigin: 'anonymous' },
       // <-- icons-default -->
       { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
       // <!-- fonts -->
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap' }
     ],
     script: [
       // {

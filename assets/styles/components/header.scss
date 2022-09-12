@@ -10,47 +10,12 @@
     animation: movedown .5s $ease-return;
     @include media(min, small) {margin-inline: 3em}
     .v-toolbar__content {
+      * {--fw: 500}
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-inline: 2em;
       // overflow: hidden;
-      .sidebar {
-        @include absolute(32px,27px);
-        .focus {
-          @include absolute(0,var(--distanceInitial),0);
-          transform: translateY(calc(var(--distance)));
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background-color: $primary;
-          transition: transform .6s $ease-return;
-          z-index: -1;
-        }
-        &.active {
-          transition: background-color .5s $ease-return;
-          transform: translate(-14px, -16px);
-          width: 76px;
-          height: 678px;
-          background: #000000;
-          box-shadow: 7px 4px 6px rgba(0, 0, 0, 0.25);
-          border-radius: 40px;
-          padding: 16px;
-          @include animation(.5s $ease-return) {
-            from {height: 48px}
-            to {height: 678px}
-          }
-        }
-      }
-      // .sidebar {
-      //   @include absolute(0,0,0);
-      //   transform: translate(-12px, -32px);
-      //   width: 76px;
-      //   background: #000000;
-      //   box-shadow: 7px 4px 6px rgba(0, 0, 0, 0.25);
-      //   border-radius: 40px;
-      //   z-index: -1;
-      // }
     }
   }
 

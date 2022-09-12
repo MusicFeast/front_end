@@ -2,12 +2,10 @@
 // // // layout // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #layout {
-  background: center no-repeat fixed;
-  background-image: url(~/assets/sources/images/bg.jpg);
-  @include media(max, small) {background-image: url(~/assets/sources/images/bg-mobile.jpg)};
+  background: center no-repeat var(--bg-ap);
   background-size: cover;
-  overflow: hidden;
-  // responsive font size
+  // overflow: hidden;
+  //- responsive font size -//
   .v-main {
     & > * {@include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}}
   }

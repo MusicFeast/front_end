@@ -2,7 +2,8 @@
 // // // login // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #login {
-  background: var(--bg-ap);
+  background: center no-repeat var(--bg-ap);
+  background-size: cover;
   .v-main__wrap {
     padding: 4rem $content-padding 70px $content-padding;
     

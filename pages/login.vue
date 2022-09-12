@@ -84,7 +84,7 @@ export default {
       const clave = this.dataLogin[1].model;
       if (user !== null && clave !== null) {
         localStorage.setItem('auth', true);
-        this.$router.push('/');
+        this.$router.push(this.localePath('/'));
       }
     },
     unlock() {
