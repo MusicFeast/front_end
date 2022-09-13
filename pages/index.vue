@@ -1,6 +1,9 @@
 <template>
   <div id="home" class="divcol" style="font-size: 16px; gap:4em">
-    <SectionsHero ref="hero"></SectionsHero>
+    <SectionsHero></SectionsHero>
+    <SectionsAboutArtists></SectionsAboutArtists>
+    <SectionsJoin></SectionsJoin>
+    <SectionsLastestReleases></SectionsLastestReleases>
   </div>
 </template>
 

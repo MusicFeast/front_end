@@ -4,7 +4,17 @@
 #hero {
   position: relative;
   #custome-carousel {
-    .v-image__image {background-size: 100% !important}
+    .v-responsive__content {
+      @include media(max, 880px) {
+        min-height: 450px;
+      }
+    }
+    .v-image__image {
+      background-size: 100% !important;
+      @include media(max, 880px) {
+        background-size: cover !important;
+      }
+    }
     .v-carousel__controls {
       button {
         background-color: #fff;

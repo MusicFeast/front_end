@@ -10,6 +10,7 @@
         :key="i"
         :src="item.img"
       ></v-carousel-item>
+
       <template #prev="{on, attrs}">
         <v-btn
           icon
@@ -17,7 +18,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon large>mdi-play</v-icon>
+          <v-icon x-large>mdi-play</v-icon>
         </v-btn>
       </template>
       <template #next="{on, attrs}">
@@ -26,7 +27,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-icon large>mdi-play</v-icon>
+          <v-icon x-large>mdi-play</v-icon>
         </v-btn>
       </template>
     </v-carousel>
@@ -39,6 +40,9 @@ export default {
   data() {
     return {
       dataCarousel: [
+        { img: require('~/assets/sources/images/img-carousel.jpg') },
+        { img: require('~/assets/sources/images/img-carousel.jpg') },
+        { img: require('~/assets/sources/images/img-carousel.jpg') },
         { img: require('~/assets/sources/images/img-carousel.jpg') },
         { img: require('~/assets/sources/images/img-carousel.jpg') },
       ],

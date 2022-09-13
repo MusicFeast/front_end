@@ -1,0 +1,26 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // lastest-releases // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#lastest-releases {
+  position: relative;
+  padding-inline: var(--margin-global);
+  > *:first-child {
+    --margin: .5em;
+    padding-bottom: var(--margin);
+    margin-bottom: var(--margin);
+    position: relative;
+    // line
+    &::before {
+      content: "";
+      content: "";
+      @include absolute(0,auto,0,0);
+      height: 1px;
+      width: 100%;
+      background-color: var(--primary);
+      @include media(max, small) {background-color: var(--secondary)}
+      border-radius: 50% / 3vmax;
+    }
+  }
+  .wrapper {
+  }
+}
