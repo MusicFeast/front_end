@@ -1,13 +1,14 @@
 <template>
   <div id="header">
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="headerApp" color="transparent" height="100px" fixed class="font2 isolate">
-      <a class="center" :href="`${$i18n.locale}/#`" style="width: min(70%, 7.5em);min-width: 5em">
-        <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 100%">
+    <v-app-bar id="headerApp" height="100px" fixed class="font2 isolate">
+      <a id="logoApp" class="center" :href="`${$i18n.locale}/#`">
+        <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
+        <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">
       </a>
 
       <section class="center gap2 eliminarmobile">
-        <a v-for="(item,i) in dataLinks" :key="i" :href="item.to">{{item.name}}</a>
+        <a v-for="(item,i) in dataLinks" :key="i" :href="`${$i18n.locale}/${item.to}`">{{item.name}}</a>
       </section>
 
       <section class="center">

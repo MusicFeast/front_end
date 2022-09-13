@@ -8,7 +8,8 @@
   #headerApp {
     transition: 0.4s ease-in-out;
     animation: movedown .5s $ease-return;
-    @include media(min, small) {margin-inline: 3em}
+    background: linear-gradient(-30deg, var(--primary), var(--secondary) 40%) !important;
+    @include media(min, small) {padding-inline: 3em}
     .v-toolbar__content {
       * {--fw: 500}
       display: flex;
@@ -16,6 +17,11 @@
       align-items: center;
       padding-inline: 2em;
       // overflow: hidden;
+      #logoApp {
+        width: min(70%, 7.5em);
+        min-width: 5em;
+        @include media(max,small) {width: min(70%, 5em)}
+      }
     }
   }
 
