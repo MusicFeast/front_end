@@ -16,7 +16,7 @@
         </v-card>
       </v-slide-item>
       
-      <template #prev>
+      <template #prev="{ on, attrs}">
         <v-btn icon class="reverse" v-bind="attrs" v-on="on">
           <v-icon x-large>mdi-play</v-icon>
         </v-btn>
