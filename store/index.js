@@ -26,10 +26,6 @@ export const actions = {
     localStorage.setItem("theme", theme);
     commit( "CambiarTheme", theme)
   },
-  GenerateAlert({commit}, {key, title, desc}) {
-    this.$router.app.$children[this.$router.app.$children.findIndex(data=>data._uid === 11)].$refs.alerts.
-      GenerateAlert(key, title, desc);
-  },
 };
 
 export const getters = {

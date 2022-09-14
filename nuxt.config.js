@@ -66,8 +66,11 @@ export default {
     '~/plugins/axios.js',
     '~/plugins/i18n-routing.js',
     '~/plugins/apexchart.js',
-    '~/plugins/googleMaps.js',
+    '~/plugins/google-maps.js',
     '~/plugins/vue-debounce.js',
+    '~/plugins/console-log.js',
+    '~/plugins/scroll-to.js',
+    '~/plugins/alerts.js',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
