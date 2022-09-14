@@ -96,7 +96,7 @@ export default {
     defaultLocale: "en",
     vueI18nLoader: true,
     detectBrowserLanguage: false,
-    strategy: "prefix",
+    strategy: "prefix_except_default",
     vueI18n: {
       fallbackLocale: "en",
       fallbackRoot: true,
