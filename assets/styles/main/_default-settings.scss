@@ -114,15 +114,15 @@ body {background: var(--bg-ap)}
 /* // // transition routes // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 // //-- pagess --//
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 150ms $ease-slide;
-  transition-delay: .2s, 0s;
-}
-.page-enter,
-.page-leave-to {
-  opacity: 0;
-}
+// .page-enter-active,
+// .page-leave-active {
+//   transition: opacity 150ms $ease-slide;
+//   transition-delay: .2s, 0s;
+// }
+// .page-enter,
+// .page-leave-to {
+//   opacity: 0;
+// }
 
 //-- layouts --//
 .layout-enter-active,
