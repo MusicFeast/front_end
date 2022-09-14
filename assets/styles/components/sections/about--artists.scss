@@ -46,6 +46,7 @@
     }
     #prev-button {
       z-index: 1;
+      pointer-events: all !important;
       @include absolute(0,10px,auto,0);
       @include animation(1.5s linear infinite alternate) {
         0% { transform: rotate(180deg) translateX(0px)}
