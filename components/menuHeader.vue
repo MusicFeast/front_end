@@ -47,7 +47,7 @@
           <template v-if="dataDrawer.list">
             <v-list class="fill_w">
               <!-- ciclo for items -->
-              <v-list-item v-for="(item,i) in dataDrawer.list" :key="i" link @click="$scrollTo(item.key)">
+              <v-list-item v-for="(item,i) in dataDrawer.list" :key="i" link @click="$scrollTo(item.key); drawer = false">
                 <v-list-item-title class="conttitle acenter gap1 h10_em">
                   <!-- <img :src="require(`~/assets/sources/icons/${item.key}${item.active?'-active':''}.svg`)" class="icon" :alt="item.alt" :class="{active: item.active}"> -->
                   <span style="max-width: max-content">

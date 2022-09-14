@@ -43,6 +43,11 @@ export default {
     ],
   },
 
+  loading: {
+    color: 'var(--clr-gradient)',
+    height: '1em',
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["~/assets/styles/main/main.scss"],
 
@@ -137,7 +142,7 @@ export default {
   },
 
   server: {
-    host: 'localhost', // default: localhost,
+    host: '192.168.100.73', // default: localhost,
     port: '8000', // default: 3000
   },
 
