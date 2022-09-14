@@ -732,19 +732,19 @@
   position: relative !important;
   line-height: 1 !important;
   color: transparent !important;
-  $split-position:  49%;
-  $split-thickness: 4px;
+  --split-position:  49%;
+  --split-thickness: 4px;
   // === line ===
   &::before {
     content: '' !important;
     display: block !important;
     position: absolute !important;
-    top: $split-position !important;
+    top: var(--split-position) !important;
     left: -10% !important;
     right: -10% !important;
-    height: $split-thickness !important;
-    border-radius: $split-thickness !important;
-    margin-top: calc(($split-thickness / 2) * -1) !important;
+    height: var(--split-thickness) !important;
+    border-radius: var(--split-thickness) !important;
+    margin-top: calc((var(--split-thickness) / 2) * -1) !important;
     background: $clr-hover !important;
     transform: scale(0) !important;
     transition: transform .8s cubic-bezier(.16,1.08,.38,.98) !important;
@@ -757,15 +757,15 @@
     overflow: hidden !important;
     color: var(--clr);
     top: 0 !important;
-    height: $split-position !important;
+    height: var(--split-position) !important;
     transition: all .8s cubic-bezier(.16,1.08,.38,.98) !important;
     &>* { display: block !important; }
   }
   // === Bottom mask specific =====
   .mask + .mask {
-    top: $split-position - 0.1 !important;
-    height: 100 - $split-position + 0.1 !important;
-    &>* { transform: translateY(-$split-position) !important; }
+    top: calc(var(--split-position) - 0.1) !important;
+    height: calc(100 - var(--split-position) + 0.1) !important;
+    &>* { transform: translateY(calc(var(--split-position) * -1)) !important; }
   }
   // === hover effect =====
   &:is(:hover, :active) {
