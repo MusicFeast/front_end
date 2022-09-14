@@ -8,7 +8,7 @@
       </a>
 
       <section class="center gap2 eliminarmobile">
-        <a v-for="(item,i) in dataLinks" :key="i" @click="$log(item.name); $alert('success', 'titulo')">{{item.name}}</a>
+        <a v-for="(item,i) in dataLinks" :key="i" @click="$scrollTo(item.name.toLowerCase())">{{item.name}}</a>
       </section>
 
       <section class="center">

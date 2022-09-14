@@ -18,7 +18,7 @@
           <v-card v-for="(item,i) in dataFooter" :key="i" color="transparent">
             <label class="h11_em">{{ item.title }}</label>
 
-            <a v-for="(item2, i2) in item.links" :key="i2" :href="item.to" class="h11_em hover_line">
+            <a v-for="(item2, i2) in item.links" :key="i2" class="h11_em hover_line" @click="$scrollTo(item2.to)">
               {{ item2.link }}
             </a>
           </v-card>
@@ -39,36 +39,36 @@ export default {
   data() {
     return {
       dataRedes: [
-        { icon: "mdi-instagram", to: "#" },
-        { icon: "mdi-twitter", to: "#" },
-        { icon: "mdi-facebook", to: "#" },
-        { icon: "discord", to: "#" },
+        { icon: "mdi-instagram", to: "home" },
+        { icon: "mdi-twitter", to: "home" },
+        { icon: "mdi-facebook", to: "home" },
+        { icon: "discord", to: "home" },
       ],
       dataFooter: [
         {
           title: "Explore",
           links: [
-            { link: "Help", to: "#" },
-            { link: "Terms", to: "#" },
-            { link: "Guildlines", to: "#" },
-            { link: "White Paper", to: "#" },
+            { link: "Help", to: "home" },
+            { link: "Terms", to: "home" },
+            { link: "Guildlines", to: "home" },
+            { link: "White Paper", to: "home" },
           ]
         },
         {
           title: "Explore",
           links: [
-            { link: "Lorem", to: "#" },
-            { link: "Lorem Ipsum", to: "#" },
-            { link: "Lorem ips", to: "#" },
-            { link: "Lorem ipsum", to: "#" },
+            { link: "Lorem", to: "home" },
+            { link: "Lorem Ipsum", to: "home" },
+            { link: "Lorem ips", to: "home" },
+            { link: "Lorem ipsum", to: "home" },
           ]
         },
         {
           title: "More",
           links: [
-            { link: "Advertise", to: "#" },
-            { link: "Integrations", to: "#" },
-            { link: "Careers", to: "#" },
+            { link: "Advertise", to: "home" },
+            { link: "Integrations", to: "home" },
+            { link: "Careers", to: "home" },
           ]
         },
       ],

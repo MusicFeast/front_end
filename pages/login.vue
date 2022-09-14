@@ -31,7 +31,7 @@
             <v-checkbox id="checkbox" v-model="checkbox" name="checkbox" color="#6667AB" />
             <label for="checkbox" class="desc h10_em">Recuerdame</label>
             </div>
-            <a href="#" class="desc h10_em tcenter" @click="unlock()">
+            <a class="desc h10_em tcenter" @click="unlock()">
               ¿Olvidaste la contraseña?
             </a>
           </v-col>
@@ -41,7 +41,7 @@
           </v-btn>
         </v-col>
 
-        <a href="#" class="soporte desc2 h10_em">
+        <a class="soporte desc2 h10_em">
           <strong>¿Necesita ayuda?</strong> Comuníquese con Soporte
         </a>
       </v-container>

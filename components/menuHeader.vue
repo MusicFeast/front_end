@@ -47,7 +47,7 @@
           <template v-if="dataDrawer.list">
             <v-list class="fill_w">
               <!-- ciclo for items -->
-              <v-list-item v-for="(item,i) in dataDrawer.list" :key="i" link :href="`${$i18n.locale}/${item.to}`">
+              <v-list-item v-for="(item,i) in dataDrawer.list" :key="i" link @click="$scrollTo(item.key)">
                 <v-list-item-title class="conttitle acenter gap1 h10_em">
                   <!-- <img :src="require(`~/assets/sources/icons/${item.key}${item.active?'-active':''}.svg`)" class="icon" :alt="item.alt" :class="{active: item.active}"> -->
                   <span style="max-width: max-content">
@@ -105,32 +105,26 @@ export default {
           {
             key: "home",
             name: "Home",
-            to: "#",
           },
           {
             key: "about",
             name: "About",
-            to: "#about",
           },
           {
             key: "artists",
             name: "Artists",
-            to: "#artists",
           },
           {
             key: "news",
             name: "News",
-            to: "#news",
           },
           {
             key: "lastest-releases",
             name: "Lastest Releases",
-            to: "#lastest-releases",
           },
           {
             key: "contact",
             name: "Contact",
-            to: "#contact",
           },
         ],
         // expansion: [

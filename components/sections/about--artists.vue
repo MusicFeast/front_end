@@ -11,7 +11,7 @@
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
             at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
           </p>
-          <a href="#" class="eliminarmobile">More</a>
+          <a class="eliminarmobile" @click="$scrollTo('home')">More</a>
         </div>
 
         <div class="content-bottom divcol">
@@ -22,7 +22,7 @@
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
             at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
           </p>
-          <a href="#" class="eliminarmobile">More</a>
+          <a class="eliminarmobile" @click="$scrollTo('home')">More</a>
         </div>
       </v-sheet>
     </section>
