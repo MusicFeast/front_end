@@ -25,6 +25,10 @@
   @include media(max,x-small) {--margin-global: 1em}
   --parent: 1600px;
   --subparent: 1900px;
+  /* // // shadows // // */
+  --sombra-filter: drop-shadow(0px 4px 1px rgba(0, 0, 0, 0.3));
+  --sombra-card: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  --sombra-btn: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 // Sidebar //
@@ -75,6 +79,7 @@ $border-btn: 2vmax;
 // Hover //
 $ease: cubic-bezier(0.23, 1, 0.32, 1);
 $ease-return: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+$ease-slide: cubic-bezier(0.4, 0.1, 0.7, 0.95);
 $skew-right: skewX(12deg) translateX(1px);
 $skew-left: skewX(-12deg) translateX(-1px);
 

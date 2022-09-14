@@ -81,6 +81,7 @@ div.v-card::before {background: transparent !important}
   -ms-text-stroke: var(--stroke) var(--c);
   -o-text-stroke: var(--stroke) var(--c);
 }
+body {background: var(--bg-ap)}
 * {caret-color: var(--primary)}
 ::selection {
   background-color: #ff4081;
@@ -107,6 +108,34 @@ div.v-card::before {background: transparent !important}
     // background-color: $clr-btn
   }
 }
+
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // transition routes // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// //-- pagess --//
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 150ms $ease-slide;
+  transition-delay: .2s, 0s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+//-- layouts --//
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 150ms $ease-slide;
+  transition-delay: .2s, 0s;
+}
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}
+
+
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // typography // // */ 
