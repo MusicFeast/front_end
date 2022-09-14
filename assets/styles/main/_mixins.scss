@@ -38,21 +38,23 @@ $breakpoints: (
   @if ($dir1) and ($key1) {
     // if numeric
     @if type-of($key1) == number {
-      // if mobile
-      @if $key1 <= 880 and $dir1 == max {
-        @media (#{$dir1}-width: $key1) and (max-height: 1180px) {@content;}
-      } /* if desktop */ @else {
-        @media (#{$dir1}-width: $key1) {@content;}
-      }
+      @media (#{$dir1}-width: $key1) {@content;}
+      // // if mobile
+      // @if $key1 <= 880 and $dir1 == max {
+      //   @media (#{$dir1}-width: $key1) and (max-height: 1180px) {@content;}
+      // } /* if desktop */ @else {
+      //   @media (#{$dir1}-width: $key1) {@content;}
+      // }
     }
     // if variable
     @else {
-      // if mobile
-      @if $key1 == small or $key1 == x-small and $dir1 == max {
-        @media (#{$dir1}-width: $size1) and (max-height: 1180px) {@content;}
-      } /* if desktop */ @else {
-        @media (#{$dir1}-width: $size1) {@content;}
-      }
+      @media (#{$dir1}-width: $size1) {@content;}
+      // // if mobile
+      // @if $key1 == small or $key1 == x-small and $dir1 == max {
+      //   @media (#{$dir1}-width: $size1) and (max-height: 1180px) {@content;}
+      // } /* if desktop */ @else {
+      //   @media (#{$dir1}-width: $size1) {@content;}
+      // }
     }
   }
 }
