@@ -205,6 +205,7 @@ img:not(.not_html, .not) {
   --bs: initial;
   --f: none;
   --t: initial;
+  --of: initial;
   background: var(--bg) !important;
   width: var(--w);
   max-width: var(--max-w);
@@ -219,6 +220,7 @@ img:not(.not_html, .not) {
   box-shadow: var(--bs);
   transform: var(--t);
   filter: var(--f);
+  object-fit: var(--of);
 }
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
@@ -241,7 +243,7 @@ img:not(.not_html, .not) {
   // tab
   --p-tab: .2em;
   --br-tab: .4vmax;
-  --o: hidden;
+  --overflow: hidden;
   --t: none;
   --f: none;
   filter: var(--f);
@@ -262,7 +264,7 @@ img:not(.not_html, .not) {
         padding: var(--p-tab);
         min-width: max-content;
         border-radius: var(--br-tab);
-        overflow: var(--o);
+        overflow: var(--overflow);
         text-transform: var(--tt);
         color: var(--c);
         font-size: var(--fs);
@@ -300,11 +302,23 @@ img:not(.not_html, .not) {
   --br: 50%;
   --b: initial;
   --bs: initial;
+  --bg-disabled: initial;
+  --c-disabled: initial;
+  --f-disabled: initial;
+  --mbm-disabled: initial;
+  --o-disabled: initial;
   background: var(--bg);
   padding: var(--p);
   border-radius: var(--br);
   border: var(--b);
   box-shadow: var(--bs) !important;
+  &.v-btn--disabled * {
+    background: var(--bg-disabled);
+    color: var(--c-disabled);
+    mix-blend-mode: var(--mbm-disabled);
+    filter: var(--f-disabled);
+    opacity: var(--o);
+  }
 }
 
 // normal class
