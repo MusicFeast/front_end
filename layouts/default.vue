@@ -20,7 +20,16 @@ export default {
     }
   },
   mounted() {
-    this.RouteValidator()
+    this.RouteValidator();
+    
+    /* scroll horizontal (simple) */
+    const el = document.querySelectorAll('[class*="scrollx"]');
+    el.forEach((el) => {
+      el.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY
+      })
+    });
   },
   methods: {
     RouteValidator() {

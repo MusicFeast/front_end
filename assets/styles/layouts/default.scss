@@ -11,8 +11,8 @@
   }
   // footer margin modifiable
   & .with {
-    padding-block: 100px 24.168125em !important;
-    @include media(max, small) {padding-bottom: 34.694375em !important}
+    padding-block: 100px 22em !important;
+    @include media(max, small) {padding-bottom: 33em !important}
     @include media(max, x-small) {padding-bottom: 26.8475em !important}
   }
   & .without {padding-block: 100px 0 !important}

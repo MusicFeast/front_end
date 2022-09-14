@@ -2,10 +2,27 @@
 /* // // lastest-releases // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #lastest-releases {
+  --padding: 4em;
   position: relative;
   padding-inline: var(--margin-global);
+  @include media(min, small) {
+  padding-bottom: var(--padding);
+  margin-bottom: var(--padding);
+  @include media(max, $query__news__lastest_releases) {margin-bottom: 0}
+  // line
+    &::before {
+      content: "";
+      content: "";
+      @include absolute(0,auto,0,0);
+      height: 1px;
+      width: 100%;
+      background-color: var(--primary);
+      border-radius: 50% / 3vmax;
+    }
+  }
   > *:first-child {
     --margin: .5em;
+    @include media(max, small) {--margin: .8em}
     padding-bottom: var(--margin);
     margin-bottom: var(--margin);
     position: relative;
@@ -17,10 +34,48 @@
       height: 1px;
       width: 100%;
       background-color: var(--primary);
-      @include media(max, small) {background-color: var(--secondary)}
       border-radius: 50% / 3vmax;
     }
   }
+  h2 {
+    @include media(max, small) {text-decoration: underline; text-align: center}
+  }
   .wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19em), 1fr));
+    gap: 3em;
+    .v-card {
+      --spacing: .7em;
+      padding: var(--spacing);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing);
+      @include media(min, small) {&:only-of-type {max-width: 20em}}
+      a {font-size: 1.3em; text-decoration: underline; margin-bottom: .3em}
+      p {font-size: 1.1em;}
+      .container-img {
+        position: relative;
+        // tag
+        &::after {
+          content: var(--tag);
+          position: absolute;
+          right: var(--spacing);
+          top: var(--spacing);
+
+          display: grid;
+          place-content: center;
+
+          @include btn;
+          --br: 0;
+          --w: 7em;
+          --bg: var(--clr-gradient);
+          --h: 30px;
+          font-weight: 400;
+        }
+        &.live:after {--bs: inset 0 0 1px 1px #fff}
+      }
+      & > *:last-child {margin-top: 1em}
+    }
   }
 }

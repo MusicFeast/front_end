@@ -6,7 +6,10 @@
   padding: clamp(2em, 4vw, 4em);
   padding-top: 0;
   background: linear-gradient(-90deg, var(--primary), var(--secondary)) !important;
-  @include media(max, small) {font-size: 18px !important}
+  @include media(max, small) {
+    font-size: 18px !important;
+    background: var(--clr-gradient) !important;
+  }
   @include media(max, x-small) {font-size: 14px !important}
   .row {
     letter-spacing: 0.03em;

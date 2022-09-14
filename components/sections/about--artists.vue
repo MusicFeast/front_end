@@ -81,13 +81,13 @@
       <h1>ARTISTS</h1>
     </section>
 
-    <v-btn class="btn" style="--bg: #000; --p: .5em clamp(1em, 3vw, 2.5em);--bs: 3px 3px 10px 6px rgba(0,0,0,.3)">View All</v-btn>
+    <v-btn class="btn h10_em view-all__btn">View All</v-btn>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AboutXArtists",
+  name: "AboutXArtistsSection",
   data() {
     return {
       slider: null,

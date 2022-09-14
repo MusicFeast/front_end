@@ -4,6 +4,7 @@
     <SectionsAboutArtists></SectionsAboutArtists>
     <SectionsJoin></SectionsJoin>
     <SectionsLastestReleases></SectionsLastestReleases>
+    <SectionsNews></SectionsNews>
   </div>
 </template>
 

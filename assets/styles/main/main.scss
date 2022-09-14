@@ -16,6 +16,15 @@
 
 
 ///////////////////// global ///////////////////////
+
+// button
+.view-all__btn {
+  --bg: #000;
+  --p: .5em clamp(1em, 3vw, 2.5em);
+  --bs: 3px 3px 10px 6px rgba(0,0,0,.3);
+  @include media(max, small) {--w: min(80%, 40.5625em)}
+}
+
 //- close -//
 .close {
   --top: 0;
