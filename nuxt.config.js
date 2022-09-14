@@ -136,6 +136,11 @@ export default {
     base: '/music-feast/',
   },
 
+  server: {
+    host: 'localhost', // default: localhost,
+    port: '8000', // default: 3000
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     publicPath: '/music-feast/',
