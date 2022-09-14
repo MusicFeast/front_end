@@ -63,6 +63,7 @@
         @include media(min, 2100px) {min-width: calc(85vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
       }
       .v-slide-group {
+        &__next--disabled i {filter: invert(77%)}
         &__prev {display: contents}
         &__content {
           gap: 1em;

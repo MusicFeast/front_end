@@ -35,13 +35,14 @@
         v-model="slider"
         mandatory
         show-arrows
+        @change="ArrowListener()"
       >
         <v-slide-item
           v-for="(item,i) in dataSlider"
           :key="i"
           v-slot="{ active, toggle }"
         >
-          <v-card :class="{active: active}" :style="`--bg: url('${item.img}')`" :ripple="false" @click="toggle; slider = i">
+          <v-card :class="{active: active}" :style="`--bg: url('${item.img}')`" :ripple="false" @click="toggle">
             <v-sheet>
               <div class="divcol">
                 <h3>Artists n°{{i+1}}</h3>
@@ -55,11 +56,11 @@
 
         <template #prev>
           <v-btn
-            v-show="slider +1 === dataSlider.length || slider +1 === dataSlider.length-1"
+            v-show="showArrow"
             id="prev-button"
             icon
             class="reverse"
-            @click="slider=0"
+            @click="ArrowListener(); slider=0; showArrow = false"
           >
             <v-icon x-large>mdi-play</v-icon>
           </v-btn>
@@ -70,6 +71,7 @@
             icon
             v-bind="attrs"
             v-on="on"
+            @click="ArrowListener()"
           >
             <v-icon x-large>mdi-play</v-icon>
           </v-btn>
@@ -89,6 +91,7 @@ export default {
   data() {
     return {
       slider: null,
+      showArrow: false,
       dataSlider: [
         { img: require('~/assets/sources/images/img-slider-1.jpg') },
         { img: require('~/assets/sources/images/img-slider-2.jpg') },
@@ -100,6 +103,11 @@ export default {
     }
   },
   methods: {
+    ArrowListener() {
+      const el = document.querySelector("#custome-slider .v-slide-group__next--disabled");
+      if (el) {this.showArrow = true}
+      else {this.showArrow = false}
+    }
   },
 };
 </script>
