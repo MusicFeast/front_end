@@ -10,51 +10,40 @@ $breakpoints: (
   medium: 1200px,
   large: 1440px,
   x-large: 1800px,
-);
+) !default;
 @mixin media($dir1, $key1, $dir2: fixed, $key2: fixed) {
   $size1: map.get($breakpoints, $key1);
   $size2: map.get($breakpoints, $key2);
+  
   // if doble parameters
-  @if ($dir1) and ($key1) and ($dir2) and ($key2) {
+  @if $dir1 and $key1 and $dir2 and $key2 {
     // if number + number
-    @if type-of($key1) == number and type-of($key2) == number {
-      @media (#{$dir1}-width: $key1) and (#{$dir2}-width: $key2) {@content;}
+    @if type-of($key1) == 'number' and type-of($key2) == 'number' {
+      @media (#{$dir1}-width: $key1) and (#{$dir2}-width: $key2) {@content};
     }
     // if variable + variable
-    @else if type-of($key1) != number and type-of($key2) != number {
-      @media (#{$dir1}-width: $size1) and (#{$dir2}-width: $size2) {@content;}
+    @else if type-of($key1) == 'string' and type-of($key2) == 'string' {
+      @media (#{$dir1}-width: $size1) and (#{$dir2}-width: $size2) {@content};
     }
     // if variable + number
-    @else if type-of($key1) != number and type-of($key2) == number {
-      @media (#{$dir1}-width: $size1) and (#{$dir2}-width: $key2) {@content;}
+    @else if type-of($key1) == 'string' and type-of($key2) == 'number' {
+      @media (#{$dir1}-width: $size1) and (#{$dir2}-width: $key2) {@content};
     }
     // if number + variable
-    @else if type-of($key1) == number and type-of($key2) != number {
-      @media (#{$dir1}-width: $key1) and (#{$dir2}-width: $key2) {@content;}
+    @else if type-of($key1) == 'number' and type-of($key2) == 'string' {
+      @media (#{$dir1}-width: $key1) and (#{$dir2}-width: $size2) {@content};
     }
   }
   
   // if single parameter
-  @if ($dir1) and ($key1) {
+  @if $dir1 and $key1 {
     // if numeric
-    @if type-of($key1) == number {
-      @media (#{$dir1}-width: $key1) {@content;}
-      // // if mobile
-      // @if $key1 <= 880 and $dir1 == max {
-      //   @media (#{$dir1}-width: $key1) and (max-height: 1180px) {@content;}
-      // } /* if desktop */ @else {
-      //   @media (#{$dir1}-width: $key1) {@content;}
-      // }
+    @if type-of($key1) == 'number' {
+      @media (#{$dir1}-width: $key1) {@content};
     }
     // if variable
-    @else {
-      @media (#{$dir1}-width: $size1) {@content;}
-      // // if mobile
-      // @if $key1 == small or $key1 == x-small and $dir1 == max {
-      //   @media (#{$dir1}-width: $size1) and (max-height: 1180px) {@content;}
-      // } /* if desktop */ @else {
-      //   @media (#{$dir1}-width: $size1) {@content;}
-      // }
+    @else if type-of($key1) == 'string' {
+      @media (#{$dir1}-width: $size1) {@content};
     }
   }
 }
@@ -108,8 +97,8 @@ $breakpoints: (
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 @mixin color($bg, $text:fixed) {
   // if both parameters
-  @if ($bg) and ($text) {
-    @if type-of($bg) == color {
+  @if $bg and $text {
+    @if type-of($bg) == 'color' {
       background-color: $bg !important;
     } @else if list.length($bg) > 1 {
       background-image: linear-gradient(to top left, $bg) !important;
@@ -119,8 +108,8 @@ $breakpoints: (
     color: $text !important; & :is(span, i) {@include colorText($text);}
   }
   // if single parameter
-  @if ($bg) {
-    @if type-of($bg) == color {
+  @if $bg {
+    @if type-of($bg) == 'color' {
       background-color: $bg !important;
     } @else if list.length($bg) > 1 {
       background-image: linear-gradient(to top left, $bg) !important;
@@ -139,7 +128,7 @@ $breakpoints: (
 /* // // text color // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 @mixin colorText($color) {
-  @if type-of($color) == color {
+  @if type-of($color) == 'color' {
     color: $color !important; & :is(span, i) {color: $color !important}
   } @else if list.length($color) > 1 {
     background-image: linear-gradient(to top left, $color) !important;
