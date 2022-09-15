@@ -322,6 +322,7 @@ $breakpoints: (
   --lh: 1;
   --f: initial;
   --t: initial;
+  
   background: var(--bg) !important;
   color: var(--c) !important;
   box-shadow: var(--bs) !important;
@@ -366,6 +367,7 @@ $breakpoints: (
   --bs: 0px 4px 4px rgba(0, 0, 0, 0.25);
   --f: initial;
   --t: initial;
+
   width: var(--w) !important;
   max-width: var(--max-w) !important;
   min-width: var(--min-w) !important;

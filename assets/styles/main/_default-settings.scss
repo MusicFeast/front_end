@@ -206,6 +206,7 @@ img:not(.not_html, .not) {
   --f: none;
   --t: initial;
   --of: initial;
+
   background: var(--bg) !important;
   width: var(--w);
   max-width: var(--max-w);
@@ -246,6 +247,7 @@ img:not(.not_html, .not) {
   --overflow: hidden;
   --t: none;
   --f: none;
+
   filter: var(--f);
   transform: var(--t);
   max-width: var(--w);
@@ -332,6 +334,7 @@ img:not(.not_html, .not) {
   --f: none;
   --ml: none;
   --mr: none;
+
   color: var(--c);
   font-size: var(--fs);
   max-height: 2.25em;
@@ -393,6 +396,7 @@ img:not(.not_html, .not) {
   --stroke-place: var(--stroke-size-place) var(--stroke-color-place);
   --stroke-size-place: var(--stroke-size);
   --stroke-color-place: var(--stroke-color);
+
   width: var(--w);
   max-width: var(--max-w);
   min-width: var(--min-w);
@@ -454,10 +458,10 @@ img:not(.not_html, .not) {
     -ms-text-stroke: var(--stroke-label);
     -o-text-stroke: var(--stroke-label);
   }
+  // input statements
+  &.v-input--is-focused:not(.not_focus, .not_statement) .v-input__slot {--b: 1px solid rgba(255, 255, 255, 0.3)}
+  &.error--text:not(.not_error, .not_statement) .v-input__slot {--b: 1px solid var(--error)}
 }
-// input statements
-.v-text-field--solo.v-input--is-focused .v-input__slot {border: 1px solid rgba(255, 255, 255, 0.3)}
-.v-text-field--solo.error--text .v-input__slot {border: 1px solid var(--error)}
 
 
 //- defaut badge -//
@@ -469,6 +473,7 @@ img:not(.not_html, .not) {
   --fw: 400;
   --size: 20px;
   --t: initial;
+
   .v-badge__badge {
     display: grid;
     place-content: center;
