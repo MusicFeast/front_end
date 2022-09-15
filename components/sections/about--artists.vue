@@ -102,6 +102,9 @@ export default {
       ],
     }
   },
+  mounted() {
+    if (window.innerWidth <= 880) {this.slider = 1}
+  },
   methods: {
     ArrowListener() {
       const el = document.querySelector("#custome-slider .v-slide-group__next--disabled");

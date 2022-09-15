@@ -66,6 +66,9 @@
       .v-slide-group {
         &__next--disabled i {filter: invert(77%)}
         &__prev {display: contents}
+        @include media(max, small) {
+          &__next, &__prev {display: none !important}
+        }
         &__content {
           gap: 1em;
           padding-block: 16px 40px;
