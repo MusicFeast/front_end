@@ -105,7 +105,8 @@ export default {
     vueI18n: {
       fallbackLocale: "en",
       fallbackRoot: true,
-      silentFallbackWarn: false
+      silentFallbackWarn: false,
+      silentTranslationWarn: false,
     }
   },
 
