@@ -7,13 +7,17 @@
   // overflow: hidden;
   //- responsive font size -//
   .v-main {
-    & > * {@include media(max,small) {font-size: clamp(10px, 1.5vw, 12px)}}
+    & > * {
+      @include media(max, small) {
+        font-size: clamp(10px, 1.5vw, 12px)
+      }
+    }
   }
   // footer margin modifiable
   & .with {
-    padding-block: var(--h-header) 22em !important;
-    @include media(max, small) {padding-bottom: 33em !important}
-    @include media(max, x-small) {padding-bottom: 26.8475em !important}
+    padding-block: var(--h-header) var(--h-footer) !important
   }
-  & .without {padding-block: var(--h-header) 0 !important}
+  & .without {
+    padding-block: var(--h-header) 0 !important
+  }
 }

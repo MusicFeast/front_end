@@ -3,7 +3,7 @@
     <Alerts ref="alerts"></Alerts>
     <Header ref="header" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
-      <nuxt @RouteValidator="RouteValidator()" />
+      <nuxt @RouteValidator="routeValidator()" />
     </v-main>
     <Footer ref="footer" :footer-style="footerStyle"></Footer>
   </v-app>
@@ -16,23 +16,35 @@ export default {
   data() {
     return {
       wrapperSpace: true,
-      footerStyle: false
+      footerStyle: false,
     }
   },
   mounted() {
-    this.RouteValidator();
+    this.routeValidator();
     
     /* scroll horizontal (simple) */
-    const el = document.querySelectorAll('[class*="scrollx"]');
-    el.forEach((el) => {
+    const scrollable = document.querySelectorAll('[class*="scrollx"]');
+    scrollable.forEach((el) => {
       el.addEventListener("wheel", (e) => {
         e.preventDefault();
         el.scrollLeft += e.deltaY
       })
     });
+
+    /* footer height listener */
+    function footerHeightListener() {
+      const footer = document.querySelector('#footer');
+      setTimeout(() => {
+        document.documentElement.style.setProperty(
+          '--h-footer', `${footer.getBoundingClientRect().height}px`
+        );
+      }, 100);
+    }
+    footerHeightListener();
+    window.onresize = () => footerHeightListener();
   },
   methods: {
-    RouteValidator() {
+    routeValidator() {
       const route = this.$router.currentRoute.name
       switch (route) {
         case "LandingPage":
