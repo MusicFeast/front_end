@@ -1,14 +1,14 @@
 <template>
   <div id="header">
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="headerApp" height="100px" fixed class="font2 isolate">
+    <v-app-bar id="headerApp" fixed class="font2 isolate">
       <a id="logoApp" class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
         <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">
       </a>
 
       <section class="center gap2 eliminarmobile">
-        <a v-for="(item,i) in dataLinks" :key="i" @click="$router.push(localePath('/')); $scrollTo(item.name.toLowerCase())">{{item.name}}</a>
+        <a v-for="(item,i) in dataLinks" :key="i" @click="$router.push(localePath('/')); $scrollTo($toKedabCase(item.name))">{{item.name}}</a>
       </section>
 
       <section class="center">

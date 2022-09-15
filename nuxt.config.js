@@ -75,6 +75,8 @@ export default {
     '~/plugins/vue-debounce.js',
     '~/plugins/console-log.js',
     '~/plugins/scroll-to.js',
+    '~/plugins/toKedabCase.js',
+    '~/plugins/toSnakeCase.js',
     '~/plugins/alerts.js',
   ],
 
