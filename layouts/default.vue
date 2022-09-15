@@ -30,7 +30,7 @@ export default {
         el.scrollLeft += e.deltaY
       })
     });
-
+    
     /* footer height listener */
     function footerHeightListener() {
       const footer = document.querySelector('#footer');
