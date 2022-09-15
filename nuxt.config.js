@@ -145,7 +145,7 @@ export default {
   },
 
   server: {
-    host: '192.168.100.73', // default: localhost,
+    host: 'localhost', // default: localhost,
     port: '8000', // default: 3000
   },
 
