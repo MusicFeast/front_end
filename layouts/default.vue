@@ -3,25 +3,22 @@
     <Alerts ref="alerts"></Alerts>
     <Header ref="header" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
-      <nuxt @RouteValidator="routeValidator()" />
+      <nuxt />
     </v-main>
-    <Footer ref="footer" :footer-style="footerStyle"></Footer>
+    <Footer ref="footer"></Footer>
   </v-app>
 </template>
 
 <script>
 export default {
   name: "DefaultLayout",
-  // middleware: 'authenticated',
+  // middleware: ['authenticated'],
   data() {
     return {
       wrapperSpace: true,
-      footerStyle: false,
     }
   },
   mounted() {
-    this.routeValidator();
-    
     /* scroll horizontal (simple) */
     const scrollable = document.querySelectorAll('[class*="scrollx"]');
     scrollable.forEach((el) => {
@@ -43,21 +40,6 @@ export default {
     footerHeightListener();
     window.onresize = () => footerHeightListener();
   },
-  methods: {
-    routeValidator() {
-      const route = this.$router.currentRoute.name
-      switch (route) {
-        case "LandingPage":
-          this.wrapperSpace = false;
-          this.footerStyle = false;
-        break;
-        default:
-          this.wrapperSpace = true;
-          this.footerStyle = true;
-        break;
-      }
-    },
-  }
 }
 </script>
 
