@@ -31,6 +31,10 @@
     @include media(max, small) {font-size: 12px; width: 100vw; margin-inline: calc(50% - 50vw)}
     .v-slide-group__next--disabled i,
     .v-slide-group__prev--disabled i {filter: invert(77%)}
+    .v-slide-group__next,
+    .v-slide-group__prev {
+      @include media(max, small) {display: none !important}
+    }
     .v-slide-group__content {
       gap: 1.5em;
       @include media(max, small) {gap: 3em}
