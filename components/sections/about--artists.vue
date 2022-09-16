@@ -42,7 +42,7 @@
           :key="i"
           v-slot="{ active, toggle }"
         >
-          <v-card :class="{active: active}" :style="`--bg: url('${item.img}')`" :ripple="false" @click="toggle">
+          <v-card :class="{active: active}" :style="`--bg-image: url('${item.img}')`" :ripple="false" @click="toggle">
             <v-sheet>
               <div class="divcol">
                 <h3>Artists n°{{i+1}}</h3>

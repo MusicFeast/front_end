@@ -74,7 +74,7 @@
           padding-block: 16px 40px;
           padding-inline: 70px;
           .v-card {
-            background: center no-repeat var(--bg);
+            background: center no-repeat var(--bg-image);
             background-size: cover;
             box-shadow: 8px 14px 5px 2px rgb(0, 0, 0, .4) !important;
             width: 20em;
@@ -84,10 +84,15 @@
               aspect-ratio: 1 / 2
             };
             border-radius: .2vmax;
-            filter: contrast(103%);
             transform: skew(-7deg);
             transition: .2s $ease-return;
             position: relative;
+            &::after {
+              content: "";
+              position: absolute;
+              inset: 0;
+              background-color: hsl(0, 84%, 58%, .12);
+            }
             .v-sheet {
               position: absolute;
               top: 0;
@@ -111,6 +116,7 @@
             }
             &.active {
               transform: skew(-7deg) scale(1.05);
+              &::after {display: none}
               .v-sheet {
                 inset: 0;
                 padding: 2em;
