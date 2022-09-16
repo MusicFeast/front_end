@@ -103,7 +103,7 @@ export default {
     }
   },
   mounted() {
-    if (window.innerWidth <= 880) {this.slider = 1}
+    if (window.innerWidth <= 880) {this.slider = 0}
   },
   methods: {
     ArrowListener() {
