@@ -4,6 +4,6 @@ export default (context, inject) => {
       console.log(`${i+1}:`, msg);
     });
   }
-  // Inject $console(msg) in Vue, context and store.
+  // Inject $log(msg) in Vue, context and store.
   inject('log', log)
 }

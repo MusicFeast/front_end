@@ -6,10 +6,10 @@ export default function ({app, route}) {
         const layout = app.router.app.$children[2];
         // If current route
         switch (route.path) {
-          case "/":       // rutas objetivo
+          case "/":       // target rutes
             layout.wrapperSpace = false;
           break;
-          default:        // el resto
+          default:        // the rest
             layout.wrapperSpace = true;
           break;
         }
