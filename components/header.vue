@@ -1,7 +1,7 @@
 <template>
-  <div id="header">
+  <div>
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="headerApp" fixed class="font2 isolate">
+    <v-app-bar id="header" fixed class="font2 isolate">
       <a id="logoApp" class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
         <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">

@@ -78,6 +78,7 @@ export default {
     '~/plugins/toKedabCase.js',
     '~/plugins/toSnakeCase.js',
     '~/plugins/alerts.js',
+    '~/plugins/setProperty.js',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

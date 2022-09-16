@@ -12,7 +12,6 @@
   // line
     &::before {
       content: "";
-      content: "";
       @include absolute(0,auto,0,0);
       height: 1px;
       width: 100%;
@@ -28,7 +27,6 @@
     position: relative;
     // line
     &::before {
-      content: "";
       content: "";
       @include absolute(0,auto,0,0);
       height: 1px;

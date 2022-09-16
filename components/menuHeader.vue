@@ -2,94 +2,50 @@
   <div id="menuHeader">
     <!-- drawer -->
     <v-navigation-drawer
-      id="toggleBar"
+      id="drawer-toggle"
       v-model="drawer"
       height="100%"
       fixed left
       temporary
       :overlay-opacity="$store.state.overlay.opacity"
       :overlay-color="$store.state.overlay.color"
-      color="var(--secondary)"
       class="font2"
     >
-      <section class="container-header end">
-        <v-btn icon @click="drawer=false">
+      <section class="v-navigation-drawer__content--header divcol center gap2">
+        <v-btn icon class="close" style="--top: 8px; --right: 8px" @click="drawer=false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
+
+        <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
+          <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
+        </a>
+        <v-btn class="btn" style="--w:75%; --min-h: 30px; --p: .5em 2em" :ripple="false">Connect</v-btn>
       </section>
 
-      <section class="container-content divcol jspace gap2">
-        <!-- <v-expansion-panels focusable accordion class="anim_moveleft">
-          <template v-if="dataDrawer.expansion">
-            <v-expansion-panel v-for="(item, index) in dataDrawer.expansion" :key="index">
-              <v-expansion-panel-header hide-actions @click="ActiveClass('expansion', item);">
-                <v-col class="conttitle acenter gap1 h10_em">
-                  <span class="normal" style="max-width: max-content">{{ item.name }}</span>
-                  <v-icon small color="#ffffff" :class="{active_rotate: item.active}">mdi-menu-down</v-icon>
-                </v-col>
-              </v-expansion-panel-header>
+      <section class="v-navigation-drawer__content--content divcol jspace gap2">
+        <v-list class="fill_w">
+          <v-list-item
+            v-for="(item,i) in dataDrawer" :key="i" v-ripple="{class: 'activeRipple'}" link :class="{active: item.active}"
+            @click="$scrollTo(item.key); dataDrawer.forEach(e=>e.active=false); item.active=true; drawer = false">
+            <v-list-item-title class="conttitle acenter gap1 h10_em">
+              <span style="max-width: max-content">
+                {{ item.name }}
+              </span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
 
-              <v-expansion-panel-content>
-                <v-list>
-                  <v-list-item-group active-class="activeText">
-                    <v-list-item v-for="(item2,i) in item.selection" :key="i" :ripple="false" :to="item2.to">
-                      <v-list-item-title class="center h10_em">
-                        <span class="normal">{{ item2.name}}</span>
-                      </v-list-item-title>
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </template> -->
+        <section class="v-navigation-drawer__content--footer divcol center gap1">
+          <span class="h10_em">Join us on:</span>
 
-
-          <template v-if="dataDrawer.list">
-            <v-list class="fill_w">
-              <!-- ciclo for items -->
-              <v-list-item v-for="(item,i) in dataDrawer.list" :key="i" link @click="$scrollTo(item.key); drawer = false">
-                <v-list-item-title class="conttitle acenter gap1 h10_em">
-                  <!-- <img :src="require(`~/assets/sources/icons/${item.key}${item.active?'-active':''}.svg`)" class="icon" :alt="item.alt" :class="{active: item.active}"> -->
-                  <span style="max-width: max-content">
-                    {{ item.name }}
-                  </span>
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </template>
-        <!-- </v-expansion-panels> -->
-
-        <section class="container-footer divcol center gap2">
-          <v-btn class="btn" style="--max-w:9.1875em;--p: .5em 2em" @click="$parent.signIn()">Connect</v-btn>
+          <div class="center gap2">
+            <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.url" target="_blank">
+              <v-icon>{{item.icon}}</v-icon>
+            </v-btn>
+          </div>
         </section>
       </section>
     </v-navigation-drawer>
-
-    <!-- menu market -->
-    <!-- <v-menu activator=".openMenuMarket" right offset-x>
-      <v-list id="menuMarket" class="font2">
-        <v-list-item-group active-class="activeClass">
-          <v-list-item disabled>
-            <v-list-item-title>MARKETPLACE</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-for="(item,i) in dataDrawer.expansion[0].selection" :key="i" :to="`/${item.key}`">
-            <v-list-item-title>{{item.name}}</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-menu> -->
-
-    <!-- menu login -->
-    <v-menu activator=".openMenuLogin" right offset-x>
-      <v-list id="menuLogin" class="font2">
-        <v-list-item-group active-class="activeClass">
-          <v-list-item v-for="(item,i) in dataMenuLogin" :key="i" :to="item.to" @click="Logout(item.key)">
-            <v-list-item-title>{{item.name}}</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-menu>
   </div>
 </template>
 
@@ -100,49 +56,44 @@ export default {
     return {
       messages: 1,
       drawer: false,
-      dataDrawer: {
-        list: [
-          {
-            key: "home",
-            name: "Home",
-          },
-          {
-            key: "about",
-            name: "About",
-          },
-          {
-            key: "artists",
-            name: "Artists",
-          },
-          {
-            key: "news",
-            name: "News",
-          },
-          {
-            key: "lastest-releases",
-            name: "Lastest Releases",
-          },
-          {
-            key: "contact",
-            name: "Contact",
-          },
-        ],
-        // expansion: [
-        //   {
-        //     key: "market",
-        //     name: "MARKETPLACE",
-        //     selection: [
-        //       {name: "Buy", key: "buy", to: "/buy"},
-        //       {name: "Sell", key: "sell", to: "/sell"},
-        //     ],
-        //   },
-        // ],
-      },
-      // dataSocial: [
-      //   { icon:"twitter", url:"#" },
-      //   { icon:"instagram", url:"#" },
-      //   { icon:"twitch", url:"#" }
-      // ],
+      dataDrawer: [
+        {
+          key: "home",
+          name: "Home",
+          active: false,
+        },
+        {
+          key: "about",
+          name: "About",
+          active: false,
+        },
+        {
+          key: "artists",
+          name: "Artists",
+          active: false,
+        },
+        {
+          key: "news",
+          name: "News",
+          active: false,
+        },
+        {
+          key: "lastest-releases",
+          name: "Lastest Releases",
+          active: false,
+        },
+        {
+          key: "contact",
+          name: "Contact",
+          active: false,
+        },
+      ],
+      dataSocial: [
+        { icon:"mdi-instagram", url:"#" },
+        { icon:"mdi-twitter", url:"#" },
+        { icon:"mdi-facebook", url:"#" },
+        { icon:"discord", url:"#" }
+      ],
       dataMenuLogin: [
         { key:"profile", name:"Profile", to:"/profile" },
         { key:"library", name:"Library", to:"/library" },
@@ -154,6 +105,10 @@ export default {
   //   const theme = localStorage.getItem("theme");
   //   this.OverlayMethod(theme);
   // },
+  mounted() {
+    this.isScrollTop();
+    window.onscroll = () => this.isScrollTop();
+  },
   methods: {
     ActiveClass(key, item) {
       // mejorar hace falta
@@ -173,6 +128,20 @@ export default {
     },
     Logout(key) {
       if (key === 'logout') {localStorage.setItem('auth', false);this.$router.push(this.localePath('/'));this.$router.go()}
+    },
+    isScrollTop() {
+      this.dataDrawer.forEach(e => {
+        const sections = document.getElementById(e.key);
+        if (sections) {
+          const positions = sections.getBoundingClientRect().top + window.scrollY;
+          const scroll = document.documentElement.scrollTop;
+          if (positions >= scroll + 50 && positions <= scroll + 100) {
+            const index = this.dataDrawer.findIndex(data => data.key === e.key);
+            this.dataDrawer.forEach(e => {e.active = false})
+            this.dataDrawer[index].active = true
+          }
+        }
+      });
     },
   },
 };

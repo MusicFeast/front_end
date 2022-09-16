@@ -39,36 +39,36 @@ export default {
   data() {
     return {
       dataRedes: [
-        { icon: "mdi-instagram", to: "home" },
-        { icon: "mdi-twitter", to: "home" },
-        { icon: "mdi-facebook", to: "home" },
-        { icon: "discord", to: "home" },
+        { icon: "mdi-instagram", to: "#" },
+        { icon: "mdi-twitter", to: "#" },
+        { icon: "mdi-facebook", to: "#" },
+        { icon: "discord", to: "#" },
       ],
       dataFooter: [
         {
           title: "Explore",
           links: [
-            { link: "Help", to: "home" },
-            { link: "Terms", to: "home" },
-            { link: "Guildlines", to: "home" },
-            { link: "White Paper", to: "home" },
+            { link: "Help", to: "/" },
+            { link: "Terms", to: "/" },
+            { link: "Guildlines", to: "/" },
+            { link: "White Paper", to: "/" },
           ]
         },
         {
           title: "Explore",
           links: [
-            { link: "Lorem", to: "home" },
-            { link: "Lorem Ipsum", to: "home" },
-            { link: "Lorem ips", to: "home" },
-            { link: "Lorem ipsum", to: "home" },
+            { link: "Lorem", to: "/" },
+            { link: "Lorem Ipsum", to: "/" },
+            { link: "Lorem ips", to: "/" },
+            { link: "Lorem ipsum", to: "/" },
           ]
         },
         {
           title: "More",
           links: [
-            { link: "Advertise", to: "home" },
-            { link: "Integrations", to: "home" },
-            { link: "Careers", to: "home" },
+            { link: "Advertise", to: "/" },
+            { link: "Integrations", to: "/" },
+            { link: "Careers", to: "/" },
           ]
         },
       ],

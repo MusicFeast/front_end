@@ -1,8 +1,8 @@
 export default {
   mounted() {
     /* 1- scroll horizontal (simple) */
-    const el = document.querySelectorAll('[class*="scrollx"]');
-    el.forEach((el) => {el.addEventListener("wheel", (e) => {
+    const scroll = document.querySelectorAll('[class*="scrollx"]');
+    scroll.forEach((el) => {el.addEventListener("wheel", (e) => {
       e.preventDefault();el.scrollLeft += e.deltaY
     })})
     
@@ -110,6 +110,25 @@ export default {
       e.preventDefault()
       e.stopPropagation()
       return false
+    };
+
+    /* 9- detect if element is scroll top and do something */
+    window.onscroll = () => {
+      // data elements to ckeckout and modify
+      this.dataDrawer.forEach(e => {
+        const sections = document.getElementById(e.key);
+        if (sections) {
+          // positions chekout
+          const positions = sections.getBoundingClientRect().top + window.scrollY;
+          const scroll = document.documentElement.scrollTop;
+          if (positions >= scroll + 50 && positions <= scroll + 100) {
+            // mutate elements on scroll posiiton
+            const index = this.dataDrawer.findIndex(data => data.key === e.key);
+            this.dataDrawer.forEach(e => {e.active = false})
+            this.dataDrawer[index].active = true
+          }
+        }
+      });
     };
   },
 };
