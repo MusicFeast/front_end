@@ -19,7 +19,7 @@
         <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
-        <v-btn class="btn" style="--w:75%; --min-h: 30px; --p: .5em 2em" :ripple="false">Connect</v-btn>
+        <v-btn class="btn" style="--w:75%; --min-h: 30px; --p: .5em 2em" :ripple="false" @click="$parent.signIn()">Connect</v-btn>
       </section>
 
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
@@ -135,7 +135,7 @@ export default {
         if (sections) {
           const positions = sections.getBoundingClientRect().top + window.scrollY;
           const scroll = document.documentElement.scrollTop;
-          if (positions >= scroll + 50 && positions <= scroll + 100) {
+          if (positions >= scroll && positions <= scroll + 200) {
             const index = this.dataDrawer.findIndex(data => data.key === e.key);
             this.dataDrawer.forEach(e => {e.active = false})
             this.dataDrawer[index].active = true

@@ -121,7 +121,7 @@ export default {
           // positions chekout
           const positions = sections.getBoundingClientRect().top + window.scrollY;
           const scroll = document.documentElement.scrollTop;
-          if (positions >= scroll + 50 && positions <= scroll + 100) {
+          if (positions >= scroll && positions <= scroll + 200) {
             // mutate elements on scroll posiiton
             const index = this.dataDrawer.findIndex(data => data.key === e.key);
             this.dataDrawer.forEach(e => {e.active = false})
