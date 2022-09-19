@@ -15,7 +15,7 @@ export default {
     titleTemplate: '%s - Music Feast',
     title: 'Home',
     htmlAttrs: {
-      lang: 'es',
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },

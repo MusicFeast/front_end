@@ -14,9 +14,9 @@ Vue.use(vueDebounce)
 // })
 
 // Listening to multiple events
-Vue.use(vueDebounce, {
-  listenTo: ['input', 'keyup', 'change']
-})
+// Vue.use(vueDebounce, {
+//   listenTo: ['input', 'keyup', 'change']
+// })
 
 // Setting a default timer This is set to '300ms' if not specified
 // Vue.use(vueDebounce, {

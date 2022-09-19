@@ -31,10 +31,11 @@
 
     <section id="artists">
       <v-slide-group
-        id="custome-slider"
+        id="custome-slider-artists"
         v-model="slider"
         mandatory
         show-arrows
+        center-active
         @change="ArrowListener()"
       >
         <v-slide-item
@@ -102,12 +103,9 @@ export default {
       ],
     }
   },
-  mounted() {
-    if (window.innerWidth <= 880) {this.slider = 0}
-  },
   methods: {
     ArrowListener() {
-      const el = document.querySelector("#custome-slider .v-slide-group__next--disabled");
+      const el = document.querySelector("#custome-slider-artists .v-slide-group__next--disabled");
       if (el) {this.showArrow = true}
       else {this.showArrow = false}
     }
