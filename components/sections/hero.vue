@@ -3,7 +3,6 @@
     <v-carousel
       id="custome-carousel"
       height="max-content"
-      cycle
     >
       <v-carousel-item
         v-for="(item,i) in dataCarousel"

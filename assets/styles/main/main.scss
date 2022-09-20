@@ -40,73 +40,73 @@
   @include media(max, x-small) {--w-drawer: 100vw}
   width: var(--w-drawer) !important;
   background: linear-gradient(to right bottom, var(--primary), var(--secondary)) !important;
-}
-.v-navigation-drawer__content {
-  --h-drawer-header: 158.13px;
-  //
-  --padding-drawer-header: 2em;
-  &--header {
-    padding: 1em;
-    padding-top: var(--padding-drawer-header);
-    position: relative;
-    // line
-    &::before {
-      content: "";
-      @include absolute(0,auto,0,0);
-      height: 1px;
-      width: 60%;
-      background-color: var(--clr-line);
-      border-radius: 50% / 3vmax;
-    }
-    .v-btn.btn {
-      transition: .5s $ease-return;
-      &::after, &::before {display: none !important}
-      &:active {
-        // --bg: linear-gradient(to top, hsl(0, 84%, 57%) 80%, rgba(0,0,0,.4));
-        --bs: inset 0 6px 4px 0px rgba(0, 0, 0, .3);
+  .v-navigation-drawer__content {
+    --h-drawer-header: 158.13px;
+    //
+    --padding-drawer-header: 2em;
+    &--header {
+      padding: 1em;
+      padding-top: var(--padding-drawer-header);
+      position: relative;
+      // line
+      &::before {
+        content: "";
+        @include absolute(0,auto,0,0);
+        height: 1px;
+        width: 60%;
+        background-color: var(--clr-line);
+        border-radius: 50% / 3vmax;
       }
-    }
-  }
-
-  &--content {
-    height: calc(100% - (var(--h-drawer-header) + var(--padding-drawer-header)) );
-    & > :is(.v-expansion-panels, .v-list .v-list-item) {
-      span, img {
-        font-weight: 400;
-        color: #FFFFFF;
-      }
-    }
-    .v-list {
-      padding: 0;
-      &-item {
-        &__title {
-          max-width: 60%;
-          margin-inline: auto;
-          padding: 0;
+      .v-btn.btn {
+        transition: .5s $ease-return;
+        &::after, &::before {display: none !important}
+        &:active {
+          // --bg: linear-gradient(to top, hsl(0, 84%, 57%) 80%, rgba(0,0,0,.4));
+          --bs: inset 0 6px 4px 0px rgba(0, 0, 0, .3);
         }
-        &.active {
-          background-color: var(--primary);
-          transition: .5s $ease-return;
-          .v-list-item__title {
-            justify-content: center !important;
+      }
+    }
+
+    &--content {
+      height: calc(100% - (var(--h-drawer-header) + var(--padding-drawer-header)) );
+      & > :is(.v-expansion-panels, .v-list .v-list-item) {
+        span, img {
+          font-weight: 400;
+          color: #FFFFFF;
+        }
+      }
+      .v-list {
+        padding: 0;
+        &-item {
+          &__title {
+            max-width: 60%;
+            margin-inline: auto;
+            padding: 0;
+          }
+          &.active {
+            background-color: var(--primary);
             transition: .5s $ease-return;
+            .v-list-item__title {
+              justify-content: center !important;
+              transition: .5s $ease-return;
+            }
           }
         }
       }
     }
-  }
-  
-  &--footer {
-    padding-block: 1.5em 2em;
-    position: relative;
-    // line
-    &::before {
-      content: "";
-      @include absolute(0,0,0,auto);
-      height: 1px;
-      width: 60%;
-      background-color: var(--clr-line);
-      border-radius: 50% / 3vmax;
+    
+    &--footer {
+      padding-block: 1.5em 2em;
+      position: relative;
+      // line
+      &::before {
+        content: "";
+        @include absolute(0,0,0,auto);
+        height: 1px;
+        width: 60%;
+        background-color: var(--clr-line);
+        border-radius: 50% / 3vmax;
+      }
     }
   }
 }

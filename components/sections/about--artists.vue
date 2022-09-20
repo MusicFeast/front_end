@@ -36,14 +36,12 @@
         mandatory
         show-arrows
         center-active
-        @change="ArrowListener()"
       >
         <v-slide-item
           v-for="(item,i) in dataSlider"
           :key="i"
-          v-slot="{ active, toggle }"
         >
-          <v-card :class="{active: active}" :style="`--bg-image: url('${item.img}')`" :ripple="false" @click="toggle">
+          <v-card :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false" @click="ArrowListener(item)">
             <v-sheet>
               <div class="divcol">
                 <h3>Artists n°{{i+1}}</h3>
@@ -61,7 +59,7 @@
             id="prev-button"
             icon
             class="reverse"
-            @click="ArrowListener(); slider=0; showArrow = false"
+            @click="slider=0; showArrow = false"
           >
             <v-icon x-large>mdi-play</v-icon>
           </v-btn>
@@ -72,7 +70,7 @@
             icon
             v-bind="attrs"
             v-on="on"
-            @click="ArrowListener()"
+            @click="ArrowListener"
           >
             <v-icon x-large>mdi-play</v-icon>
           </v-btn>
@@ -94,20 +92,24 @@ export default {
       slider: null,
       showArrow: false,
       dataSlider: [
-        { img: require('~/assets/sources/images/img-slider-1.jpg') },
-        { img: require('~/assets/sources/images/img-slider-2.jpg') },
-        { img: require('~/assets/sources/images/img-slider-3.jpg') },
-        { img: require('~/assets/sources/images/img-slider-4.jpg') },
-        { img: require('~/assets/sources/images/img-slider-5.jpg') },
-        { img: require('~/assets/sources/images/img-slider-6.jpg') },
+        { img: require('~/assets/sources/images/img-slider-1.jpg'), active: false },
+        { img: require('~/assets/sources/images/img-slider-2.jpg'), active: false },
+        { img: require('~/assets/sources/images/img-slider-3.jpg'), active: false },
+        { img: require('~/assets/sources/images/img-slider-4.jpg'), active: false },
+        { img: require('~/assets/sources/images/img-slider-5.jpg'), active: false },
+        { img: require('~/assets/sources/images/img-slider-6.jpg'), active: false },
       ],
     }
   },
   methods: {
-    ArrowListener() {
+    ArrowListener(item) {
       const el = document.querySelector("#custome-slider-artists .v-slide-group__next--disabled");
-      if (el) {this.showArrow = true}
-      else {this.showArrow = false}
+      el ? this.showArrow = true : this.showArrow = false
+      if (item) {
+        this.dataSlider.forEach(e => {e.active = false; item.active = true})
+      } else {
+        this.slider++
+      }
     }
   },
 };
