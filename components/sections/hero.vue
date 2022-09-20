@@ -39,11 +39,11 @@ export default {
   data() {
     return {
       dataCarousel: [
-        { img: require('~/assets/sources/images/img-carousel.jpg') },
-        { img: require('~/assets/sources/images/img-carousel.jpg') },
-        { img: require('~/assets/sources/images/img-carousel.jpg') },
-        { img: require('~/assets/sources/images/img-carousel.jpg') },
-        { img: require('~/assets/sources/images/img-carousel.jpg') },
+        { img: require('~/assets/sources/images/img-carousel.png') },
+        { img: require('~/assets/sources/images/img-carousel.png') },
+        { img: require('~/assets/sources/images/img-carousel.png') },
+        { img: require('~/assets/sources/images/img-carousel.png') },
+        { img: require('~/assets/sources/images/img-carousel.png') },
       ],
     }
   },
