@@ -8,7 +8,7 @@
       </p>
       <div class="center wrap" style="gap: clamp(2em, 4vw, 4em)">
         <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn>
-        <v-btn class="btn" style="--w: 8.5em">Marketplace</v-btn>
+        <v-btn class="btn" style="--w: 8.5em" @click="$router.push(localePath('/collections'))">Marketplace</v-btn>
       </div>
     </article>
   </div>

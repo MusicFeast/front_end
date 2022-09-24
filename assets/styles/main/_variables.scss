@@ -6,6 +6,7 @@
   /* // // color // // */
   --primary: hsl(0, 84%, 58%);
   --secondary: hsl(0, 0%, 0%);
+  --accent: #F7931E;
   --active: var(--primary);
   --error: #ff4081;
   --warning: #FFC260;
@@ -22,7 +23,7 @@
   /* // // sizes // // */
   --margin-global: 6em;
   @include media(max, small) {--margin-global: clamp(1em, 5vw, 4em)}
-  --parent: 1600px;
+  --parent: 1800px;
   --subparent: 1900px;
   --h-header: 100px;
   @include media(max, small) {--h-header: 80px}

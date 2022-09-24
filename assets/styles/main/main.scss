@@ -17,6 +17,58 @@
 
 ///////////////////// global ///////////////////////
 
+// profit
+.container-profit {
+  --margin-block: 3em;
+  --margin-inline: var(--margin-separator);
+  background-color: rgb(0, 0, 0, .4);
+  border-radius: 5px;
+  margin-inline: var(--margin-inline);
+  margin-block: var(--margin-block);
+  --fb: max-content;
+  .v-sheet {
+    padding: 1.5em 2em;
+    position: relative;
+    &:not(:last-child)::after {
+      content: "";
+      @include absolute(auto,0,0,0);
+      width: 1px;
+      height: 60%;
+      background-color: var(--accent);
+    }
+    span {
+      &:first-of-type {
+        font-size: 1.125em;
+      }
+      & + span {
+        --c: var(--accent);
+        font-size: 2.0625em;
+        margin-top: 3px;
+      }
+    }
+    div span {
+      --c: var(--accent);
+      font-size: 2.0625em !important;
+      margin-top: 3px;
+    }
+  }
+}
+
+// search
+.search {
+  .v-input__append-inner {border-left: 1px solid #fff; transition: .2s}
+  &.primary--text .v-input__append-inner {border-left-color: var(--accent)}
+}
+
+// pagination
+.pagination {
+  padding: .2em;
+  .v-btn {
+    min-width: max-content !important;
+    border: none !important;
+  &::before {display: none !important}}
+}
+
 // button
 .view-all__btn {
   --bg: #000;
@@ -56,14 +108,6 @@
         width: 60%;
         background-color: var(--clr-line);
         border-radius: 50% / 3vmax;
-      }
-      .v-btn.btn {
-        transition: .5s $ease-return;
-        &::after, &::before {display: none !important}
-        &:active {
-          // --bg: linear-gradient(to top, hsl(0, 84%, 57%) 80%, rgba(0,0,0,.4));
-          --bs: inset 0 6px 4px 0px rgba(0, 0, 0, .3);
-        }
       }
     }
 

@@ -19,7 +19,7 @@
         <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
-        <v-btn class="btn" style="--w:75%; --min-h: 30px; --p: .5em 2em" :ripple="false" @click="$parent.signIn()">Connect</v-btn>
+        <v-btn class="btn activeBtn" style="--w:75%; --min-h: 30px; --p: .5em 2em" :ripple="false" @click="$parent.signIn()">Connect</v-btn>
       </section>
 
       <section class="v-navigation-drawer__content--content divcol jspace gap2">

@@ -359,11 +359,11 @@ $breakpoints: (
   --h: initial;
   --max-h: none;
   --min-h: none;
-  --bg: var(--clr-card);
-  --c: var(--clr);
+  --bg: #000;
+  --c: #fff;
   --b: initial;
-  --p: 1em;
-  --br: 1.5vmax;
+  --p: .7em;
+  --br: 5px;
   --bs: 0px 4px 4px rgba(0, 0, 0, 0.25);
   --f: initial;
   --t: initial;

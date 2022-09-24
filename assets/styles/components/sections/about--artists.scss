@@ -25,7 +25,7 @@
     width: 93%;
     height: var(--size-margin);
     border: 0 solid var(--primary);
-    &:first-of-type {
+    &:not(:last-of-type) {
       border-left-width: 1px;
       border-bottom-width: 1px;
     }
@@ -44,16 +44,7 @@
         right: 0;
       }
     }
-    #prev-button {
-      z-index: 1;
-      pointer-events: all !important;
-      @include absolute(20px,10px,auto,0);
-      @include animation(1.5s linear infinite alternate) {
-        0% { transform: rotate(180deg) translateX(0px)}
-        100% { transform: rotate(180deg) translateX(-10px)}
-      }
-    }
-    .v-item-group {
+    .v-item-group#custome-slider-artists {
       min-width: 100vw;
       margin-inline: calc(50% - 50vw);
       @include media(min, small) {
@@ -64,10 +55,15 @@
         @include media(min, 2100px) {min-width: calc(85vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
       }
       .v-slide-group {
-        &__next--disabled i {filter: invert(77%)}
-        &__prev {display: contents}
-        @include media(max, small) {
-          &__next, &__prev {display: none !important}
+        &__next--disabled i,
+        &__prev--disabled i {filter: invert(77%)}
+        &__prev {
+          z-index: 1;
+          @include absolute(20px,10px,auto,0);
+          // @include animation(1.5s linear infinite alternate) {
+          //   0% { transform: rotate(180deg) translateX(0px)}
+          //   100% { transform: rotate(180deg) translateX(-10px)}
+          // }
         }
         &__content {
           gap: 1em;
@@ -114,7 +110,7 @@
                 @include media(max, small) {font-size: 14px}
               }
             }
-            &.active {
+            &:hover {
               transform: skew(-7deg) scale(1.05);
               &::after {display: none}
               .v-sheet {

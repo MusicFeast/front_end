@@ -41,10 +41,12 @@
           v-for="(item,i) in dataSlider"
           :key="i"
         >
-          <v-card :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false" @click="ArrowListener(item)">
+          <v-card
+            :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false"
+            @click="$router.push(localePath(`/artist`))">
             <v-sheet>
               <div class="divcol">
-                <h3>Artists n°{{i+1}}</h3>
+                <h3>{{item.name}} n°{{i+1}}</h3>
                 <p>
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh
                 </p>
@@ -53,13 +55,12 @@
           </v-card>
         </v-slide-item>
 
-        <template #prev>
+        <template #prev="{ on, attrs}">
           <v-btn
-            v-show="showArrow"
-            id="prev-button"
             icon
             class="reverse"
-            @click="slider=0; showArrow = false"
+            v-bind="attrs"
+            v-on="on"
           >
             <v-icon x-large>mdi-play</v-icon>
           </v-btn>
@@ -70,7 +71,6 @@
             icon
             v-bind="attrs"
             v-on="on"
-            @click="ArrowListener"
           >
             <v-icon x-large>mdi-play</v-icon>
           </v-btn>
@@ -90,27 +90,17 @@ export default {
   data() {
     return {
       slider: null,
-      showArrow: false,
       dataSlider: [
-        { img: require('~/assets/sources/images/img-slider-1.jpg'), active: false },
-        { img: require('~/assets/sources/images/img-slider-2.jpg'), active: false },
-        { img: require('~/assets/sources/images/img-slider-3.jpg'), active: false },
-        { img: require('~/assets/sources/images/img-slider-4.jpg'), active: false },
-        { img: require('~/assets/sources/images/img-slider-5.jpg'), active: false },
-        { img: require('~/assets/sources/images/img-slider-6.jpg'), active: false },
+        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artists", active: false },
+        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artists", active: false },
+        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artists", active: false },
+        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artists", active: false },
+        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artists", active: false },
+        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artists", active: false },
       ],
     }
   },
   methods: {
-    ArrowListener(item) {
-      const el = document.querySelector("#custome-slider-artists .v-slide-group__next--disabled");
-      el ? this.showArrow = true : this.showArrow = false
-      if (item) {
-        this.dataSlider.forEach(e => {e.active = false; item.active = true})
-      } else {
-        this.slider++
-      }
-    }
   },
 };
 </script>
