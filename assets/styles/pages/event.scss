@@ -58,6 +58,7 @@
     width: 100vw;
     margin-inline: calc(50% - 50vw);
     @include media(min, small) {--gtc: repeat(2, 1fr)}
+    > * {min-height: 300px}
     article {
       --bg: rgba(0, 0, 0, .4);
       --br: none;
