@@ -172,18 +172,23 @@ export default {
       if (key === 'logout') {localStorage.setItem('auth', false);this.$router.push(this.localePath('/'));this.$router.go()}
     },
     isScrollTop() {
-      this.dataDrawer.forEach(e => {
-        const sections = document.getElementById(e.key);
-        if (sections) {
-          const positions = sections.getBoundingClientRect().top + window.scrollY;
-          const scroll = document.documentElement.scrollTop;
-          if (positions >= scroll && positions <= scroll + 200) {
-            const index = this.dataDrawer.findIndex(data => data.key === e.key);
-            this.dataDrawer.forEach(e => {e.active = false})
-            this.dataDrawer[index].active = true
+      if (this.$route.path === '/') {
+        this.dataDrawer.forEach(e => {
+          const sections = e.key === 'home' ? document.getElementById('hero') : document.getElementById(e.key);
+          if (sections) {
+            const positionsTop = sections.getBoundingClientRect().top + window.scrollY;
+            const positionsBottom = sections.getBoundingClientRect().bottom + window.scrollY;
+            const scroll = document.documentElement.scrollTop;
+            if (scroll >= positionsTop && scroll <= positionsBottom) {
+              const index = this.dataDrawer.findIndex(data => data.key === e.key);
+              this.dataDrawer.forEach(e => {e.active = false})
+              this.dataDrawer[index].active = true
+            }
           }
-        }
-      });
+        });
+      } else {
+        this.dataDrawer.forEach(e => {e.active = false})
+      }
     },
   },
 };
