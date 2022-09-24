@@ -68,6 +68,10 @@
     }
   }
 
+  #gmap_canvas {
+    position: absolute;
+    inset: 0;
+  }
   .map {
     background-color: #000;
     position: relative;

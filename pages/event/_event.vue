@@ -78,9 +78,30 @@
           augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing
         </p>
       </article>
-
       <div class="map">
-        <v-btn :ripple="false" class="btn bold activeBtn">open maps</v-btn>
+        <iframe
+          id="gmap_canvas"
+          width="100%"
+          height="100%"
+          src="https://maps.google.com/maps?
+            q=2880%20Broadway,%20New%20York
+            &t=
+            &z=13
+            &ie=UTF8
+            &iwloc=
+            &output=embed
+          "
+          frameborder="0"
+          scrolling="no"
+          marginheight="0"
+          marginwidth="0"
+        ></iframe>
+        <v-btn
+          :ripple="false"
+          class="btn bold activeBtn"
+          href="https://maps.google.com/maps?ll=40.827295,-74.019999&amp;z=13&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=embed&amp;q=2880%20Broadway%20New%20York%2C%20NY%2010025%20EE.%20UU."
+          target="_blank"
+        >open maps</v-btn>
       </div>
     </section>
 
