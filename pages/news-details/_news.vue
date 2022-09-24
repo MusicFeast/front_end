@@ -81,7 +81,7 @@
 
 <script>
 export default {
-  name: "NewsDetailsPages",
+  name: "NewsDetailsPage",
   data() {
     return {
       dataSocial: [
@@ -114,21 +114,6 @@ export default {
         },
       ],
     }
-  },
-  mounted() {
-    const page = document.querySelector("#news-details");
-
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
-      });
-    };
-    heightH2();
-    
-    window.addEventListener('resize', () => {
-      heightH2();
-    });
   },
   methods: {
   }

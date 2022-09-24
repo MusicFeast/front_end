@@ -78,26 +78,6 @@
     }
   }
 
-  h2.Title {
-    font-size: 3em;
-    // lines separators
-    position: relative;
-    padding-bottom: 25px;
-    padding-inline: var(--margin-separator);
-    margin-top: 1em;
-    margin-bottom: var(--h-title);
-    border: 0 solid var(--primary);
-    border-left-width: 1px;
-    border-bottom-width: 1px;
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      transform: translateY(var(--h-title));
-      border-right: 1px solid var(--primary);
-    }
-  }
-
   #custome-carousel {
     margin-bottom: 4em;
     .v-responsive__content {

@@ -12,7 +12,53 @@
       </section>
 
       <section class="center">
-        <v-btn class="btn eliminarmobile" style="--p: .5em clamp(1em, 3vw, 2.5em);" @click="signIn()">Connect</v-btn>
+        <!-- button connect -->
+        <v-btn
+          v-if="!user"
+          :ripple="false"
+          class="btn activeBtn eliminarmobile"
+          style="--p: .5em clamp(1em, 3vw, 2.5em)"
+          @click="signIn()">Connect</v-btn>
+          
+        <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
+          <template #activator="{ on, attrs }">
+            <!-- button profile -->
+            <v-btn
+              :ripple="false"
+              class="btn activeBtn eliminarmobile"
+              style="--p: .5em" v-bind="attrs" v-on="on">
+              <span>{{accountId}}</span>
+              <v-icon size="2em">mdi-menu-down</v-icon>
+            </v-btn>
+          </template>
+
+          <!-- menu profile -->
+          <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
+            <!-- info profile content -->
+            <v-list-item disabled class="divcol" style="gap:3px">
+              <div class="space gap1 fill_w">
+                <span class="bold">NEAR</span>
+                <span class="semibold" style="--c:var(--accent)">478.5 N</span>
+              </div>
+              
+              <div class="space gap1 fill_w">
+                <span class="bold">MF</span>
+                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
+              </div>
+            </v-list-item>
+            
+            <v-list-item v-ripple="{class: 'activeRipple2'}" :to="localePath('/profile')" @click="menuProfile = false">
+              <v-list-item-title>My Profile</v-list-item-title>
+            </v-list-item>
+
+            <!-- button logout -->
+            <v-btn
+              :ripple="false"
+              class="btn activeBtn bold"
+              style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
+              @click="signOut(); menuProfile = false">Log out</v-btn>
+          </v-list>
+        </v-menu>
 
         <v-btn icon class="vermobile" @click="$refs.menu.drawer = true">
           <v-icon large>mdi-menu</v-icon>
@@ -43,6 +89,7 @@ export default {
     return {
       accountId: null,
       user: false,
+      menuProfile: false,
       dataLinks: [
         { name: "Home", to: "#" },
         { name: "About", to: "#about" },

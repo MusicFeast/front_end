@@ -9,24 +9,6 @@
   padding-bottom: 4em;
 
   h2 {font-size: 3em}
-  h2.Title {
-    // lines separators
-    position: relative;
-    padding-bottom: 25px;
-    padding-inline: var(--margin-separator);
-    margin-top: 1em;
-    margin-bottom: var(--h-title);
-    border: 0 solid var(--primary);
-    border-left-width: 1px;
-    border-bottom-width: 1px;
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      transform: translateY(var(--h-title));
-      border-right: 1px solid var(--primary);
-    }
-  }
 
   .container-press-and-news {
     @include media(min, small) {--gtc: repeat(2, 1fr)}

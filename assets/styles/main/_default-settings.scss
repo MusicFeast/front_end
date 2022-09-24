@@ -108,6 +108,9 @@ body {background: var(--bg-ap)}
     background-color: var(--active) !important
   }
 }
+.activeRipple2 {
+  span {background-color: rgb(0, 0, 0) !important}
+}
 .activeClass {
   background-color: var(--clr-btn) !important;
   color: var(--clr-text-btn) !important;

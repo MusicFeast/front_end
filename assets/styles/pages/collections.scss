@@ -8,23 +8,6 @@
   padding-inline: var(--margin-global);
   padding-block: 4em;
 
-  h2.Title {
-    // lines separators
-    position: relative;
-    padding-bottom: 25px;
-    padding-inline: var(--margin-separator);
-    border: 0 solid var(--primary);
-    border-left-width: 1px;
-    border-bottom-width: 1px;
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      transform: translateY(var(--h-title));
-      border-right: 1px solid var(--primary);
-    }
-  }
-
   #custome-carousel {
     .v-responsive__content {
       --padding: calc(3.125em + 2.5em);
@@ -84,11 +67,6 @@
       }
       .v-btn--active {background-color: var(--active)}
     }
-  }
-
-
-  .container-filters {
-    padding-inline: var(--margin-separator);
   }
 
   .separator {

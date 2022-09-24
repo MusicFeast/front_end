@@ -19,7 +19,48 @@
         <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
-        <v-btn class="btn activeBtn" style="--w:75%; --min-h: 30px; --p: .5em 2em" :ripple="false" @click="$parent.signIn()">Connect</v-btn>
+        <v-btn
+          v-if="!$parent.user"
+          class="btn activeBtn"
+          style="--w:75%; --min-h: 30px; --p: .5em 2em"
+          :ripple="false" @click="$parent.signIn()">Connect</v-btn>
+
+        <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
+          <template #activator="{ on, attrs}">
+            <v-btn
+              class="btn activeBtn"
+              style="--w:75%; --min-h: 30px; --p: .5em"
+              :ripple="false"
+              v-bind="attrs"
+              v-on="on">{{$parent.accountId}}</v-btn>
+          </template>
+          <!-- menu profile -->
+          <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
+            <!-- info profile content -->
+            <v-list-item disabled class="divcol" style="gap:3px">
+              <div class="space gap1 fill_w">
+                <span class="bold">NEAR</span>
+                <span class="semibold" style="--c:var(--accent)">478.5 N</span>
+              </div>
+              
+              <div class="space gap1 fill_w">
+                <span class="bold">MF</span>
+                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
+              </div>
+            </v-list-item>
+            
+            <v-list-item v-ripple="{class: 'activeRipple2'}" :to="localePath('/profile')" @click="menuProfile = false; drawer = false">
+              <v-list-item-title>My Profile</v-list-item-title>
+            </v-list-item>
+
+            <!-- button logout -->
+            <v-btn
+              :ripple="false"
+              class="btn activeBtn bold"
+              style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
+              @click="$parent.signOut(); menuProfile = false; drawer = false">Log out</v-btn>
+          </v-list>
+        </v-menu>
       </section>
 
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
@@ -56,6 +97,7 @@ export default {
     return {
       messages: 1,
       drawer: false,
+      menuProfile: false,
       dataDrawer: [
         {
           key: "home",

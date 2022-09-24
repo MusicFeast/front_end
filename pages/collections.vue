@@ -313,17 +313,8 @@ export default {
     }
   },
   mounted() {
-    const page = document.querySelector('#collections');
-    
-    // listener to h2
-    const heightH2 = () => {
-      const h2Rect = document.querySelector('h2.Title').getBoundingClientRect().height;
-      page.style.setProperty('--h-title', `${h2Rect}px`)
-    };
-    
+    // resize listener
     window.addEventListener('resize', () => {
-      heightH2();
-
       // listener reload columns in caraousel
       const reload = this.modelCarousel;
       this.modelCarousel = -1;
