@@ -8,8 +8,8 @@
   padding-inline: var(--margin-global);
   padding-bottom: 4em;
 
+  h2 {font-size: 3em}
   h2.Title {
-    font-size: 3em;
     // lines separators
     position: relative;
     padding-bottom: 25px;
@@ -26,6 +26,50 @@
       transform: translateY(var(--h-title));
       border-right: 1px solid var(--primary);
     }
+  }
+
+  .container-press-and-news {
+    @include media(min, small) {--gtc: repeat(2, 1fr)}
+    margin-inline: var(--margin-separator);
+    margin-bottom: 2em;
+    &--background {
+      min-height: clamp(400px, 37vw, 600px);
+      background: no-repeat center url(../../sources/images/img-news-2.jpg);
+      background-size: cover;
+    }
+    article {
+      --padding-inside: clamp(1em, 1.5vw, 1.5em);
+      background-color: #000;
+      position: relative;
+      padding: clamp(4em, 6vw, 6em) clamp(2em, 4vw, 4em);
+      padding-bottom: clamp(6em, 8vw, 8em);
+
+      justify-content: center;
+      min-height: clamp(400px, 37vw, 600px);
+      h3 {
+        font-size: clamp(3em, 4vw, 4em);
+        text-transform: uppercase;
+      }
+      span:not(.v-btn__content), p {
+        font-size: 1.05em;
+        font-weight: 400;
+      }
+    }
+    .share {
+      position: absolute;
+      top: var(--padding-inside);
+      right: var(--padding-inside);
+    }
+    &--social {
+      @include absolute(0,auto,0,var(--padding-inside));
+    }
+  }
+
+  blockquote {
+    padding-inline: var(--margin-separator);
+    padding-block: 1.5em 3em;
+    h2 {margin-bottom: 1em}
+    p {line-height: 1.25}
   }
 
   .custome-slider {
