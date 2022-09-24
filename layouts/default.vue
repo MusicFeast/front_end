@@ -19,8 +19,6 @@ export default {
     }
   },
   mounted() {
-    const layout = document.querySelector("#layout");
-
     /* scroll horizontal (simple) */
     const scrollable = document.querySelectorAll('[class*="scrollx"]');
     scrollable.forEach((el) => {
@@ -41,21 +39,9 @@ export default {
     }
     footerHeightListener();
 
-
-
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        layout.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
-      });
-    };
-    heightH2();
-    
-
     // resize listener
     window.onresize = () => {
       footerHeightListener();
-      heightH2();
     };
   },
 }
