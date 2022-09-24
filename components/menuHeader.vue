@@ -16,7 +16,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
 
-        <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
+        <a class="center" @click="$parent.to('home')">
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
         <v-btn
@@ -67,7 +67,7 @@
         <v-list class="fill_w">
           <v-list-item
             v-for="(item,i) in dataDrawer" :key="i" v-ripple="{class: 'activeRipple'}" link :class="{active: item.active}"
-            @click="$scrollTo(item.key); dataDrawer.forEach(e=>e.active=false); item.active=true; drawer = false">
+            @click="$parent.to(item.key); dataDrawer.forEach(e=>e.active=false); item.active=true; drawer = false">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content">
                 {{ item.name }}

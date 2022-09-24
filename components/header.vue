@@ -8,7 +8,7 @@
       </a>
 
       <section class="center gap2 eliminarmobile">
-        <a v-for="(item,i) in dataLinks" :key="i" @click="$router.push(localePath('/')); $scrollTo($toKedabCase(item.name))">{{item.name}}</a>
+        <a v-for="(item,i) in dataLinks" :key="i" @click="to(item.name)">{{item.name}}</a>
       </section>
 
       <section class="center">
@@ -124,6 +124,18 @@ export default {
     //   this.$store.dispatch("CambiarTheme", theme);
     //   this.themeButton = !this.themeButton;
     // },
+    to(id) {
+      if (id !== 'Contact') {
+        if (this.$route.path === '/') {
+          this.$scrollTo(this.$toKedabCase(id))
+        } else {
+          this.$router.push(this.localePath('/'));
+          setTimeout(() => {
+            this.$scrollTo(this.$toKedabCase(id))
+          }, 100);
+        }
+      }
+    },
     async getData () {
       this.account = {}
       // connect to NEAR
