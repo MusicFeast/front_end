@@ -113,11 +113,11 @@
       </template>
       
       <template #[`item.buy`]>
-        <v-btn :ripple="false" class="btn activeBtn bold" style="--w: min(100%, 8em); --fs: 14px">Buy</v-btn>
+        <v-btn :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px">Buy</v-btn>
       </template>
       
       <template #[`item.offer`]>
-        <v-btn :ripple="false" class="btn activeBtn bold" style="--w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)">Make an Offer</v-btn>
+        <v-btn :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)">Make an Offer</v-btn>
       </template>
     </v-data-table>
 
