@@ -102,7 +102,7 @@ export default {
     },
     cancelForm() {
       Object.keys(this.form).forEach(key => {this.form[key] = ''});
-      this.$alert('cancel', 'canceled', 'data is aborted !')
+      this.$alert('cancel', 'canceled', 'Data is aborted !')
     },
     saveForm() {
       if (this.$refs.form.validate()) {this.$alert('success')}
