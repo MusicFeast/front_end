@@ -1,6 +1,8 @@
 <template>
   <div id="about" class="divcol">
-    <h2 class="utp">about</h2>
+    <div id="about--header">
+      <h2 class="Title tup">about</h2>
+    </div>
   </div>
 </template>
 

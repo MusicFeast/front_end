@@ -16,6 +16,10 @@
 
 
 ///////////////////// global ///////////////////////
+:root {
+  --margin-separator: 48px;
+  @include media(max, x-small) {--margin-separator: 18px};
+}
 
 // filters
 .container-filters {
@@ -189,14 +193,16 @@ h2.Title {
       .v-list {
         padding: 0;
         &-item {
+          transition: .2s $ease-return;
           &__title {
             max-width: 60%;
             margin-inline: auto;
             padding: 0;
+            transition: .2s $ease-return;
           }
           &.active, &:hover {
             background-color: var(--primary);
-            .v-list-item__title {justify-content: center !important}
+            .v-list-item__title {transform: translateX(30%)}
           }
         }
       }

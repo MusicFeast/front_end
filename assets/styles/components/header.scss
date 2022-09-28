@@ -60,10 +60,14 @@
     padding-block: .8em;
   }
   .v-list-item {
+    transition: .2s $ease-return;
+    &__title {transition: .2s $ease-return}
     &::before {background-color: transparent}
     &.active, &:hover {
       background: linear-gradient(to left, #F7931E, #7C4A0F);
-      .v-list-item__title {text-align: center}
+      .v-list-item__title {
+        transform: translateX(30%);
+      }
     }
   }
 }

@@ -2,8 +2,6 @@
 /* // // collections // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #collections {
-  --margin-separator: 48px;
-  @include media(max, x-small) {--margin-separator: 18px};
   position: relative;
   padding-inline: var(--margin-global);
   padding-block: 4em;
