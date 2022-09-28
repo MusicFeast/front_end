@@ -59,4 +59,11 @@
     min-height: max-content;
     padding-block: .8em;
   }
+  .v-list-item {
+    &::before {background-color: transparent}
+    &.active, &:hover {
+      background: linear-gradient(to left, #F7931E, #7C4A0F);
+      .v-list-item__title {text-align: center}
+    }
+  }
 }

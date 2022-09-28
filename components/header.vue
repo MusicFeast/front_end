@@ -8,7 +8,10 @@
       </a>
 
       <section class="center gap2 eliminarmobile">
-        <a v-for="(item,i) in dataLinks" :key="i" @click="to(item.name)">{{item.name}}</a>
+        <a
+          v-for="(item,i) in dataLinks" :key="i"
+          @click="$router.push(localePath(`/${item.to}`))"
+          >{{item.name}}</a>
       </section>
 
       <section class="center">
@@ -47,8 +50,11 @@
               </div>
             </v-list-item>
             
-            <v-list-item v-ripple="{class: 'activeRipple2'}" :to="localePath('/profile')" @click="menuProfile = false">
-              <v-list-item-title>My Profile</v-list-item-title>
+            <v-list-item
+              v-for="(item,i) in dataMenuProfile" :key="i"
+              :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
+              @click="item.active?'':dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
+              <v-list-item-title>{{item.title}}</v-list-item-title>
             </v-list-item>
 
             <!-- button logout -->
@@ -90,13 +96,20 @@ export default {
       accountId: null,
       user: false,
       menuProfile: false,
+      dataMenuProfile: [
+        {
+          title: "My Profile",
+          to: "/profile",
+          active: false,
+        },
+      ],
       dataLinks: [
-        { name: "Home", to: "#" },
-        { name: "About", to: "#about" },
-        { name: "Artists", to: "#artists" },
-        { name: "News", to: "#news" },
-        { name: "Lastest Releases", to: "#lastest-releases" },
-        { name: "Contact", to: "#contact" },
+        { name: "Home", to: "" },
+        { name: "About", to: "about" },
+        { name: "Artists", to: "artists" },
+        { name: "News", to: "news" },
+        { name: "Marketplace", to: "marketplace" },
+        { name: "Contact", to: "" },
       ],
     };
   },
@@ -124,18 +137,6 @@ export default {
     //   this.$store.dispatch("CambiarTheme", theme);
     //   this.themeButton = !this.themeButton;
     // },
-    to(id) {
-      if (id !== 'Contact') {
-        if (this.$route.path === '/') {
-          this.$scrollTo(this.$toKedabCase(id))
-        } else {
-          this.$router.push(this.localePath('/'));
-          setTimeout(() => {
-            this.$scrollTo(this.$toKedabCase(id))
-          }, 100);
-        }
-      }
-    },
     async getData () {
       this.account = {}
       // connect to NEAR

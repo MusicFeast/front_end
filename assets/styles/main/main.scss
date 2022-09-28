@@ -194,13 +194,9 @@ h2.Title {
             margin-inline: auto;
             padding: 0;
           }
-          &.active {
+          &.active, &:hover {
             background-color: var(--primary);
-            transition: .5s $ease-return;
-            .v-list-item__title {
-              justify-content: center !important;
-              transition: .5s $ease-return;
-            }
+            .v-list-item__title {justify-content: center !important}
           }
         }
       }

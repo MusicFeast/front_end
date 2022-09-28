@@ -1,6 +1,6 @@
 <template>
   <div id="about--artists" class="divcol center">
-    <section id="about">
+    <section id="about--home">
       <h1>ABOUT</h1>
       <v-sheet color="transparent" class="content divcol gap1 gap2mobile">
         <div class="content-top divcol">
@@ -11,7 +11,7 @@
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
             at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
           </p>
-          <a class="eliminarmobile" @click="$scrollTo('home')">More</a>
+          <a class="eliminarmobile" @click="$router.push(localePath('/about'))">More</a>
         </div>
 
         <div class="content-bottom divcol">
@@ -22,14 +22,14 @@
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
             at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
           </p>
-          <a class="eliminarmobile" @click="$scrollTo('home')">More</a>
+          <a class="eliminarmobile" @click="$router.push(localePath('/about'))">More</a>
         </div>
       </v-sheet>
     </section>
 
     <div v-for="n in 2" :key="n" class="separators" />
 
-    <section id="artists">
+    <section id="artists--home">
       <v-slide-group
         id="custome-slider-artists"
         v-model="slider"

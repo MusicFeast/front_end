@@ -16,7 +16,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
 
-        <a class="center" @click="$parent.to('home')">
+        <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
         <v-btn
@@ -49,8 +49,11 @@
               </div>
             </v-list-item>
             
-            <v-list-item v-ripple="{class: 'activeRipple2'}" :to="localePath('/profile')" @click="menuProfile = false; drawer = false">
-              <v-list-item-title>My Profile</v-list-item-title>
+            <v-list-item
+              v-for="(item,i) in $parent.dataMenuProfile" :key="i"
+              :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
+              @click="item.active?'':$parent.dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
+              <v-list-item-title>{{item.title}}</v-list-item-title>
             </v-list-item>
 
             <!-- button logout -->
@@ -67,7 +70,7 @@
         <v-list class="fill_w">
           <v-list-item
             v-for="(item,i) in dataDrawer" :key="i" v-ripple="{class: 'activeRipple'}" link :class="{active: item.active}"
-            @click="$parent.to(item.key); dataDrawer.forEach(e=>e.active=false); item.active=true; drawer = false">
+            @click="$router.push(localePath(`/${item.key}`)); dataDrawer.forEach(e=>e.active=false); item.active=true; drawer = false">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content">
                 {{ item.name }}
@@ -100,7 +103,7 @@ export default {
       menuProfile: false,
       dataDrawer: [
         {
-          key: "home",
+          key: "",
           name: "Home",
           active: false,
         },
@@ -120,8 +123,8 @@ export default {
           active: false,
         },
         {
-          key: "lastest-releases",
-          name: "Lastest Releases",
+          key: "Marketplace",
+          name: "Marketplace",
           active: false,
         },
         {
@@ -148,8 +151,8 @@ export default {
   //   this.OverlayMethod(theme);
   // },
   mounted() {
-    this.isScrollTop();
-    window.onscroll = () => this.isScrollTop();
+    // this.isScrollTop();
+    // window.onscroll = () => this.isScrollTop();
   },
   methods: {
     ActiveClass(key, item) {
@@ -171,25 +174,25 @@ export default {
     Logout(key) {
       if (key === 'logout') {localStorage.setItem('auth', false);this.$router.push(this.localePath('/'));this.$router.go()}
     },
-    isScrollTop() {
-      if (this.$route.path === '/') {
-        this.dataDrawer.forEach(e => {
-          const sections = e.key === 'home' ? document.getElementById('hero') : document.getElementById(e.key);
-          if (sections) {
-            const positionsTop = sections.getBoundingClientRect().top + window.scrollY;
-            const positionsBottom = sections.getBoundingClientRect().bottom + window.scrollY;
-            const scroll = document.documentElement.scrollTop;
-            if (scroll >= positionsTop && scroll <= positionsBottom) {
-              const index = this.dataDrawer.findIndex(data => data.key === e.key);
-              this.dataDrawer.forEach(e => {e.active = false})
-              this.dataDrawer[index].active = true
-            }
-          }
-        });
-      } else {
-        this.dataDrawer.forEach(e => {e.active = false})
-      }
-    },
+    // isScrollTop() {
+    //   if (this.$route.path === '/') {
+    //     this.dataDrawer.forEach(e => {
+    //       const sections = e.key === 'home' ? document.getElementById('hero') : document.getElementById(e.key);
+    //       if (sections) {
+    //         const positionsTop = sections.getBoundingClientRect().top + window.scrollY;
+    //         const positionsBottom = sections.getBoundingClientRect().bottom + window.scrollY;
+    //         const scroll = document.documentElement.scrollTop;
+    //         if (scroll >= positionsTop && scroll <= positionsBottom) {
+    //           const index = this.dataDrawer.findIndex(data => data.key === e.key);
+    //           this.dataDrawer.forEach(e => {e.active = false})
+    //           this.dataDrawer[index].active = true
+    //         }
+    //       }
+    //     });
+    //   } else {
+    //     this.dataDrawer.forEach(e => {e.active = false})
+    //   }
+    // },
   },
 };
 </script>

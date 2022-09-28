@@ -12,7 +12,7 @@
       text-orientation: upright;
     }
   }
-  #about {
+  #about--home {
     display: flex;
     gap: clamp(2em, 3vw, 3em);
     @include media(max, small) {flex-direction: column}
@@ -31,7 +31,7 @@
     }
     &:last-of-type {border-right-width: 1px}
   }
-  #artists {
+  #artists--home {
     width: 100%;
     display: flex;
     gap: clamp(2em, 3vw, 3em);
