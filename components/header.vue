@@ -9,8 +9,8 @@
 
       <section class="center gap2 eliminarmobile">
         <a
-          v-for="(item,i) in dataLinks" :key="i"
-          @click="$router.push(localePath(`/${item.to}`))"
+          v-for="(item,i) in dataLinks" :key="i" class="tcap"
+          @click="$router.push(localePath(item.to))"
           >{{item.name}}</a>
       </section>
 
@@ -54,7 +54,7 @@
               v-for="(item,i) in dataMenuProfile" :key="i"
               :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
               @click="item.active?'':dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
-              <v-list-item-title>{{item.title}}</v-list-item-title>
+              <v-list-item-title class="tcap">{{item.title}}</v-list-item-title>
             </v-list-item>
 
             <!-- button logout -->
@@ -82,18 +82,18 @@ export default {
       menuProfile: false,
       dataMenuProfile: [
         {
-          title: "My Profile",
+          title: "my profile",
           to: "/profile",
           active: false,
         },
       ],
       dataLinks: [
-        { name: "Home", to: "" },
-        { name: "About", to: "about" },
-        { name: "Artists", to: "artists" },
-        { name: "News", to: "news" },
-        { name: "Marketplace", to: "" },
-        { name: "Contact", to: "" },
+        { name: "home", to: "/", active: false },
+        { name: "about", to: "/about", active: false },
+        { name: "artists", to: "/artists", active: false },
+        { name: "news", to: "/news", active: false },
+        { name: "marketplace", to: "", active: false },
+        { name: "contact", to: "/", active: false },
       ],
     };
   },
@@ -114,8 +114,8 @@ export default {
   mounted() {
     // set route push to marketplace
     this.user.tier <= 2
-    ? this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'Marketplace')].to = 'marketplace'
-    : this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'Marketplace')].to = 'marketplace-vip'
+    ? this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'marketplace')].to = '/marketplace'
+    : this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'marketplace')].to = '/marketplace-vip'
   },
   methods: {
     // cambiarTheme(theme) {

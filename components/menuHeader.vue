@@ -53,7 +53,7 @@
               v-for="(item,i) in $parent.dataMenuProfile" :key="i"
               :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
               @click="item.active?'':$parent.dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
-              <v-list-item-title>{{item.title}}</v-list-item-title>
+              <v-list-item-title class="tcap">{{item.title}}</v-list-item-title>
             </v-list-item>
 
             <!-- button logout -->
@@ -69,10 +69,10 @@
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
         <v-list class="fill_w">
           <v-list-item
-            v-for="(item,i) in dataDrawer" :key="i" v-ripple="{class: 'activeRipple'}" link :class="{active: item.active}"
-            @click="$router.push(localePath(`/${item.key}`)); dataDrawer.forEach(e=>e.active=false); item.active=true; drawer = false">
+            v-for="(item,i) in $parent.dataLinks" :key="i" v-ripple="{class: 'activeRipple'}" link :class="{active: item.active}"
+            @click="$router.push(localePath(item.to)); $parent.dataLinks.forEach(e=>e.active=false); item.active=true; drawer = false">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
-              <span style="max-width: max-content">
+              <span style="max-width: max-content" class="tcap">
                 {{ item.name }}
               </span>
             </v-list-item-title>
@@ -101,38 +101,6 @@ export default {
       messages: 1,
       drawer: false,
       menuProfile: false,
-      dataDrawer: [
-        {
-          key: "",
-          name: "Home",
-          active: false,
-        },
-        {
-          key: "about",
-          name: "About",
-          active: false,
-        },
-        {
-          key: "artists",
-          name: "Artists",
-          active: false,
-        },
-        {
-          key: "news",
-          name: "News",
-          active: false,
-        },
-        {
-          key: "Marketplace",
-          name: "Marketplace",
-          active: false,
-        },
-        {
-          key: "contact",
-          name: "Contact",
-          active: false,
-        },
-      ],
       dataSocial: [
         { icon:"mdi-instagram", url:"#" },
         { icon:"mdi-twitter", url:"#" },
@@ -156,24 +124,9 @@ export default {
   mounted() {
     // this.isScrollTop();
     // window.onscroll = () => this.isScrollTop();
+    // set route push to marketplace
   },
   methods: {
-    ActiveClass(key, item) {
-      // mejorar hace falta
-      if (key === 'expansion') {
-        if (item.active) {
-          item.active=!item.active
-        } else {
-          this.dataDrawer.list.forEach(e=>{e.active=false})
-          this.dataDrawer.expansion.forEach(e=>{e.active=false})
-          item.active=true
-        }
-      } else if (key === 'list') {
-        this.dataDrawer.expansion.forEach(e=>{e.active=false})
-        this.dataDrawer.list.forEach(e=>{e.active=false})
-        item.active=true
-      }
-    },
     Logout(key) {
       if (key === 'logout') {localStorage.setItem('auth', false);this.$router.push(this.localePath('/'));this.$router.go()}
     },
