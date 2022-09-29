@@ -4,33 +4,30 @@ export default function ({app, route}) {
     switch (app.router.app.$data.layoutName) {
       case 'default': {
         const layout = app.router.app.$children[app.router.app.$children.findIndex(data=>data._name === '<DefaultLayout>')];
-        // drawer and menu profile //
-        if (route.path !== '/profile') {
+        // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+        const dataMenuProfile = layout.$refs.header.dataMenuProfile;
+        const dataDrawer = layout.$refs.header.dataLinks;
+        // If current route
+        if (
+            route.path === "/"|| route.path === "/about" || route.path === "/artists" || route.path === "/news"
+            || route.path === "/marketplace" || route.path === "/marketplace-vip" || route.path === "/contact"
+          ) {
           // disable menu profile elements
-          const dataMenuProfile = layout.$refs.header.dataMenuProfile;
           dataMenuProfile.forEach(el => {el.active = false});
-          // active drawer mobile element
-          const dataDrawer = layout.$refs.header.dataLinks;
+          // active drawer mobile elements
           dataDrawer.forEach(e => {e.active = false});
           dataDrawer[dataDrawer.findIndex(e=>e.to === route.path)].active = true
-        } else {
-          // disable drawer mobile element
-          const dataDrawer = layout.$refs.header.dataLinks;
+        } else if (route.path === "/profile") {
+          // disable drawer mobile elements
           dataDrawer.forEach(e => {e.active = false});
-          // active drawer mobile element
-          const dataMenuProfile = layout.$refs.header.dataMenuProfile;
+          // active menu profile elements
           dataMenuProfile.forEach(el => {el.active = false});
           dataMenuProfile[dataMenuProfile.findIndex(e=>e.to === route.path)].active = true
+        } else {
+          // disable all
+          dataDrawer.forEach(e => {e.active = false});
+          dataMenuProfile.forEach(el => {el.active = false});
         }
-        // If current route
-        // switch (route.path) {
-        //   case "/":       // target rutes
-        //     layout.wrapperSpace = false;
-        //   break;
-        //   default:        // the rest
-        //     layout.wrapperSpace = true;
-        //   break;
-        // }
       }
       break;
     }
