@@ -38,7 +38,7 @@
       z-index: 1;
       display: flex;
       align-items: flex-end;
-      transform: skew(-10deg);
+      transform: skew(-15deg);
       .v-sheet {
         --width: clamp(5em, 10vw, 9.375em);
         width: var(--width);
