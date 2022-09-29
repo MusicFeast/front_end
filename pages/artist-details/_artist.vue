@@ -1,5 +1,5 @@
 <template>
-  <div id="artist" class="divcol">
+  <div id="artist-details" class="divcol">
     <section class="header">
       <aside class="header-title">
         <h2>Name or Nickname of the Artist</h2>
@@ -165,7 +165,26 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <h2 class="Title tup">collections</h2>
+    <h2 class="Title fwrap" style="--fb: 200px; gap: .3em clamp(1em, 2vw, 2em)">
+      <span class="tup" style="--fb: max-content">nft &amp; collections</span>
+
+      <v-text-field
+        v-model="search"
+        hide-details solo
+        append-icon="mdi-magnify"
+        label="Search for NFTs Name, Artist, Event &amp; Collections"
+        style="--p: 0 1em 0 2em"
+        class="search"
+      ></v-text-field>
+
+      <v-select
+        v-model="filter.model"
+        :items="filter.list"
+        hide-details solo
+        label="Sort by"
+        style="--p: 0 1em 0 2em"
+      ></v-select>
+    </h2>
 
     <section class="container-collections grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap:2em">
       <v-card v-for="(item,i) in dataCollections" :key="i" class="card divcol">
@@ -186,7 +205,7 @@
 
           <div class="center bold" style="gap: 6.4px">
             <span class="floor" style="--c: var(--accent)">Floor Price: 250.00</span>
-            <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
+            <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
           </div>
         </div>
       </v-card>
@@ -305,6 +324,11 @@ export default {
         { event: "Miami" },
         { event: "Madrid" },
       ],
+      search: "",
+      filter: {
+        model: "",
+        list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
+      },
       dataCollections: [
         {
           img: require('~/assets/sources/images/img-listed-1.jpg'),
@@ -378,7 +402,7 @@ export default {
     }
   },
   mounted() {
-    const pageName = 'artist';
+    const pageName = 'artist-details';
     const page = document.querySelector(`#${pageName}`);
     
     // listener title height
@@ -452,4 +476,4 @@ export default {
 };
 </script>
 
-<style src="~/assets/styles/pages/artist.scss" lang="scss" />
+<style src="~/assets/styles/pages/artist-details.scss" lang="scss" />

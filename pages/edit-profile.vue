@@ -2,8 +2,22 @@
   <div id="profile" class="divcol">
     <section
       class="header"
-      :style="`--bg-image: url(${profileBanner})`">
-      <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+      :style="`
+        --bg-image: url(${profileBanner});
+        --tag-tier: '${
+          user.tier===1 ? 'bronze' :
+          user.tier===2 ? 'silver' :
+          user.tier===3 ? 'gold' :
+          user.tier===4 ? 'platinum' :
+          user.tier===5 ? 'diamond' :
+          user.tier===6 ? 'uranium' : 'user'
+        }'
+      `">
+      <v-avatar
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+        @mouseenter="showTag()" @mouseleave="hideTag()">
+        <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+      </v-avatar>
 
       <label for="bannerBtn" class="btn activeBtn" style="--p: 0 2em">Upload</label>
       <v-file-input
@@ -48,6 +62,14 @@
           :rules="rules.required"
         ></v-text-field>
         
+        <label for="instagram">instagram account</label>
+        <v-text-field
+          id="instagram"
+          v-model="form.instagram"
+          placeholder="@username#321"
+          :rules="rules.required"
+        ></v-text-field>
+        
         <label for="twitter">twitter account</label>
         <v-text-field
           id="twitter"
@@ -55,18 +77,91 @@
           placeholder="@username"
           :rules="rules.required"
         ></v-text-field>
-
+        
+        <label for="telegram">telegram account</label>
+        <v-text-field
+          id="telegram"
+          v-model="form.telegram"
+          placeholder="@username45"
+          :rules="rules.required"
+        ></v-text-field>
+        
         <label for="bio">bio</label>
         <v-textarea
           id="bio"
           v-model="form.bio"
-          placeholder="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."          height="70px"
+          placeholder="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+          height="70px"
           no-resize
         ></v-textarea>
       </section>
 
+      <h2 class="tup p">address<sup class="relative" style="top: calc(clamp(15px, 2vw, 30px) * -1)">
+          <v-tooltip
+            right color="rgba(0, 0, 0, .4)" transition="slide-x-transition"
+            :open-delay="100" :close-delay="100">
+            <template #activator="{ on, attrs}">
+              <img src="~/assets/sources/icons/info.svg" alt="info" style="--w: clamp(12px, 1.5vw, 21px)" v-bind="attrs" v-on="on">
+            </template>
+            <span>(optional) Apply to redeem physical products</span>
+          </v-tooltip>
+        </sup>
+      </h2>
+
+      <section class="card">
+        <label for="country">country</label>
+        <v-select
+          id="country"
+          v-model="form.address.country"
+          :items="dataCounties"
+          placeholder="Select The Country"
+          :rules="rules.required" solo
+          style="--fs-place: 16px"
+        ></v-select>
+        
+        <label for="street">street address</label>
+        <v-text-field
+          id="street"
+          v-model="form.address.street"
+          placeholder="Street Address, P.O, box, lorem ipsum"
+          :rules="rules.required"
+        ></v-text-field>
+        
+        <label for="apartment">Apartment, Suite, Etc</label>
+        <v-text-field
+          id="apartment"
+          v-model="form.address.apartment"
+          placeholder="Street Address 2, P.O, box, lorem ipsum "
+          :rules="rules.required"
+        ></v-text-field>
+        
+        <label for="city">city</label>
+        <v-text-field
+          id="city"
+          v-model="form.address.city"
+          placeholder="Lorem ipsum"
+          :rules="rules.required"
+        ></v-text-field>
+        
+        <label for="state">State / Province / Region</label>
+        <v-text-field
+          id="state"
+          v-model="form.address.state"
+          placeholder="Lorem ipsum"
+          :rules="rules.required"
+        ></v-text-field>
+
+        <label for="postal">Postal / Zip Code</label>
+        <v-text-field
+          id="postal"
+          v-model="form.address.postal"
+          placeholder="Lorem ipsum" 
+          :rules="rules.required"
+        ></v-text-field>
+      </section>
+
       <div class="center fill_w wrap fwrapmobile bold" style="gap:2em; --fb: 200px">
-        <v-btn :ripple="false" class="btn activeBtn" @click="cancelForm()">Cancel</v-btn>
+        <v-btn :ripple="false" class="btn activeBtn" @click="$router.push(localePath('/profile'))">Cancel</v-btn>
         <v-btn :ripple="false" class="btn activeBtn" @click="saveForm()">Save</v-btn>
       </div>
     </v-form>
@@ -85,27 +180,42 @@ export default {
         username: "",
         email: "",
         discord: "",
+        instagram: "",
         twitter: "",
+        telegram: "",
         bio: "",
+        address: {
+          country: "",
+          street: "",
+          apartment: "",
+          city: "",
+          state: "",
+          postal: "",
+        }
       },
+      dataCounties: [
+        "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum"
+      ],
       valid: false,
       rules: {
         required: [(v) => !!v || "Field required"],
       },
     }
   },
-  mounted() {
+  computed: {
+    user() {return this.$store.state.dataUser},
   },
   methods: {
     previewBanner() {
       this.profileBanner = URL.createObjectURL(this.bannerImage_model);
     },
-    cancelForm() {
-      Object.keys(this.form).forEach(key => {this.form[key] = ''});
-      this.$alert('cancel', 'canceled', 'Data is aborted !')
-    },
+    // object entries usage
+    // cancelForm() {
+    //   Object.keys(this.form).forEach(key => {this.form[key] = ''});
+    // },
     saveForm() {
       if (this.$refs.form.validate()) {this.$alert('success')}
+      else {this.$alert('cancel', 'Failed request', 'Need fill all required fields')}
     },
   }
 };

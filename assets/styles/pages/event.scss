@@ -85,12 +85,11 @@
   #custome-carousel {
     margin-bottom: 4em;
     .v-responsive__content {
-      --padding: calc(3.125em + 2.5em);
       display: flex;
       justify-content: space-evenly;
       > * {flex-basis: 260px}
       gap: 2em;
-      padding-inline: var(--padding);
+      @include media(min, x-small) {padding-inline: calc(3.125em + 2.5em)}
       .v-card {
         --spacing: .5em;
         padding-bottom: 2em;
@@ -181,6 +180,11 @@
     }
   }
   .v-carousel__controls {
+    .v-item-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 0;
+    }
     button {
       background-color: #fff;
       border-radius: 0;

@@ -27,7 +27,7 @@
 
       <section id="container-copyright" class="fill_w space tcenter divcol_invmobile gap2">
         <span class="h11_em">&copy; 2022 Music Feast. All Rights Reserved.</span>
-        <span class="h11_em">Cookie statement Terms &amp; Conditions Privacy Policy</span>
+        <span class="h11_em">Cookie statement <span class="pointer semibold" @click="$router.push(localePath('/terms-and-conditions'))">Terms &amp; Conditions</span> Privacy Policy</span>
       </section>
     </v-row>
   </v-footer>

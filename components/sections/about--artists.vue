@@ -43,7 +43,7 @@
         >
           <v-card
             :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false"
-            @click="$router.push(localePath(`/artist`))">
+            @click="$router.push(localePath(`/artist-details`))">
             <v-sheet>
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>
@@ -80,7 +80,7 @@
       <h1>ARTISTS</h1>
     </section>
 
-    <v-btn class="btn h10_em view-all__btn">View All</v-btn>
+    <v-btn class="btn h10_em view-all__btn" :to="localePath('/artists')">View All</v-btn>
   </div>
 </template>
 

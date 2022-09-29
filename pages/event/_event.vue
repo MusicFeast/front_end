@@ -174,16 +174,22 @@
     <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
       <button
         :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination > 0 ? pagination-- : ''"
+        @click="
+          pagination > 0 ? modelCarousel-- : '';
+          pagination > 0 ? pagination-- : '';
+        "
       >
         <v-icon size="2em" class="reverse">mdi-play</v-icon>
       </button>
 
-      <v-btn v-for="n in 2" :key="n" text>{{n}}</v-btn>
+      <v-btn v-for="n in 2" :key="n" text @click="modelCarousel = n-1">{{n}}</v-btn>
 
       <button
         :style="pagination < 1 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination < 1 ? pagination++ : ''"
+        @click="
+          pagination < 1 ? modelCarousel++ : '';
+          pagination < 1 ? pagination++ : '';
+        "
       >
         <v-icon size="2em">mdi-play</v-icon>
       </button>

@@ -4,7 +4,7 @@
       class="header"
       :style="`
         --bg-image: url(${profileBanner});
-        --tag: '${
+        --tag-tier: '${
           user.tier===1 ? 'bronze' :
           user.tier===2 ? 'silver' :
           user.tier===3 ? 'gold' :
@@ -176,12 +176,12 @@ export default {
         {
           key: "filterA",
           model: "by Tier",
-          list: ["by Tier", "algo"],
+          list: ["by Tier", "by Name"],
         },
         {
           key: "filterB",
           model: "",
-          list: ["algo", "algo"],
+          list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
         },
       ],
       dataNfts: [

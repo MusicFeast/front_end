@@ -251,12 +251,12 @@ export default {
         {
           key: "filterA",
           model: "by Tier",
-          list: ["by Tier", "algo"],
+          list: ["by Tier", "by Name"],
         },
         {
           key: "filterB",
           model: "",
-          list: ["algo", "algo"],
+          list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
         },
       ],
       dataListed: [

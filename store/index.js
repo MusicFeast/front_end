@@ -18,7 +18,7 @@ export const state = () => ({
     avatar: '',
     accountId: null,
     user: false,
-    tier: 3,
+    tier: 4,
   },
 });
 

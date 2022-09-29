@@ -110,7 +110,7 @@ export default {
         { name: "home", to: "/", active: false },
         { name: "about", to: "/about", active: false },
         { name: "artists", to: "/artists", active: false },
-        { name: "news", to: "/news", active: false },
+        { name: "news", to: "/news-details", active: false },
         { name: "marketplace", to: "/marketplace", active: false },
         { name: "contact", to: "/", active: false },
       ],
