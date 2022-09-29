@@ -8,16 +8,13 @@ export default function ({app, route}) {
         const dataMenuProfile = layout.$refs.header.dataMenuProfile;
         const dataDrawer = layout.$refs.header.dataLinks;
         // If current route
-        if (
-            route.path === "/"|| route.path === "/about" || route.path === "/artists" || route.path === "/news"
-            || route.path === "/marketplace" || route.path === "/marketplace-vip" || route.path === "/contact"
-          ) {
+        if (dataDrawer.find(e=>e.to === route.path)) {
           // disable menu profile elements
           dataMenuProfile.forEach(el => {el.active = false});
           // active drawer mobile elements
           dataDrawer.forEach(e => {e.active = false});
           dataDrawer[dataDrawer.findIndex(e=>e.to === route.path)].active = true
-        } else if (route.path === "/profile") {
+        } else if (dataMenuProfile.find(e=>e.to === route.path)) {
           // disable drawer mobile elements
           dataDrawer.forEach(e => {e.active = false});
           // active menu profile elements
