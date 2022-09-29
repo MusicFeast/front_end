@@ -20,7 +20,7 @@
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
         <v-btn
-          v-if="!$store.state.dataUser.user"
+          v-if="!user.user"
           class="btn activeBtn"
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
           :ripple="false" @click="$store.commit('signIn')">Connect</v-btn>
@@ -32,7 +32,7 @@
               style="--w:75%; --min-h: 30px; --p: .5em"
               :ripple="false"
               v-bind="attrs"
-              v-on="on">{{$store.state.dataUser.accountId}}</v-btn>
+              v-on="on">{{user.accountId}}</v-btn>
           </template>
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
@@ -145,6 +145,9 @@ export default {
         { key:"logout", name:"Log out" },
       ],
     };
+  },
+  computed: {
+    user() {return this.$store.state.dataUser},
   },
   // created() {
   //   const theme = localStorage.getItem("theme");

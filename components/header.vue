@@ -17,7 +17,7 @@
       <section class="center">
         <!-- button connect -->
         <v-btn
-          v-if="!$store.state.dataUser.user"
+          v-if="!user.user"
           :ripple="false"
           class="btn activeBtn eliminarmobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em)"
@@ -30,7 +30,7 @@
               :ripple="false"
               class="btn activeBtn eliminarmobile"
               style="--p: .5em" v-bind="attrs" v-on="on">
-              <span>{{$store.state.dataUser.accountId}}</span>
+              <span>{{user.accountId}}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -97,6 +97,9 @@ export default {
       ],
     };
   },
+  computed: {
+    user() {return this.$store.state.dataUser},
+  },
   // created() {
   //   const theme = localStorage.getItem("theme");
   //   if (theme) {
@@ -110,7 +113,7 @@ export default {
   // },
   mounted() {
     // set route push to marketplace
-    this.$store.state.dataUser.tier <= 2
+    this.user.tier <= 2
     ? this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'Marketplace')].to = 'marketplace'
     : this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'Marketplace')].to = 'marketplace-vip'
   },
