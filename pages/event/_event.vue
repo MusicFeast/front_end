@@ -139,7 +139,7 @@
                         dataCarousel[+index + i].tier===3 ? 'gold' :
                         dataCarousel[+index + i].tier===4 ? 'platinum' :
                         dataCarousel[+index + i].tier===5 ? 'diamond' :
-                        dataCarousel[+index + i].tier===6 ? 'uranium' : ''
+                        dataCarousel[+index + i].tier===6 ? 'uranium' : 'user'
                       }';
                       ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
                     "

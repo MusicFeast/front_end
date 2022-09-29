@@ -1,5 +1,15 @@
 <template>
-  <v-app id="layout" class="relative" :style="$route.path==='/about'?'overflow:hidden':''" :class="{vip: $route.path==='/marketplace-vip'}">
+  <v-app
+    id="layout" class="relative" :style="$route.path==='/about'?'overflow:hidden':''"
+    :class="{
+      vip: $route.path==='/marketplace-vip',
+      uranium: user.tier===6,
+      diamond: user.tier===5,
+      platinum: user.tier===4,
+      gold: user.tier===3,
+      silver: user.tier===2,
+      bronze: user.tier===1,
+    }">
     <Alerts ref="alerts"></Alerts>
     <Header ref="header" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
@@ -17,6 +27,9 @@ export default {
     return {
       wrapperSpace: true,
     }
+  },
+  computed: {
+    user() {return this.$store.state.dataUser},
   },
   mounted() {
     // login inicializer

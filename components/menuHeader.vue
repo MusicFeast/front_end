@@ -50,10 +50,15 @@
             </v-list-item>
             
             <v-list-item
-              v-for="(item,i) in $parent.dataMenuProfile" :key="i"
+              v-for="(item,i) in $parent.dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
               :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
               @click="item.active?'':$parent.dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
-              <v-list-item-title class="tcap">{{item.title}}</v-list-item-title>
+              <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
+                {{item.title}}
+                <v-chip
+                  v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
+                  :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip>
+              </v-list-item-title>
             </v-list-item>
 
             <!-- button logout -->
@@ -62,6 +67,15 @@
               class="btn activeBtn bold"
               style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
               @click="$store.commit('signOut'); menuProfile = false; drawer = false">Log out</v-btn>
+
+            <span v-show="user.tier !== 0" class="tag">{{
+              user.tier===1 ? 'bronze' :
+              user.tier===2 ? 'silver' :
+              user.tier===3 ? 'gold' :
+              user.tier===4 ? 'platinum' :
+              user.tier===5 ? 'diamond' :
+              user.tier===6 ? 'uranium' : 'user'
+            }}</span>
           </v-list>
         </v-menu>
       </section>
@@ -69,7 +83,7 @@
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
         <v-list class="fill_w">
           <v-list-item
-            v-for="(item,i) in $parent.dataLinks" :key="i" v-ripple="{class: 'activeRipple'}" link :class="{active: item.active}"
+            v-for="(item,i) in $parent.dataLinks" :key="i" :ripple="false" link :class="{active: item.active}"
             @click="$router.push(localePath(item.to)); $parent.dataLinks.forEach(e=>e.active=false); item.active=true; drawer = false">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content" class="tcap">

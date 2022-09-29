@@ -87,7 +87,7 @@
               item.tier===3 ? 'gold' :
               item.tier===4 ? 'platinum' :
               item.tier===5 ? 'diamond' :
-              item.tier===6 ? 'uranium' : ''
+              item.tier===6 ? 'uranium' : 'user'
             }'`"
           >
             <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">

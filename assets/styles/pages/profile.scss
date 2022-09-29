@@ -17,12 +17,47 @@
 
     display: grid;
     place-items: center;
+    // tier tag
+    &::before {
+      content: var(--tag);
+      @include absolute(0,5px,0);
 
-    img {
-      --w: 13.954375em;
-      --ar: 1 / 1;
-      --br: 50%;
-      --b: 20px solid #280909;
+      @include btn;
+      --bg: var(--bg-tier);
+      --min-w: clamp(5em, 8vw, 8em);
+      --w: max-content;
+      --br: 0;
+      --fs: 1.5em;
+      --p: 8px 1em;
+      font-weight: 700;
+      text-transform: capitalize;
+      text-align: center;
+      
+      transform: translateY(-100px);
+      transition: .3s $ease-return;
+    }
+    &.hover::before {
+      transform: translateY(0);
+    }
+
+    .v-avatar {
+      isolation: isolate;
+      position: relative;
+      overflow: visible;
+      // gradient background
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -20px;
+        border-radius: 50%;
+        background: var(--bg-tier);
+        z-index: -1;
+      }
+      img {
+        --w: 100%;
+        --br: 50%;
+        --of: cover;
+      }
     }
     .v-btn, label {
       --fs: 16px;

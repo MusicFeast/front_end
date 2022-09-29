@@ -192,15 +192,23 @@ h2.Title {
       .v-list {
         padding: 0;
         &-item {
-          transition: .2s $ease-return;
+          isolation: isolate;
+          position: relative;
           &__title {
             max-width: 60%;
             margin-inline: auto;
             padding: 0;
-            transition: .2s $ease-return;
+            transition: transform .2s $ease-return;
           }
+          &:hover:not(.active)::after {opacity: .5}
           &.active, &:hover {
-            background-color: var(--primary);
+            &::after {
+              content: "";
+              position: absolute;
+              inset: 0;
+              background-color: var(--primary);
+              z-index: -1;
+            }
             .v-list-item__title {transform: translateX(30%)}
           }
         }

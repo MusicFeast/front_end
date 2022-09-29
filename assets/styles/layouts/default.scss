@@ -5,6 +5,14 @@
   background: center no-repeat var(--bg-ap);
   background-size: cover;
   &.vip {background-image: linear-gradient(to right top, #F7931E, #7C4A0F)}
+  // tier background
+  --bg-tier: #280909;
+  &.uranium {--bg-tier: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
+  &.diamond {--bg-tier: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+  &.platinum {--bg-tier: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
+  &.gold {--bg-tier: linear-gradient(to top right, #EE9938, #672F04)}
+  &.silver {--bg-tier: linear-gradient(to top right, #D1D1D1, #000000)}
+  &.bronze {--bg-tier: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
   // overflow: hidden;
   //- responsive font size -//
   .v-main {

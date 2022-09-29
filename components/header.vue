@@ -51,10 +51,15 @@
             </v-list-item>
             
             <v-list-item
-              v-for="(item,i) in dataMenuProfile" :key="i"
+              v-for="(item,i) in dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
               :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
               @click="item.active?'':dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
-              <v-list-item-title class="tcap">{{item.title}}</v-list-item-title>
+              <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
+                {{item.title}}
+                <v-chip
+                  v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
+                  :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip>
+              </v-list-item-title>
             </v-list-item>
 
             <!-- button logout -->
@@ -63,6 +68,15 @@
               class="btn activeBtn bold"
               style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
               @click="$store.commit('signOut'); menuProfile = false">Log out</v-btn>
+
+            <span v-show="user.tier !== 0" class="tag">{{
+              user.tier===1 ? 'bronze' :
+              user.tier===2 ? 'silver' :
+              user.tier===3 ? 'gold' :
+              user.tier===4 ? 'platinum' :
+              user.tier===5 ? 'diamond' :
+              user.tier===6 ? 'uranium' : 'user'
+            }}</span>
           </v-list>
         </v-menu>
 
@@ -86,13 +100,18 @@ export default {
           to: "/profile",
           active: false,
         },
+        {
+          title: "special marketplace",
+          to: "/marketplace-vip",
+          active: false,
+        },
       ],
       dataLinks: [
         { name: "home", to: "/", active: false },
         { name: "about", to: "/about", active: false },
         { name: "artists", to: "/artists", active: false },
         { name: "news", to: "/news", active: false },
-        { name: "marketplace", to: "", active: false },
+        { name: "marketplace", to: "/marketplace", active: false },
         { name: "contact", to: "/", active: false },
       ],
     };
@@ -111,18 +130,11 @@ export default {
   //   if (theme === "light") {this.themeButton = true}
   //   if (theme === "dark") {this.themeButton = false}
   // },
-  mounted() {
-    // set route push to marketplace
-    this.user.tier <= 2
-    ? this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'marketplace')].to = '/marketplace'
-    : this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'marketplace')].to = '/marketplace-vip'
-  },
   methods: {
     // cambiarTheme(theme) {
     //   this.$store.dispatch("cambiarTheme", theme);
     //   this.themeButton = !this.themeButton;
     // },
-    // use for update account log states
   },
 };
 </script>

@@ -2,8 +2,22 @@
   <div id="profile" class="divcol">
     <section
       class="header"
-      :style="`--bg-image: url(${profileBanner})`">
-      <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+      :style="`
+        --bg-image: url(${profileBanner});
+        --tag: '${
+          user.tier===1 ? 'bronze' :
+          user.tier===2 ? 'silver' :
+          user.tier===3 ? 'gold' :
+          user.tier===4 ? 'platinum' :
+          user.tier===5 ? 'diamond' :
+          user.tier===6 ? 'uranium' : 'user'
+        }'
+      `">
+      <v-avatar
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+        @mouseenter="showTag()" @mouseleave="hideTag()">
+        <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+      </v-avatar>
       <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
     </section>
 
@@ -82,7 +96,7 @@
               item.tier===3 ? 'gold' :
               item.tier===4 ? 'platinum' :
               item.tier===5 ? 'diamond' :
-              item.tier===6 ? 'uranium' : ''
+              item.tier===6 ? 'uranium' : 'user'
             }';
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
@@ -236,6 +250,9 @@ export default {
       ],
     }
   },
+  computed: {
+    user() {return this.$store.state.dataUser},
+  },
   mounted() {
     const pageName = 'profile';
     const page = document.querySelector(`#${pageName}`);
@@ -257,6 +274,8 @@ export default {
     });
   },
   methods: {
+    showTag() {document.querySelector(".header").classList.add("hover")},
+    hideTag() {document.querySelector(".header").classList.remove("hover")},
   }
 };
 </script>
