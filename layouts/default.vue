@@ -1,5 +1,5 @@
 <template>
-  <v-app id="layout" class="relative">
+  <v-app id="layout" class="relative" :style="$route.path==='/about'?'overflow:hidden':''" :class="{vip: $route.path==='/marketplace-vip'}">
     <Alerts ref="alerts"></Alerts>
     <Header ref="header" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
@@ -19,6 +19,9 @@ export default {
     }
   },
   mounted() {
+    // login inicializer
+    this.$store.dispatch("InicializeNear");
+    
     /* scroll horizontal (simple) */
     const scrollable = document.querySelectorAll('[class*="scrollx"]');
     scrollable.forEach((el) => {

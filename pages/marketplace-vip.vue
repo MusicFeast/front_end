@@ -1,5 +1,5 @@
 <template>
-  <div id="collections" class="divcol">
+  <div id="marketplace" class="divcol vip">
     <h2 class="Title tup">collections</h2>
     <v-carousel
       id="custome-carousel"
@@ -18,13 +18,12 @@
                   :class="{live: dataCarousel[+index + i].state==='live'}"
                 >
                   <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" style="--w: 100%; --br: 10px">
-                  
+                </div>
+
+                <div class="container-content tcenter">
                   <v-avatar style="border: 2px solid #fff">
                     <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--of: cover">
                   </v-avatar>
-                </div>
-                
-                <div class="container-content tcenter">
                   <a>{{dataCarousel[+index + i].name}}</a>
                   <p>{{dataCarousel[+index + i].desc}}</p>
 
@@ -110,16 +109,23 @@
       <v-card
         v-for="(item,i) in dataListed" :key="i" class="card divcol"
         :class="{
-          uranium: item.tier==='uranium',
-          diamond: item.tier==='diamond',
-          platinum: item.tier==='platinum',
-          gold: item.tier==='gold',
-          silver: item.tier==='silver',
-          bronze: item.tier==='bronze',
+          uranium: item.tier===6,
+          diamond: item.tier===5,
+          platinum: item.tier===4,
+          gold: item.tier===3,
+          silver: item.tier===2,
+          bronze: item.tier===1,
         }">
         <div
           class="container-img"
-          :style="`--tag: '${item.tier}'`"
+          :style="`--tag: '${
+            item.tier===1 ? 'bronze' :
+            item.tier===2 ? 'silver' :
+            item.tier===3 ? 'gold' :
+            item.tier===4 ? 'platinum' :
+            item.tier===5 ? 'diamond' :
+            item.tier===6 ? 'uranium' : ''
+          }'`"
         >
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
           
@@ -141,7 +147,7 @@
       </v-card>
     </section>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
+    <v-btn-toggle v-model="pagination" mandatory class="pagination align" active-class="custome">
       <button
         :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
         @click="pagination > 0 ? pagination-- : ''"
@@ -261,7 +267,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "gold",
+          tier: 3,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -270,7 +276,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "silver",
+          tier: 2,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -279,7 +285,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "platinum",
+          tier: 4,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -288,7 +294,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "diamond",
+          tier: 5,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -297,7 +303,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "uranium",
+          tier: 6,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -306,14 +312,14 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "bronze",
+          tier: 1,
         },
       ],
       pagination: 0,
     }
   },
   mounted() {
-    const pageName = 'collections';
+    const pageName = 'marketplace';
     const page = document.querySelector(`#${pageName}`);
     
     // listener to h2
@@ -323,6 +329,7 @@ export default {
         page.style.setProperty('--h-title', `${h2Rect}px`)
       });
     };
+    heightH2();
     
     // resize listener
     window.addEventListener('resize', () => {
@@ -354,4 +361,4 @@ export default {
 };
 </script>
 
-<style src="~/assets/styles/pages/collections.scss" lang="scss" />
+<style src="~/assets/styles/pages/marketplace.scss" lang="scss" />

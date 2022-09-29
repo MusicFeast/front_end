@@ -4,6 +4,7 @@
 #layout {
   background: center no-repeat var(--bg-ap);
   background-size: cover;
+  &.vip {background-image: linear-gradient(to right top, #F7931E, #7C4A0F)}
   // overflow: hidden;
   //- responsive font size -//
   .v-main {

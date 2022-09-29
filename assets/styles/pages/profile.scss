@@ -104,7 +104,7 @@
           font-weight: 600;
           text-transform: capitalize;
         }
-        &.live:after {--bs: inset 0 0 1px 1px #fff}
+        &.live:before {--bs: inset 0 0 1px 1px #fff}
         // tag tier
         &::after {
           content: var(--tag-tier);

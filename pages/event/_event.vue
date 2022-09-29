@@ -122,17 +122,25 @@
                 <v-card
                   class="card divcol"
                   :class="{
-                    uranium: dataCarousel[+index + i].tier==='uranium',
-                    diamond: dataCarousel[+index + i].tier==='diamond',
-                    platinum: dataCarousel[+index + i].tier==='platinum',
-                    gold: dataCarousel[+index + i].tier==='gold',
-                    silver: dataCarousel[+index + i].tier==='silver',
-                    bronze: dataCarousel[+index + i].tier==='bronze',
+                    uranium: dataCarousel[+index + i].tier===6,
+                    diamond: dataCarousel[+index + i].tier===5,
+                    platinum: dataCarousel[+index + i].tier===4,
+                    gold: dataCarousel[+index + i].tier===3,
+                    silver: dataCarousel[+index + i].tier===2,
+                    bronze: dataCarousel[+index + i].tier===1,
                   }">
                   <div
                     class="container-img"
+                    :class="{live: item.state === 'live'}"
                     :style="
-                      `--tag-tier: '${dataCarousel[+index + i].tier}';
+                      `--tag-tier: '${
+                        dataCarousel[+index + i].tier===1 ? 'bronze' :
+                        dataCarousel[+index + i].tier===2 ? 'silver' :
+                        dataCarousel[+index + i].tier===3 ? 'gold' :
+                        dataCarousel[+index + i].tier===4 ? 'platinum' :
+                        dataCarousel[+index + i].tier===5 ? 'diamond' :
+                        dataCarousel[+index + i].tier===6 ? 'uranium' : ''
+                      }';
                       ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
                     "
                   >
@@ -210,7 +218,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "gold",
+          tier: 3,
           state: "sold out",
         },
         {
@@ -220,7 +228,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "silver",
+          tier: 2,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -229,7 +237,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "platinum",
+          tier: 4,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -238,7 +246,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "diamond",
+          tier: 5,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -247,7 +255,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "uranium",
+          tier: 6,
           state: "sold out",
         },
         {
@@ -257,7 +265,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "bronze",
+          tier: 1,
         },
       ],
       pagination: 0,

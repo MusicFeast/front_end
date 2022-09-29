@@ -17,11 +17,11 @@
       <section class="center">
         <!-- button connect -->
         <v-btn
-          v-if="!user"
+          v-if="!$store.state.dataUser.user"
           :ripple="false"
           class="btn activeBtn eliminarmobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em)"
-          @click="signIn()">Connect</v-btn>
+          @click="$store.commit('signIn')">Connect</v-btn>
           
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs }">
@@ -30,7 +30,7 @@
               :ripple="false"
               class="btn activeBtn eliminarmobile"
               style="--p: .5em" v-bind="attrs" v-on="on">
-              <span>{{accountId}}</span>
+              <span>{{$store.state.dataUser.accountId}}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -62,7 +62,7 @@
               :ripple="false"
               class="btn activeBtn bold"
               style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
-              @click="signOut(); menuProfile = false">Log out</v-btn>
+              @click="$store.commit('signOut'); menuProfile = false">Log out</v-btn>
           </v-list>
         </v-menu>
 
@@ -75,26 +75,10 @@
 </template>
 
 <script>
-import * as nearAPI from 'near-api-js'
-
-const { connect, keyStores, WalletConnection } = nearAPI
-
-const keyStore = new keyStores.BrowserLocalStorageKeyStore()
-const config = {
-  networkId: "testnet",
-  keyStore, 
-  nodeUrl: "https://rpc.testnet.near.org",
-  walletUrl: "https://wallet.testnet.near.org",
-  helperUrl: "https://helper.testnet.near.org",
-  explorerUrl: "https://explorer.testnet.near.org",
-};
-
 export default {
   name: "HeaderComponent",
   data() {
     return {
-      accountId: null,
-      user: false,
       menuProfile: false,
       dataMenuProfile: [
         {
@@ -108,85 +92,34 @@ export default {
         { name: "About", to: "about" },
         { name: "Artists", to: "artists" },
         { name: "News", to: "news" },
-        { name: "Marketplace", to: "marketplace" },
+        { name: "Marketplace", to: "" },
         { name: "Contact", to: "" },
       ],
     };
-  },
-  computed: {
-    perfil() {return this.$store.state.user.perfil},
   },
   // created() {
   //   const theme = localStorage.getItem("theme");
   //   if (theme) {
   //     setTimeout(() => {
-  //       this.$store.dispatch("CambiarTheme", theme);
-  //       this.$store.commit('OverlayMethod', theme)
+  //       this.$store.dispatch("cambiarTheme", theme);
+  //       this.$store.commit('overlayMethod', theme)
   //     }, 100);
   //   }
   //   if (theme === "light") {this.themeButton = true}
   //   if (theme === "dark") {this.themeButton = false}
   // },
   mounted() {
-    this.isSigned()
-    this.getData()
-    this.LogState();
+    // set route push to marketplace
+    this.$store.state.dataUser.tier <= 2
+    ? this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'Marketplace')].to = 'marketplace'
+    : this.dataLinks[this.dataLinks.findIndex(e=>e.name === 'Marketplace')].to = 'marketplace-vip'
   },
   methods: {
-    // CambiarTheme(theme) {
-    //   this.$store.dispatch("CambiarTheme", theme);
+    // cambiarTheme(theme) {
+    //   this.$store.dispatch("cambiarTheme", theme);
     //   this.themeButton = !this.themeButton;
     // },
-    async getData () {
-      this.account = {}
-      // connect to NEAR
-      const near = await connect(config);
-      // create wallet connection
-      const wallet = new WalletConnection(near)
-      this.accountId= wallet.getAccountId()
-
-      if (wallet.isSignedIn()) {
-        const url = "api/v1/profile/?wallet=" + this.accountId
-        this.axios.defaults.headers.common.Authorization='token'
-        this.axios.get(url)
-          .then((response) => {
-            if (response.data[0]){
-              this.avatar = response.data[0].avatar
-              this.$store.commit("Avatar", this.avatar)
-            }
-        }).catch((error) => {
-          alert(error)
-        })
-      }
-    },
     // use for update account log states
-    LogState() {
-      if (JSON.parse(localStorage.getItem('auth')) === true) {this.user = true}
-      else {this.user = false}
-    },
-    async signIn () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      wallet.requestSignIn(
-        'contract.nearbase.testnet'
-      )
-    },
-    async isSigned () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      if (wallet.isSignedIn()) {
-        localStorage.setItem('auth', true)
-        this.user = true
-      }
-    },
-    async signOut () {
-      const near = await connect(config);
-      const wallet = new WalletConnection(near)
-      wallet.signOut()
-      localStorage.setItem('auth', false)
-      this.user = false
-      this.$router.push(this.localePath({ path: '/' }))
-    },
   },
 };
 </script>

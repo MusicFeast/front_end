@@ -20,10 +20,10 @@
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
         <v-btn
-          v-if="!$parent.user"
+          v-if="!$store.state.dataUser.user"
           class="btn activeBtn"
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
-          :ripple="false" @click="$parent.signIn()">Connect</v-btn>
+          :ripple="false" @click="$store.commit('signIn')">Connect</v-btn>
 
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs}">
@@ -32,7 +32,7 @@
               style="--w:75%; --min-h: 30px; --p: .5em"
               :ripple="false"
               v-bind="attrs"
-              v-on="on">{{$parent.accountId}}</v-btn>
+              v-on="on">{{$store.state.dataUser.accountId}}</v-btn>
           </template>
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
@@ -61,7 +61,7 @@
               :ripple="false"
               class="btn activeBtn bold"
               style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
-              @click="$parent.signOut(); menuProfile = false; drawer = false">Log out</v-btn>
+              @click="$store.commit('signOut'); menuProfile = false; drawer = false">Log out</v-btn>
           </v-list>
         </v-menu>
       </section>
@@ -148,7 +148,7 @@ export default {
   },
   // created() {
   //   const theme = localStorage.getItem("theme");
-  //   this.OverlayMethod(theme);
+  //   this.overlayMethod(theme);
   // },
   mounted() {
     // this.isScrollTop();

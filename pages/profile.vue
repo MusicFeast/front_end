@@ -65,17 +65,25 @@
         v-for="(item,i) in dataNfts" :key="i"
         class="card divcol"
         :class="{
-          uranium: item.tier==='uranium',
-          diamond: item.tier==='diamond',
-          platinum: item.tier==='platinum',
-          gold: item.tier==='gold',
-          silver: item.tier==='silver',
-          bronze: item.tier==='bronze',
+          uranium: item.tier===6,
+          diamond: item.tier===5,
+          platinum: item.tier===4,
+          gold: item.tier===3,
+          silver: item.tier===2,
+          bronze: item.tier===1,
         }">
         <div
           class="container-img"
+          :class="{live: item.state === 'live'}"
           :style="
-            `--tag-tier: '${item.tier}';
+            `--tag-tier: '${
+              item.tier===1 ? 'bronze' :
+              item.tier===2 ? 'silver' :
+              item.tier===3 ? 'gold' :
+              item.tier===4 ? 'platinum' :
+              item.tier===5 ? 'diamond' :
+              item.tier===6 ? 'uranium' : ''
+            }';
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
         >
@@ -170,7 +178,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "gold",
+          tier: 3,
           state: "sold out",
         },
         {
@@ -180,7 +188,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "silver",
+          tier: 2,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -189,7 +197,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "platinum",
+          tier: 4,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -198,7 +206,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "diamond",
+          tier: 5,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -207,7 +215,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "uranium",
+          tier: 6,
           state: "sold out",
         },
         {
@@ -217,7 +225,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           editions: "250.00",
-          tier: "bronze",
+          tier: 1,
         },
       ],
       pagination: 0,
