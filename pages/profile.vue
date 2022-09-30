@@ -85,7 +85,8 @@
           gold: item.tier===3,
           silver: item.tier===2,
           bronze: item.tier===1,
-        }">
+        }"
+        :to="localePath(user.tier < 3 ? `/user-nft-details/` : `/user-nft-details-vip/`)">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
