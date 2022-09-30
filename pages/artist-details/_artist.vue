@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          :to="localePath(user.tier < 3 ? `/nft-details/` : `/nft-details-vip/`)">
+          :to="localePath(`/nft-details/`)">
           <div
             class="container-img"
             :style="`--tag: '${

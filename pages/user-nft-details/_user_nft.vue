@@ -9,7 +9,7 @@
       silver: nft.tier===2,
       bronze: nft.tier===1,
     }">
-    <ModalsNftDetails></ModalsNftDetails>
+    <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
       <div class="header-background divcol">
@@ -56,8 +56,12 @@
         </div>
 
         <div class="center gap2 wrap bold">
-          <v-btn :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)">sell</v-btn>
-          <v-btn :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px">Redeem</v-btn>
+          <v-btn
+            :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
+            @click="$refs.modal.modalSell = true">sell</v-btn>
+          <v-btn
+            :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
+            @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
         </div>
       </article>
     </section>
@@ -140,7 +144,10 @@
       </template>
       
       <template #[`item.offer`]>
-        <v-btn :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)">Make an Offer</v-btn>
+        <v-btn
+          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)"
+          @click="$refs.modal.modalOffer = true"
+        >Make an Offer</v-btn>
       </template>
     </v-data-table>
 

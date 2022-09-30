@@ -101,7 +101,6 @@
       --spacing: .5em;
       padding-bottom: 2em;
       @include media(max, 700px) {--max-w-child: 400px; margin-inline: auto}
-      gap: calc(20px + 5px);
       transition: .5s $ease;
       &.uranium:hover {--bg: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
       &.diamond:hover {--bg: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
@@ -109,8 +108,12 @@
       &.gold:hover {--bg: linear-gradient(to top right, #EE9938, #672F04)}
       &.silver:hover {--bg: linear-gradient(to top right, #D1D1D1, #000000)}
       &.bronze:hover {--bg: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
+      .container-content {
+        position: relative;
+        margin-top: calc(20px + 5px)
+      }
       .v-avatar {
-        @include absolute(0,auto,0,-20px);
+        @include absolute(0,-50px,0,);
       }
       a {font-size: 0.9375em; text-decoration: underline; margin-bottom: .3em}
       p {font-size: 0.8125em}

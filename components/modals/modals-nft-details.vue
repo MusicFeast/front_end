@@ -1,5 +1,15 @@
 <template>
   <div id="nft-details-modals">
+    <v-dialog v-model="modalSell">
+    </v-dialog>
+
+
+    <v-dialog v-model="modalOffer">
+    </v-dialog>
+
+
+    <v-dialog v-model="modalRedemption">
+    </v-dialog>
   </div>
 </template>
 
@@ -8,6 +18,9 @@ export default {
   name: "NftDetailsModals",
   data() {
     return {
+      modalSell: false,
+      modalOffer: false,
+      modalRedemption: false,
     };
   },
   methods: {
