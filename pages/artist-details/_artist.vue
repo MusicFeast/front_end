@@ -78,7 +78,8 @@
             silver: item.tier===2,
             bronze: item.tier===1,
             active: active
-          }">
+          }"
+          :to="localePath(`/nft-details/`)">
           <div
             class="container-img"
             :style="`--tag: '${
@@ -126,7 +127,7 @@
         </div>
 
         <div class="container-actions divcol">
-          <a @click="$router.push(localePath(`/collection-details/`))">More Details</a>
+          <a @click="$router.push(localePath(`/nft-details/`))">More Details</a>
           <v-btn :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)">Buy</v-btn>
         </div>
       </v-sheet>
@@ -159,7 +160,7 @@
 
     <v-expansion-panels class="custome-expansion">
       <v-expansion-panel v-for="(item,i) in dataEvents" :key="i">
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="$router.push(localePath(`/event/`))">
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="$router.push(localePath(`/event-details/`))">
           {{item.event}}
         </v-expansion-panel-header>
       </v-expansion-panel>
@@ -187,7 +188,7 @@
     </h2>
 
     <section class="container-collections grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap:2em">
-      <v-card v-for="(item,i) in dataCollections" :key="i" class="card divcol">
+      <v-card v-for="(item,i) in dataCollections" :key="i" class="card divcol" :to="localePath(`/collection-details/`)">
         <div
           class="container-img"
           :style="`--tag: '${item.state}'`"

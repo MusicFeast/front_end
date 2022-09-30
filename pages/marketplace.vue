@@ -11,7 +11,7 @@
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataCarousel.length">
-              <v-card :key="i" class="card divcol">
+              <v-card :key="i" class="card divcol" :to="localePath(`/collection-details/`)">
                 <div
                   class="container-img"
                   :style="`--tag: '${dataCarousel[+index + i].state}'`"
@@ -98,7 +98,7 @@
         v-model="item.model"
         :items="item.list"
         hide-details solo
-        :label="item.key==='filterB'?'Sort by:':''"
+        :label="item.key==='filterA'?'by Tier:':'Sort by:'"
         style="--p: 0 1em 0 2em"
       ></v-select>
     </section>
@@ -115,7 +115,8 @@
           gold: item.tier===3,
           silver: item.tier===2,
           bronze: item.tier===1,
-        }">
+        }"
+        :to="localePath(`/collection-details/`)">
         <div
           class="container-img"
           :style="`--tag: '${
@@ -250,8 +251,8 @@ export default {
       dataFilters: [
         {
           key: "filterA",
-          model: "by Tier",
-          list: ["by Tier", "by Name"],
+          model: "",
+          list: ["Uranium", "Diamond", "platinum", "gold", "silver", "bronze"],
         },
         {
           key: "filterB",

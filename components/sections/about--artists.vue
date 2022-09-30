@@ -43,7 +43,7 @@
         >
           <v-card
             :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false"
-            @click="$router.push(localePath(`/artist-details`))">
+            :to="localePath(`/artist-details/`)">
             <v-sheet>
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>

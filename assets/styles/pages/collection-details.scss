@@ -1,8 +1,7 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-/* // // collection-details // // */ 
+/* // // profile // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-#collection-details {
-  --padding-header: clamp(1em, 4vw, 4em);
+#profile {
   position: relative;
   padding-inline: var(--margin-global);
   padding-bottom: 4em;
@@ -10,70 +9,204 @@
   .header {
     width: 100vw;
     margin-inline: calc(50% - 50vw);
-    @include media(min, small) {--gtc: repeat(2, 1fr)}
-    &-background {
-      @include media(max, small) {height: 400px}
-      background: no-repeat center url(../../sources/images/img-event-header.jpg);
-      background-size: cover;
-      padding: var(--padding-header);
+    min-height: 451px;
+    background: no-repeat center var(--bg-image);
+    background-color: #fff;
+    background-size: cover;
+    position: relative;
+
+    display: grid;
+    place-items: center;
+    // tier tag
+    &::before {
+      content: var(--tag-tier);
+      @include absolute(0,5px,0);
+
+      @include btn;
+      --bg: var(--bg-tier);
+      --min-w: clamp(5em, 8vw, 8em);
+      --w: max-content;
+      --br: 0;
+      --fs: 1.5em;
+      --p: 8px 1em;
+      font-weight: 700;
+      text-transform: capitalize;
+      text-align: center;
+      
+      transform: translateY(-100px);
+      transition: .3s $ease-return;
     }
-    article {
-      --br: none;
-      padding: calc(var(--padding-header) * 2);
-      padding-bottom: calc(var(--padding-header) * 2 + 2em);
-      .v-btn span {text-transform: capitalize}
-      div .v-btn.btn {
-        --br: 5px;
-        --w: max-content;
-        --bg: linear-gradient(to right, #EE3938, #000000);
-        --min-h: 2.3em;
-        --fs: 12.8px;
-        --p: 0 1.5em;
-        font-weight: 600;
+    &.hover::before {transform: translateY(0)}
+
+    .v-avatar {
+      isolation: isolate;
+      position: relative;
+      overflow: visible;
+      // gradient background
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -20px;
+        border-radius: 50%;
+        background: var(--bg-tier);
+        z-index: -1;
+      }
+      img {
+        --w: 100%;
+        --br: 50%;
+        --of: cover;
+      }
+    }
+    .v-btn, label {
+      --fs: 16px;
+      --h: 28px;
+      --br: 4px;
+      --bg: #280909;
+      --p: 0 clamp(1em, 2vw, 2em);
+      font-weight: 600;
+      position: absolute;
+      left: calc(var(--margin-global) + var(--margin-separator));
+      bottom: 1.5em;
+    }
+    label {
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  .container-user {
+    --padding: 2em;
+    position: relative;
+    padding: var(--padding);
+    &--social {
+      position: absolute;
+      top: calc(var(--padding) / 1.5);
+      right: 0;
+    }
+    h2 {
+      @include media(max, 1000px) {margin-top: 1.5em}
+      font-size: 2.5em;
+      text-align: center;
+    }
+    p {font-size: 1.1em; line-height: 1.2}
+  }
+
+  .container-nfts {
+    --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 2em;
+    margin-block: 4em;
+    margin-inline: var(--margin-separator);
+    .v-card {
+      --spacing: .5em;
+      padding-bottom: 2em;
+      @include media(max, 700px) {--max-w-child: 400px; margin-inline: auto}
+      gap: calc(20px + 5px);
+      transition: .5s $ease;
+      &.uranium:hover {--bg: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
+      &.diamond:hover {--bg: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+      &.platinum:hover {--bg: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
+      &.gold:hover {--bg: linear-gradient(to top right, #EE9938, #672F04)}
+      &.silver:hover {--bg: linear-gradient(to top right, #D1D1D1, #000000)}
+      &.bronze:hover {--bg: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
+      .v-avatar {
+        @include absolute(0,auto,0,-20px);
+      }
+      a {font-size: 0.9375em; text-decoration: underline; margin-bottom: .3em}
+      p {font-size: 0.8125em}
+      span.floor {font-size: 0.9375em; font-weight: bold}
+      .container-img {
+        position: relative;
+        // tag state
+        &::before {
+          content: var(--tag-state);
+          position: absolute;
+          right: var(--spacing);
+          top: var(--spacing);
+
+          display: grid;
+          place-content: center;
+
+          @include btn;
+          --br: 5px;
+          --w: max-content;
+          --bg: linear-gradient(to right, #EE3938, #000000);
+          --min-h: 2.3em;
+          --fs: 12.8px;
+          --p: 0 1.5em;
+          font-weight: 600;
+          text-transform: capitalize;
+        }
+        &.live:before {--bs: inset 0 0 1px 1px #fff}
+        // tag tier
+        &::after {
+          content: var(--tag-tier);
+          position: absolute;
+          left: 0;
+          bottom: 0;
+
+          display: grid;
+          place-content: center;
+
+          @include btn;
+          --br: 5px;
+          --w: max-content;
+          --min-h: 2.3em;
+          --fs: 12.8px;
+          --p: 0 1.5em;
+          font-weight: 600;
+          text-transform: capitalize;
+        }
+      }
+      &.uranium .container-img::after {--bg: linear-gradient(to right, #87B95C, #9F9B1B, #0C4020)}
+      &.diamond .container-img::after {--bg: linear-gradient(to right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+      &.platinum .container-img::after {--bg: linear-gradient(to right, #DBD9D7, #D27073, #503367, #000000)}
+      &.gold .container-img::after {--bg: linear-gradient(to right, #EE9938, #672F04)}
+      &.silver .container-img::after {--bg: linear-gradient(to right, #D1D1D1, #000000)}
+      &.bronze .container-img::after {--bg: linear-gradient(to right, #7D3716, #D57535, #5E170B)}
+    }
+  }
+
+  // edit profile
+  .v-form {
+    margin-block: 6em;
+    gap: 3em;
+    h2 {
+      padding-inline: 30px;
+      padding-bottom: .5em;
+      position: relative;
+      &::after {
+        content: "";
+        @include absolute(0,auto,0,0);
+        width: 100%;
+        height: 1px;
+        background-color: var(--primary);
+      }
+    }
+    section.card {
+      --bg: rgba(0, 0, 0, .4);
+      --p:3em;
+      label {
+        font-weight: bold;
+        font-size: 1.3em;
         text-transform: capitalize;
       }
-      h2 {font-size: 3.5em}
-      span:not(.v-btn__content), p {font-weight: 500; font-size: 1.05em}
-      p {line-height: 1.2}
-    }
-  }
-
-  .container-profit {
-    --margin-block: 0;
-    --margin-inline: calc(50% - 50vw);
-    width: 100vw;
-  }
-
-  h2#buy {
-    margin-block: 4em 15px;
-    font-size: 1.5em;
-    padding: 1em 1.5em;
-    background-color: rgba(0, 0, 0, .4);
-  }
-
-  .v-data-table {
-    margin-bottom: 3em;
-    padding: 1.5em;
-    background-color: rgba(0, 0, 0, .4);
-    * {border-color: var(--accent)}
-    thead {
-      tr {
-        th {
-          span {
-            font-size: 1.125em;
-            text-transform: uppercase;
-            font-weight: 600;
-          }
+      .v-input {
+        overflow: hidden;
+        padding-top: 0;
+        &__slot::before {
+          background-color: #6e6e6e;
+          border-color: #6e6e6e;
         }
+        textarea {height: 80px !important}
       }
     }
-    tbody {
-      tr {
-        td {
-          padding-block: 1em;
-          font-weight: 700;
-        }
-        &:hover {background-color: transparent}
+    > div.center > .v-btn {
+      --fs: 16px;
+      --br: 4px;
+      &:first-of-type {
+        --bg: #fff;
+        --c: var(--primary);
       }
     }
   }

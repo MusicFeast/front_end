@@ -83,8 +83,8 @@
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
         <v-list class="fill_w">
           <v-list-item
-            v-for="(item,i) in $parent.dataLinks" :key="i" :ripple="false" link :class="{active: item.active}"
-            @click="$router.push(localePath(item.to)); $parent.dataLinks.forEach(e=>e.active=false); item.active=true; drawer = false">
+            v-for="(item,i) in $parent.dataLinks" :key="i" :ripple="false" link :class="{active: item.active}" :to="localePath(item.to)"
+            @click="$parent.dataLinks.forEach(e=>e.active=false); item.active=true; drawer = false">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content" class="tcap">
                 {{ item.name }}

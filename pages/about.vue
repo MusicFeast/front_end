@@ -17,7 +17,9 @@
       <aside class="container-team--photo">
         <v-sheet color="transparent">
           <div>
-            <v-btn v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank">
+            <v-btn
+              v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank"
+              :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
               <v-icon color="var(--accent)">{{item2.icon}}</v-icon>
             </v-btn>
           </div>

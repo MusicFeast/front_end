@@ -10,7 +10,7 @@
         <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn>
         <v-btn
           class="btn" style="--w: 8.5em"
-          @click="$router.push(localePath($store.state.dataUser.tier <= 2 ? '/marketplace' : '/marketplace-vip'))"
+          :to="localePath('/marketplace')"
           >Marketplace</v-btn>
       </div>
     </article>

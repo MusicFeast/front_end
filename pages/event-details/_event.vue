@@ -320,4 +320,4 @@ export default {
 };
 </script>
 
-<style src="~/assets/styles/pages/event.scss" lang="scss" />
+<style src="~/assets/styles/pages/event-details.scss" lang="scss" />

@@ -1,0 +1,88 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // nft-details // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#nft-details {
+  --padding-header: clamp(1em, 4vw, 4em);
+  position: relative;
+  padding-inline: var(--margin-global);
+  padding-bottom: 4em;
+  --bg-tier-artist: #280909;
+  &.uranium {--bg-tier-artist: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
+  &.diamond {--bg-tier-artist: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+  &.platinum {--bg-tier-artist: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
+  &.gold {--bg-tier-artist: linear-gradient(to top right, #EE9938, #672F04)}
+  &.silver {--bg-tier-artist: linear-gradient(to top right, #D1D1D1, #000000)}
+  &.bronze {--bg-tier-artist: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
+
+  .header {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    @include media(min, small) {--gtc: repeat(2, 1fr)}
+    &-background {
+      @include media(max, small) {height: 400px}
+      background: no-repeat center url(../../sources/images/img-event-header.jpg);
+      background-size: cover;
+      padding: var(--padding-header);
+    }
+    article {
+      --br: none;
+      --font-text: 1.25em;
+      padding: calc(var(--padding-header) * 2);
+      padding-bottom: calc(var(--padding-header) * 2 + 2em);
+      .v-btn span {text-transform: capitalize}
+      .tag {
+        --br: 5px;
+        --w: max-content;
+        --bg: var(--bg-tier-artist);
+        --min-h: 2.3em;
+        --fs: 12.8px;
+        --p: 0 1.5em;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+      h2 {font-size: 3.5em}
+      span:not(.v-btn__content), p {font-weight: 500; font-size: var(--font-text)}
+      p {line-height: 1.2}
+    }
+  }
+
+  .container-profit {
+    --margin-block: 0;
+    --margin-inline: calc(50% - 50vw);
+    width: 100vw;
+  }
+
+  h2#buy {
+    margin-block: 4em 15px;
+    font-size: 1.5em;
+    padding: 1em 1.5em;
+    background-color: rgba(0, 0, 0, .4);
+  }
+
+  .v-data-table {
+    margin-bottom: 3em;
+    padding: 1.5em;
+    background-color: rgba(0, 0, 0, .4);
+    * {border-color: var(--accent)}
+    thead {
+      tr {
+        th {
+          span {
+            font-size: 1.125em;
+            text-transform: uppercase;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          padding-block: 1em;
+          font-weight: 700;
+        }
+        &:hover {background-color: transparent}
+      }
+    }
+  }
+}

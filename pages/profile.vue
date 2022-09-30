@@ -69,7 +69,7 @@
         v-model="item.model"
         :items="item.list"
         hide-details solo
-        :label="item.key==='filterB'?'Sort by:':''"
+        :label="item.key==='filterA'?'by Tier:':'Sort by:'"
         style="--p: 0 1em 0 2em"
       ></v-select>
     </section>
@@ -175,8 +175,8 @@ export default {
       dataFilters: [
         {
           key: "filterA",
-          model: "by Tier",
-          list: ["by Tier", "by Name"],
+          model: "",
+          list: ["Uranium", "Diamond", "platinum", "gold", "silver", "bronze"],
         },
         {
           key: "filterB",

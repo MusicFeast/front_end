@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-card
                 :key="i" :class="{active: dataCarousel[+index + i].active}" :style="`--bg-image: url('${dataCarousel[+index + i].img}')`" :ripple="false"
-                @click="$router.push(localePath(`/artist-details`))">
+                :to="localePath(`/artist-details/`)">
                 <v-sheet>
                   <div class="divcol">
                     <h3>{{dataCarousel[+index + i].name}} n°{{i+1}}</h3>

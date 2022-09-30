@@ -1,125 +1,125 @@
 <template>
   <div id="collection-details" class="divcol">
-    <section class="header grid">
-      <div class="header-background divcol">
-        <div class="center gap1 marginaright">
+    <section
+      class="header"
+      :style="`
+        --bg-image: url(${profileBanner});
+        --tag-tier: '${
+          user.tier===1 ? 'bronze' :
+          user.tier===2 ? 'silver' :
+          user.tier===3 ? 'gold' :
+          user.tier===4 ? 'platinum' :
+          user.tier===5 ? 'diamond' :
+          user.tier===6 ? 'uranium' : 'user'
+        }'
+      `">
+      <v-avatar
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+        @mouseenter="showTag()" @mouseleave="hideTag()">
+        <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+      </v-avatar>
+      <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
+    </section>
+
+    <section class="container-user">
+      <aside class="container-user--social center gap1">
+        <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
+          <v-icon size="clamp(2em, 2.4vw, 2.4em)" :style="i===0 ? 'transform: rotate(-50deg)' : ''">{{item.icon}}</v-icon>
+        </v-btn>
+      </aside>
+
+      <h2 class="p">Username #35461</h2>
+
+      <section class="container-profit bold fwrap align" style="max-width: 62.616875em">
+        <v-sheet color="transparent" class="divcol center">
+          <span>Total NFTs</span>
+          <span>{{dataProfits.nfts}}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>Chat Enabled</span>
+          <span>{{dataProfits.chats}}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>All Time High</span>
+          <span>{{dataProfits.high}}</span>
+        </v-sheet>
+      </section>
+
+      <p class="p">
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam 
+        erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo 
+        consequat.
+      </p>
+    </section>
+
+    <h2 class="Title tup">my nfts</h2>
+
+    <section class="container-filters fwrap gap2" style="--fb: 200px">
+      <v-text-field
+        v-model="search"
+        hide-details solo
+        append-icon="mdi-magnify"
+        label="Search for NFTs Name, Artist, Event &amp; Collections"
+        style="--p: 0 1em 0 2em"
+        class="search"
+      ></v-text-field>
+
+      <v-select
+        v-for="(item,i) in dataFilters" :key="i"
+        v-model="item.model"
+        :items="item.list"
+        hide-details solo
+        :label="item.key==='filterA'?'by Tier:':'Sort by:'"
+        style="--p: 0 1em 0 2em"
+      ></v-select>
+    </section>
+
+    <section class="container-nfts grid">
+      <v-card
+        v-for="(item,i) in dataNfts" :key="i"
+        class="card divcol"
+        :class="{
+          uranium: item.tier===6,
+          diamond: item.tier===5,
+          platinum: item.tier===4,
+          gold: item.tier===3,
+          silver: item.tier===2,
+          bronze: item.tier===1,
+        }">
+        <div
+          class="container-img"
+          :class="{live: item.state === 'live'}"
+          :style="
+            `--tag-tier: '${
+              item.tier===1 ? 'bronze' :
+              item.tier===2 ? 'silver' :
+              item.tier===3 ? 'gold' :
+              item.tier===4 ? 'platinum' :
+              item.tier===5 ? 'diamond' :
+              item.tier===6 ? 'uranium' : 'user'
+            }';
+            ${item.state ? `--tag-state: '${item.state}'` : ''}`
+          "
+        >
+          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
+          
           <v-avatar style="border: 2px solid #fff">
-            <img src="@/assets/sources/images/avatar.jpg" alt="artist image" style="--of: cover">
+            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
           </v-avatar>
-          <span>Artist Name</span>
         </div>
-      </div>
+        
+        <div class="container-content tcenter">
+          <a>{{item.name}}</a>
+          <p>{{item.desc}}</p>
 
-      <article class="card divcol gap2">
-        <div class="divcol gap1">
-          <div class="space gap1">
-            <v-btn class="btn" style="--fs: 1.05em">sold out</v-btn>
-
-            <div class="center" style="gap: .2em">
-              <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
-                <v-icon>{{item.icon}}</v-icon>
-              </v-btn>
-            </div>
+          <div class="center" style="gap: 6.4px">
+            <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
+            <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
           </div>
-
-          <h2 class="p tup">Name or title of the event</h2>
+          <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
         </div>
-
-        <span>Name of the artist</span>
-
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna 
-          aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-          ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-          eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue 
-          duis dolore te feugait nulla
-        </p>
-
-        <v-btn :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 12.8px">Buy</v-btn>
-      </article>
+      </v-card>
     </section>
-
-    <section class="container-profit bold fwrap">
-      <v-sheet color="transparent" class="divcol center">
-        <span>Total Tickets</span>
-        <span>{{dataProfits.total_tickets}}</span>
-      </v-sheet>
-      <v-sheet color="transparent" class="divcol center">
-        <span>Owners</span>
-        <span>{{dataProfits.owners}}</span>
-      </v-sheet>
-      <v-sheet color="transparent" class="divcol center">
-        <span>Price</span>
-        <div class="acenter" style="gap: .5em">
-          <span>{{dataProfits.price}}</span>
-          <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em">
-        </div>
-      </v-sheet>
-      <v-sheet color="transparent" class="divcol center">
-        <span>Tickets Sold</span>
-        <span>{{dataProfits.tickets_sold}}</span>
-      </v-sheet>
-      <v-sheet color="transparent" class="divcol center">
-        <span>Lorem Ipsum</span>
-        <span>{{dataProfits.lorem_ipsum}}</span>
-      </v-sheet>
-    </section>
-
-    <h2 id="buy">Buy NFT</h2>
-
-    <v-data-table
-      :headers="tableHeaders"
-      :items="tableItems"
-      hide-default-footer
-      mobile-breakpoint="-1"
-    >
-      <template #[`header.number`]>
-        <center class="center">
-          <span>edition number</span>
-          <v-icon :class="{reverse: false}" size="2.2em">mdi-menu-down</v-icon>
-        </center>
-      </template>
-      
-      <template #[`header.price`]>
-        <center class="center">
-          <span>price</span>
-          <v-icon :class="{reverse: false}" size="2.2em">mdi-menu-down</v-icon>
-        </center>
-      </template>
-
-      <template #[`item.vault`]="{ item }">
-        <span :style="`--c:${item.vault ? '#26A17B' : ''}`">{{item.vault ? 'Yes' : 'No'}}</span>
-      </template>
-      
-      <template #[`item.seller`]="{ item }">
-        <center class="center" style="gap:10px">
-          <v-avatar style="border: 2px solid #fff">
-            <img :src="item.seller_avatar" alt="artist avatar" style="--of: cover">
-          </v-avatar>
-          <span>{{item.seller}}</span>
-        </center>
-      </template>
-      
-      <template #[`item.price`]="{ item }">
-        <center v-if="item.price" class="divcol" style="gap: 5px">
-          <span>{{item.price}} N</span>
-          <span class="normal">$ {{conversion(item.price)}}</span>
-        </center>
-
-        <center v-else class="divcol" style="gap: 5px">
-          <span>---</span>
-          <span>---</span>
-        </center>
-      </template>
-      
-      <template #[`item.buy`]>
-        <v-btn :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px">Buy</v-btn>
-      </template>
-      
-      <template #[`item.offer`]>
-        <v-btn :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)">Make an Offer</v-btn>
-      </template>
-    </v-data-table>
 
     <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
       <button
@@ -138,66 +138,144 @@
         <v-icon size="2em">mdi-play</v-icon>
       </button>
     </v-btn-toggle>
+
+    <h2 class="Title tup">chat</h2>
+
+    <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
+      <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">
+          <div class="acenter" style="gap:.5em">
+            <v-icon size="1.5em">{{item.icon}}</v-icon>
+            <span class="tcap">{{item.chat}}</span>
+          </div>
+        </v-expansion-panel-header>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CollectionDetailsPage",
+  name: "CollectionPage",
   data() {
     return {
+      profileBanner: require('~/assets/sources/images/img-header-profile.jpg'),
       dataSocial: [
-        { icon: "mdi-instagram", link: "#" },
+        { icon: "mdi-link" },
         { icon: "mdi-twitter", link: "#" },
-        { icon: "mdi-facebook", link: "#" },
         { icon: "discord", link: "#" },
+        { icon: "telegram", link: "#" },
       ],
       dataProfits: {
-        total_tickets: 125,
-        owners: 85,
-        price: 520.00 ,
-        tickets_sold: 100,
-        lorem_ipsum: 205,
+        nfts: 7659,
+        chats: 3,
+        high: 120.45,
       },
-      tableHeaders: [
-        { value: "number", text: "edition number", align: "start", sortable: false },
-        { value: "vault", text: "vault item", align: "center", sortable: false },
-        { value: "seller", text: "seller", align: "center", sortable: false },
-        { value: "price", text: "price", align: "center", sortable: false },
-        { value: "buy", align: "center", sortable: false },
-        { value: "offer", align: "center", sortable: false },
+      search: "",
+      dataFilters: [
+        {
+          key: "filterA",
+          model: "",
+          list: ["Uranium", "Diamond", "platinum", "gold", "silver", "bronze"],
+        },
+        {
+          key: "filterB",
+          model: "",
+          list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
+        },
       ],
-      tableItems: [
+      dataNfts: [
         {
-          number: "#1",
-          vault: true,
-          seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/images/avatar.jpg"),
-          price: "174",
+          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          avatar: require("~/assets/sources/images/avatar.jpg"),
+          name: "Artist Name o Collection  n°5",
+          desc: "Lorem ipsum dolor sit amet,",
+          floor_price: "250.00",
+          editions: "250.00",
+          tier: 3,
+          state: "sold out",
         },
         {
-          number: "#123",
-          vault: false,
-          seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/images/avatar.jpg"),
-          price: "174",
+          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          avatar: require("~/assets/sources/images/avatar.jpg"),
+          name: "Artist Name o Collection  n°5",
+          desc: "Lorem ipsum dolor sit amet,",
+          floor_price: "250.00",
+          editions: "250.00",
+          tier: 2,
         },
         {
-          number: "#123",
-          vault: false,
-          seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/images/avatar.jpg"),
+          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          avatar: require("~/assets/sources/images/avatar.jpg"),
+          name: "Artist Name o Collection  n°5",
+          desc: "Lorem ipsum dolor sit amet,",
+          floor_price: "250.00",
+          editions: "250.00",
+          tier: 4,
+        },
+        {
+          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          avatar: require("~/assets/sources/images/avatar.jpg"),
+          name: "Artist Name o Collection  n°5",
+          desc: "Lorem ipsum dolor sit amet,",
+          floor_price: "250.00",
+          editions: "250.00",
+          tier: 5,
+        },
+        {
+          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          avatar: require("~/assets/sources/images/avatar.jpg"),
+          name: "Artist Name o Collection  n°5",
+          desc: "Lorem ipsum dolor sit amet,",
+          floor_price: "250.00",
+          editions: "250.00",
+          tier: 6,
+          state: "sold out",
+        },
+        {
+          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          avatar: require("~/assets/sources/images/avatar.jpg"),
+          name: "Artist Name o Collection  n°5",
+          desc: "Lorem ipsum dolor sit amet,",
+          floor_price: "250.00",
+          editions: "250.00",
+          tier: 1,
         },
       ],
       pagination: 0,
+      dataChats: [
+        { icon: "discord", chat: "discord artist name 1" },
+        { icon: "discord", chat: "discord artist name 2" },
+        { icon: "discord", chat: "discord artist name 3" },
+      ],
     }
   },
+  computed: {
+    user() {return this.$store.state.dataUser},
+  },
   mounted() {
+    const pageName = 'collection-details';
+    const page = document.querySelector(`#${pageName}`);
+    
+    // listener to h2
+    const heightH2 = () => {
+      document.querySelectorAll('h2.Title').forEach(e => {
+        const h2Rect = e.getBoundingClientRect().height;
+        page.style.setProperty('--h-title', `${h2Rect}px`)
+      });
+    };
+    heightH2();
+    
+    // resize listener
+    window.addEventListener('resize', () => {
+      if (this.$route.path===`/${pageName}`) {
+        heightH2()
+      };
+    });
   },
   methods: {
-    conversion(price) {
-      return price / 2
-    },
+    showTag() {document.querySelector(".header").classList.add("hover")},
+    hideTag() {document.querySelector(".header").classList.remove("hover")},
   }
 };
 </script>
