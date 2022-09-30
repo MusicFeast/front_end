@@ -111,13 +111,18 @@ export default {
         { name: "about", to: "/about", active: false },
         { name: "artists", to: "/artists", active: false },
         { name: "news", to: "/news-details", active: false },
-        { name: "marketplace", to: "/marketplace", active: false },
+        { name: "marketplace", to: "", active: false },
         { name: "contact", to: "/", active: false },
       ],
     };
   },
   computed: {
     user() {return this.$store.state.dataUser},
+  },
+  mounted() {
+    this.user.tier < 3 
+    ? this.dataLinks[this.dataLinks.findIndex(e=>e.name==='marketplace')].to = '/marketplace'
+    : this.dataLinks[this.dataLinks.findIndex(e=>e.name==='marketplace')].to = '/marketplace-vip'
   },
   // created() {
   //   const theme = localStorage.getItem("theme");

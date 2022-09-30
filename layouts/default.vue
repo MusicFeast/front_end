@@ -2,7 +2,7 @@
   <v-app
     id="layout" class="relative" :style="$route.path==='/about'?'overflow:hidden':''"
     :class="{
-      vip: $route.path==='/marketplace-vip',
+      vip: $route.path==='/marketplace-vip' || $route.path==='/nft-details-vip',
       uranium: user.tier===6,
       diamond: user.tier===5,
       platinum: user.tier===4,

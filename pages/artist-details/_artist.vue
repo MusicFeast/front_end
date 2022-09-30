@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          :to="localePath(`/nft-details/`)">
+          :to="localePath(user.tier < 3 ? `/nft-details/` : `/nft-details-vip/`)">
           <div
             class="container-img"
             :style="`--tag: '${
@@ -400,6 +400,9 @@ export default {
         { icon: "discord", chat: "discord" },
       ],
     }
+  },
+  computed: {
+    user() {return this.$store.state.dataUser},
   },
   mounted() {
     const pageName = 'artist-details';

@@ -4,7 +4,10 @@
 #layout {
   background: center no-repeat var(--bg-ap);
   background-size: cover;
-  &.vip {background-image: linear-gradient(to right top, #F7931E, #7C4A0F)}
+  &.vip {
+    background-image: linear-gradient(to right top, #F7931E, #7C4A0F);
+    #header {background-image: linear-gradient(to right top, #F7931E, #7C4A0F) !important}
+  }
   // tier background
   --bg-tier: #280909;
   &.uranium {--bg-tier: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}

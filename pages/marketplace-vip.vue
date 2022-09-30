@@ -147,7 +147,7 @@
       </v-card>
     </section>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" active-class="custome">
+    <v-btn-toggle v-model="pagination" mandatory class="pagination align" active-class="activeClassVip">
       <button
         :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
         @click="pagination > 0 ? pagination-- : ''"

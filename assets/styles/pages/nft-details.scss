@@ -85,4 +85,9 @@
       }
     }
   }
+
+  &.vip {
+    .pagination {background-color: var(--accent)}
+    #buy {background-color: hsl(0, 84%, 30%, .45)}
+  }
 }

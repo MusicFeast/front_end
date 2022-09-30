@@ -10,7 +10,7 @@
         <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn>
         <v-btn
           class="btn" style="--w: 8.5em"
-          :to="localePath('/marketplace')"
+          :to="localePath(user.tier < 3 ? '/marketplace' : '/marketplace-vip')"
           >Marketplace</v-btn>
       </div>
     </article>
@@ -23,6 +23,9 @@ export default {
   data() {
     return {
     }
+  },
+  computed: {
+    user() {return this.$store.state.dataUser},
   },
   methods: {
   }

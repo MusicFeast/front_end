@@ -1,6 +1,6 @@
 <template>
   <div
-    id="nft-details" class="divcol"
+    id="nft-details" class="divcol vip"
     :class="{
       uranium: nft.tier===6,
       diamond: nft.tier===5,
@@ -10,7 +10,7 @@
       bronze: nft.tier===1,
     }">
     <ModalsNftDetails></ModalsNftDetails>
-
+    
     <section class="header grid">
       <div class="header-background divcol">
         <div class="center gap1 marginaright">
@@ -144,7 +144,7 @@
       </template>
     </v-data-table>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
+    <v-btn-toggle v-model="pagination" mandatory class="pagination align" active-class="activeClassVip">
       <button
         :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
         @click="pagination > 0 ? pagination-- : ''"
