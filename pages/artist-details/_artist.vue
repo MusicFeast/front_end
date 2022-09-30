@@ -92,13 +92,12 @@
             }'`"
           >
             <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
-            
-            <v-avatar style="border: 2px solid #fff">
-              <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
-            </v-avatar>
           </div>
           
           <div class="container-content tcenter">
+            <v-avatar style="border: 2px solid #fff">
+              <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
+            </v-avatar>
             <a>{{item.name}}</a>
             <p>{{item.desc}}</p>
 
