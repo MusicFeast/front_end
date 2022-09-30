@@ -5,16 +5,6 @@
   position: relative;
   padding-inline: var(--margin-global);
 
-  @include media(max, 1000px) {
-    h2.Title {
-      margin-bottom: calc(var(--h-title) / 2) !important;
-      &::after {
-        height: calc(var(--h-title) / 2);
-        transform: translateY(calc(var(--h-title))) !important;
-      }
-    }
-  }
-
   &--content {
     padding-inline: var(--margin-separator);
     h3 {font-size: 1.875em; text-transform: capitalize}

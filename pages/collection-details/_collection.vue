@@ -1,60 +1,52 @@
 <template>
   <div id="collection-details" class="divcol">
-    <section
-      class="header"
-      :style="`
-        --bg-image: url(${profileBanner});
-        --tag-tier: '${
-          user.tier===1 ? 'bronze' :
-          user.tier===2 ? 'silver' :
-          user.tier===3 ? 'gold' :
-          user.tier===4 ? 'platinum' :
-          user.tier===5 ? 'diamond' :
-          user.tier===6 ? 'uranium' : 'user'
-        }'
-      `">
+    <section class="header" :style="`--bg-image: url(${profileBanner})`">
       <v-avatar
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
-        @mouseenter="showTag()" @mouseleave="hideTag()">
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em">
         <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
       </v-avatar>
-      <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
     </section>
 
     <section class="container-user">
       <aside class="container-user--social center gap1">
         <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
-          <v-icon size="clamp(2em, 2.4vw, 2.4em)" :style="i===0 ? 'transform: rotate(-50deg)' : ''">{{item.icon}}</v-icon>
+          <v-icon size="clamp(2em, 2.4vw, 2.4em)">{{item.icon}}</v-icon>
         </v-btn>
       </aside>
 
-      <h2 class="p">Username #35461</h2>
+      <h2 class="p">Name Collections #35461</h2>
 
-      <section class="container-profit bold fwrap align" style="max-width: 62.616875em">
-        <v-sheet color="transparent" class="divcol center">
-          <span>Total NFTs</span>
-          <span>{{dataProfits.nfts}}</span>
-        </v-sheet>
-        <v-sheet color="transparent" class="divcol center">
-          <span>Chat Enabled</span>
-          <span>{{dataProfits.chats}}</span>
-        </v-sheet>
-        <v-sheet color="transparent" class="divcol center">
-          <span>All Time High</span>
-          <span>{{dataProfits.high}}</span>
-        </v-sheet>
-      </section>
-
-      <p class="p">
+      <p style="margin-block: 2em 2.5em">
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam 
         erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo 
         consequat.
       </p>
+      
+      <section class="container-profit bold fwrap align" style="--margin-block: 0">
+        <v-sheet color="transparent" class="divcol center">
+          <span>Total NFTs</span>
+          <span>{{dataProfits.editions}}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>Owners</span>
+          <span>{{dataProfits.owners}}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>Floor Price</span>
+          <span>$ {{dataProfits.floor_price}}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>Listing</span>
+          <span>{{dataProfits.listing}}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>All Time High</span>
+          <span>$ {{dataProfits.high}}K</span>
+        </v-sheet>
+      </section>
     </section>
 
-    <h2 class="Title tup">my nfts</h2>
-
-    <section class="container-filters fwrap gap2" style="--fb: 200px">
+    <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
       <v-text-field
         v-model="search"
         hide-details solo
@@ -72,7 +64,7 @@
         :label="item.key==='filterA'?'by Tier:':'Sort by:'"
         style="--p: 0 1em 0 2em"
       ></v-select>
-    </section>
+    </h2>
 
     <section class="container-nfts grid">
       <v-card
@@ -161,14 +153,13 @@ export default {
     return {
       profileBanner: require('~/assets/sources/images/img-header-profile.jpg'),
       dataSocial: [
-        { icon: "mdi-link" },
-        { icon: "mdi-twitter", link: "#" },
-        { icon: "discord", link: "#" },
-        { icon: "telegram", link: "#" },
+        { icon: "mdi-share-variant" },
       ],
       dataProfits: {
-        nfts: 7659,
-        chats: 3,
+        editions: 7659,
+        owners: 1256,
+        floor_price: 1206,
+        listing: 205,
         high: 120.45,
       },
       search: "",
@@ -250,9 +241,6 @@ export default {
       ],
     }
   },
-  computed: {
-    user() {return this.$store.state.dataUser},
-  },
   mounted() {
     const pageName = 'collection-details';
     const page = document.querySelector(`#${pageName}`);
@@ -274,8 +262,6 @@ export default {
     });
   },
   methods: {
-    showTag() {document.querySelector(".header").classList.add("hover")},
-    hideTag() {document.querySelector(".header").classList.remove("hover")},
   }
 };
 </script>

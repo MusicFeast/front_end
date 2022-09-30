@@ -166,7 +166,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <h2 class="Title fwrap" style="--fb: 200px; gap: .3em clamp(1em, 2vw, 2em)">
+    <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
       <span class="tup" style="--fb: max-content">nft &amp; collections</span>
 
       <v-text-field

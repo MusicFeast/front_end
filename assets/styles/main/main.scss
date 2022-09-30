@@ -41,9 +41,19 @@ h2.Title {
   &::after {
     content: "";
     position: absolute;
-    inset: 0;
-    transform: translateY(var(--h-title));
+    width: 100%;
+    height: calc(var(--h-title));
+    
+    right: 0;
+    bottom: calc(var(--h-title) * -1);
     border-right: 1px solid var(--primary);
+  }
+  @include media(max, 1000px) {
+    margin-bottom: calc(var(--h-title) / 2);
+    &::after {
+      bottom: calc(var(--h-title) / 2 * -1);
+      height: calc(var(--h-title) / 2);
+    }
   }
 }
 

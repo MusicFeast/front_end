@@ -156,18 +156,6 @@
     }
   }
 
-  @include media(max, 1000px) {
-    h2.Title.fwrap {
-      margin-bottom: calc(var(--h-title) / 2) !important;
-      &::after {
-        inset: auto;
-        bottom: calc(var(--h-title) / 2);
-        right: 0;
-        height: calc(var(--h-title) / 2) !important;
-      }
-    }
-  }
-
   .container-collections {
     padding-inline: var(--margin-separator);
     margin-bottom: 6em;

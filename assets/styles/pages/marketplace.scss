@@ -13,7 +13,7 @@
       > * {flex-basis: 260px}
       gap: 2em;
       margin-top: calc(var(--h-title) - .5em);
-      @include media(min, x-small) {padding-inline: calc(3.125em + 2.5em)}
+      @include media(min, 600px) {padding-inline: calc(3.125em + 2.5em)}
       padding-bottom: calc(50px + 40px);
       .v-card {
         --spacing: .7em;

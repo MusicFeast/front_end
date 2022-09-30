@@ -41,7 +41,7 @@
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>All Time High</span>
-          <span>{{dataProfits.high}}</span>
+          <span>$ {{dataProfits.high}}K</span>
         </v-sheet>
       </section>
 
