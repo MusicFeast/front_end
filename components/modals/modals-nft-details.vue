@@ -92,6 +92,23 @@
 
 
 
+    <!-- modal buy -->
+    <v-dialog v-model="modalBuy" max-width="500px" content-class="nft-dialog" persistent>
+      <v-btn icon class="close" @click="clearBuy()">
+        <v-icon large>mdi-close</v-icon>
+      </v-btn>
+
+      <v-window v-model="windowBuy">
+        <v-window-item :value="1">
+          <v-card id="modalBuy" class="nft-dialog--content">
+            <h3>comming soon</h3>
+          </v-card>
+        </v-window-item>
+      </v-window>
+    </v-dialog>
+
+
+
     <!-- modal offer -->
     <v-dialog v-model="modalOffer" max-width="500px" content-class="nft-dialog" persistent>
       <v-btn icon class="close" @click="clearOffer()">
@@ -224,9 +241,11 @@ export default {
   data() {
     return {
       modalSell: false,
+      modalBuy: false,
       modalOffer: false,
       modalRedemption: false,
       windowSell: 1,
+      windowBuy: 1,
       windowOffer: 1,
       windowRedemption: 1,
       sellPrice: null,
@@ -244,6 +263,7 @@ export default {
   mounted() {
   },
   methods: {
+    // sell
     clearSell() {
       this.sellPrice = null;
       this.modalSell = false;
@@ -252,6 +272,15 @@ export default {
     putSale() {
       if (this.$refs.formSell.validate()) {this.windowSell++}
     },
+    // buy
+    clearBuy() {
+      this.modalBuy = false;
+      this.windowBuy = 1;
+    },
+    nextBuy() {
+      if (this.$refs.formBuy.validate()) {this.windowBuy++}
+    },
+    // offer
     clearOffer() {
       this.offerPrice = null;
       this.modalOffer = false;
@@ -260,6 +289,7 @@ export default {
     submitOffer() {
       if (this.$refs.formOffer.validate()) {this.windowOffer++}
     },
+    // redemption
     clearRedemption() {
       this.modalRedemption = false;
       this.windowRedemption = 1;

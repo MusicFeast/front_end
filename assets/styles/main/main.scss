@@ -26,11 +26,10 @@
 .v-card.custome {
   --spacing: .5em;
   --bg: var(--bg-tier-hover);
-  > :last-child {margin-bottom: 1.2em}
   @include media(max, 700px) {--max-w-child: 400px; margin-inline: auto}
   .container-content {
     position: relative;
-    margin-top: calc(20px + 5px);
+    margin-block: calc(20px + 5px) 1.2em;
     .v-avatar {
       @include absolute(0,-50px,0,);
     }
@@ -93,7 +92,7 @@
       text-transform: capitalize;
     }
   }
-  
+
   // tier background
   --bg-tier: #280909;
   --bg-tier-hover: #000;

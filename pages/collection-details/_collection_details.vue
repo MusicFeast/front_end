@@ -24,7 +24,7 @@
       <v-avatar
         width="var(--size)" height="var(--size)" style="--size: 13.954375em"
         @mouseenter="showTag()" @mouseleave="hideTag()">
-        <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+        <img :src="collection.avatar" alt="avatar image">
       </v-avatar>
     </section>
 
