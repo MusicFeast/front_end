@@ -9,13 +9,13 @@
       silver: nft.tier===2,
       bronze: nft.tier===1,
     }">
-    <ModalsNftDetails ref="modal" :nft="nft"></ModalsNftDetails>
+    <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
-      <div class="header-background divcol">
+      <div class="header-background divcol" :style="`--bg-image: url(${nft.img})`">
         <div class="center gap1 marginaright">
           <v-avatar style="border: 2px solid #fff">
-            <img src="@/assets/sources/images/avatar.jpg" alt="artist image" style="--of: cover">
+            <img :src="nft.avatar" alt="artist image" style="--of: cover">
           </v-avatar>
           <span>Artist Name</span>
         </div>
@@ -174,12 +174,6 @@
 <script>
 export default {
   name: "CollectionDetailsPage",
-  props: {
-    nft: {
-      type: Object,
-      default: null
-    }
-  },
   data() {
     return {
       dataSocial: [
@@ -227,6 +221,14 @@ export default {
       ],
       pagination: 0,
     }
+  },
+  computed: {
+    nft() {
+      return JSON.parse(localStorage.getItem("nft"))
+    },
+  },
+  created() {
+    if (!this.nft) {this.$router.push(this.localePath('/profile'))}
   },
   mounted() {
   },

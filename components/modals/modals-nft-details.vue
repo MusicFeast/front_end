@@ -198,7 +198,7 @@
             <h3>redemption summary</h3>
             <v-form ref="formRedemption" @submit.prevent="nextRedemption()">
               <section class="fwrap">
-
+                <img :src="nft.canvas" alt="canvas nft" style="--br: 10px; --f: brightness(70%); max-width: 200px !important">
               </section>
 
               <section></section>
@@ -223,12 +223,6 @@
 <script>
 export default {
   name: "NftDetailsModals",
-  props: {
-    nft: {
-      type: Object,
-      default: null
-    },
-  },
   data() {
     return {
       modalSell: false,
@@ -245,9 +239,11 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
+    nft() {
+      return JSON.parse(localStorage.getItem("nft"))
+    },
   },
   mounted() {
-    console.log(this.nft)
   },
   methods: {
     clearSell() {

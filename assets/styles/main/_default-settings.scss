@@ -550,7 +550,7 @@ img:not(.not_html, .not) {
 //- dialog -//
 .v-dialog {
   overscroll-behavior: contain;
-  &::-webkit-scrollbar {display: none}
+  // &::-webkit-scrollbar {display: none}
   // @include media(max, 500px) {margin-inline: 0}
 }
 

@@ -86,7 +86,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="goToNftDetails(item)">
+        @click="goToNftDetails(item, $event)">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -155,6 +155,7 @@
 </template>
 
 <script>
+import html2canvas from 'html2canvas';
 export default {
   name: "ProfilePage",
   data() {
@@ -186,7 +187,7 @@ export default {
       ],
       dataNfts: [
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-1.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -196,7 +197,7 @@ export default {
           state: "sold out",
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-2.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -205,7 +206,7 @@ export default {
           tier: 2,
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-3.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -214,7 +215,7 @@ export default {
           tier: 4,
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-4.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -233,7 +234,7 @@ export default {
           state: "sold out",
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-6.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -276,17 +277,20 @@ export default {
   methods: {
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
-    goToNftDetails(item) {
-      const canvas = "algo"
+    goToNftDetails(item, event) {
+      const target = event.target.parentNode.parentNode
+      html2canvas(target, { allowTaint: true }).then((e) => {
+        const canvas = e.toDataURL('image/png');
+        item = {...item, canvas}
+        localStorage.setItem("nft", JSON.stringify(item))
+      });
 
-      const object = {...item, canvas}
-      this.$nuxt.$emit("goToNftDetails", object)
       this.$router.push(
         this.localePath(this.user.tier < 3
           ? `/user-nft-details/`
           : `/user-nft-details-vip/`
         )
-      )
+      );
     },
   }
 };

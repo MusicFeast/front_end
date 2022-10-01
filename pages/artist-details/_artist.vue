@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          :to="localePath(`/nft-details/`)">
+          @click="goToNftDetails(item, $event)">
           <div
             class="container-img"
             :style="`--tag: '${
@@ -245,6 +245,7 @@
 </template>
 
 <script>
+import html2canvas from 'html2canvas';
 export default {
   name: "CollectionDetailsPage",
   data() {
@@ -474,6 +475,20 @@ export default {
       } else {
         return 1
       }
+    },
+    goToNftDetails(item, event) {
+      const target = event.target.parentNode.parentNode
+      html2canvas(target, { allowTaint: true }).then((e) => {
+        const canvas = e.toDataURL('image/png');
+        item = {...item, canvas}
+        localStorage.setItem("nft", JSON.stringify(item))
+      });
+      this.$router.push(
+        this.localePath(this.user.tier < 3
+          ? `/user-nft-details/`
+          : `/user-nft-details-vip/`
+        )
+      )
     },
   }
 };
