@@ -9,7 +9,7 @@
       silver: nft.tier===2,
       bronze: nft.tier===1,
     }">
-    <ModalsNftDetails ref="modal"></ModalsNftDetails>
+    <ModalsNftDetails ref="modal" :nft="nft"></ModalsNftDetails>
     
     <section class="header grid">
       <div class="header-background divcol">
@@ -48,10 +48,10 @@
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">{{nft.price}}
+            <span class="bold" style="--c: var(--accent)">{{nft.floor_price}}
               <img src="~/assets/sources/logos/near-orange.svg" alt="near">
             </span>
-            <span style="font-size: calc(var(--font-text) / 1.5)">$ {{dollarConversion(nft.price)}}</span>
+            <span style="font-size: calc(var(--font-text) / 1.5)">$ {{dollarConversion(nft.floor_price)}}</span>
           </div>
         </div>
 
@@ -174,12 +174,14 @@
 <script>
 export default {
   name: "CollectionDetailsPage",
+  props: {
+    nft: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
-      nft: {
-        tier: 3,
-        price: 1239.63
-      },
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
         { icon: "mdi-twitter", link: "#" },

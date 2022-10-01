@@ -13,7 +13,7 @@
     <Alerts ref="alerts"></Alerts>
     <Header ref="header" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
-      <nuxt />
+      <nuxt-child :nft="nft" />
     </v-main>
     <Footer ref="footer"></Footer>
   </v-app>
@@ -26,10 +26,14 @@ export default {
   data() {
     return {
       wrapperSpace: true,
+      nft: {},
     }
   },
   computed: {
     user() {return this.$store.state.dataUser},
+  },
+  created() {
+    this.$nuxt.$on('goToNftDetails', (item) => {this.nft = item});
   },
   mounted() {
     // login inicializer

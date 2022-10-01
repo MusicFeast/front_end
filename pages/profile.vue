@@ -86,7 +86,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        :to="localePath(user.tier < 3 ? `/user-nft-details/` : `/user-nft-details-vip/`)">
+        @click="goToNftDetails(item)">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -276,6 +276,18 @@ export default {
   methods: {
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
+    goToNftDetails(item) {
+      const canvas = "algo"
+
+      const object = {...item, canvas}
+      this.$nuxt.$emit("goToNftDetails", object)
+      this.$router.push(
+        this.localePath(this.user.tier < 3
+          ? `/user-nft-details/`
+          : `/user-nft-details-vip/`
+        )
+      )
+    },
   }
 };
 </script>

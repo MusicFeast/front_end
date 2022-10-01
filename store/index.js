@@ -19,6 +19,7 @@ export const state = () => ({
     accountId: null,
     user: false,
     tier: 6,
+    balance: 0,
   },
 });
 
