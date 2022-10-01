@@ -113,7 +113,7 @@
         <v-select
           id="country"
           v-model="form.address.country"
-          :items="dataCounties" solo
+          :items="dataCountries" solo
           placeholder="Select The Country"
           style="--fs-place: 16px"
         ></v-select>
@@ -187,9 +187,7 @@ export default {
           postal: "",
         }
       },
-      dataCounties: [
-        "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum"
-      ],
+      dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
       valid: false,
       rules: {
         required: [(v) => !!v || "Field required"],
@@ -205,10 +203,6 @@ export default {
     previewBanner() {
       this.profileBanner = URL.createObjectURL(this.bannerImage_model);
     },
-    // object entries usage
-    // cancelForm() {
-    //   Object.keys(this.form).forEach(key => {this.form[key] = ''});
-    // },
     saveForm() {
       if (this.$refs.form.validate()) {this.$alert('success')}
       else {this.$alert('cancel', 'Failed request', 'Need fill all required fields')}

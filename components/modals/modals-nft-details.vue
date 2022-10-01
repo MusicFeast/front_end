@@ -6,7 +6,7 @@
         <v-icon large>mdi-close</v-icon>
       </v-btn>
 
-      <v-window v-model="windowSell">
+      <v-window v-model="windowSell" touchless>
         <v-window-item :value="1">
           <v-card id="modalSell" class="nft-dialog--content">
             <h3>sell</h3>
@@ -19,7 +19,7 @@
                 </label>
                 <v-text-field
                   id="amount"
-                  v-model="sellPrice"
+                  v-model="form_sell.sellPrice"
                   filled dense
                   background-color="rgba(0, 0, 0, .2)"
                   placeholder="1,345.67"
@@ -35,7 +35,7 @@
                   
                   <div class="space gap2">
                     <span>Sale Price</span>
-                    <span>{{sellPrice || '---'}}</span>
+                    <span>{{form_sell.sellPrice || '---'}}</span>
                   </div>
                 </div>
               </v-sheet>
@@ -54,6 +54,7 @@
           </v-card>
         </v-window-item>
 
+
         <v-window-item :value="2">
           <v-card id="modalSell" class="nft-dialog--content">
             <h3>Offer Success</h3>
@@ -62,8 +63,9 @@
               <p class="p">Successfully offered sale "NFT Name #234" for</p>
 
               <v-text-field
-                v-model="sellPrice"
+                v-model="form_sell.sellPrice"
                 disabled solo
+                filled
                 hide-details
                 style="--o-disabled: 1; --fs: 1.3em"
               >
@@ -72,7 +74,7 @@
                 </template>
               </v-text-field>
 
-              <v-sheet class="card bold relative" style="--bg: transparent; --br: 0; --bs: 0 0 2px 2px var(--accent)">
+              <v-sheet class="card bold">
                 <v-btn icon class="close" width="max-content" height="max-content">
                   <v-icon color="var(--accent)" size="1.2em">mdi-content-copy</v-icon>
                 </v-btn>
@@ -98,7 +100,7 @@
         <v-icon large>mdi-close</v-icon>
       </v-btn>
 
-      <v-window v-model="windowBuy">
+      <v-window v-model="windowBuy" touchless>
         <v-window-item :value="1">
           <v-card id="modalBuy" class="nft-dialog--content">
             <h3>comming soon</h3>
@@ -115,7 +117,7 @@
         <v-icon large>mdi-close</v-icon>
       </v-btn>
 
-      <v-window v-model="windowOffer">
+      <v-window v-model="windowOffer" touchless>
         <v-window-item :value="1">
           <v-card id="modalOffer" class="nft-dialog--content">
             <h3>place an offer</h3>
@@ -128,7 +130,7 @@
                 </label>
                 <v-text-field
                   id="amount"
-                  v-model="offerPrice"
+                  v-model="form_offer.offerPrice"
                   filled dense
                   background-color="rgba(0, 0, 0, .2)"
                   placeholder="1,345.67"
@@ -144,7 +146,7 @@
                   
                   <div class="space gap2">
                     <span>Total Offer</span>
-                    <span>{{offerPrice || '---'}}</span>
+                    <span>{{form_offer.offerPrice || '---'}}</span>
                   </div>
                 </div>
               </v-sheet>
@@ -163,6 +165,7 @@
           </v-card>
         </v-window-item>
 
+
         <v-window-item :value="2">
           <v-card id="modalSell" class="nft-dialog--content">
             <h3>Offer Success</h3>
@@ -171,8 +174,9 @@
               <p class="p">Successfully offered sale "{{nft.name}}" for</p>
 
               <v-text-field
-                v-model="offerPrice"
+                v-model="form_offer.offerPrice"
                 disabled solo
+                filled
                 hide-details
                 style="--o-disabled: 1; --fs: 1.3em"
               >
@@ -181,7 +185,7 @@
                 </template>
               </v-text-field>
 
-              <v-sheet class="card bold relative" style="--bg: transparent; --br: 0; --bs: 0 0 2px 2px var(--accent)">
+              <v-sheet class="card bold">
                 <v-btn icon class="close" width="max-content" height="max-content">
                   <v-icon color="var(--accent)" size="1.2em">mdi-content-copy</v-icon>
                 </v-btn>
@@ -202,22 +206,81 @@
 
 
     <!-- modal redemption -->
-    <v-dialog v-model="modalRedemption" width="max-content" content-class="nft-dialog" persistent>
+    <v-dialog v-model="modalRedemption" width="800px" content-class="nft-dialog" persistent>
       <v-btn icon class="close" @click="clearRedemption()">
         <v-icon large>mdi-close</v-icon>
       </v-btn>
 
-      <v-window v-model="windowRedemption">
+      <v-window v-model="windowRedemption" touchless>
         <v-window-item :value="1">
           <v-card id="modalRedemption" class="nft-dialog--content">
             <h3>redemption summary</h3>
-            <v-form ref="formRedemption" @submit.prevent="nextRedemption()">
-              <section class="fwrap">
-                <img :src="nft.canvas" alt="canvas nft" style="--br: 10px; --f: brightness(70%); max-width: 200px !important">
+            <v-form ref="formRedemption" class="divcol" style="gap: 2em" @submit.prevent="nextRedemption($refs.formRedemption)">
+              <section class="fwrap jcenter" style="gap: 20px">
+                <img :src="nft.canvas" alt="canvas nft" style="--br: 10px; --f: brightness(70%); max-width: 12.5em !important">
+                
+                <div class="divcol jspace" style="flex: 1 1 200px">
+                  <span
+                    class="btn center tcenter bold mb-3"
+                    style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
+                  >"{{nft.name}}"</span>
+
+                  <label for="amount">Amount to Redeem</label>
+                  <v-text-field
+                    id="amount"
+                    v-model="form_redemption.redeemPrice"
+                    filled dense
+                    placeholder="2"
+                    :rules="[v => !!v || 'required field']"
+                    background-color="rgba(0,0,0,.4)"
+                    style="flex-grow: 0"
+                  ></v-text-field>
+                  <span class="mb-3">Quantity Available: 3</span>
+
+                  <label for="country">Country</label>
+                  <v-select
+                    id="country"
+                    v-model="form_redemption.country"
+                    :items="dataCountries" solo
+                    :rules="[v => !!v || 'required field']"
+                    placeholder="Select The Country"
+                    style="--fs-place: 16px; flex-grow: 0"
+                  ></v-select>
+                </div>
               </section>
 
-              <section></section>
-              <section></section>
+              <section>
+                <h6 class="space gap2">
+                  <span class="bold">estimated ship date</span>
+                  <span>december / 2022</span>
+                </h6>
+                <h6 class="space gap2">
+                  <span class="bold">shipping method</span>
+                  <span>delivery duty paid</span>
+                </h6>
+              </section>
+
+              <section class="bold">
+                <h6 class="space gap2">
+                  <span>number of items</span>
+                  <span>2</span>
+                </h6>
+                <h6 class="space gap2">
+                  <span>shipping</span>
+                  <span>$ 40</span>
+                </h6>
+                <h6 class="space gap2">
+                  <span>discount</span>
+                  <span>$ 10</span>
+                </h6>
+                <span
+                  class="btn space gap2"
+                  style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
+                >
+                  <span class="tup">estimated total</span>
+                  <span>$ 30</span>
+                </span>
+              </section>
             </v-form>
 
             <div class="fwrap gap2 bold" style="margin-top: 4em">
@@ -226,8 +289,130 @@
                 @click="clearRedemption()">Cancel</v-btn>
               <v-btn
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
-                @click="nextRedemption()">Add Address</v-btn>
+                @click="nextRedemption($refs.formRedemption)">Add Address</v-btn>
             </div>
+          </v-card>
+        </v-window-item>
+
+
+        <v-window-item :value="2">
+          <v-card id="modalRedemption" class="nft-dialog--content">
+            <h3>address form</h3>
+            <v-form ref="formRedemptionAddress" class="divcol" style="gap: 2em" @submit.prevent="nextRedemption($refs.formRedemptionAddress)">
+              <span
+                class="btn center tcenter bold"
+                style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
+              >"{{nft.name}}"</span>
+
+              <section class="divcol">
+                <v-checkbox
+                  label="Use profile address"
+                  class="align" dense
+                  off-icon="mdi-checkbox-blank"
+                ></v-checkbox>
+                
+                <label for="street">Street Address</label>
+                <v-text-field
+                  id="street"
+                  v-model="form_redemption.address.street"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Street Address, P.O, box, lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+                
+                <label for="apartment">Apartment, Suite, Etc</label>
+                <v-text-field
+                  id="apartment"
+                  v-model="form_redemption.address.apartment"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Street Address 2, P.O, box, lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+                
+                <label for="city">City</label>
+                <v-text-field
+                  id="city"
+                  v-model="form_redemption.address.city"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+                
+                <label for="state">State / Province / Region</label>
+                <v-text-field
+                  id="state"
+                  v-model="form_redemption.address.state"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+                
+                <label for="postal">Postal / Zip Code</label>
+                <v-text-field
+                  id="postal"
+                  v-model="form_redemption.address.postal"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+              </section>
+
+              <section class="divcol">
+                <p class="tcenter p">
+                  By proceeding you acknowledge that all Redemption Tokens used in this transaction will be destroyed on the blockchain. 
+                  This transaction is Irreversible and non-refundable.
+                </p>
+                <v-checkbox
+                  :rules="[v => !!v || 'required field']"
+                  label="I acknowledge"
+                  class="align" dense
+                  off-icon="mdi-checkbox-blank"
+                ></v-checkbox>
+              </section>
+            </v-form>
+
+            <div class="fwrap gap2 bold" style="margin-top: 4em">
+              <v-btn
+                :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px; --bg: #fff; --c: var(--primary)"
+                @click="clearRedemption()">Cancel</v-btn>
+              <v-btn
+                :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
+                @click="nextRedemption($refs.formRedemptionAddress)">Confirm</v-btn>
+            </div>
+          </v-card>
+        </v-window-item>
+
+
+        <v-window-item :value="3">
+          <v-card id="modalSell" class="nft-dialog--content divcol">
+            <h3>Successful Redemption</h3>
+
+            <section class="divcol" style="gap: 1.5em">
+              <span
+                class="btn center tcenter bold"
+                style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
+              >"{{nft.name}}"</span>
+
+              <p class="tcenter">Your redemption has been completed successfully. Soon you will have your order</p>
+
+              <v-sheet class="card bold">
+                <v-btn icon class="close" width="max-content" height="max-content">
+                  <v-icon color="var(--accent)" size="1.2em">mdi-content-copy</v-icon>
+                </v-btn>
+
+                <span style="--c: var(--accent)">Transaction Hash</span>
+                <span>{{hash_redemption}}</span>
+              </v-sheet>
+            </section>
+
+            <v-btn
+              :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 16px; margin-top: 4em"
+              :to="localePath('/profile')" @click="clearRedemption()">Confirm</v-btn>
           </v-card>
         </v-window-item>
       </v-window>
@@ -248,10 +433,25 @@ export default {
       windowBuy: 1,
       windowOffer: 1,
       windowRedemption: 1,
-      sellPrice: null,
+      form_sell: { sellPrice: null },
       hash_sell: "5xfi6WGSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT54...",
-      offerPrice: null,
+      form_buy: {},
+      hash_buy: "5xfi6WGSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT54...",
+      form_offer: { offerPrice: null },
       hash_offer: "5xfi6WGSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT54...",
+      form_redemption: {
+        redeemPrice: null,
+        country: null,
+        address: {
+          street: null,
+          apartment: null,
+          city: null,
+          state: null,
+          postal: null,
+        }
+      },
+      hash_redemption: "5xfi6WGSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT5GSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT4",
+      dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
     };
   },
   computed: {
@@ -265,37 +465,40 @@ export default {
   methods: {
     // sell
     clearSell() {
-      this.sellPrice = null;
-      this.modalSell = false;
-      this.windowSell = 1;
+      Object.keys(this.form_sell).forEach(key => {this.form_sell[key] = null});
+      this.modalSell = false; this.windowSell = 1;
     },
     putSale() {
       if (this.$refs.formSell.validate()) {this.windowSell++}
     },
     // buy
     clearBuy() {
-      this.modalBuy = false;
-      this.windowBuy = 1;
+      Object.keys(this.form_buy).forEach(key => {this.form_buy[key] = null});
+      this.modalBuy = false; this.windowBuy = 1;
     },
     nextBuy() {
       if (this.$refs.formBuy.validate()) {this.windowBuy++}
     },
     // offer
     clearOffer() {
-      this.offerPrice = null;
-      this.modalOffer = false;
-      this.windowOffer = 1;
+      Object.keys(this.form_offer).forEach(key => {this.form_offer[key] = null});
+      this.modalOffer = false; this.windowOffer = 1;
     },
     submitOffer() {
       if (this.$refs.formOffer.validate()) {this.windowOffer++}
     },
     // redemption
     clearRedemption() {
-      this.modalRedemption = false;
-      this.windowRedemption = 1;
+      const form1 = this.form_redemption;
+      const form2 = this.form_redemption.address;
+      Object.keys(form1).forEach(key => {
+        if (key !== 'address') {form1[key] = null}
+        else {Object.keys(form2).forEach(key2 => {form2[key2] = null})}
+      });
+      this.modalRedemption = false; this.windowRedemption = 1;
     },
-    nextRedemption() {
-      if (this.$refs.formRedemption.validate()) {this.windowRedemption++}
+    nextRedemption(ref) {
+      if (ref.validate()) {this.windowRedemption++}
     },
   }
 };
