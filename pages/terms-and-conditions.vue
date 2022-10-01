@@ -34,6 +34,12 @@ export default {
       ],
     }
   },
+  head() {
+    const title = "Terms and Conditions"
+    return {
+      title,
+    }
+  },
   mounted() {
     const pageName = 'terms-and-conditions';
     const page = document.querySelector(`#${pageName}`);

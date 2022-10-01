@@ -259,6 +259,12 @@ export default {
       ],
     }
   },
+  head() {
+    const title = "Profile"
+    return {
+      title,
+    }
+  },
   computed: {
     user() {return this.$store.state.dataUser},
   },

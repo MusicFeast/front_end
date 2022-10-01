@@ -271,6 +271,12 @@ export default {
       ],
     }
   },
+  head() {
+    const title = "Collection Details"
+    return {
+      title,
+    }
+  },
   computed: {
     user() {return this.$store.state.dataUser},
     collection() {return JSON.parse(localStorage.getItem("collection"))}

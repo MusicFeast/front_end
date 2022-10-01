@@ -95,6 +95,12 @@ export default {
       ],
     }
   },
+  head() {
+    const title = "About"
+    return {
+      title,
+    }
+  },
   mounted() {
     const pageName = 'about';
     const page = document.querySelector(`#${pageName}`);

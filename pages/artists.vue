@@ -237,6 +237,12 @@ export default {
       pagination: 0,
     }
   },
+  head() {
+    const title = "Artists"
+    return {
+      title,
+    }
+  },
   mounted() {
     const pageName = 'artists';
     const page = document.querySelector(`#${pageName}`);

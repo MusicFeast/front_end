@@ -443,6 +443,12 @@ export default {
       ],
     }
   },
+  head() {
+    const title = "Artist Details"
+    return {
+      title,
+    }
+  },
   computed: {
     user() {return this.$store.state.dataUser},
     artist() {return JSON.parse(localStorage.getItem("artist"))},

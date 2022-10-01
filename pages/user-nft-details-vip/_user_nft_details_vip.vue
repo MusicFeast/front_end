@@ -224,6 +224,12 @@ export default {
       pagination: 0,
     }
   },
+  head() {
+    const title = "Nft Details"
+    return {
+      title,
+    }
+  },
   computed: {
     user() {return this.$store.state.dataUser},
     nft() {return JSON.parse(localStorage.getItem("nft"))},

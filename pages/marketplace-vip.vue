@@ -352,6 +352,12 @@ export default {
       pagination: 0,
     }
   },
+  head() {
+    const title = "Special Marketplace"
+    return {
+      title,
+    }
+  },
   computed: {
     user() {return this.$store.state.dataUser},
   },

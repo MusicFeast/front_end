@@ -110,6 +110,12 @@ export default {
       ],
     }
   },
+  head() {
+    const title = "News Details"
+    return {
+      title,
+    }
+  },
   mounted() {
     const pageName = 'news-details';
     const page = document.querySelector(`#${pageName}`);

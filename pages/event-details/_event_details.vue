@@ -279,6 +279,12 @@ export default {
       pagination: 0,
     }
   },
+  head() {
+    const title = "Event Details"
+    return {
+      title,
+    }
+  },
   mounted() {
     const pageName = 'event';
     const page = document.querySelector(`#${pageName}`);

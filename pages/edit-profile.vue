@@ -194,6 +194,12 @@ export default {
       },
     }
   },
+  head() {
+    const title = "Edit Profile"
+    return {
+      title,
+    }
+  },
   computed: {
     user() {return this.$store.state.dataUser},
   },
