@@ -13,8 +13,8 @@
 
     <!-- just for testing tiers -->
     <v-btn
-      plain rounded text style="position: fixed; top: 0; right: 0; z-index: 10; background: var(--bg-tier)" title="just for testing tiers"
-      @click="$store.commit('tierTest')">TIER</v-btn>
+      plain rounded text style="position: fixed; top: clamp(80px, 6vw, 100px); right: 0; z-index: 10; background: var(--bg-tier)"
+      title="just for testing tiers" @click="$store.commit('tierTest')">TIER</v-btn>
     <!-- just for testing tiers -->
 
     <Alerts ref="alerts"></Alerts>

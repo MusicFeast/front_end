@@ -17,6 +17,14 @@
 
     display: grid;
     place-items: center;
+    // tier background
+    --bg-tier: #280909;
+    &.uranium {--bg-tier: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
+    &.diamond {--bg-tier: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+    &.platinum {--bg-tier: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
+    &.gold {--bg-tier: linear-gradient(to top right, #EE9938, #672F04)}
+    &.silver {--bg-tier: linear-gradient(to top right, #D1D1D1, #000000)}
+    &.bronze {--bg-tier: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
     // tier tag
     &::before {
       content: var(--tag-tier);
@@ -48,7 +56,7 @@
         position: absolute;
         inset: -20px;
         border-radius: 50%;
-        background: #280909;
+        background: var(--bg-tier);
         z-index: -1;
       }
       img {

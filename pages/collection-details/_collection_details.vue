@@ -1,8 +1,29 @@
 <template>
   <div id="collection-details" class="divcol">
-    <section class="header" :style="`--bg-image: url(${profileBanner})`">
+    <section
+      class="header"
+      :class="{
+        uranium: collection.tier===6,
+        diamond: collection.tier===5,
+        platinum: collection.tier===4,
+        gold: collection.tier===3,
+        silver: collection.tier===2,
+        bronze: collection.tier===1,
+      }"
+      :style="`
+        --bg-image: url(${profileBanner});
+        --tag-tier: '${
+          collection.tier===1 ? 'bronze' :
+          collection.tier===2 ? 'silver' :
+          collection.tier===3 ? 'gold' :
+          collection.tier===4 ? 'platinum' :
+          collection.tier===5 ? 'diamond' :
+          collection.tier===6 ? 'uranium' : 'user'
+        }'
+      `">
       <v-avatar
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em">
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+        @mouseenter="showTag()" @mouseleave="hideTag()">
         <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
       </v-avatar>
     </section>
@@ -252,6 +273,7 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
+    collection() {return JSON.parse(localStorage.getItem("collection"))}
   },
   mounted() {
     const pageName = 'collection-details';
@@ -274,6 +296,8 @@ export default {
     });
   },
   methods: {
+    showTag() {document.querySelector(".header").classList.add("hover")},
+    hideTag() {document.querySelector(".header").classList.remove("hover")},
   }
 };
 </script>

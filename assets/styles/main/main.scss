@@ -25,18 +25,9 @@
 .v-responsive__content .v-card.custome:only-child {margin-inline: auto}
 .v-card.custome {
   --spacing: .5em;
+  --bg: var(--bg-tier-hover);
   > :last-child {margin-bottom: 1.2em}
   @include media(max, 700px) {--max-w-child: 400px; margin-inline: auto}
-  &.uranium:hover {--bg: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
-  &.diamond:hover {--bg: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
-  &.platinum:hover {--bg: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
-  &.gold:hover {--bg: linear-gradient(to top right, #EE9938, #672F04)}
-  &.silver:hover {--bg: linear-gradient(to top right, #D1D1D1, #000000)}
-  &.bronze:hover {--bg: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
-  &:hover:not(.uranium, .diamond, .platinum, .gold, .silver, .bronze) {
-    box-shadow: 0 0 0 1px var(--accent) !important;
-    .container-img img {--t: scale(1.2)}
-  }
   .container-content {
     position: relative;
     margin-top: calc(20px + 5px);
@@ -92,6 +83,7 @@
       place-content: center;
 
       @include btn;
+      --bg: var(--bg-tier);
       --br: 5px;
       --w: max-content;
       --min-h: 2.3em;
@@ -101,12 +93,28 @@
       text-transform: capitalize;
     }
   }
-  &.uranium .container-img::after {--bg: linear-gradient(to right, #87B95C, #9F9B1B, #0C4020)}
-  &.diamond .container-img::after {--bg: linear-gradient(to right, #DBDBDB, #AC38EE, #45348E, #B49176)}
-  &.platinum .container-img::after {--bg: linear-gradient(to right, #DBD9D7, #D27073, #503367, #000000)}
-  &.gold .container-img::after {--bg: linear-gradient(to right, #EE9938, #672F04)}
-  &.silver .container-img::after {--bg: linear-gradient(to right, #D1D1D1, #000000)}
-  &.bronze .container-img::after {--bg: linear-gradient(to right, #7D3716, #D57535, #5E170B)}
+  
+  // tier background
+  --bg-tier: #280909;
+  --bg-tier-hover: #000;
+  &.uranium {--bg-tier: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
+  &.diamond {--bg-tier: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+  &.platinum {--bg-tier: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
+  &.gold {--bg-tier: linear-gradient(to top right, #EE9938, #672F04)}
+  &.silver {--bg-tier: linear-gradient(to top right, #D1D1D1, #000000)}
+  &.bronze {--bg-tier: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
+  // tier background hover
+  &.uranium:hover {--bg-tier-hover: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}
+  &.diamond:hover {--bg-tier-hover: linear-gradient(to top right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+  &.platinum:hover {--bg-tier-hover: linear-gradient(to top right, #DBD9D7, #D27073, #503367, #000000)}
+  &.gold:hover {--bg-tier-hover: linear-gradient(to top right, #EE9938, #672F04)}
+  &.silver:hover {--bg-tier-hover: linear-gradient(to top right, #D1D1D1, #000000)}
+  &.bronze:hover {--bg-tier-hover: linear-gradient(to top right, #7D3716, #D57535, #5E170B)}
+  // normal hover
+  &:hover:not(.uranium, .diamond, .platinum, .gold, .silver, .bronze) {
+    box-shadow: 0 0 0 1px var(--accent) !important;
+    .container-img img {--t: scale(1.2)}
+  }
 }
 
 // filters
