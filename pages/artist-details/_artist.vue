@@ -8,7 +8,7 @@
 
       <aside class="header-social">
         <div class="center" style="gap:clamp(1em, 2.5vw, 2.5em)">
-          <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
+          <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link" target="_blank">
             <v-icon size="clamp(2em, 2.8vw, 2.8em)">{{item.icon}}</v-icon>
           </v-btn>
         </div>
