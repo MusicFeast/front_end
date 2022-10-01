@@ -43,7 +43,7 @@
         >
           <v-card
             :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false"
-            @click="goToArtistDetails(item)">
+            @click="$store.dispatch('goTo', {item})">
             <v-sheet>
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>
@@ -91,21 +91,16 @@ export default {
     return {
       slider: null,
       dataSlider: [
-        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artist Name or nickname", active: false },
-        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artist Name or nickname", active: false },
-        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artist Name or nickname", active: false },
-        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artist Name or nickname", active: false },
-        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artist Name or nickname", active: false },
-        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artist Name or nickname", active: false },
+        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
+        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
+        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
+        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
+        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
+        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
       ],
     }
   },
   methods: {
-    goToArtistDetails(item) {
-      console.log(item)
-      localStorage.setItem("artist", JSON.stringify(item))
-      this.$router.push(this.localePath(`/artist-details/`))
-    },
   },
 };
 </script>

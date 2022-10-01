@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          @click="goToNftDetails(item, $event)">
+          @click="$store.dispatch('goTo', {item, event: $event})">
           <div
             class="container-img"
             :style="`--tag: '${
@@ -187,11 +187,35 @@
     </h2>
 
     <section class="container-collections grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap:2em">
-      <v-card v-for="(item,i) in dataCollections" :key="i" class="card divcol" :to="localePath(`/collection-details/`)">
+      <v-card
+        v-for="(item,i) in dataCollections" :key="i"
+        class="card divcol custome"
+        :class="{
+          uranium: item.tier===6,
+          diamond: item.tier===5,
+          platinum: item.tier===4,
+          gold: item.tier===3,
+          silver: item.tier===2,
+          bronze: item.tier===1,
+        }"
+        @click="$store.dispatch('goTo', {item, event: $event})">
         <div
           class="container-img"
-          :style="`--tag: '${item.state}'`"
-          :class="{live: item.state==='live'}"
+          :class="{live: item.state === 'live'}"
+          :style="`
+            ${
+              item.tier ? `--tag-tier: '${
+                item.tier===1 ? 'bronze' :
+                item.tier===2 ? 'silver' :
+                item.tier===3 ? 'gold' :
+                item.tier===4 ? 'platinum' :
+                item.tier===5 ? 'diamond' :
+                item.tier===6 ? 'uranium' : 'user'
+              }'
+              `: ''
+            };
+            ${item.state ? `--tag-state: '${item.state}'` : ''}`
+          "
         >
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
         </div>
@@ -245,7 +269,6 @@
 </template>
 
 <script>
-import html2canvas from 'html2canvas';
 export default {
   name: "CollectionDetailsPage",
   data() {
@@ -273,6 +296,7 @@ export default {
           floor_price: "250.00",
           editions: "250.00",
           tier: 3,
+          type: "nft",
         },
         {
           img: require('~/assets/sources/images/img-listed-2.jpg'),
@@ -282,6 +306,7 @@ export default {
           floor_price: "250.00",
           editions: "250.00",
           tier: 2,
+          type: "nft",
         },
         {
           img: require('~/assets/sources/images/img-listed-3.jpg'),
@@ -291,6 +316,7 @@ export default {
           floor_price: "250.00",
           editions: "250.00",
           tier: 4,
+          type: "nft",
         },
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
@@ -300,6 +326,7 @@ export default {
           floor_price: "250.00",
           editions: "250.00",
           tier: 5,
+          type: "nft",
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -309,6 +336,7 @@ export default {
           floor_price: "250.00",
           editions: "250.00",
           tier: 6,
+          type: "nft",
         },
         {
           img: require('~/assets/sources/images/img-listed-6.jpg'),
@@ -318,6 +346,7 @@ export default {
           floor_price: "250.00",
           editions: "250.00",
           tier: 1,
+          type: "nft",
         },
       ],
       dataEvents: [
@@ -338,6 +367,8 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "live",
+          type: "nft",
+          tier: 3,
         },
         {
           img: require('~/assets/sources/images/img-listed-2.jpg'),
@@ -346,6 +377,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "sold out",
+          type: "collection",
         },
         {
           img: require('~/assets/sources/images/img-listed-3.jpg'),
@@ -354,6 +386,8 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "comming soon",
+          type: "nft",
+          tier: 2,
         },
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
@@ -362,6 +396,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "live",
+          type: "collection",
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -370,6 +405,8 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "sold out",
+          type: "nft",
+          tier: 4,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -378,6 +415,8 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "sold out",
+          type: "nft",
+          tier: 6,
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -386,6 +425,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "sold out",
+          type: "collection",
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -394,6 +434,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           state: "sold out",
+          type: "collection",
         },
       ],
       pagination: 0,
@@ -476,21 +517,6 @@ export default {
       } else {
         return 1
       }
-    },
-    goToNftDetails(item, event) {
-      const target = event.target.parentNode.parentNode
-      html2canvas(target, { allowTaint: true }).then((e) => {
-        const canvas = e.toDataURL('image/png');
-        item = {...item, canvas}
-        localStorage.setItem("nft", JSON.stringify(item))
-      }).then(() => {
-        this.$router.push(
-          this.localePath(this.user.tier < 3
-            ? `/user-nft-details/`
-            : `/user-nft-details-vip/`
-          )
-        );
-      })
     },
   }
 };

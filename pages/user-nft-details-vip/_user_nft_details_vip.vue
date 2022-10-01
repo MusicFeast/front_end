@@ -223,12 +223,12 @@ export default {
     }
   },
   computed: {
-    nft() {
-      return JSON.parse(localStorage.getItem("nft"))
-    },
+    user() {return this.$store.state.dataUser},
+    nft() {return JSON.parse(localStorage.getItem("nft"))},
   },
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/profile'))}
+    if (this.user.tier < 3) {this.$router.push(this.localePath("/user-nft-details"))}
   },
   mounted() {
   },

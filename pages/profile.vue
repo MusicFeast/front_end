@@ -77,7 +77,7 @@
     <section class="container-nfts grid">
       <v-card
         v-for="(item,i) in dataNfts" :key="i"
-        class="card divcol"
+        class="card divcol custome"
         :class="{
           uranium: item.tier===6,
           diamond: item.tier===5,
@@ -86,19 +86,22 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="goToNftDetails(item, $event)">
+        @click="$store.dispatch('goTo', {item, event: $event})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
-          :style="
-            `--tag-tier: '${
-              item.tier===1 ? 'bronze' :
-              item.tier===2 ? 'silver' :
-              item.tier===3 ? 'gold' :
-              item.tier===4 ? 'platinum' :
-              item.tier===5 ? 'diamond' :
-              item.tier===6 ? 'uranium' : 'user'
-            }';
+          :style="`
+            ${
+              item.tier ? `--tag-tier: '${
+                item.tier===1 ? 'bronze' :
+                item.tier===2 ? 'silver' :
+                item.tier===3 ? 'gold' :
+                item.tier===4 ? 'platinum' :
+                item.tier===5 ? 'diamond' :
+                item.tier===6 ? 'uranium' : 'user'
+              }'
+              `: ''
+            };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
         >
@@ -155,7 +158,6 @@
 </template>
 
 <script>
-import html2canvas from 'html2canvas';
 export default {
   name: "ProfilePage",
   data() {
@@ -192,6 +194,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 3,
           state: "sold out",
@@ -202,6 +205,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 2,
         },
@@ -211,6 +215,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 4,
         },
@@ -220,6 +225,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 5,
         },
@@ -229,6 +235,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 6,
           state: "sold out",
@@ -239,6 +246,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 1,
         },
@@ -277,21 +285,6 @@ export default {
   methods: {
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
-    goToNftDetails(item, event) {
-      const target = event.target.parentNode.parentNode
-      html2canvas(target, { allowTaint: true }).then((e) => {
-        const canvas = e.toDataURL('image/png');
-        item = {...item, canvas}
-        localStorage.setItem("nft", JSON.stringify(item))
-      }).then(() => {
-        this.$router.push(
-          this.localePath(this.user.tier < 3
-            ? `/user-nft-details/`
-            : `/user-nft-details-vip/`
-          )
-        );
-      })
-    },
   }
 };
 </script>

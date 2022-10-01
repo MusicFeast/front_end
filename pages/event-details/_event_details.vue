@@ -120,7 +120,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-sheet :key="i" color="transparent" class="divcol gap1">
                 <v-card
-                  class="card divcol"
+                  class="card divcol custome"
                   :class="{
                     uranium: dataCarousel[+index + i].tier===6,
                     diamond: dataCarousel[+index + i].tier===5,
@@ -131,27 +131,29 @@
                   }">
                   <div
                     class="container-img"
-                    :class="{live: item.state === 'live'}"
-                    :style="
-                      `--tag-tier: '${
-                        dataCarousel[+index + i].tier===1 ? 'bronze' :
-                        dataCarousel[+index + i].tier===2 ? 'silver' :
-                        dataCarousel[+index + i].tier===3 ? 'gold' :
-                        dataCarousel[+index + i].tier===4 ? 'platinum' :
-                        dataCarousel[+index + i].tier===5 ? 'diamond' :
-                        dataCarousel[+index + i].tier===6 ? 'uranium' : 'user'
-                      }';
+                    :class="{live: dataCarousel[+index + i].state === 'live'}"
+                    :style="`
+                      ${
+                        dataCarousel[+index + i].tier ? `--tag-tier: '${
+                          dataCarousel[+index + i].tier===1 ? 'bronze' :
+                          dataCarousel[+index + i].tier===2 ? 'silver' :
+                          dataCarousel[+index + i].tier===3 ? 'gold' :
+                          dataCarousel[+index + i].tier===4 ? 'platinum' :
+                          dataCarousel[+index + i].tier===5 ? 'diamond' :
+                          dataCarousel[+index + i].tier===6 ? 'uranium' : 'user'
+                        }'
+                        `: ''
+                      };
                       ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
                     "
                   >
                     <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" style="--w: 100%; --br: 10px">
-                    
-                    <v-avatar style="border: 2px solid #fff">
-                      <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--of: cover">
-                    </v-avatar>
                   </div>
                   
                   <div class="container-content tcenter">
+                    <v-avatar style="border: 2px solid #fff">
+                      <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--of: cover">
+                    </v-avatar>
                     <a>{{dataCarousel[+index + i].name}}</a>
                     <p>{{dataCarousel[+index + i].desc}}</p>
 

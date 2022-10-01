@@ -162,49 +162,5 @@
   .container-collections {
     padding-inline: var(--margin-separator);
     margin-bottom: 6em;
-    .v-card {
-      --spacing: .7em;
-      --p: var(--spacing);
-      padding-bottom: 2em;
-      gap: calc(20px + 5px);
-      &:only-child {margin-inline: auto}
-      &:hover {
-        --bs: 0 0 0 1px var(--accent) !important;
-        .container-img img {transform: scale(1.2)}
-      }
-      .container-content {position: relative}
-      .v-avatar {
-        @include absolute(0,-50px,0,);
-      }
-      a {font-size: 15px; text-decoration: underline; margin-bottom: .3em}
-      p {font-size: 13px}
-      span.floor {font-size: 15px; font-weight: bold}
-      .container-img {
-        overflow: hidden;
-        position: relative;
-        img {transition: .5s $ease}
-        // tag
-        &::after {
-          content: var(--tag);
-          position: absolute;
-          right: var(--spacing);
-          top: var(--spacing);
-
-          display: grid;
-          place-content: center;
-
-          @include btn;
-          --br: 5px;
-          --w: max-content;
-          --bg: linear-gradient(to right, #EE3938, #000000);
-          --min-h: 2.3em;
-          --fs: 12.8px;
-          --p: 0 1.5em;
-          font-weight: 600;
-          text-transform: capitalize;
-        }
-        &.live:after {--bs: inset 0 0 1px 1px #fff}
-      }
-    }
   }
 }

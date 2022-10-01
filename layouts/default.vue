@@ -10,6 +10,13 @@
       silver: user.tier===2,
       bronze: user.tier===1,
     }">
+
+    <!-- just for testing tiers -->
+    <v-btn
+      plain rounded text style="position: fixed; top: 0; right: 0; z-index: 10; background: var(--bg-tier)" title="just for testing tiers"
+      @click="$store.commit('tierTest')">TIER</v-btn>
+    <!-- just for testing tiers -->
+
     <Alerts ref="alerts"></Alerts>
     <Header ref="header" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">

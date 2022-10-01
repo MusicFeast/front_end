@@ -25,7 +25,6 @@
                   placeholder="1,345.67"
                   type="number"
                   :rules="[v => !!v || 'required field']"
-                  required
                 ></v-text-field>
 
                 <div class="divcol" style="gap: 4px; margin-bottom: 10px">
@@ -118,7 +117,6 @@
                   placeholder="1,345.67"
                   type="number"
                   :rules="[v => !!v || 'required field']"
-                  required
                 ></v-text-field>
 
                 <div class="divcol" style="gap: 4px; margin-bottom: 10px">

@@ -11,11 +11,24 @@
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataCarousel.length">
-              <v-card :key="i" class="card divcol" @click="goToCollectionDetails(dataCarousel[+index + i])">
+              <v-card :key="i" class="card divcol custome" @click="$store.dispatch('goTo', {item: dataCarousel[+index + i]})">
                 <div
                   class="container-img"
-                  :style="`--tag: '${dataCarousel[+index + i].state}'`"
-                  :class="{live: dataCarousel[+index + i].state==='live'}"
+                  :class="{live: dataCarousel[+index + i].state === 'live'}"
+                  :style="`
+                    ${
+                      dataCarousel[+index + i].tier ? `--tag-tier: '${
+                        dataCarousel[+index + i].tier===1 ? 'bronze' :
+                        dataCarousel[+index + i].tier===2 ? 'silver' :
+                        dataCarousel[+index + i].tier===3 ? 'gold' :
+                        dataCarousel[+index + i].tier===4 ? 'platinum' :
+                        dataCarousel[+index + i].tier===5 ? 'diamond' :
+                        dataCarousel[+index + i].tier===6 ? 'uranium' : 'user'
+                      }'
+                      `: ''
+                    };
+                    ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
+                  "
                 >
                   <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" style="--w: 100%; --br: 10px">
                 </div>
@@ -107,7 +120,7 @@
 
     <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
       <v-card
-        v-for="(item,i) in dataListed" :key="i" class="card divcol"
+        v-for="(item,i) in dataListed" :key="i" class="card divcol custome"
         :class="{
           uranium: item.tier===6,
           diamond: item.tier===5,
@@ -116,26 +129,32 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="goToCollectionDetails(item)">
+        @click="$store.dispatch('goTo', {item})">
         <div
           class="container-img"
-          :style="`--tag: '${
-            item.tier===1 ? 'bronze' :
-            item.tier===2 ? 'silver' :
-            item.tier===3 ? 'gold' :
-            item.tier===4 ? 'platinum' :
-            item.tier===5 ? 'diamond' :
-            item.tier===6 ? 'uranium' : 'user'
-          }'`"
+          :class="{live: item.state === 'live'}"
+          :style="`
+            ${
+              item.tier ? `--tag-tier: '${
+                item.tier===1 ? 'bronze' :
+                item.tier===2 ? 'silver' :
+                item.tier===3 ? 'gold' :
+                item.tier===4 ? 'platinum' :
+                item.tier===5 ? 'diamond' :
+                item.tier===6 ? 'uranium' : 'user'
+              }'
+              `: ''
+            };
+            ${item.state ? `--tag-state: '${item.state}'` : ''}`
+          "
         >
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
-          
-          <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
-          </v-avatar>
         </div>
         
         <div class="container-content tcenter">
+          <v-avatar style="border: 2px solid #fff">
+            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
+          </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}}</p>
 
@@ -181,6 +200,7 @@ export default {
           name: "Artist Name o Collection  n°1",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "live",
         },
         {
@@ -189,6 +209,7 @@ export default {
           name: "Artist Name o Collection  n°2",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "sold out",
         },
         {
@@ -197,6 +218,7 @@ export default {
           name: "Artist Name o Collection  n°3",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "comming soon",
         },
         {
@@ -205,6 +227,7 @@ export default {
           name: "Artist Name o Collection  n°4",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "live",
         },
         {
@@ -213,6 +236,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "sold out",
         },
         {
@@ -221,6 +245,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "sold out",
         },
         {
@@ -229,6 +254,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "sold out",
         },
         {
@@ -237,6 +263,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           state: "sold out",
         },
       ],
@@ -267,6 +294,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           editions: "250.00",
           tier: 3,
         },
@@ -276,6 +304,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           editions: "250.00",
           tier: 2,
         },
@@ -285,6 +314,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           editions: "250.00",
           tier: 4,
         },
@@ -294,6 +324,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           editions: "250.00",
           tier: 5,
         },
@@ -303,6 +334,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           editions: "250.00",
           tier: 6,
         },
@@ -312,6 +344,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "collection",
           editions: "250.00",
           tier: 1,
         },
@@ -319,9 +352,15 @@ export default {
       pagination: 0,
     }
   },
+  computed: {
+    user() {return this.$store.state.dataUser},
+  },
+  created() {
+    if (this.user.tier < 3) {this.$router.push(this.localePath("/marketplace"))}
+  },
   mounted() {
-    const pageName = 'marketplace';
-    const page = document.querySelector(`#${pageName}`);
+    const pageName = 'marketplace-vip';
+    const page = document.querySelector(`#marketplace.vip`);
     
     // listener to h2
     const heightH2 = () => {
@@ -357,10 +396,6 @@ export default {
       } else {
         return 1
       }
-    },
-    goToCollectionDetails(item) {
-      localStorage.setItem("collections", JSON.stringify(item))
-      this.$router.push(this.localePath(`/collection-details/`))
     },
   }
 };

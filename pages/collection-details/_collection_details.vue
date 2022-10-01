@@ -69,7 +69,7 @@
     <section class="container-nfts grid">
       <v-card
         v-for="(item,i) in dataNfts" :key="i"
-        class="card divcol"
+        class="card divcol custome"
         :class="{
           uranium: item.tier===6,
           diamond: item.tier===5,
@@ -77,30 +77,33 @@
           gold: item.tier===3,
           silver: item.tier===2,
           bronze: item.tier===1,
-        }">
+        }"
+        @click="$store.dispatch('goTo', {item, event: $event})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
-          :style="
-            `--tag-tier: '${
-              item.tier===1 ? 'bronze' :
-              item.tier===2 ? 'silver' :
-              item.tier===3 ? 'gold' :
-              item.tier===4 ? 'platinum' :
-              item.tier===5 ? 'diamond' :
-              item.tier===6 ? 'uranium' : 'user'
-            }';
+          :style="`
+            ${
+              item.tier ? `--tag-tier: '${
+                item.tier===1 ? 'bronze' :
+                item.tier===2 ? 'silver' :
+                item.tier===3 ? 'gold' :
+                item.tier===4 ? 'platinum' :
+                item.tier===5 ? 'diamond' :
+                item.tier===6 ? 'uranium' : 'user'
+              }'
+              `: ''
+            };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
         >
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
-          
-          <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
-          </v-avatar>
         </div>
         
         <div class="container-content tcenter">
+          <v-avatar style="border: 2px solid #fff">
+            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
+          </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}}</p>
 
@@ -182,6 +185,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 3,
           state: "sold out",
@@ -192,6 +196,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 2,
         },
@@ -201,6 +206,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 4,
         },
@@ -210,6 +216,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 5,
         },
@@ -219,6 +226,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 6,
           state: "sold out",
@@ -229,6 +237,7 @@ export default {
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
+          type: "nft",
           editions: "250.00",
           tier: 1,
         },
@@ -240,6 +249,9 @@ export default {
         { icon: "discord", chat: "discord artist name 3" },
       ],
     }
+  },
+  computed: {
+    user() {return this.$store.state.dataUser},
   },
   mounted() {
     const pageName = 'collection-details';

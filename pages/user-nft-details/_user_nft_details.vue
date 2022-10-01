@@ -59,7 +59,9 @@
           <v-btn
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
             @click="$refs.modal.modalSell = true">sell</v-btn>
-          <v-btn :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px">Buy</v-btn>
+          <v-btn
+            :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
+            @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
         </div>
       </article>
     </section>
@@ -221,12 +223,12 @@ export default {
     }
   },
   computed: {
-    nft() {
-      return JSON.parse(localStorage.getItem("nft"))
-    },
+    user() {return this.$store.state.dataUser},
+    nft() {return JSON.parse(localStorage.getItem("nft"))},
   },
   created() {
-    if (!this.nft) {this.$router.push(this.localePath('/artists'))}
+    if (!this.nft) {this.$router.push(this.localePath('/profile'))}
+    if (this.user.tier >= 3) {this.$router.push(this.localePath("/user-nft-details-vip"))}
   },
   mounted() {
   },

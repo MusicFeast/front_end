@@ -104,48 +104,5 @@
       height: 1px;
       background-color: var(--primary);
     }
-    .v-card {
-      --spacing: .7em;
-      @include media(max, 700px) {--max-w-child: 400px; margin-inline: auto}
-      gap: calc(20px + 5px);
-      transition: .5s $ease;
-      h5 {
-        font-size: 1.2em;
-        font-weight: 700;
-        margin-bottom: .8em;
-        color: var(--accent);
-      }
-      p {font-size: 1em}
-      &:hover {
-        --bs: 0 0 0 1px var(--accent) !important;
-        .container-img img {transform: scale(1.2)}
-      }
-      .container-img {
-        overflow: hidden;
-        position: relative;
-        img {transition: .5s $ease}
-        // tag state
-        &::after {
-          content: var(--tag-state);
-          position: absolute;
-          right: var(--spacing);
-          top: var(--spacing);
-
-          display: grid;
-          place-content: center;
-
-          @include btn;
-          --br: 0;
-          --w: max-content;
-          --bg: linear-gradient(to right, #EE3938, #000000);
-          --h: 30px;
-          --min-h: 30px;
-          --fs: 12px;
-          font-weight: 400;
-          text-transform: capitalize;
-        }
-        &.live:after {--bs: inset 0 0 1px 1px #fff}
-      }
-    }
   }
 }

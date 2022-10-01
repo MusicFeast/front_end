@@ -113,9 +113,8 @@
         <v-select
           id="country"
           v-model="form.address.country"
-          :items="dataCounties"
+          :items="dataCounties" solo
           placeholder="Select The Country"
-          :rules="rules.required" solo
           style="--fs-place: 16px"
         ></v-select>
         
@@ -124,7 +123,6 @@
           id="street"
           v-model="form.address.street"
           placeholder="Street Address, P.O, box, lorem ipsum"
-          :rules="rules.required"
         ></v-text-field>
         
         <label for="apartment">Apartment, Suite, Etc</label>
@@ -132,7 +130,6 @@
           id="apartment"
           v-model="form.address.apartment"
           placeholder="Street Address 2, P.O, box, lorem ipsum "
-          :rules="rules.required"
         ></v-text-field>
         
         <label for="city">city</label>
@@ -140,7 +137,6 @@
           id="city"
           v-model="form.address.city"
           placeholder="Lorem ipsum"
-          :rules="rules.required"
         ></v-text-field>
         
         <label for="state">State / Province / Region</label>
@@ -148,15 +144,13 @@
           id="state"
           v-model="form.address.state"
           placeholder="Lorem ipsum"
-          :rules="rules.required"
         ></v-text-field>
 
         <label for="postal">Postal / Zip Code</label>
         <v-text-field
           id="postal"
           v-model="form.address.postal"
-          placeholder="Lorem ipsum" 
-          :rules="rules.required"
+          placeholder="Lorem ipsum"
         ></v-text-field>
       </section>
 
@@ -206,6 +200,8 @@ export default {
     user() {return this.$store.state.dataUser},
   },
   methods: {
+    showTag() {document.querySelector(".header").classList.add("hover")},
+    hideTag() {document.querySelector(".header").classList.remove("hover")},
     previewBanner() {
       this.profileBanner = URL.createObjectURL(this.bannerImage_model);
     },
