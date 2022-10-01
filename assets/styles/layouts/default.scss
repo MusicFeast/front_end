@@ -6,7 +6,7 @@
   background-size: cover;
   &.vip {
     background-image: linear-gradient(to right top, #F7931E, #7C4A0F);
-    #header {background-image: linear-gradient(to right top, #F7931E, #7C4A0F) !important}
+    #header::before {background-image: linear-gradient(to right top, #F7931E, #7C4A0F) !important}
   }
   // tier background
   --bg-tier: #280909;

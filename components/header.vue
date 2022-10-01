@@ -1,7 +1,7 @@
 <template>
   <div>
     <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="header" fixed class="font2 isolate">
+    <v-app-bar id="header" fixed class="font2 isolate" color="transparent">
       <a id="logoApp" class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
         <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">
@@ -120,9 +120,18 @@ export default {
     user() {return this.$store.state.dataUser},
   },
   mounted() {
+    const header = document.querySelector("#header");
+    
+    // tier loading data
     this.user.tier < 3 
     ? this.dataLinks[this.dataLinks.findIndex(e=>e.name==='marketplace')].to = '/marketplace'
     : this.dataLinks[this.dataLinks.findIndex(e=>e.name==='marketplace')].to = '/marketplace-vip'
+
+    // mobile listener scroll
+    window.onscroll = () => {
+      if (window.innerWidth <= 880 && document.documentElement.scrollTop >= 80) {header.classList.add("hide")}
+      else {header.classList.remove("hide")}
+    }
   },
   // created() {
   //   const theme = localStorage.getItem("theme");
