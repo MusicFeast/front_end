@@ -1,8 +1,8 @@
 <template>
   <div id="artist-details" class="divcol">
-    <section class="header">
+    <section class="header" :style="`--bg-image: url(${artist.img})`">
       <aside class="header-title">
-        <h2>Name or Nickname of the Artist</h2>
+        <h2>{{artist.name}}</h2>
         <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
       </aside>
 
@@ -266,7 +266,7 @@ export default {
       slider: 0,
       dataSlider: [
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-1.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -275,7 +275,7 @@ export default {
           tier: 3,
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-2.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -284,7 +284,7 @@ export default {
           tier: 2,
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-3.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -293,7 +293,7 @@ export default {
           tier: 4,
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-4.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -311,7 +311,7 @@ export default {
           tier: 6,
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-6.jpg'),
           avatar: require("~/assets/sources/images/avatar.jpg"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
@@ -404,6 +404,7 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
+    artist() {return JSON.parse(localStorage.getItem("artist"))},
   },
   mounted() {
     const pageName = 'artist-details';
@@ -482,13 +483,14 @@ export default {
         const canvas = e.toDataURL('image/png');
         item = {...item, canvas}
         localStorage.setItem("nft", JSON.stringify(item))
-      });
-      this.$router.push(
-        this.localePath(this.user.tier < 3
-          ? `/user-nft-details/`
-          : `/user-nft-details-vip/`
-        )
-      )
+      }).then(() => {
+        this.$router.push(
+          this.localePath(this.user.tier < 3
+            ? `/user-nft-details/`
+            : `/user-nft-details-vip/`
+          )
+        );
+      })
     },
   }
 };

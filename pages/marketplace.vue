@@ -11,7 +11,7 @@
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataCarousel.length">
-              <v-card :key="i" class="card divcol" :to="localePath(`/collection-details/`)">
+              <v-card :key="i" class="card divcol" @click="goToCollectionDetails(dataCarousel[+index + i])">
                 <div
                   class="container-img"
                   :style="`--tag: '${dataCarousel[+index + i].state}'`"
@@ -116,7 +116,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        :to="localePath(`/collection-details/`)">
+        @click="goToCollectionDetails(item)">
         <div
           class="container-img"
           :style="`--tag: '${
@@ -357,6 +357,10 @@ export default {
       } else {
         return 1
       }
+    },
+    goToCollectionDetails(item) {
+      localStorage.setItem("collections", JSON.stringify(item))
+      this.$router.push(this.localePath(`/collection-details/`))
     },
   }
 };

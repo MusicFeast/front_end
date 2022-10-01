@@ -12,7 +12,7 @@
     margin-inline: calc(50% - 50vw);
     margin-bottom: calc(var(--h-header-title) / 2.5);
     height: 50em;
-    background: center no-repeat url(../../sources/images/img-artist-header.jpg);
+    background: center no-repeat var(--bg-image);
     background-size: cover;
     position: relative;
     isolation: isolate;

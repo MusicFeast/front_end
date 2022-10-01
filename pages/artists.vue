@@ -3,7 +3,7 @@
     <v-carousel
       id="custome-carousel"
       v-model="modelCarousel"
-      height="700px"
+      height="720px"
       hide-delimiter-background
       :show-arrows="false"
     >
@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-card
                 :key="i" :class="{active: dataCarousel[+index + i].active}" :style="`--bg-image: url('${dataCarousel[+index + i].img}')`" :ripple="false"
-                :to="localePath(`/artist-details/`)">
+                @click="goToArtistDetails(dataCarousel[+index + i])">
                 <v-sheet>
                   <div class="divcol">
                     <h3>{{dataCarousel[+index + i].name}} n°{{i+1}}</h3>
@@ -51,7 +51,7 @@
     </h2>
 
     <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
-      <v-card v-for="(item,i) in dataListed" :key="i" class="card divcol" :to="localePath('/artist-details')">
+      <v-card v-for="(item,i) in dataListed" :key="i" class="card divcol" @click="goToArtistDetails(item)">
         <div class="container-img" :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`" :class="{live: item.state==='live'}">
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
         </div>
@@ -90,24 +90,61 @@ export default {
     return {
       modelCarousel: 0,
       dataCarousel: [
-        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artists", active: false },
-        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artists", active: false },
+        {
+          img: require('~/assets/sources/images/img-slider-1.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-2.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-3.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-4.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-5.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-6.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-1.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-2.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-3.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-4.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-5.jpg'),
+          name: "Artist Name or nickname",
+          active: false ,
+        },
       ],
       search: "",
       filter: {
@@ -116,39 +153,23 @@ export default {
       },
       dataListed: [
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-1.jpg'),
           name: "Artist Name or nickname",
           desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
           state: "comming soon"
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-2.jpg'),
           name: "Artist Name or nickname",
           desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-3.jpg'),
           name: "Artist Name or nickname",
           desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          state: "comming soon"
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-4.jpg'),
           name: "Artist Name or nickname",
           desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
         },
@@ -159,12 +180,28 @@ export default {
           state: "comming soon"
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-6.jpg'),
           name: "Artist Name or nickname",
           desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
         },
         {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
+          img: require('~/assets/sources/images/img-listed-1.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+        },
+        {
+          img: require('~/assets/sources/images/img-listed-2.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+          state: "comming soon"
+        },
+        {
+          img: require('~/assets/sources/images/img-listed-3.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+        },
+        {
+          img: require('~/assets/sources/images/img-listed-4.jpg'),
           name: "Artist Name or nickname",
           desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
         },
@@ -218,6 +255,10 @@ export default {
       } else {
         return 2
       }
+    },
+    goToArtistDetails(item) {
+      localStorage.setItem("artist", JSON.stringify(item))
+      this.$router.push(this.localePath(`/artist-details/`))
     },
   }
 };

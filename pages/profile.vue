@@ -283,14 +283,14 @@ export default {
         const canvas = e.toDataURL('image/png');
         item = {...item, canvas}
         localStorage.setItem("nft", JSON.stringify(item))
-      });
-
-      this.$router.push(
-        this.localePath(this.user.tier < 3
-          ? `/user-nft-details/`
-          : `/user-nft-details-vip/`
-        )
-      );
+      }).then(() => {
+        this.$router.push(
+          this.localePath(this.user.tier < 3
+            ? `/user-nft-details/`
+            : `/user-nft-details-vip/`
+          )
+        );
+      })
     },
   }
 };
