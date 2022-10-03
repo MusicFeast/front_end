@@ -12,7 +12,7 @@
           <p class="p">{{item.desc}}</p>
         </div>
 
-        <div class="center gap1 marginaright">
+        <div class="center gap1 alignl">
           <v-avatar style="border: 2px solid #fff">
             <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
           </v-avatar>

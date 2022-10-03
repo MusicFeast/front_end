@@ -2,7 +2,7 @@
   <div id="event" class="divcol">
     <section class="header grid">
       <div class="header-background divcol">
-        <div class="center gap1 marginaright">
+        <div class="center gap1 alignl">
           <v-avatar style="border: 2px solid #fff">
             <img src="@/assets/sources/images/avatar.jpg" alt="artist image" style="--of: cover">
           </v-avatar>

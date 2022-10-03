@@ -40,7 +40,7 @@
         magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci 
         tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
       </p>
-      <span class="marginaleft bold">Lorem ipsum dolow sit amet,</span>
+      <span class="alignr bold">Lorem ipsum dolow sit amet,</span>
     </blockquote>
 
     <h2 class="Title tup">other news</h2>

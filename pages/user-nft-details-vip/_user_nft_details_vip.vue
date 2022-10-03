@@ -13,7 +13,7 @@
     
     <section class="header grid">
       <div class="header-background divcol" :style="`--bg-image: url(${nft.img})`">
-        <div class="center gap1 marginaright">
+        <div class="center gap1 alignl">
           <v-avatar style="border: 2px solid #fff">
             <img :src="nft.avatar" alt="artist image" style="--of: cover">
           </v-avatar>
