@@ -59,11 +59,15 @@ export const actions = {
     commit( "cambiarTheme", theme)
   },
   async InicializeNear({commit}) {
-    // connect to NEAR
-    const near = await connect(config);
-    // create wallet connection
-    wallet = new WalletConnection(near);
-    commit( "getData");
+    try {
+      // connect to NEAR
+      const near = await connect(config);
+      // create wallet connection
+      wallet = new WalletConnection(near);
+      commit( "getData");
+    } catch (error) {
+      this.$alert("cancel", null, error.message)
+    }
   },
   goTo({commit, dispatch}, {item, event}) {
     if (item.type === 'nft') {dispatch("goToNftDetails", {item, event})}
