@@ -62,7 +62,7 @@ export const actions = {
     // connect to NEAR
     const near = await connect(config);
     // create wallet connection
-    wallet = new WalletConnection(near)
+    wallet = new WalletConnection(near);
     commit( "getData");
   },
   goTo({commit, dispatch}, {item, event}) {
