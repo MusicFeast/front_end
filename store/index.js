@@ -70,7 +70,7 @@ export const actions = {
       console.error(error.message)
     }
   },
-  goTo({commit, state}, {key, item, event}) {
+  goTo({commit, state}, {key, item, event, id}) {
     if (key === 'nft' || key === 'user-nft') {
       const target = event.target.parentNode.parentNode
       document.documentElement.style.cursor = "progress";
@@ -84,10 +84,10 @@ export const actions = {
       }).then(() => {
         this.$router.push(
           this.localePath(key === 'nft'
-            ? `/nft-details/`
+            ? `/nft-details/${id?`:${id}`:''}`
             : state.dataUser.tier < 3
-            ? `/user-nft-details/`
-            : `/user-nft-details-vip/`
+            ? `/user-nft-details/${id?`:${id}`:''}`
+            : `/user-nft-details-vip/${id?`:${id}`:''}`
           )
         );
       }).catch((error) => {
@@ -96,7 +96,7 @@ export const actions = {
       })
     } else {
       localStorage.setItem(key, JSON.stringify(item))
-      this.$router.push(this.localePath(`/${key}-details/`))
+      this.$router.push(this.localePath(`/${key}-details/${id?`:${id}`:''}`))
     }
   },
 };
