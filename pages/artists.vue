@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-card
                 :key="i" :class="{active: dataCarousel[+index + i].active}" :style="`--bg-image: url('${dataCarousel[+index + i].img}')`" :ripple="false"
-                @click="$store.dispatch('goTo', {key: 'artist', item: dataCarousel[+index + i], id: item.name})">
+                @click="$store.dispatch('goTo', {key: 'artist', item: dataCarousel[+index + i]})">
                 <v-sheet>
                   <div class="divcol">
                     <h3>{{dataCarousel[+index + i].name}} n°{{i+1}}</h3>
