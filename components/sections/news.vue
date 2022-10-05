@@ -41,26 +41,15 @@
 <script>
 export default {
   name: "NewsSection",
+  props: {
+    dataNews: {
+      type: Array,
+      default: null,
+    }
+  },
   data() {
     return {
       slider: null,
-      dataNews: [
-        {
-          img: require("~/assets/sources/images/img-news-1.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-2.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-2.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-      ],
     }
   },
   methods: {

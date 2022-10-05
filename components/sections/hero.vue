@@ -5,7 +5,7 @@
       height="max-content"
     >
       <v-carousel-item
-        v-for="(item,i) in dataCarousel"
+        v-for="(item,i) in dataHero"
         :key="i"
         :src="item.img"
       ></v-carousel-item>
@@ -36,15 +36,10 @@
 <script>
 export default {
   name: "HeroSection",
-  data() {
-    return {
-      dataCarousel: [
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-      ],
+  props: {
+    dataHero: {
+      type: Array,
+      default: null,
     }
   },
   methods: {
