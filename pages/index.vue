@@ -156,6 +156,11 @@ export default {
     }
   },
   mounted() {
+    this.$axios.post("")
+      .then((data) => {
+        console.log(data)
+      }).catch((error) => console.error(error)
+    )
   },
   methods: {
   }
