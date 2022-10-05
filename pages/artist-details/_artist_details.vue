@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
+          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
           <div
             class="container-img"
             :style="`--tag: '${
@@ -159,7 +159,9 @@
 
     <v-expansion-panels class="custome-expansion">
       <v-expansion-panel v-for="(item,i) in dataEvents" :key="i">
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="$router.push(localePath(`/event-details/`))">
+        <v-expansion-panel-header
+          expand-icon="mdi-menu-down" class="bold tcap"
+          @click="$store.dispatch('goTo', {key: 'event', item, id: item.event})">
           {{item.event}}
         </v-expansion-panel-header>
       </v-expansion-panel>
@@ -198,7 +200,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
+        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -350,9 +352,9 @@ export default {
         },
       ],
       dataEvents: [
-        { event: "Toronto" },
-        { event: "Miami" },
-        { event: "Madrid" },
+        { event: "toronto" },
+        { event: "miami" },
+        { event: "madrid" },
       ],
       search: "",
       filter: {
@@ -499,7 +501,7 @@ export default {
 
     // resize listener
     window.addEventListener('resize', () => {
-      if (this.$route.path === `/${pageName}`) {
+      if (this.$route.path.includes(`/${pageName}`)) {
         titleHeight();
         titleWidth();
         socialHeight();

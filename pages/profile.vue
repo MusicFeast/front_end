@@ -86,7 +86,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {key: 'user-nft', item, event: $event})">
+        @click="$store.dispatch('goTo', {key: 'user-nft', item, event: $event, id: item.name})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -283,7 +283,7 @@ export default {
     
     // resize listener
     window.addEventListener('resize', () => {
-      if (this.$route.path===`/${pageName}`) {
+      if (this.$route.path.includes(`/${pageName}`)) {
         heightH2()
       };
     });

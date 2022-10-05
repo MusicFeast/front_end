@@ -145,7 +145,7 @@ export default {
       if (key === 'logout') {localStorage.setItem('auth', false);this.$router.push(this.localePath('/'));this.$router.go()}
     },
     // isScrollTop() {
-    //   if (this.$route.path === '/') {
+    //   if (this.$route.path === this.localePath('/') {
     //     this.dataDrawer.forEach(e => {
     //       const sections = e.key === 'home' ? document.getElementById('hero') : document.getElementById(e.key);
     //       if (sections) {

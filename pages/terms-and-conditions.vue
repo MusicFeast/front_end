@@ -55,7 +55,7 @@ export default {
 
     // resize listener
     window.addEventListener('resize', () => {
-      if (this.$route.path===`/${pageName}`) {
+      if (this.$route.path.includes(`/${pageName}`)) {
         heightH2();
       };
     });

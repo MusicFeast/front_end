@@ -15,7 +15,7 @@
     margin-bottom: 2em;
     &--background {
       min-height: clamp(400px, 37vw, 600px);
-      background: no-repeat center url(../../sources/images/img-news-2.jpg);
+      background: no-repeat center var(--bg-image);
       background-size: cover;
     }
     article {

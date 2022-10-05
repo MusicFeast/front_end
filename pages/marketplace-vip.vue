@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-card
                 :key="i" class="card divcol custome"
-                @click="$store.dispatch('goTo', {key: 'collection', item: dataCarousel[+index + i]})">
+                @click="$store.dispatch('goTo', {key: 'collection', item: dataCarousel[+index + i], id: item.name})">
                 <div
                   class="container-img"
                   :class="{live: dataCarousel[+index + i].state === 'live'}"
@@ -131,7 +131,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {key: 'collection', item})">
+        @click="$store.dispatch('goTo', {key: 'collection', item, id: item.name})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -381,7 +381,7 @@ export default {
     
     // resize listener
     window.addEventListener('resize', () => {
-      if (this.$route.path===`/${pageName}`) {
+      if (this.$route.path.includes(`/${pageName}`)) {
         heightH2();
 
         // listener reload columns in caraousel

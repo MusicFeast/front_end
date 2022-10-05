@@ -3,7 +3,7 @@ export default function ({app, route}) {
     // If current layout
     switch (app.router.app.$data.layoutName) {
       case 'default': {
-        const layout = app.router.app.$children[app.router.app.$children.findIndex(data=>data._name === '<DefaultLayout>')];
+        const layout = app.router.app.$children.find(data=>data._name === '<DefaultLayout>');
         // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
         const dataMenuProfile = layout.$refs.header.dataMenuProfile;
         const dataDrawer = layout.$refs.header.dataLinks;

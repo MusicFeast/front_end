@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-card
                 :key="i" :class="{active: dataCarousel[+index + i].active}" :style="`--bg-image: url('${dataCarousel[+index + i].img}')`" :ripple="false"
-                @click="$store.dispatch('goTo', {key: 'artist', item: dataCarousel[+index + i]})">
+                @click="$store.dispatch('goTo', {key: 'artist', item: dataCarousel[+index + i], id: item.name})">
                 <v-sheet>
                   <div class="divcol">
                     <h3>{{dataCarousel[+index + i].name}} n°{{i+1}}</h3>
@@ -53,7 +53,7 @@
     <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
       <v-card
         v-for="(item,i) in dataListed" :key="i" class="card divcol custome"
-        @click="$store.dispatch('goTo', {key: 'artist', item})">
+        @click="$store.dispatch('goTo', {key: 'artist', item, id: item.name})">
         <div class="container-img" :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`" :class="{live: item.state==='live'}">
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
         </div>
@@ -260,7 +260,7 @@ export default {
     
     // resize listener
     window.addEventListener('resize', () => {
-      if (this.$route.path===`/${pageName}`) {
+      if (this.$route.path.includes(`/${pageName}`)) {
         heightH2();
 
         // listener reload columns in caraousel

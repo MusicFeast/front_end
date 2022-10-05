@@ -66,6 +66,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "live",
+          event: "toronto",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -74,6 +75,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "live",
+          event: "miami",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -82,6 +84,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "sold out",
+          event: "madrid",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -90,6 +93,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "live",
+          event: "toronto",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -98,6 +102,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "sold out",
+          event: "madrid",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -106,6 +111,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "live",
+          event: "miami",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -114,6 +120,7 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "sold out",
+          event: "madrid",
         },
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -122,22 +129,26 @@ export default {
           title: "Lorem ipsum dolor sit amet,",
           desc: "Lorem ipsum dolor sit amet,",
           state: "sold out",
+          event: "toronto",
         },
       ],
       dataNews: [
         {
           img: require("~/assets/sources/images/img-news-1.jpg"),
           name: "Lorem ipsum dolor sit amet,",
+          title2: "title 2",
           desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
         },
         {
           img: require("~/assets/sources/images/img-news-2.jpg"),
           name: "Lorem ipsum dolor sit amet,",
+          title2: "title 2",
           desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
         },
         {
           img: require("~/assets/sources/images/img-news-2.jpg"),
           name: "Lorem ipsum dolor sit amet,",
+          title2: "title 2",
           desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
         },
       ],
@@ -150,11 +161,11 @@ export default {
     }
   },
   mounted() {
-    this.$axios.post("")
-      .then((data) => {
-        console.log(data)
-      }).catch((error) => console.error(error)
-    )
+    // this.$axios.post("")
+    //   .then((data) => {
+    //     console.log(data)
+    //   }).catch((error) => console.error(error)
+    // )
   },
   methods: {
   }
