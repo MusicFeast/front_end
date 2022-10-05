@@ -67,6 +67,7 @@ export const actions = {
       commit( "getData");
     } catch (error) {
       this.$alert("cancel", null, error.message)
+      console.error(error.message)
     }
   },
   goTo({commit, dispatch}, {item, event}) {
@@ -87,6 +88,9 @@ export const actions = {
           : `/user-nft-details-vip/`
         )
       );
+    }).catch((error) => {
+      this.$alert("cancel", null, error.message)
+      console.error(error.message)
     })
   },
   goToCollectionDetails({commit}, {item}) {

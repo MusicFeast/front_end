@@ -48,7 +48,7 @@
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>
                 <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh
+                  {{item.desc}}
                 </p>
               </div>
             </v-sheet>
@@ -91,12 +91,48 @@ export default {
     return {
       slider: null,
       dataSlider: [
-        { img: require('~/assets/sources/images/img-slider-1.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
-        { img: require('~/assets/sources/images/img-slider-2.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
-        { img: require('~/assets/sources/images/img-slider-3.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
-        { img: require('~/assets/sources/images/img-slider-4.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
-        { img: require('~/assets/sources/images/img-slider-5.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
-        { img: require('~/assets/sources/images/img-slider-6.jpg'), name: "Artist Name or nickname", active: false, type: "artist" },
+        {
+          img: require('~/assets/sources/images/img-slider-1.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
+          active: false,
+          type: "artist",
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-2.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
+          active: false,
+          type: "artist",
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-3.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
+          active: false,
+          type: "artist",
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-4.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
+          active: false,
+          type: "artist",
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-5.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
+          active: false,
+          type: "artist",
+        },
+        {
+          img: require('~/assets/sources/images/img-slider-6.jpg'),
+          name: "Artist Name or nickname",
+          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
+          active: false,
+          type: "artist",
+        },
       ],
     }
   },

@@ -13,6 +13,10 @@ export default {
   name: "HomePage",
   data() {
     return {
+      dataHero: [],
+      dataArtists: [],
+      dataLastestReleases: [],
+      dataNews: [],
     }
   },
   head() {
@@ -20,6 +24,8 @@ export default {
     return {
       title,
     }
+  },
+  mounted() {
   },
   methods: {
   }
