@@ -99,7 +99,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {item, event: $event})">
+        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -280,6 +280,9 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     collection() {return JSON.parse(localStorage.getItem("collection"))}
+  },
+  created() {
+    if (!this.collection) {this.$router.push(this.localePath('/marketplace'))}
   },
   mounted() {
     const pageName = 'collection-details';

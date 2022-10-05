@@ -40,7 +40,7 @@
         <v-slide-item v-for="(item,i) in dataArtists" :key="i">
           <v-card
             :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false"
-            @click="$store.dispatch('goTo', {item})">
+            @click="$store.dispatch('goTo', {key: 'artist', item})">
             <v-sheet>
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>

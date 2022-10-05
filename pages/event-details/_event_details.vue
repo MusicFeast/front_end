@@ -285,6 +285,12 @@ export default {
       title,
     }
   },
+  computed: {
+    event() {return JSON.parse(localStorage.getItem("event"))}
+  },
+  created() {
+    if (!this.event) {this.$router.push(this.localePath('/'))}
+  },
   mounted() {
     const pageName = 'event';
     const page = document.querySelector(`#${pageName}`);

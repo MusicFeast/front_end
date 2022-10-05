@@ -232,7 +232,7 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
-    nft() {return JSON.parse(localStorage.getItem("nft"))},
+    nft() {return JSON.parse(localStorage.getItem("user-nft"))},
   },
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/profile'))}

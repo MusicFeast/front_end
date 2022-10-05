@@ -116,6 +116,12 @@ export default {
       title,
     }
   },
+  computed: {
+    news() {return JSON.parse(localStorage.getItem("news"))}
+  },
+  // created() {
+  //   if (!this.news) {this.$router.push(this.localePath('/'))}
+  // },
   mounted() {
     const pageName = 'news-details';
     const page = document.querySelector(`#${pageName}`);

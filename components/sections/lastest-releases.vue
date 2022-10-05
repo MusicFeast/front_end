@@ -2,7 +2,9 @@
   <div id="lastest-releases" class="divcol">
     <h2>Lastest Releases</h2>
     <section class="wrapper">
-      <v-card v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
+      <v-card
+        v-for="(item,i) in dataLastestReleases" :key="i" color="#000"
+        @click="$store.dispatch('goTo', {key: 'event', item})">
         <div class="container-img" :style="`--tag: '${item.state}'`" :class="{live: item.state==='live'}">
           <img :src="item.img" :alt="`${item.title} image`" style="--w: 100%; --br: 15px">
         </div>

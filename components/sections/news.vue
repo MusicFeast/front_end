@@ -9,7 +9,9 @@
       show-arrows
     >
       <v-slide-item v-for="(item,i) in dataNews" :key="i" v-slot="{ toggle }">
-        <v-card color="transparent" class="tcentermobile" :ripple="false" @click="toggle; $router.push(localePath(`/news-details/`))">
+        <v-card
+          color="transparent" class="tcentermobile" :ripple="false"
+          @click="toggle; $store.dispatch('goTo', {key: 'news', item})">
           <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 15px">
           <h3 class="p">{{item.name}}</h3>
           <p class="p">{{item.desc}}</p>

@@ -86,7 +86,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {item, event: $event})">
+        @click="$store.dispatch('goTo', {key: 'user-nft', item, event: $event})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"

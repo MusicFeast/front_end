@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          @click="$store.dispatch('goTo', {item, event: $event})">
+          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
           <div
             class="container-img"
             :style="`--tag: '${
@@ -198,7 +198,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {item, event: $event})">
+        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
         <div
           class="container-img"
           :class="{live: item.state === 'live'}"
@@ -452,6 +452,9 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     artist() {return JSON.parse(localStorage.getItem("artist"))},
+  },
+  created() {
+    if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   mounted() {
     const pageName = 'artist-details';

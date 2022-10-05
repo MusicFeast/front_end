@@ -70,36 +70,34 @@ export const actions = {
       console.error(error.message)
     }
   },
-  goTo({commit, dispatch}, {item, event}) {
-    if (item.type === 'nft') {dispatch("goToNftDetails", {item, event})}
-    else if (item.type === 'collection') {dispatch("goToCollectionDetails", {item})}
-    else if (item.type === 'artist') {dispatch("goToArtistDetails", {item})}
-  },
-  goToNftDetails({state, commit}, {item, event}) {
-    const target = event.target.parentNode.parentNode
-    html2canvas(target, { allowTaint: true }).then((e) => {
-      const canvas = e.toDataURL('image/png');
-      item = {...item, canvas}
-      localStorage.setItem("nft", JSON.stringify(item))
-    }).then(() => {
-      this.$router.push(
-        this.localePath(state.dataUser.tier < 3
-          ? `/user-nft-details/`
-          : `/user-nft-details-vip/`
-        )
-      );
-    }).catch((error) => {
-      this.$alert("cancel", null, error.message)
-      console.error(error.message)
-    })
-  },
-  goToCollectionDetails({commit}, {item}) {
-    localStorage.setItem("collection", JSON.stringify(item))
-    this.$router.push(this.localePath(`/collection-details/`));
-  },
-  goToArtistDetails({commit}, {item}) {
-    localStorage.setItem("artist", JSON.stringify(item))
-    this.$router.push(this.localePath(`/artist-details/`))
+  goTo({commit, state}, {key, item, event}) {
+    if (key === 'nft' || key === 'user-nft') {
+      const target = event.target.parentNode.parentNode
+      document.documentElement.style.cursor = "progress";
+      document.querySelectorAll(".v-card").forEach(e=>{e.style.pointerEvents = "none"});
+      html2canvas(target, { allowTaint: true }).then((data) => {
+        const canvas = data.toDataURL('image/png');
+        item = {...item, canvas}
+        localStorage.setItem(key, JSON.stringify(item))
+        document.documentElement.style.cursor = "default";
+        document.querySelectorAll(".v-card").forEach(e=>{e.style.pointerEvents = "all"});
+      }).then(() => {
+        this.$router.push(
+          this.localePath(key === 'nft'
+            ? `/nft-details/`
+            : state.dataUser.tier < 3
+            ? `/user-nft-details/`
+            : `/user-nft-details-vip/`
+          )
+        );
+      }).catch((error) => {
+        this.$alert("cancel", null, error.message)
+        console.error(error.message)
+      })
+    } else {
+      localStorage.setItem(key, JSON.stringify(item))
+      this.$router.push(this.localePath(`/${key}-details/`))
+    }
   },
 };
 
