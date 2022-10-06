@@ -4,7 +4,7 @@
     <section class="wrapper">
       <v-card
         v-for="(item,i) in dataLastestReleases" :key="i" color="#000"
-        @click="$store.dispatch('goTo', {key: 'event', item, id: item.event})">
+        @click="$store.dispatch('goTo', {key: 'collection', item, id: item.title})">
         <div class="container-img" :style="`--tag: '${item.state}'`" :class="{live: item.state==='live'}">
           <img :src="item.img" :alt="`${item.title} image`" style="--w: 100%; --br: 15px">
         </div>
