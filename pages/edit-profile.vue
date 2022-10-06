@@ -211,7 +211,7 @@ export default {
     },
     saveForm() {
       if (this.$refs.form.validate()) {this.$alert('success')}
-      else {this.$alert('cancel', 'Failed request', 'Need fill all required fields')}
+      else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
     },
   }
 };

@@ -124,8 +124,8 @@ export default {
     
     // tier loading data
     this.user.tier < 3 
-    ? this.dataLinks[this.dataLinks.findIndex(e=>e.name==='marketplace')].to = '/marketplace'
-    : this.dataLinks[this.dataLinks.findIndex(e=>e.name==='marketplace')].to = '/marketplace-vip'
+    ? this.dataLinks.find(data=>data.name==='marketplace').to = '/marketplace'
+    : this.dataLinks.find(data=>data.name==='marketplace').to = '/marketplace-vip'
 
     // mobile listener scroll
     window.onscroll = () => {

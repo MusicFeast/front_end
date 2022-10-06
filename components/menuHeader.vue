@@ -153,9 +153,8 @@ export default {
     //         const positionsBottom = sections.getBoundingClientRect().bottom + window.scrollY;
     //         const scroll = document.documentElement.scrollTop;
     //         if (scroll >= positionsTop && scroll <= positionsBottom) {
-    //           const index = this.dataDrawer.findIndex(data => data.key === e.key);
     //           this.dataDrawer.forEach(e => {e.active = false})
-    //           this.dataDrawer[index].active = true
+    //           this.dataDrawer.find(data => data.key === e.key).active = true
     //         }
     //       }
     //     });
