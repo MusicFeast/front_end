@@ -19,7 +19,7 @@ export const state = () => ({
     avatar: '',
     accountId: null,
     user: false,
-    tier: 6,
+    tier: 2,
     balance: 0,
   },
 });
