@@ -67,15 +67,15 @@ export const actions = {
       commit( "getData");
     } catch (error) {
       this.$alert("cancel", null, error.message)
-      console.error(error.message)
+      console.error(error.message);
     }
   },
   goTo({commit, state}, {key, item, event, id}) {
     if (key === 'nft' || key === 'user-nft') {
-      const target = event.target.parentNode.parentNode;
+      const target = event.target.parentNode.parentNode
       this.$loadCursorStart(".v-card");
       html2canvas(target, { allowTaint: true }).then((data) => {
-        const canvas = data.toDataURL('image/png');
+        const canvas = data.toDataURL('image/png')
         item = {...item, canvas}
         localStorage.setItem(key, JSON.stringify(item))
         this.$loadCursorEnd(".v-card");
@@ -90,11 +90,12 @@ export const actions = {
         );
       }).catch((error) => {
         this.$alert("cancel", null, error.message)
-        console.error(error.message)
+        this.$loadCursorEnd(".v-card")
+        console.error(error.message);
       })
     } else {
       localStorage.setItem(key, JSON.stringify(item))
-      this.$router.push(this.localePath(`/${key}-details/${id?`:${id}`:''}`))
+      this.$router.push(this.localePath(`/${key}-details/${id?`:${id}`:''}`));
     }
   },
 };
