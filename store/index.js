@@ -29,7 +29,7 @@ export const mutations = {
   tierTest(state) {state.dataUser.tier === 6 ? state.dataUser.tier = 1 : state.dataUser.tier++},
   // just for testing tiers
 
-  cambiarTheme(state, theme) {state.theme = theme},
+  switchTheme(state, theme) {state.theme = theme},
   overlayMethod(state, theme) {
     if (theme === "dark") {state.overlay.opacity = "0.5"; state.overlay.color = "black"}
     if (theme === "light") {state.overlay.opacity = "0.2"; state.overlay.color = "white"}
@@ -53,10 +53,10 @@ export const mutations = {
 };
 
 export const actions = {
-  cambiarTheme({commit}, theme) {
+  switchTheme({commit}, theme) {
     document.getElementById("theme").href = `/themes/${theme}/theme.css`;
     localStorage.setItem("theme", theme);
-    commit("cambiarTheme", theme)
+    commit("switchTheme", theme)
   },
   async InicializeNear({commit}) {
     try {
@@ -101,4 +101,7 @@ export const actions = {
 };
 
 export const getters = {
+};
+
+export const modules = {
 };

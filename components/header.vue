@@ -137,7 +137,7 @@ export default {
   //   const theme = localStorage.getItem("theme");
   //   if (theme) {
   //     setTimeout(() => {
-  //       this.$store.dispatch("cambiarTheme", theme);
+  //       this.$store.dispatch("switchTheme", theme);
   //       this.$store.commit('overlayMethod', theme)
   //     }, 100);
   //   }
@@ -145,8 +145,8 @@ export default {
   //   if (theme === "dark") {this.themeButton = false}
   // },
   methods: {
-    // cambiarTheme(theme) {
-    //   this.$store.dispatch("cambiarTheme", theme);
+    // changeTheme(theme) {
+    //   this.$store.dispatch("switchTheme", theme);
     //   this.themeButton = !this.themeButton;
     // },
   },
