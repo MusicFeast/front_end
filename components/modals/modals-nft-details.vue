@@ -217,7 +217,7 @@
             <h3>redemption summary</h3>
             <v-form ref="formRedemption" class="divcol" style="gap: 2em" @submit.prevent="nextRedemption($refs.formRedemption)">
               <section class="fwrap jcenter" style="gap: 20px">
-                <img :src="nft.canvas" alt="canvas nft" style="--br: 10px; --f: brightness(70%); max-width: 12.5em !important">
+                <img :src="nft.canvas" alt="canvas nft" style="--br: 10px; --f: brightness(80%) contrast(145%); max-width: 12.5em !important">
                 
                 <div class="divcol jspace" style="flex: 1 1 200px">
                   <span
@@ -457,7 +457,9 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     nft() {
-      return JSON.parse(localStorage.getItem("nft"))
+      return JSON.parse(localStorage.getItem(
+        this.$route.path.includes("/user-nft") ? "user-nft" : "nft"
+      ))
     },
   },
   mounted() {

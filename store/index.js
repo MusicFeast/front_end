@@ -74,7 +74,7 @@ export const actions = {
     if (key === 'nft' || key === 'user-nft') {
       const target = event.target.parentNode.parentNode
       this.$loadCursorStart(".v-card");
-      html2canvas(target, { allowTaint: true }).then((data) => {
+      html2canvas(target, { allowTaint: true, backgroundColor: "#000" }).then((data) => {
         const canvas = data.toDataURL('image/png')
         item = {...item, canvas}
         localStorage.setItem(key, JSON.stringify(item))
