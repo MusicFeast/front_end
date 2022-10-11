@@ -131,7 +131,6 @@
                   }">
                   <div
                     class="container-img"
-                    :class="{live: dataCarousel[+index + i].state === 'live'}"
                     :style="`
                       ${
                         dataCarousel[+index + i].tier ? `--tag-tier: '${
@@ -147,7 +146,7 @@
                       ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
                     "
                   >
-                    <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" style="--w: 100%; --br: 10px">
+                    <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`">
                   </div>
                   
                   <div class="container-content tcenter">

@@ -102,7 +102,6 @@
         @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
         <div
           class="container-img"
-          :class="{live: item.state === 'live'}"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -118,7 +117,7 @@
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
         >
-          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
+          <img :src="item.img" :alt="`${item.name} image`">
         </div>
         
         <div class="container-content tcenter">

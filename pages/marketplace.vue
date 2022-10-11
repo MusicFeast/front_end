@@ -16,7 +16,6 @@
                 @click="$store.dispatch('goTo', {key: 'collection', item: dataCarousel[+index + i], id: item.name})">
                 <div
                   class="container-img"
-                  :class="{live: dataCarousel[+index + i].state === 'live'}"
                   :style="`
                     ${
                       dataCarousel[+index + i].tier ? `--tag-tier: '${
@@ -32,7 +31,7 @@
                     ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
                   "
                 >
-                  <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" style="--w: 100%; --br: 10px">
+                  <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`">
                 </div>
 
                 <div class="container-content tcenter">
@@ -134,7 +133,6 @@
         @click="$store.dispatch('goTo', {key: 'collection', item, id: item.name})">
         <div
           class="container-img"
-          :class="{live: item.state === 'live'}"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -150,7 +148,7 @@
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
         >
-          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
+          <img :src="item.img" :alt="`${item.name} image`">
         </div>
         
         <div class="container-content tcenter">

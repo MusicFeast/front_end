@@ -13,51 +13,8 @@ export default {
   name: "HomePage",
   data() {
     return {
-      dataHero: [
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-        { img: require('~/assets/sources/images/img-carousel.png') },
-      ],
-      dataArtists: [
-        {
-          img: require('~/assets/sources/images/img-slider-1.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
-          active: false,
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-2.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
-          active: false,
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-3.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
-          active: false,
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-4.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
-          active: false,
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-5.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
-          active: false,
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-6.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh",
-          active: false,
-        },
-      ],
+      dataHero: [],
+      dataArtists: [],
       dataLastestReleases: [
         {
           avatar: require("~/assets/sources/images/avatar.jpg"),
@@ -132,26 +89,7 @@ export default {
           event: "toronto",
         },
       ],
-      dataNews: [
-        {
-          img: require("~/assets/sources/images/img-news-1.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-2.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-2.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-      ],
+      dataNews: [],
     }
   },
   head() {
@@ -161,11 +99,31 @@ export default {
     }
   },
   mounted() {
-    // this.$axios.post("")
-    //   .then((data) => {
-    //     console.log(data)
-    //   }).catch((error) => console.error(error)
-    // )
+    const baseUrl = this.$axios.defaults.baseURL;
+    
+    // get carousel
+    this.$axios.get(`${baseUrl}api/v1/get-carousel`)
+      .then(fetch => {
+        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        this.dataHero = fetch.data
+      }).catch(error => console.error(error)
+    );
+    
+    // get artists
+    this.$axios.get(`${baseUrl}api/v1/get-artists-home`)
+      .then(fetch => {
+        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        this.dataArtists = fetch.data
+      }).catch(error => console.error(error)
+    );
+    
+    // get news
+    this.$axios.get(`${baseUrl}api/v1/get-news`)
+      .then(fetch => {
+        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        this.dataNews = fetch.data
+      }).catch(error => console.error(error)
+    );
   },
   methods: {
   }

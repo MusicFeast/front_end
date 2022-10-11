@@ -7,18 +7,18 @@
       hide-delimiter-background
       :show-arrows="false"
     >
-      <template v-for="(item, index) in dataCarousel">
+      <template v-for="(item, index) in dataArtists">
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
-            <template v-if="(+index + i) < dataCarousel.length">
+            <template v-if="(+index + i) < dataArtists.length">
               <v-card
-                :key="i" :class="{active: dataCarousel[+index + i].active}" :style="`--bg-image: url('${dataCarousel[+index + i].img}')`" :ripple="false"
-                @click="$store.dispatch('goTo', {key: 'artist', item: dataCarousel[+index + i], id: item.name})">
+                :key="i" :class="{active: dataArtists[+index + i].active}" :style="`--bg-image: url('${dataArtists[+index + i].image}')`" :ripple="false"
+                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i], id: item.name})">
                 <v-sheet>
                   <div class="divcol">
-                    <h3>{{dataCarousel[+index + i].name}} n°{{i+1}}</h3>
+                    <h3>{{dataArtists[+index + i].name}}</h3>
                     <p>
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. sed diam nonummy nibh
+                      {{dataArtists[+index + i].description.substring(0, 120)}}
                     </p>
                   </div>
                 </v-sheet>
@@ -52,15 +52,15 @@
 
     <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
       <v-card
-        v-for="(item,i) in dataListed" :key="i" class="card divcol custome"
+        v-for="(item,i) in dataArtists" :key="i" class="card divcol custome" :class="{comming: item.comming}"
         @click="$store.dispatch('goTo', {key: 'artist', item, id: item.name})">
-        <div class="container-img" :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`" :class="{live: item.state==='live'}">
-          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
+        <div class="container-img" :style="item.comming ? `--tag-state: 'Comming soon` : ''">
+          <img :src="item.image" :alt="`${item.name} image`">
         </div>
         
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
-          <p class="p">{{item.desc}}</p>
+          <p class="p">{{item.description.substring(0, 120)}}</p>
         </div>
       </v-card>
     </section>
@@ -91,151 +91,12 @@ export default {
   data() {
     return {
       modelCarousel: 0,
-      dataCarousel: [
-        {
-          img: require('~/assets/sources/images/img-slider-1.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-2.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-3.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-4.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-5.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-6.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-1.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-2.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-3.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-4.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-slider-5.jpg'),
-          name: "Artist Name or nickname",
-          active: false,
-          type: "artist",
-        },
-      ],
+      dataArtists: [],
       search: "",
       filter: {
         model: "",
         list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
       },
-      dataListed: [
-        {
-          img: require('~/assets/sources/images/img-listed-1.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-          state: "comming soon"
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-2.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-3.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-4.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-          state: "comming soon"
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-6.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-1.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-2.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-          state: "comming soon"
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-3.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-4.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          name: "Artist Name or nickname",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
-          type: "artist",
-          state: "comming soon"
-        },
-      ],
       pagination: 0,
     }
   },
@@ -246,6 +107,18 @@ export default {
     }
   },
   mounted() {
+    const baseUrl = this.$axios.defaults.baseURL;
+    
+    // get artists
+    this.$axios.get(`${baseUrl}api/v1/get-artists`)
+      .then(fetch => {
+        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        this.dataArtists = fetch.data
+        console.log(this.dataArtists)
+      }).catch(error => console.error(error)
+    );
+
+    // styles //
     const pageName = 'artists';
     const page = document.querySelector(`#${pageName}`);
     

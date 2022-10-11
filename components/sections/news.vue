@@ -12,9 +12,9 @@
         <v-card
           color="transparent" class="tcentermobile" :ripple="false"
           @click="toggle; $store.dispatch('goTo', {key: 'news', item, id: item.name})">
-          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 15px">
+          <img :src="item.image" :alt="`${item.name} image`" style="--w: 100%; --br: 15px">
           <h3 class="p">{{item.name}}</h3>
-          <p class="p">{{item.desc}}</p>
+          <p class="p">{{item.description}}</p>
         </v-card>
       </v-slide-item>
       
@@ -34,7 +34,7 @@
       <v-sheet v-for="(item,i) in dataNews" :key="i" color="transparent">
         <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 15px">
         <h3 class="p tcentermobile">{{item.name}}</h3>
-        <p class="p">{{item.desc}}</p>
+        <p class="p">{{item.description}}</p>
       </v-sheet>
     </section> -->
   </div>

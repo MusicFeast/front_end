@@ -1,6 +1,6 @@
 <template>
   <div id="artist-details" class="divcol">
-    <section class="header" :style="`--bg-image: url(${artist.img})`">
+    <section class="header" :style="`--bg-image: url(${artist.image})`">
       <aside class="header-title">
         <h2>{{artist.name}}</h2>
         <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
@@ -69,7 +69,7 @@
     <v-slide-item v-for="(item,i) in dataSlider" :key="i" v-slot="{ active, toggle }">
       <v-sheet :key="i" color="rgba(0, 0, 0, .4)" class="divcol" @click="toggle">
         <v-card
-          class="card divcol"
+          class="card divcol custome"
           :class="{
             uranium: item.tier===6,
             diamond: item.tier===5,
@@ -82,7 +82,7 @@
           @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
           <div
             class="container-img"
-            :style="`--tag: '${
+            :style="`--tag-tier: '${
               item.tier===1 ? 'bronze' :
               item.tier===2 ? 'silver' :
               item.tier===3 ? 'gold' :
@@ -91,7 +91,7 @@
               item.tier===6 ? 'uranium' : 'user'
             }'`"
           >
-            <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
+            <img :src="item.img" :alt="`${item.name} image`">
           </div>
           
           <div class="container-content tcenter">
@@ -203,7 +203,6 @@
         @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
         <div
           class="container-img"
-          :class="{live: item.state === 'live'}"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -219,7 +218,7 @@
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           "
         >
-          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 10px">
+          <img :src="item.img" :alt="`${item.name} image`">
         </div>
         
         <div class="container-content tcenter">

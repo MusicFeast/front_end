@@ -7,7 +7,7 @@
       <v-carousel-item
         v-for="(item,i) in dataHero"
         :key="i"
-        :src="item.img"
+        :src="item.image"
       ></v-carousel-item>
 
       <template #prev="{on, attrs}">

@@ -85,7 +85,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: development ? 'http://localhost:3001/api' : 'https://domain/api',
+    baseURL: development ? 'https://testnet.musicfeast.io/musicfeast/' : 'https://testnet.musicfeast.io/musicfeast/',
   },
 
   // nuxt i18n documentation: https://i18n.nuxtjs.org

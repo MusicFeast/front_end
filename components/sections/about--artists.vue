@@ -39,13 +39,13 @@
       >
         <v-slide-item v-for="(item,i) in dataArtists" :key="i">
           <v-card
-            :class="{active: item.active}" :style="`--bg-image: url('${item.img}')`" :ripple="false"
+            :style="`--bg-image: url('${item.image}')`" :ripple="false"
             @click="$store.dispatch('goTo', {key: 'artist', item, id: item.name})">
             <v-sheet>
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>
                 <p>
-                  {{item.desc}}
+                  {{item.description}}
                 </p>
               </div>
             </v-sheet>
