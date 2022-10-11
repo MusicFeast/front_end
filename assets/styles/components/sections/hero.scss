@@ -12,9 +12,11 @@
     }
     .v-image__image {
       background-size: 100% !important;
-      @include media(max, 880px) {
-        background-size: cover !important;
-      }
+      @include media(max, 880px) {background-size: cover !important}
+    }
+    .v-window__prev, .v-window__next {
+      // max height referencial
+      top: calc(clamp(30em, 46vw, 46.875em) / 2);
     }
     .v-carousel__controls {
       button {
