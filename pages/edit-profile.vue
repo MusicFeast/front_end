@@ -184,6 +184,7 @@ export default {
   name: "EditProfilePage",
   data() {
     return {
+      userExist: undefined,
       bannerImage_model: [],
       form: {
         profile_banner: require('~/assets/sources/images/img-header-profile.jpg'),
@@ -225,7 +226,7 @@ export default {
     this.getData();
   },
   methods: {
-    async getData(consult) {
+    async getData() {
       const baseUrl = this.$axios.defaults.baseURL;
       const accountId = await this.$store.dispatch("InicializeNear", true)
 
@@ -233,9 +234,7 @@ export default {
       await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(fetch => {
         const data = fetch.data[0]
-        if (consult) {
-          return data
-        } else if (data) {
+        if (data) {
           Object.keys(this.form).forEach(key => {
             if (key !== 'address') { this.form[key] = data[key] }
             else {Object.keys(this.form.address).forEach(key2 => {
@@ -243,26 +242,30 @@ export default {
             })}
           })
           this.form.id = data.id
+          this.userExist = true
+        } else {
+          this.userExist = false
         }
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
         console.error(error);
       })
     },
-    async saveForm() {
+    saveForm() {
       if (this.$refs.form.validate()) {
         function goBack() {
           this.$alert('success')
           this.$router.push(this.localePath('/profile'));
         }
 
-        if (await this.getData(true)) {
+        if (this.userExist) {
           this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.form)
           .then(() => goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error);
           })
         } else {
+          // error de peticion 400 👇
           this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.form)
           .then(() => goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
