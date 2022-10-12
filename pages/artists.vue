@@ -115,7 +115,10 @@ export default {
         fetch.data.forEach(e => {e.image = baseUrl+e.image});
         this.dataArtists = fetch.data
         console.log(this.dataArtists)
-      }).catch(error => console.error(error)
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error);
+      }
     );
 
     // styles //

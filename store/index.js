@@ -58,13 +58,18 @@ export const actions = {
     localStorage.setItem("theme", theme);
     commit("switchTheme", theme)
   },
-  async InicializeNear({commit}) {
+  async InicializeNear({commit}, consult) {
     try {
       // connect to NEAR
       const near = await connect(config);
       // create wallet connection
       wallet = new WalletConnection(near);
-      commit( "getData");
+      
+      if (consult) {
+        return wallet.getAccountId();
+      } else {
+        commit( "getData");
+      }
     } catch (error) {
       this.$alert("cancel", {desc: error.message})
       console.error(error.message);
@@ -76,7 +81,7 @@ export const actions = {
       this.$loadCursorStart(".v-card");
       html2canvas(target, { allowTaint: true, backgroundColor: "#000" }).then((data) => {
         const canvas = data.toDataURL('image/png')
-        item = {...item, canvas}
+        item.canvas = canvas
         localStorage.setItem(key, JSON.stringify(item))
         this.$loadCursorEnd(".v-card");
       }).then(() => {

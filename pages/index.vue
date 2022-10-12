@@ -106,7 +106,10 @@ export default {
       .then(fetch => {
         fetch.data.forEach(e => {e.image = baseUrl+e.image});
         this.dataHero = fetch.data
-      }).catch(error => console.error(error)
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error);
+      }
     );
     
     // get artists
@@ -114,7 +117,10 @@ export default {
       .then(fetch => {
         fetch.data.forEach(e => {e.image = baseUrl+e.image});
         this.dataArtists = fetch.data
-      }).catch(error => console.error(error)
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error);
+      }
     );
     
     // get news
@@ -122,7 +128,10 @@ export default {
       .then(fetch => {
         fetch.data.forEach(e => {e.image = baseUrl+e.image});
         this.dataNews = fetch.data
-      }).catch(error => console.error(error)
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error);
+      }
     );
   },
   methods: {
