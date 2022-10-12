@@ -1,4 +1,4 @@
-# detextre4-nuxt2
+# Music Feast
 
 ## Build Setup
 
