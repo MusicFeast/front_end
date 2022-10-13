@@ -127,7 +127,7 @@ export default {
         console.log(this.dataArtists)
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
-        console.error(error);
+        console.error(error.message);
       }
     );
 

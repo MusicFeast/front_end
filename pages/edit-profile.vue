@@ -263,32 +263,34 @@ export default {
         }
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
-        console.error(error);
+        console.error(error.message);
       })
     },
     saveForm() {
       if (this.$refs.form.validate()) {
-        function goBack() {
-          this.$alert('success')
-          this.$router.push(this.localePath('/profile'));
-        }
+        const formData = new FormData();
+        Object.entries(this.form).forEach(arr => { formData[arr[0]] = arr[1] })
+        console.log(formData);
+        console.log(this.form);
 
         if (this.userExist) {
-          const formData = new FormData();
-          Object.entries(this.form).forEach(arr => { formData[arr[0]] = arr[1] })
-          console.log(formData);
-
-          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
-          .then(() => goBack()).catch(error => {
+          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.form)
+          .then(() => {
+            this.$alert('success');
+            this.$router.push(this.localePath('/profile'))
+          }).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error.message);
           })
         } else {
           // error de peticion 400 👇
           this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.form)
-          .then(() => goBack()).catch(error => {
+          .then(() => {
+            this.$alert('success');
+            this.$router.push(this.localePath('/profile'))
+          }).catch(error => {
             this.$alert("cancel", {desc: error.message})
-            console.error(error);
+            console.error(error.message);
           })
         }
       }
