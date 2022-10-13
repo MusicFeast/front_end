@@ -274,27 +274,25 @@ export default {
         console.log(this.form);
 
         if (this.userExist) {
-          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.form)
-          .then(() => {
-            this.$alert('success');
-            this.$router.push(this.localePath('/profile'))
-          }).catch(error => {
+          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
+          .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error.message);
           })
         } else {
           // error de peticion 400 👇
           this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.form)
-          .then(() => {
-            this.$alert('success');
-            this.$router.push(this.localePath('/profile'))
-          }).catch(error => {
+          .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error.message);
           })
         }
       }
       else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
+    },
+    goBack() {
+      this.$alert('success');
+      this.$router.push(this.localePath('/profile'))
     },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
