@@ -17,25 +17,25 @@
       <v-avatar
         width="var(--size)" height="var(--size)" style="--size: 13.954375em"
         @mouseenter="showTag()" @mouseleave="hideTag()">
-        <label for="avatar">
+        <label for="avatar" title="change avatar">
           <img :src="imgAvatar" alt="avatar image">
         </label>
       </v-avatar>
       <v-file-input
         id="avatar"
-        v-model="form.avatar"
+        v-model="avatar_model"
         style="display:none"
         accept="image/png, image/jpeg"
-        @change="previewFile('avatar', form.avatar)"
+        @change="previewFile('avatar', avatar_model)"
       ></v-file-input>
 
       <label for="bannerBtn" class="btn activeBtn" style="--p: 0 2em">Upload</label>
       <v-file-input
         id="bannerBtn"
-        v-model="form.banner"
+        v-model="banner_model"
         style="display:none"
         accept="image/png, image/jpeg"
-        @change="previewFile('banner', form.banner)"
+        @change="previewFile('banner', banner_model)"
       ></v-file-input>
     </section>
 
@@ -198,13 +198,15 @@ export default {
       userExist: undefined,
       imgBanner: require('~/assets/sources/images/img-header-profile.jpg'),
       imgAvatar: require('~/assets/sources/images/avatar.jpg'),
+      avatar_model: [],
+      banner_model: [],
       form: {
-        banner: [],
+        avatar: "",
+        banner: "",
         wallet: null,
         full_name: null,
         username: null,
         email: null,
-        avatar: [],
         discord: null,
         instagram: null,
         twitter: null,
@@ -243,19 +245,22 @@ export default {
       const accountId = await this.$store.dispatch("getDataNear", true)
 
       // get data user
-      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": "jochando.near" })
+      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(fetch => {
         const data = fetch.data[0]
         if (data) {
-          Object.keys(this.form).forEach(key => {
-            if (key !== 'address') { this.form[key] = data[key] }
-            else {Object.keys(this.form.address).forEach(key2 => {
-              this.form.address[key2] = data.address[key2]
-            })}
+          Object.entries(this.form).forEach(arr => {
+            const dataValues = data[arr[0]]
+            if (typeof dataValues !== "object") {
+              this.form[arr[0]] = dataValues
+            }
+            else {
+              Object.keys(arr[1]).forEach(key => { arr[1][key] = dataValues[key] })
+            }
           })
           this.form.id = data.id
-          this.imgBanner = data.banner
-          this.imgAvatar = data.avatar
+          this.imgBanner = baseUrl+data.banner
+          this.imgAvatar = baseUrl+data.avatar
           this.userExist = true
         } else {
           this.form.wallet = accountId
@@ -268,10 +273,15 @@ export default {
     },
     saveForm() {
       if (this.$refs.form.validate()) {
-        const formData = new FormData();
-        Object.entries(this.form).forEach(arr => { formData[arr[0]] = arr[1] })
-        console.log(formData);
-        console.log(this.form);
+          const formData = new FormData();
+          Object.entries(this.form).forEach(arr => {
+            const fileExcludes = () => { return arr[0] !== "banner" && arr[0] !== "avatar" }
+            const objAccept = () => { return arr[0] === 'address' }
+
+            if (typeof arr[1] === 'object' && objAccept()) { formData.append(arr[0], JSON.stringify(arr[1])) }
+            else if (typeof arr[1] === 'object' && !objAccept()) { formData.append(arr[0], arr[1]) }
+            else if (fileExcludes()) { formData.append(arr[0], arr[1] || "") }
+          })
 
         if (this.userExist) {
           this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
@@ -280,8 +290,7 @@ export default {
             console.error(error.message);
           })
         } else {
-          // error de peticion 400 👇
-          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.form)
+          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
           .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error.message);
@@ -297,9 +306,13 @@ export default {
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
     previewFile(key, file) {
-      key === 'avatar'
-      ? this.imgAvatar = URL.createObjectURL(file)
-      : this.imgBanner = URL.createObjectURL(file);
+      if (key === 'avatar') {
+        this.imgAvatar = URL.createObjectURL(file);
+        this.form.avatar = file;
+      } else {
+        this.imgBanner = URL.createObjectURL(file);
+        this.form.banner = file;
+      }
     },
   }
 };
