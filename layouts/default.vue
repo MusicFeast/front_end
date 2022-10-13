@@ -40,7 +40,7 @@ export default {
   },
   mounted() {
     // login inicializer
-    this.$store.dispatch("InicializeNear");
+    this.$store.dispatch("getDataNear");
     
     /* scroll horizontal (simple) */
     const scrollableDesktop = document.querySelectorAll('.scrollx');

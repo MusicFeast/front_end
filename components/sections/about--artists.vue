@@ -45,7 +45,11 @@
               <div class="divcol">
                 <h3>{{item.name}} n°{{i+1}}</h3>
                 <p>
-                  {{item.description}}
+                  {{
+                    item.description.length >= 300
+                    ? `${item.description.substring(0, 300)}...`
+                    : item.description
+                  }}
                 </p>
               </div>
             </v-sheet>

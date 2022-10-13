@@ -51,8 +51,15 @@
         background: var(--bg-tier);
         z-index: -1;
       }
+      label {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
       img {
+        @include absoluteCenter;
         --w: 100%;
+        --h: 100%;
         --br: 50%;
         --of: cover;
       }

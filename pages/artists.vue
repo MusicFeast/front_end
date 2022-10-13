@@ -18,7 +18,11 @@
                   <div class="divcol">
                     <h3>{{dataArtists[+index + i].name}}</h3>
                     <p>
-                      {{dataArtists[+index + i].description.substring(0, 120)}}
+                      {{
+                        dataArtists[+index + i].description.length >= 120
+                        ? `${dataArtists[+index + i].description.substring(0, 120)}...`
+                        : dataArtists[+index + i].description
+                      }}
                     </p>
                   </div>
                 </v-sheet>
@@ -60,7 +64,13 @@
         
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
-          <p class="p">{{item.description.substring(0, 120)}}</p>
+          <p class="p">
+            {{
+              item.description.length >= 120
+              ? `${item.description.substring(0, 120)}...`
+              : item.description
+            }}
+          </p>
         </div>
       </v-card>
     </section>

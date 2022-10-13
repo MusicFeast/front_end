@@ -3,7 +3,7 @@
     <section
       class="header"
       :style="`
-        --bg-image: url(${form.profile_banner});
+        --bg-image: url(${imgBanner});
         --tag-tier: '${
           user.tier===1 ? 'bronze' :
           user.tier===2 ? 'silver' :
@@ -12,19 +12,30 @@
           user.tier===5 ? 'diamond' :
           user.tier===6 ? 'uranium' : 'user'
         }'
-      `">
+      `"
+    >
       <v-avatar
         width="var(--size)" height="var(--size)" style="--size: 13.954375em"
         @mouseenter="showTag()" @mouseleave="hideTag()">
-        <img :src="form.avatar" alt="avatar image">
+        <label for="avatar">
+          <img :src="imgAvatar" alt="avatar image">
+        </label>
       </v-avatar>
+      <v-file-input
+        id="avatar"
+        v-model="form.avatar"
+        style="display:none"
+        accept="image/png, image/jpeg"
+        @change="previewFile('avatar', form.avatar)"
+      ></v-file-input>
 
       <label for="bannerBtn" class="btn activeBtn" style="--p: 0 2em">Upload</label>
       <v-file-input
         id="bannerBtn"
-        v-model="bannerImage_model"
+        v-model="form.banner"
         style="display:none"
-        @change="previewBanner()"
+        accept="image/png, image/jpeg"
+        @change="previewFile('banner', form.banner)"
       ></v-file-input>
     </section>
 
@@ -185,14 +196,15 @@ export default {
   data() {
     return {
       userExist: undefined,
-      bannerImage_model: [],
+      imgBanner: require('~/assets/sources/images/img-header-profile.jpg'),
+      imgAvatar: require('~/assets/sources/images/avatar.jpg'),
       form: {
-        profile_banner: require('~/assets/sources/images/img-header-profile.jpg'),
+        banner: [],
         wallet: null,
         full_name: null,
         username: null,
         email: null,
-        avatar: require('~/assets/sources/images/avatar.jpg'),
+        avatar: [],
         discord: null,
         instagram: null,
         twitter: null,
@@ -228,10 +240,10 @@ export default {
   methods: {
     async getData() {
       const baseUrl = this.$axios.defaults.baseURL;
-      const accountId = await this.$store.dispatch("InicializeNear", true)
+      const accountId = await this.$store.dispatch("getDataNear", true)
 
       // get data user
-      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": "jochando.near" })
       .then(fetch => {
         const data = fetch.data[0]
         if (data) {
@@ -242,8 +254,11 @@ export default {
             })}
           })
           this.form.id = data.id
+          this.imgBanner = data.banner
+          this.imgAvatar = data.avatar
           this.userExist = true
         } else {
+          this.form.wallet = accountId
           this.userExist = false
         }
       }).catch(error => {
@@ -259,10 +274,14 @@ export default {
         }
 
         if (this.userExist) {
-          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.form)
+          const formData = new FormData();
+          Object.entries(this.form).forEach(arr => { formData[arr[0]] = arr[1] })
+          console.log(formData);
+
+          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
           .then(() => goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
-            console.error(error);
+            console.error(error.message);
           })
         } else {
           // error de peticion 400 👇
@@ -277,8 +296,10 @@ export default {
     },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
-    previewBanner() {
-      this.form.profile_banner = URL.createObjectURL(this.bannerImage_model);
+    previewFile(key, file) {
+      key === 'avatar'
+      ? this.imgAvatar = URL.createObjectURL(file)
+      : this.imgBanner = URL.createObjectURL(file);
     },
   }
 };
