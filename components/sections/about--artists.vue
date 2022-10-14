@@ -43,7 +43,7 @@
             @click="$store.dispatch('goTo', {key: 'artist', item, id: item.name})">
             <v-sheet>
               <div class="divcol">
-                <h3>{{item.name}} n°{{i+1}}</h3>
+                <h3>{{item.name}}</h3>
                 <p>
                   {{
                     item.description.length >= 300
