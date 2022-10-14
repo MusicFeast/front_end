@@ -15,11 +15,11 @@
         <span class="tcap">{{dataNews.title2}}</span>
         <p class="p">{{dataNews.description}}</p>
 
-        <div class="container-press-and-news--social center gap1">
+        <!-- <div class="container-press-and-news--social center gap1">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon>
             <v-icon size="clamp(2em, 2.4vw, 2.4em)">{{item.icon}}</v-icon>
           </v-btn>
-        </div>
+        </div> -->
       </article>
     </section>
 
@@ -37,7 +37,11 @@
       class="custome-slider"
       :style="`padding-inline: ${dataOtherNews.length >= 4 ? '0' : 'var(--margin-separator)'}`"
     >
-      <v-slide-item v-for="(item,i) in dataOtherNews" :key="i" v-slot="{ toggle }">
+      <v-slide-item
+        v-for="(item,i) in dataOtherNews"
+        v-show="item.created !== dataNews.created"
+        :key="i" v-slot="{ toggle }"
+      >
         <v-card class="card tcentermobile" :ripple="false" @click="toggle; selectNews(item)">
           <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
           <h3 class="p">{{item.title}}</h3>
@@ -119,7 +123,6 @@ export default {
         .then(fetch => {
           fetch.data.forEach(e => {e.image = baseUrl+e.image});
           this.dataOtherNews = fetch.data
-          console.log(fetch.data)
         }).catch(error => {
           this.$alert("cancel", {desc: error.message})
           console.error(error.message);
@@ -129,8 +132,8 @@ export default {
     async mountData() {
       // mount data
       await this.getData();
-      if (this.$route.path === this.localePath('/news-details')) {this.dataNews = await this.dataOtherNews.at(-1)}
-      else {this.dataNews = this.news}
+      if (this.$route.path === this.localePath('/news-details')) { this.dataNews = await this.dataOtherNews.at(-1) }
+      else { this.dataNews = this.news }
     },
     selectNews(item) {
       this.dataNews = item;
