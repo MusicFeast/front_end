@@ -65,7 +65,7 @@ export const actions = {
     localStorage.setItem("theme", theme);
     commit("switchTheme", theme)
   },
-  async getData({commit}, {fetch, get}) {
+  async getData({commit}, {fetch, get} = {}) {
     try {
       // connect to NEAR
       const near = await connect(config);
