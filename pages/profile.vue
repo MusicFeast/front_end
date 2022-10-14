@@ -23,8 +23,12 @@
 
     <section class="container-user">
       <aside class="container-user--social center gap1">
-        <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
-          <v-icon size="clamp(2em, 2.4vw, 2.4em)" :style="i===0 ? 'transform: rotate(-50deg)' : ''">{{item.icon}}</v-icon>
+        <v-btn icon>
+          <v-icon size="clamp(2em, 2.4vw, 2.4em)" style="transform: rotate(-50deg)">mdi-link</v-icon>
+        </v-btn>
+        
+        <v-btn v-for="(item,i) in user.dataSocial" :key="i" icon :href="item.link" target="_blank">
+          <v-icon size="clamp(2em, 2.4vw, 2.4em)">{{item.icon}}</v-icon>
         </v-btn>
       </aside>
 
@@ -161,12 +165,6 @@ export default {
   name: "ProfilePage",
   data() {
     return {
-      dataSocial: [
-        { icon: "mdi-link" },
-        { icon: "mdi-twitter", link: "#" },
-        { icon: "discord", link: "#" },
-        { icon: "telegram", link: "#" },
-      ],
       dataProfits: {
         nfts: 7659,
         chats: 3,

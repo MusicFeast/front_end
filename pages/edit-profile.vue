@@ -133,7 +133,8 @@
           placeholder="Street Address, P.O, box, lorem ipsum"
           :rules="Object.keys(form.address).find(e => 
               e !== 'country' ? form.address[e] : undefined
-            ) ? rules.required : undefined
+            ) || Object.keys(form.address).find(e => e) && userExist
+            ? rules.required : undefined
           "
         ></v-text-field>
         
@@ -144,7 +145,8 @@
           placeholder="Street Address 2, P.O, box, lorem ipsum "
           :rules="Object.keys(form.address).find(e => 
               e !== 'country' ? form.address[e] : undefined
-            ) ? rules.required : undefined
+            ) || Object.keys(form.address).find(e => e) && userExist
+            ? rules.required : undefined
           "
         ></v-text-field>
         
@@ -155,7 +157,8 @@
           placeholder="Lorem ipsum"
           :rules="Object.keys(form.address).find(e => 
               e !== 'country' ? form.address[e] : undefined
-            ) ? rules.required : undefined
+            ) || Object.keys(form.address).find(e => e) && userExist
+            ? rules.required : undefined
           "
         ></v-text-field>
         
@@ -166,7 +169,8 @@
           placeholder="Lorem ipsum"
           :rules="Object.keys(form.address).find(e => 
               e !== 'country' ? form.address[e] : undefined
-            ) ? rules.required : undefined
+            ) || Object.keys(form.address).find(e => e) && userExist
+            ? rules.required : undefined
           "
         ></v-text-field>
 
@@ -177,7 +181,8 @@
           placeholder="Lorem ipsum"
           :rules="Object.keys(form.address).find(e => 
               e !== 'country' ? form.address[e] : undefined
-            ) ? rules.required : undefined
+            ) || Object.keys(form.address).find(e => e) && userExist
+            ? rules.required : undefined
           "
         ></v-text-field>
       </section>
@@ -274,12 +279,14 @@ export default {
       if (this.$refs.form.validate()) {
           const formData = new FormData();
           Object.entries(this.form).forEach(arr => {
-            const fileExcludes = () => { return arr[0] !== "banner" && arr[0] !== "avatar" }
-            const objAccept = () => { return arr[0] === 'address' }
+            const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(arr[1])
 
-            if (typeof arr[1] === 'object' && objAccept()) { formData.append(arr[0], JSON.stringify(arr[1])) }
-            else if (typeof arr[1] === 'object' && !objAccept()) { formData.append(arr[0], arr[1]) }
-            else if (fileExcludes()) { formData.append(arr[0], arr[1] || "") }
+            // if object only
+            if (typeof arr[1] === 'object' && !arr[1].type) { formData.append(arr[0], JSON.stringify(arr[1])) }
+            // if file object
+            else if (arr[1].type) { formData.append(arr[0], arr[1]) }
+            // else
+            else if (excludeUrl) { formData.append(arr[0], arr[1] || "") }
           })
 
         if (this.userExist) {
@@ -299,7 +306,7 @@ export default {
       else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
     },
     goBack() {
-      setTimeout(() => this.$router.go(0), 100);
+      // setTimeout(() => this.$router.go(0), 100);
       this.$router.go(-1)
       this.$alert('success')
     },

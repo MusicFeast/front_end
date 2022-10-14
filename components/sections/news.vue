@@ -12,9 +12,15 @@
         <v-card
           color="transparent" class="tcentermobile" :ripple="false"
           @click="toggle; $store.dispatch('goTo', {key: 'news', item, id: item.title})">
-          <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --br: 15px">
+          <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
           <h3 class="p">{{item.title}}</h3>
-          <p class="p">{{item.description}}</p>
+          <p class="p">
+            {{
+              item.description.length >= 500
+              ? `${item.description.substring(0, 500)}...`
+              : item.description
+            }}
+          </p>
         </v-card>
       </v-slide-item>
       

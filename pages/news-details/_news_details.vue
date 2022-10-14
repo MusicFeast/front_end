@@ -3,7 +3,7 @@
     <h2 class="Title tup">press &amp; news</h2>
 
     <section class="container-press-and-news grid">
-      <div class="container-press-and-news--background" :style="`--bg-image: url(${dataNews.img})`">
+      <div class="container-press-and-news--background" :style="`--bg-image: url(${dataNews.image})`">
       </div>
 
       <article class="divcol gap1">
@@ -11,9 +11,9 @@
           <v-icon size="clamp(2em, 2.4vw, 2.4em)">mdi-share-variant</v-icon>
         </v-btn>
 
-        <h3 class="bold">{{dataNews.name}}</h3>
+        <h3 class="bold">{{dataNews.title}}</h3>
         <span class="tcap">{{dataNews.title2}}</span>
-        <p class="p">{{dataNews.desc}}</p>
+        <p class="p">{{dataNews.description}}</p>
 
         <div class="container-press-and-news--social center gap1">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon>
@@ -24,18 +24,8 @@
     </section>
 
     <blockquote class="divcol" style="margin-block: 3em; padding-inline: var(--margin-separator)">
-      <h2 class="tup" style="text-decoration: underline">lorem ipsum</h2>
-      <p v-for="n in 3" :key="n">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna 
-        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-        ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu 
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit 
-        augue duis dolore te feugait nulla facilisi.
-        Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
-        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci 
-        tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-      </p>
-      <span class="alignr bold">Lorem ipsum dolow sit amet,</span>
+      <h2 class="tup" style="text-decoration: underline">{{dataNews.title2}}</h2>
+      <p>{{dataNews.desc_long}}</p>
     </blockquote>
 
     <h2 class="Title tup">other news</h2>
@@ -49,9 +39,15 @@
     >
       <v-slide-item v-for="(item,i) in dataOtherNews" :key="i" v-slot="{ toggle }">
         <v-card class="card tcentermobile" :ripple="false" @click="toggle; selectNews(item)">
-          <img :src="item.img" :alt="`${item.name} image`" style="--w: 100%; --br: 5px">
-          <h3 class="p">{{item.name}}</h3>
-          <p class="p">{{item.desc}}</p>
+          <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
+          <h3 class="p">{{item.title}}</h3>
+          <p class="p">
+            {{
+              item.description.length >= 500
+              ? `${item.description.substring(0, 500)}...`
+              : item.description
+            }}
+          </p>
         </v-card>
       </v-slide-item>
       
@@ -83,32 +79,7 @@ export default {
       ],
       slider: null,
       dataNews: {},
-      dataOtherNews: [
-        {
-          img: require("~/assets/sources/images/img-news-1.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-2.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-1.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-        {
-          img: require("~/assets/sources/images/img-news-2.jpg"),
-          name: "Lorem ipsum dolor sit amet,",
-          title2: "title 2",
-          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat atque, possimus fugiat iste unde? Dolorum iusto nihil, officia ipsam quasi voluptas unde, neque, quam veritatis animi dolores rem recusandae."
-        },
-      ],
+      dataOtherNews: [],
     }
   },
   head() {
@@ -141,9 +112,24 @@ export default {
     });
   },
   methods: {
-    mountData() {
+    async getData() {
+      const baseUrl = this.$axios.defaults.baseURL;
+      // get news
+      await this.$axios.get(`${baseUrl}api/v1/get-news`)
+        .then(fetch => {
+          fetch.data.forEach(e => {e.image = baseUrl+e.image});
+          this.dataOtherNews = fetch.data
+          console.log(fetch.data)
+        }).catch(error => {
+          this.$alert("cancel", {desc: error.message})
+          console.error(error.message);
+        }
+      );
+    },
+    async mountData() {
       // mount data
-      if (this.$route.path === this.localePath('/news-details')) {this.dataNews = this.dataOtherNews.at(-1)}
+      await this.getData();
+      if (this.$route.path === this.localePath('/news-details')) {this.dataNews = await this.dataOtherNews.at(-1)}
       else {this.dataNews = this.news}
     },
     selectNews(item) {

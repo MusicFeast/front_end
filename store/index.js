@@ -23,6 +23,7 @@ export const state = () => ({
     user: false,
     tier: 2,
     balance: 0,
+    dataSocial: [],
   },
 });
 
@@ -44,6 +45,22 @@ export const mutations = {
       state.dataUser.accountId = data.wallet;
       state.dataUser.banner = this.$axios.defaults.baseURL+data.banner;
       state.dataUser.avatar = this.$axios.defaults.baseURL+data.avatar;
+      // find socials
+      const [...arrSocials] = Object.entries(data)
+      .filter(arr => arr[0] === 'telegram' || arr[0] === 'discord' || arr[0] === 'instagram' || arr[0] === 'twitter')
+      // transform socials url
+      const socials = Object.fromEntries(arrSocials)
+      socials.telegram = `https://t.me/${socials.telegram}`
+      socials.discord = `https://discord.com/channels/${socials.discord}`
+      socials.instagram = `https://instagram.com/${socials.instagram}`
+      socials.twitter = `https://twitter.com/${socials.twitter}`
+      // push socials
+      Object.entries(socials).forEach(arr => {
+        if (arr[0] === 'instagram') { arr[0] = 'mdi-instagram' }
+        else if (arr[0] === 'twitter') { arr[0] = 'mdi-twitter' }
+        const newArrSocials = { icon: arr[0], link: arr[1] }
+        state.dataUser.dataSocial.push(newArrSocials)
+      })
       state.dataUser.user = true;
     };
   },
