@@ -11,9 +11,9 @@
       <v-slide-item v-for="(item,i) in dataNews" :key="i" v-slot="{ toggle }">
         <v-card
           color="transparent" class="tcentermobile" :ripple="false"
-          @click="toggle; $store.dispatch('goTo', {key: 'news', item, id: item.name})">
-          <img :src="item.image" :alt="`${item.name} image`" style="--w: 100%; --br: 15px">
-          <h3 class="p">{{item.name}}</h3>
+          @click="toggle; $store.dispatch('goTo', {key: 'news', item, id: item.title})">
+          <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --br: 15px">
+          <h3 class="p">{{item.title}}</h3>
           <p class="p">{{item.description}}</p>
         </v-card>
       </v-slide-item>

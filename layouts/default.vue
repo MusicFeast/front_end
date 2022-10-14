@@ -38,10 +38,10 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
   },
+  created() {
+    this.getData()
+  },
   mounted() {
-    // login inicializer
-    this.$store.dispatch("getDataNear");
-    
     /* scroll horizontal (simple) */
     const scrollableDesktop = document.querySelectorAll('.scrollx');
     const scrollableMobile = document.querySelectorAll('.scrollxmobile');
@@ -75,6 +75,21 @@ export default {
       footerHeightListener();
     };
   },
+  methods: {
+    async getData() {
+      const baseUrl = this.$axios.defaults.baseURL;
+      const accountId = await this.$store.dispatch("getData", {get: "wallet"})
+      // get data user
+      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+      .then(fetch => {
+        this.$store.dispatch("getData", {fetch});
+      })
+      .catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error.message);
+      })
+    }
+  }
 }
 </script>
 

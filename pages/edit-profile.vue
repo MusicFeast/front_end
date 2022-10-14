@@ -236,14 +236,13 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
   },
-  mounted() {
+  created() {
     this.getData();
   },
   methods: {
     async getData() {
       const baseUrl = this.$axios.defaults.baseURL;
-      const accountId = await this.$store.dispatch("getDataNear", true)
-
+      const accountId = await this.$store.dispatch("getData", {get: "wallet"})
       // get data user
       await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(fetch => {
@@ -300,8 +299,9 @@ export default {
       else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
     },
     goBack() {
-      this.$alert('success');
-      this.$router.push(this.localePath('/profile'))
+      setTimeout(() => this.$router.go(0), 100);
+      this.$router.go(-1)
+      this.$alert('success')
     },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},

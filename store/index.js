@@ -1,5 +1,6 @@
 import html2canvas from 'html2canvas';
 import * as nearAPI from 'near-api-js'
+
 const { connect, keyStores, WalletConnection } = nearAPI
 const keyStore = new keyStores.BrowserLocalStorageKeyStore()
 const config = {
@@ -16,8 +17,9 @@ export const state = () => ({
   theme: "light",
   overlay: { opacity: 0.2, color: "black" },
   dataUser: {
-    avatar: '',
-    accountId: null,
+    banner: undefined,
+    avatar: undefined,
+    accountId: undefined,
     user: false,
     tier: 2,
     balance: 0,
@@ -34,10 +36,15 @@ export const mutations = {
     if (theme === "dark") {state.overlay.opacity = "0.5"; state.overlay.color = "black"}
     if (theme === "light") {state.overlay.opacity = "0.2"; state.overlay.color = "white"}
   },
-  getData(state) {
-    if (wallet.isSignedIn()) {
+  setData(state, data) {
+    if (wallet.isSignedIn() && typeof data === 'string') {
+      state.dataUser.accountId = data;
       state.dataUser.user = true;
-      state.dataUser.accountId = wallet.getAccountId();
+    } else if (wallet.isSignedIn() && typeof data === 'object') {
+      state.dataUser.accountId = data.wallet;
+      state.dataUser.banner = this.$axios.defaults.baseURL+data.banner;
+      state.dataUser.avatar = this.$axios.defaults.baseURL+data.avatar;
+      state.dataUser.user = true;
     };
   },
   signIn() {
@@ -58,17 +65,19 @@ export const actions = {
     localStorage.setItem("theme", theme);
     commit("switchTheme", theme)
   },
-  async getDataNear({commit}, consult) {
+  async getData({commit}, {fetch, get}) {
     try {
       // connect to NEAR
       const near = await connect(config);
       // create wallet connection
       wallet = new WalletConnection(near);
       
-      if (consult) {
+      if (get === "wallet") {
+        // return near wallet
         return wallet.getAccountId();
       } else {
-        commit( "getData");
+        // set data profile
+        fetch.data[0].wallet ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
       }
     } catch (error) {
       this.$alert("cancel", {desc: error.message})

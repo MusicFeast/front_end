@@ -3,7 +3,7 @@
     <section
       class="header"
       :style="`
-        --bg-image: url(${profileBanner});
+        --bg-image: url(${user.banner});
         --tag-tier: '${
           user.tier===1 ? 'bronze' :
           user.tier===2 ? 'silver' :
@@ -16,7 +16,7 @@
       <v-avatar
         width="var(--size)" height="var(--size)" style="--size: 13.954375em"
         @mouseenter="showTag()" @mouseleave="hideTag()">
-        <img src="@/assets/sources/images/avatar.jpg" alt="avatar image">
+        <img :src="user.avatar" alt="avatar image">
       </v-avatar>
       <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
     </section>
@@ -161,7 +161,6 @@ export default {
   name: "ProfilePage",
   data() {
     return {
-      profileBanner: require('~/assets/sources/images/img-header-profile.jpg'),
       dataSocial: [
         { icon: "mdi-link" },
         { icon: "mdi-twitter", link: "#" },
