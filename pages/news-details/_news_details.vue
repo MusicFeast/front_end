@@ -125,7 +125,7 @@ export default {
           this.dataOtherNews = fetch.data
         }).catch(error => {
           this.$alert("cancel", {desc: error.message})
-          console.error(error.message);
+          console.error(error);
         }
       );
     },

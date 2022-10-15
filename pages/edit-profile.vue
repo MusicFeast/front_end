@@ -272,7 +272,7 @@ export default {
         }
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
-        console.error(error.message);
+        console.error(error);
       })
     },
     saveForm() {
@@ -293,13 +293,13 @@ export default {
           this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
           .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
-            console.error(error.message);
+            console.error(error);
           })
         } else {
           this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
           .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
-            console.error(error.message);
+            console.error(error);
           })
         }
       }

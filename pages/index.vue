@@ -108,7 +108,7 @@ export default {
         this.dataHero = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
-        console.error(error.message);
+        console.error(error);
       }
     );
     
@@ -119,7 +119,7 @@ export default {
         this.dataArtists = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
-        console.error(error.message);
+        console.error(error);
       }
     );
     
@@ -130,7 +130,7 @@ export default {
         this.dataNews = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
-        console.error(error.message);
+        console.error(error);
       }
     );
   },

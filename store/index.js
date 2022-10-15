@@ -14,7 +14,7 @@ const config = {
 let wallet = null
 
 export const state = () => ({
-  theme: "light",
+  theme: "dark",
   overlay: { opacity: 0.2, color: "black" },
   dataUser: {
     banner: undefined,
@@ -94,11 +94,11 @@ export const actions = {
         return wallet.getAccountId();
       } else {
         // set data profile
-        fetch.data[0].wallet ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
+        fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
       }
     } catch (error) {
       this.$alert("cancel", {desc: error.message})
-      console.error(error.message);
+      console.error(error);
     }
   },
   goTo({commit, state}, {key, item, event, id}) {
@@ -122,7 +122,7 @@ export const actions = {
       }).catch((error) => {
         this.$alert("cancel", {desc: error.message})
         this.$loadCursorEnd(".v-card")
-        console.error(error.message);
+        console.error(error);
       })
     } else {
       localStorage.setItem(key, JSON.stringify(item))
