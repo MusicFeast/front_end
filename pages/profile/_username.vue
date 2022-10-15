@@ -32,7 +32,7 @@
         </v-btn>
       </aside>
 
-      <h2 class="p">Username #35461</h2>
+      <h2 class="p">{{user.username}}</h2>
 
       <section class="container-profit bold fwrap align" style="max-width: 62.616875em">
         <v-sheet color="transparent" class="divcol center">
@@ -49,11 +49,7 @@
         </v-sheet>
       </section>
 
-      <p class="p">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam 
-        erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo 
-        consequat.
-      </p>
+      <p class="p">{{user.bio}}</p>
     </section>
 
     <h2 class="Title tup">my nfts</h2>
@@ -283,8 +279,24 @@ export default {
         heightH2()
       };
     });
+
+    this.setProfile();
   },
   methods: {
+    async setProfile() {
+      const baseUrl = this.$axios.defaults.baseURL;
+      const accountId = await this.$store.dispatch("getData", {get: "wallet"})
+      // get data user
+      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+      .then(fetch => {
+        if (fetch.data[0].username && this.$route.path === '/profile') {
+          this.$router.replace(`${this.$route.path}/:${this.user.username}`)
+        }
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error);
+      })
+    },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
   }

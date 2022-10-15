@@ -20,6 +20,7 @@ export const state = () => ({
     banner: undefined,
     avatar: undefined,
     accountId: undefined,
+    username: undefined,
     user: false,
     tier: 2,
     balance: 0,
@@ -49,6 +50,8 @@ export const mutations = {
       state.dataUser.accountId = data.wallet;
       state.dataUser.banner = this.$axios.defaults.baseURL+data.banner;
       state.dataUser.avatar = this.$axios.defaults.baseURL+data.avatar;
+      state.dataUser.username = data.username;
+      state.dataUser.bio = data.bio;
       // find socials
       const [...arrSocials] = Object.entries(data)
       .filter(arr => arr[0] === 'telegram' || arr[0] === 'discord' || arr[0] === 'instagram' || arr[0] === 'twitter')

@@ -51,8 +51,8 @@
             
             <v-list-item
               v-for="(item,i) in $parent.dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
-              :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
-              @click="item.active?'':$parent.dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
+              :ripple="false" :class="{active: item.active}" @click="item.active?'':$parent.dataMenuProfile.forEach(e=>{e.active=false;
+              item.active=true});menuProfile = false; drawer = false; $router.push(localePath(item.to))">
               <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
                 {{item.title}}
                 <v-chip
@@ -83,8 +83,8 @@
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
         <v-list class="fill_w">
           <v-list-item
-            v-for="(item,i) in $parent.dataLinks" :key="i" :ripple="false" link :class="{active: item.active}" :to="localePath(item.to)"
-            @click="$parent.dataLinks.forEach(e=>e.active=false); item.active=true; drawer = false">
+            v-for="(item,i) in $parent.dataNavbar" :key="i" :ripple="false" link :class="{active: item.active}"
+            @click="$parent.dataNavbar.forEach(e=>e.active=false); item.active=true; drawer = false; $router.push(localePath(item.to))">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content" class="tcap">
                 {{ item.name }}
@@ -120,11 +120,6 @@ export default {
         { icon:"mdi-twitter", url:"#" },
         { icon:"mdi-facebook", url:"#" },
         { icon:"discord", url:"#" }
-      ],
-      dataMenuLogin: [
-        { key:"profile", name:"Profile", to:"/profile" },
-        { key:"library", name:"Library", to:"/library" },
-        { key:"logout", name:"Log out" },
       ],
     };
   },

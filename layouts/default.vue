@@ -83,8 +83,7 @@ export default {
       await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(fetch => {
         this.$store.dispatch("getData", {fetch});
-      })
-      .catch(error => {
+      }).catch(error => {
         this.$alert("cancel", {desc: error.message})
         console.error(error);
       })

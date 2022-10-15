@@ -9,7 +9,7 @@
 
       <section class="center gap2 eliminarmobile">
         <a
-          v-for="(item,i) in dataLinks" :key="i" class="tcap"
+          v-for="(item,i) in dataNavbar" :key="i" class="tcap"
           @click="goTo(item.to)"
           >{{item.name}}</a>
       </section>
@@ -52,8 +52,8 @@
             
             <v-list-item
               v-for="(item,i) in dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
-              :ripple="false" :class="{active: item.active}" :to="localePath(item.to)"
-              @click="item.active?'':dataMenuProfile.forEach(e=>{e.active=false; item.active=true});menuProfile = false; drawer = false">
+              :ripple="false" :class="{active: item.active}" @click="item.active?'':dataMenuProfile.forEach(e=>{e.active=false;
+              item.active=true});menuProfile = false; drawer = false; $router.push(localePath(item.to))">
               <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
                 {{item.title}}
                 <v-chip
@@ -106,7 +106,7 @@ export default {
           active: false,
         },
       ],
-      dataLinks: [
+      dataNavbar: [
         { name: "home", to: "/", active: false },
         { name: "about", to: "/about", active: false },
         { name: "artists", to: "/artists", active: false },
@@ -124,8 +124,8 @@ export default {
     
     // tier loading data
     this.user.tier < 3 
-    ? this.dataLinks.find(data=>data.name==='marketplace').to = '/marketplace'
-    : this.dataLinks.find(data=>data.name==='marketplace').to = '/marketplace-vip'
+    ? this.dataNavbar.find(data=>data.name==='marketplace').to = '/marketplace'
+    : this.dataNavbar.find(data=>data.name==='marketplace').to = '/marketplace-vip'
 
     // mobile listener scroll
     window.onscroll = () => {

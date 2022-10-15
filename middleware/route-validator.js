@@ -6,7 +6,7 @@ export default function ({app, route}) {
         const layout = app.router.app.$children.find(data=>data.$el === document.getElementById("layout"));
         // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
         const dataMenuProfile = layout.$refs.header.dataMenuProfile;
-        const dataDrawer = layout.$refs.header.dataLinks;
+        const dataDrawer = layout.$refs.header.dataNavbar;
         // If current route
         if (dataDrawer.find(data=>data.to === route.path) && dataMenuProfile.find(data=>data.to === route.path)) {// console.log("both")
           dataDrawer.forEach(el => {el.active = false});
