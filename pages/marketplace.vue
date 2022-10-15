@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataCarousel.length">
               <v-card
                 :key="i" class="card divcol custome"
-                @click="$store.dispatch('goTo', {key: 'collection', item: dataCarousel[+index + i], id: item.name})">
+                @click="$store.dispatch('goTo', {key: 'collection', item: dataCarousel[+index + i]})">
                 <div
                   class="container-img"
                   :style="`
@@ -130,7 +130,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {key: 'collection', item, id: item.name})">
+        @click="$store.dispatch('goTo', {key: 'collection', item})">
         <div
           class="container-img"
           :style="`

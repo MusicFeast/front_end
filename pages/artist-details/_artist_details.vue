@@ -79,7 +79,7 @@
             bronze: item.tier===1,
             active: active
           }"
-          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
+          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
           <div
             class="container-img"
             :style="`--tag-tier: '${
@@ -161,7 +161,7 @@
       <v-expansion-panel v-for="(item,i) in dataEvents" :key="i">
         <v-expansion-panel-header
           expand-icon="mdi-menu-down" class="bold tcap"
-          @click="$store.dispatch('goTo', {key: 'event', item, id: item.event})">
+          @click="$store.dispatch('goTo', {key: 'event', item})">
           {{item.event}}
         </v-expansion-panel-header>
       </v-expansion-panel>
@@ -200,7 +200,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
+        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
         <div
           class="container-img"
           :style="`

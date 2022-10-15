@@ -72,7 +72,6 @@
 <script>
 export default {
   name: "NewsDetailsPage",
-  middleware: "news-details",
   data() {
     return {
       dataSocial: [
@@ -96,6 +95,8 @@ export default {
     news() {return JSON.parse(localStorage.getItem("news"))}
   },
   mounted() {
+    this.mountData();
+
     const pageName = 'news-details';
     const page = document.querySelector(`#${pageName}`);
     
@@ -132,8 +133,8 @@ export default {
     async mountData() {
       // mount data
       await this.getData();
-      if (this.$route.path === this.localePath('/news-details')) { this.dataNews = await this.dataOtherNews.at(-1) }
-      else { this.dataNews = this.news }
+      if (localStorage.getItem("validator-news") === "pages") { this.dataNews = this.news }
+      else { this.dataNews = await this.dataOtherNews.at(-1) }
     },
     selectNews(item) {
       this.dataNews = item;

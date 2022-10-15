@@ -32,10 +32,14 @@ export const mutations = {
   tierTest(state) {state.dataUser.tier === 6 ? state.dataUser.tier = 1 : state.dataUser.tier++},
   // just for testing tiers
 
-  switchTheme(state, theme) {state.theme = theme},
-  overlayMethod(state, theme) {
-    if (theme === "dark") {state.overlay.opacity = "0.5"; state.overlay.color = "black"}
-    if (theme === "light") {state.overlay.opacity = "0.2"; state.overlay.color = "white"}
+  switchTheme(state, theme) {
+    // theme
+    state.theme = theme
+    localStorage.setItem("theme", theme)
+    document.documentElement.className = theme;
+    // overlay
+    if (theme === "light") { state.overlay.opacity = 0.2; state.overlay.color = "white" }
+    else { state.overlay.opacity = 0.5; state.overlay.color = "black" }
   },
   setData(state, data) {
     if (wallet.isSignedIn() && typeof data === 'string') {
@@ -77,11 +81,6 @@ export const mutations = {
 };
 
 export const actions = {
-  switchTheme({commit}, theme) {
-    document.getElementById("theme").href = `/themes/${theme}/theme.css`;
-    localStorage.setItem("theme", theme);
-    commit("switchTheme", theme)
-  },
   async getData({commit}, {fetch, get} = {}) {
     try {
       // connect to NEAR
@@ -113,10 +112,10 @@ export const actions = {
       }).then(() => {
         this.$router.push(
           this.localePath(key === 'nft'
-            ? `/nft-details/${id?`:${id}`:''}`
+            ? `/nft-details`
             : state.dataUser.tier < 3
-            ? `/user-nft-details/${id?`:${id}`:''}`
-            : `/user-nft-details-vip/${id?`:${id}`:''}`
+            ? `/user-nft-details`
+            : `/user-nft-details-vip`
           )
         );
       }).catch((error) => {
@@ -126,7 +125,7 @@ export const actions = {
       })
     } else {
       localStorage.setItem(key, JSON.stringify(item))
-      this.$router.push(this.localePath(`/${key}-details/${id?`:${id}`:''}`));
+      this.$router.push(this.localePath(`/${key}-details`));
     }
   },
 };

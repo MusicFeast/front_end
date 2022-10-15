@@ -11,7 +11,7 @@
       <v-slide-item v-for="(item,i) in dataNews" :key="i" v-slot="{ toggle }">
         <v-card
           color="transparent" class="tcentermobile" :ripple="false"
-          @click="toggle; $store.dispatch('goTo', {key: 'news', item, id: item.title})">
+          @click="toggle; goTo(item)">
           <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
           <h3 class="p">{{item.title}}</h3>
           <p class="p">
@@ -61,6 +61,10 @@ export default {
     }
   },
   methods: {
+    goTo(item) {
+      this.$store.dispatch('goTo', {key: 'news', item})
+      localStorage.setItem("validator-news", "pages")
+    }
   }
 };
 </script>

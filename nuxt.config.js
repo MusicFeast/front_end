@@ -16,6 +16,7 @@ export default {
     title: 'Home',
     htmlAttrs: {
       lang: 'en',
+      class: 'dark',
     },
     meta: [
       { charset: 'utf-8' },
@@ -25,8 +26,7 @@ export default {
     ],
     link: [
       // <-- main -->
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { id: 'theme', as: 'style', rel: 'stylesheet', type: 'text/css', href: '/themes/dark/theme.css', crossorigin: '' },
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
       // <-- icons-default -->
       { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
@@ -45,7 +45,7 @@ export default {
   },
 
   loading: {
-    color: 'var(--clr-gradient)',
+    color: 'var(--clr-primary)',
     height: '1em',
   },
 

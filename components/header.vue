@@ -10,7 +10,7 @@
       <section class="center gap2 eliminarmobile">
         <a
           v-for="(item,i) in dataLinks" :key="i" class="tcap"
-          @click="$router.push(localePath(item.to))"
+          @click="goTo(item.to)"
           >{{item.name}}</a>
       </section>
 
@@ -137,16 +137,19 @@ export default {
   //   const theme = localStorage.getItem("theme");
   //   if (theme) {
   //     setTimeout(() => {
-  //       this.$store.dispatch("switchTheme", theme);
-  //       this.$store.commit('overlayMethod', theme)
+  //       this.$store.commit("switchTheme", theme);
   //     }, 100);
   //   }
   //   if (theme === "light") {this.themeButton = true}
-  //   if (theme === "dark") {this.themeButton = false}
+  //   else {this.themeButton = false}
   // },
   methods: {
+    goTo(to) {
+      this.$router.push(this.localePath(to))
+      if (to === '/news-details') { localStorage.setItem("validator-news", "header") }
+    }
     // changeTheme(theme) {
-    //   this.$store.dispatch("switchTheme", theme);
+    //   this.$store.commit("switchTheme", theme);
     //   this.themeButton = !this.themeButton;
     // },
   },

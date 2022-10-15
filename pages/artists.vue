@@ -13,7 +13,7 @@
             <template v-if="(+index + i) < dataArtists.length">
               <v-card
                 :key="i" :class="{active: dataArtists[+index + i].active}" :style="`--bg-image: url('${dataArtists[+index + i].image}')`" :ripple="false"
-                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i], id: item.name})">
+                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i]})">
                 <v-sheet>
                   <div class="divcol">
                     <h3>{{dataArtists[+index + i].name}}</h3>
@@ -57,7 +57,7 @@
     <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
       <v-card
         v-for="(item,i) in dataArtists" :key="i" class="card divcol custome" :class="{comming: item.comming}"
-        @click="$store.dispatch('goTo', {key: 'artist', item, id: item.name})">
+        @click="$store.dispatch('goTo', {key: 'artist', item})">
         <div class="container-img" :style="item.comming ? `--tag-state: 'Comming soon` : ''">
           <img :src="item.image" :alt="`${item.name} image`">
         </div>

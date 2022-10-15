@@ -99,7 +99,7 @@
           silver: item.tier===2,
           bronze: item.tier===1,
         }"
-        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, id: item.name})">
+        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
         <div
           class="container-img"
           :style="`
