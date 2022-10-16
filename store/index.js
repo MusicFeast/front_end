@@ -61,12 +61,12 @@ export const mutations = {
       socials.discord = `https://discord.com/channels/${socials.discord}`
       socials.instagram = `https://instagram.com/${socials.instagram}`
       socials.twitter = `https://twitter.com/${socials.twitter}`
-      // push socials
+      // transform con text to push
       Object.entries(socials).forEach(arr => {
         if (arr[0] === 'instagram') { arr[0] = 'mdi-instagram' }
         else if (arr[0] === 'twitter') { arr[0] = 'mdi-twitter' }
-        const newArrSocials = { icon: arr[0], link: arr[1] }
-        state.dataUser.dataSocial.push(newArrSocials)
+        // push socials
+        state.dataUser.dataSocial.push({ icon: arr[0], link: arr[1] })
       })
       state.dataUser.user = true;
     };
