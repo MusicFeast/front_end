@@ -21,6 +21,11 @@ export const state = () => ({
     avatar: undefined,
     accountId: undefined,
     username: undefined,
+    email: undefined,
+    discord: undefined,
+    instagram: undefined,
+    twitter: undefined,
+    telegram: undefined,
     user: false,
     tier: 2,
     balance: 0,
@@ -51,21 +56,34 @@ export const mutations = {
       state.dataUser.banner = this.$axios.defaults.baseURL+data.banner;
       state.dataUser.avatar = this.$axios.defaults.baseURL+data.avatar;
       state.dataUser.username = data.username;
+      state.dataUser.email = data.email;
       state.dataUser.bio = data.bio;
       // find socials
       const [...arrSocials] = Object.entries(data)
-      .filter(arr => arr[0] === 'telegram' || arr[0] === 'discord' || arr[0] === 'instagram' || arr[0] === 'twitter')
-      // transform socials url
+      .filter(arr =>
+        arr[0] === 'telegram' && arr[1] || arr[0] === 'discord' && arr[1]
+        || arr[0] === 'instagram' && arr[1] || arr[0] === 'twitter' && arr[1])
+      // set socials accounts
+      arrSocials.forEach(arr => { state.dataUser[arr[0]] = arr[1] })
+      // transform in object to push
       const socials = Object.fromEntries(arrSocials)
-      socials.telegram = `https://t.me/${socials.telegram}`
-      socials.discord = `https://discord.com/channels/${socials.discord}`
-      socials.instagram = `https://instagram.com/${socials.instagram}`
-      socials.twitter = `https://twitter.com/${socials.twitter}`
-      // transform icon text to push
       Object.entries(socials).forEach(arr => {
-        if (arr[0] === 'instagram') { arr[0] = 'mdi-instagram' }
-        else if (arr[0] === 'twitter') { arr[0] = 'mdi-twitter' }
-        // push socials
+        if (arr[0] === "telegram") {
+          // telegram
+          arr[1] = `https://t.me/${socials.telegram}`
+        } else if (arr[0] === "discord") {
+          // discord
+          arr[1] = `https://discord.com/channels/${socials.discord}`
+        } else if (arr[0] === "instagram") {
+          // instagram
+          arr[0] = 'mdi-instagram'
+          arr[1] = `https://instagram.com/${socials.instagram}`
+        } else if (arr[0] === "twitter") {
+          // twitter
+          arr[0] = 'mdi-twitter'
+          arr[1] = `https://twitter.com/${socials.twitter}`
+        }
+        // push data socials
         state.dataUser.dataSocial.push({ icon: arr[0], link: arr[1] })
       })
       state.dataUser.user = true;

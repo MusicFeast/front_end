@@ -54,7 +54,7 @@
           id="username"
           v-model="form.username"
           placeholder="username123"
-          :rules="rules.required"
+          :rules="rules.repeatedUsername"
         ></v-text-field>
         
         <label for="email">email</label>
@@ -62,7 +62,7 @@
           id="email"
           v-model="form.email"
           placeholder="example@domain.com"
-          :rules="rules.required"
+          :rules="rules.repeatedEmail"
         ></v-text-field>
         
         <label for="discord">discord</label>
@@ -70,6 +70,7 @@
           id="discord"
           v-model="form.discord"
           placeholder="username#321"
+          :rules="rules.repeatedDiscord"
         ></v-text-field>
         
         <label for="instagram">instagram account</label>
@@ -77,6 +78,7 @@
           id="instagram"
           v-model="form.instagram"
           placeholder="@username#321"
+          :rules="rules.repeatedInstagram"
         ></v-text-field>
         
         <label for="twitter">twitter account</label>
@@ -84,6 +86,7 @@
           id="twitter"
           v-model="form.twitter"
           placeholder="@username"
+          :rules="rules.repeatedTwitter"
         ></v-text-field>
         
         <label for="telegram">telegram account</label>
@@ -91,6 +94,7 @@
           id="telegram"
           v-model="form.telegram"
           placeholder="@username45"
+          :rules="rules.repeatedTelegram"
         ></v-text-field>
         
         <label for="bio">bio</label>
@@ -227,8 +231,37 @@ export default {
         }
       },
       dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
+      djangoExistenceList: {
+        username: ["detextre4", "hola", "coca", "detextre3", "lo que sea wey"],
+        email: ["detextre4", "hola", "coca"],
+        discord: ["detextre4", "hola", "coca"],
+        instagram: ["detextre4", "hola", "coca"],
+        twitter: ["detextre4", "hola", "coca"],
+        telegram: ["detextre4", "hola", "coca"],
+      },
       rules: {
         required: [(v) => !!v || "Field required"],
+        repeatedUsername: [
+          (v) => !!v || "Field required",
+          (v) => !(this.djangoExistenceList.username.find(e=>e === v) && this.user.username !== v) || "Username is already taken"
+        ],
+        repeatedEmail: [
+          (v) => !!v || "Field required",
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+          (v) => !(this.djangoExistenceList.email.find(e=>e === v) && this.user.email !== v) || "Email is already used"
+        ],
+        repeatedDiscord: [
+          (v) => !(this.djangoExistenceList.discord.find(e=>e === v) && this.user.discord !== v) || "Discord account is already used"
+        ],
+        repeatedInstagram: [
+          (v) => !(this.djangoExistenceList.instagram.find(e=>e === v) && this.user.instagram !== v) || "Instagram account is already used"
+        ],
+        repeatedTwitter: [
+          (v) => !(this.djangoExistenceList.twitter.find(e=>e === v) && this.user.twitter !== v) || "Twitter account is already used"
+        ],
+        repeatedTelegram: [
+          (v) => !(this.djangoExistenceList.telegram.find(e=>e === v) && this.user.telegram !== v) || "Telegram account is already used"
+        ],
       },
     }
   },
