@@ -95,9 +95,24 @@ export const actions = {
         // return near wallet
         return wallet.getAccountId();
       } else {
-        // set data profile
-        fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
+        // get data user
+        await this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
+        .then(fetch => {
+          if (get === "profile") {
+            // return near wallet
+            return fetch.data[0]
+            // return fetch;
+          } else {
+            // set data profile
+            fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
+          }
+          // catch error django
+        }).catch(error => {
+          this.$alert("cancel", {desc: error.message})
+          console.error(error);
+        })
       }
+      // catch error near
     } catch (error) {
       this.$alert("cancel", {desc: error.message})
       console.error(error);

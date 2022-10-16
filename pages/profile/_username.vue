@@ -283,19 +283,10 @@ export default {
     this.setProfile();
   },
   methods: {
-    async setProfile() {
-      const baseUrl = this.$axios.defaults.baseURL;
-      const accountId = await this.$store.dispatch("getData", {get: "wallet"})
-      // get data user
-      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
-      .then(fetch => {
-        if (fetch.data[0].username && this.$route.path === '/profile') {
-          this.$router.replace(`${this.$route.path}/:${this.user.username}`)
-        }
-      }).catch(error => {
-        this.$alert("cancel", {desc: error.message})
-        console.error(error);
-      })
+    setProfile() {
+      if (this.$route.path === '/profile' && this.$store.dispatch("getData", {get: "profile"}).then(res => {return res})) {
+        this.$router.replace(`${this.$route.path}/:${this.user.username}`)
+      }
     },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
