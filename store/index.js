@@ -96,7 +96,7 @@ export const actions = {
         return wallet.getAccountId();
       } else {
         // get data user
-        await this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
+        this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
         .then(fetch => {
           if (get === "profile") {
             // return near wallet

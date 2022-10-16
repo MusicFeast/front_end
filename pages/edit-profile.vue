@@ -306,7 +306,7 @@ export default {
       else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
     },
     goBack() {
-      // setTimeout(() => this.$router.go(0), 100);
+      setTimeout(() => this.$router.go(0), 100);
       this.$router.go(-1)
       this.$alert('success')
     },

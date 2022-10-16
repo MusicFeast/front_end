@@ -49,7 +49,7 @@
         </v-sheet>
       </section>
 
-      <p class="p">{{user.bio}}</p>
+      <p class="p tcenter">{{user.bio}}</p>
     </section>
 
     <h2 class="Title tup">my nfts</h2>
