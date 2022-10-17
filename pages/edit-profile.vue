@@ -216,7 +216,7 @@ export default {
           postal: null,
         }
       },
-      dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
+      dataCountries: [ "canada", "EEUU", "united kingdom", "spain", "lorem ipsum", "lorem ipsum" ],
       djangoExistenceList: {
         username: undefined,
         email: undefined,
@@ -324,9 +324,11 @@ export default {
               // push to form data
               const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(arr[1])
               const file = arr[1] && arr[1].type
-              if (typeof arr[1] === 'object' && !file) { formData.append(arr[0], JSON.stringify(arr[1])) } // if object only
+              if (typeof arr[1] === 'object' && !file) {
+                formData.append(arr[0], JSON.stringify(typeof arr[1] === 'string' ? arr[1].toLowerCase() : arr[1]))
+              } // if object only
               else if (file) { formData.append(arr[0], arr[1]) } // if file object
-              else if (excludeUrl) { formData.append(arr[0], arr[1] || "") } // else
+              else if (excludeUrl) { formData.append(arr[0], typeof arr[1] === 'string' ? arr[1].toLowerCase() : arr[1] || "") } // else
             })
 
           if (this.userExist) {
@@ -351,7 +353,7 @@ export default {
       })
     },
     goBack() {
-      // setTimeout(() => this.$router.go(0), 100);
+      setTimeout(() => this.$router.go(0), 100);
       this.$router.go(-1)
       this.$alert('success')
     },
