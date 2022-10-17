@@ -314,16 +314,14 @@ export default {
         this.djangoExistenceList = fetch.data
         if (this.$refs.form.validate()) {
             const formData = new FormData();
-            // set null to empty string
             Object.entries(this.form).forEach(arr => {
+              // set null to empty string
               const dataValues = this.form[arr[0]]
               if (dataValues && typeof dataValues === "object") {
-                Object.keys(arr[1]).forEach(key => { arr[1][key] = "" })
-              } else if (dataValues === null) { this.form[arr[0]] = "" }
-            })
-
-            // push to form data
-            Object.entries(this.form).forEach(arr => {
+                Object.keys(arr[1]).forEach(key => { arr[1][key] ??= "" })
+              } else { this.form[arr[0]] ??= "" }
+              
+              // push to form data
               const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(arr[1])
               const file = arr[1] && arr[1].type
               if (typeof arr[1] === 'object' && !file) { formData.append(arr[0], JSON.stringify(arr[1])) } // if object only
@@ -353,7 +351,7 @@ export default {
       })
     },
     goBack() {
-      setTimeout(() => this.$router.go(0), 100);
+      // setTimeout(() => this.$router.go(0), 100);
       this.$router.go(-1)
       this.$alert('success')
     },
