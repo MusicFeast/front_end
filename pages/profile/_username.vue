@@ -280,7 +280,7 @@ export default {
       };
     });
 
-    this.setProfile();
+    // this.setProfile();
   },
   methods: {
     // setProfile() {
