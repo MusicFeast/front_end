@@ -15,7 +15,7 @@
       <div class="header-background divcol" :style="`--bg-image: url(${nft.img})`">
         <div class="center gap1 alignl">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="nft.avatar" alt="artist image" style="--of: cover">
+            <img :src="nft.avatar" alt="artist image" style="--w: 100%; --of: cover">
           </v-avatar>
           <span>Artist Name</span>
         </div>
@@ -121,7 +121,7 @@
       <template #[`item.seller`]="{ item }">
         <center class="center" style="gap:10px">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.seller_avatar" alt="artist avatar" style="--of: cover">
+            <img :src="item.seller_avatar" alt="artist avatar" style="--w: 100%; --of: cover">
           </v-avatar>
           <span>{{item.seller}}</span>
         </center>
@@ -204,21 +204,21 @@ export default {
           number: "#1",
           vault: true,
           seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/images/avatar.jpg"),
+          seller_avatar: require("~/assets/sources/images/avatar.png"),
           price: "174",
         },
         {
           number: "#123",
           vault: false,
           seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/images/avatar.jpg"),
+          seller_avatar: require("~/assets/sources/images/avatar.png"),
           price: "174",
         },
         {
           number: "#123",
           vault: false,
           seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/images/avatar.jpg"),
+          seller_avatar: require("~/assets/sources/images/avatar.png"),
         },
       ],
       pagination: 0,

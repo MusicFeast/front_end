@@ -55,6 +55,7 @@
           v-model="form.username"
           placeholder="username123"
           :rules="rules.repeatedUsername"
+          @input="clearRepeted('username')"
         ></v-text-field>
         
         <label for="email">email</label>
@@ -63,6 +64,7 @@
           v-model="form.email"
           placeholder="example@domain.com"
           :rules="rules.repeatedEmail"
+          @input="clearRepeted('email')"
         ></v-text-field>
         
         <label for="discord">discord</label>
@@ -71,6 +73,7 @@
           v-model="form.discord"
           placeholder="username#321"
           :rules="rules.repeatedDiscord"
+          @input="clearRepeted('discord')"
         ></v-text-field>
         
         <label for="instagram">instagram account</label>
@@ -79,6 +82,7 @@
           v-model="form.instagram"
           placeholder="@username#321"
           :rules="rules.repeatedInstagram"
+          @input="clearRepeted('instagram')"
         ></v-text-field>
         
         <label for="twitter">twitter account</label>
@@ -87,6 +91,7 @@
           v-model="form.twitter"
           placeholder="@username"
           :rules="rules.repeatedTwitter"
+          @input="clearRepeted('twitter')"
         ></v-text-field>
         
         <label for="telegram">telegram account</label>
@@ -95,6 +100,7 @@
           v-model="form.telegram"
           placeholder="@username45"
           :rules="rules.repeatedTelegram"
+          @input="clearRepeted('telegram')"
         ></v-text-field>
         
         <label for="bio">bio</label>
@@ -125,7 +131,7 @@
           id="country"
           v-model="form.address.country"
           :items="dataCountries" solo
-          :rules="rules.required"
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
           placeholder="Select The Country"
           style="--fs-place: 16px"
         ></v-select>
@@ -135,11 +141,7 @@
           id="street"
           v-model="form.address.street_address"
           placeholder="Street Address, P.O, box, lorem ipsum"
-          :rules="Object.keys(form.address).find(e => 
-              e !== 'country' ? form.address[e] : undefined
-            ) || Object.keys(form.address).find(e => e) && userExist
-            ? rules.required : undefined
-          "
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
         
         <label for="apartment">Apartment, Suite, Etc</label>
@@ -147,11 +149,7 @@
           id="apartment"
           v-model="form.address.street_address2"
           placeholder="Street Address 2, P.O, box, lorem ipsum "
-          :rules="Object.keys(form.address).find(e => 
-              e !== 'country' ? form.address[e] : undefined
-            ) || Object.keys(form.address).find(e => e) && userExist
-            ? rules.required : undefined
-          "
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
         
         <label for="city">city</label>
@@ -159,11 +157,7 @@
           id="city"
           v-model="form.address.city"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => 
-              e !== 'country' ? form.address[e] : undefined
-            ) || Object.keys(form.address).find(e => e) && userExist
-            ? rules.required : undefined
-          "
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
         
         <label for="state">State / Province / Region</label>
@@ -171,11 +165,7 @@
           id="state"
           v-model="form.address.state"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => 
-              e !== 'country' ? form.address[e] : undefined
-            ) || Object.keys(form.address).find(e => e) && userExist
-            ? rules.required : undefined
-          "
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
 
         <label for="postal">Postal / Zip Code</label>
@@ -183,11 +173,7 @@
           id="postal"
           v-model="form.address.postal"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => 
-              e !== 'country' ? form.address[e] : undefined
-            ) || Object.keys(form.address).find(e => e) && userExist
-            ? rules.required : undefined
-          "
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
       </section>
 
@@ -205,8 +191,8 @@ export default {
   data() {
     return {
       userExist: undefined,
-      imgBanner: require('~/assets/sources/images/img-header-profile.jpg'),
-      imgAvatar: require('~/assets/sources/images/avatar.jpg'),
+      imgBanner: undefined,
+      imgAvatar: require('~/assets/sources/images/avatar.png'),
       avatar_model: [],
       banner_model: [],
       form: {
@@ -232,35 +218,35 @@ export default {
       },
       dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
       djangoExistenceList: {
-        username: ["detextre4", "hola", "coca", "detextre3", "lo que sea wey"],
-        email: ["detextre4", "hola", "coca"],
-        discord: ["detextre4", "hola", "coca"],
-        instagram: ["detextre4", "hola", "coca"],
-        twitter: ["detextre4", "hola", "coca"],
-        telegram: ["detextre4", "hola", "coca"],
+        username: undefined,
+        email: undefined,
+        discord: undefined,
+        instagram: undefined,
+        twitter: undefined,
+        telegram: undefined,
       },
       rules: {
         required: [(v) => !!v || "Field required"],
         repeatedUsername: [
           (v) => !!v || "Field required",
-          (v) => !(this.djangoExistenceList.username.find(e=>e === v) && this.user.username !== v) || "Username is already taken"
+          () => !(this.djangoExistenceList.username) || "Username is already taken"
         ],
         repeatedEmail: [
           (v) => !!v || "Field required",
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-          (v) => !(this.djangoExistenceList.email.find(e=>e === v) && this.user.email !== v) || "Email is already used"
+          () => !(this.djangoExistenceList.email) || "Email is already used"
         ],
         repeatedDiscord: [
-          (v) => !(this.djangoExistenceList.discord.find(e=>e === v) && this.user.discord !== v) || "Discord account is already used"
+          () => !(this.djangoExistenceList.discord) || "Discord account is already used"
         ],
         repeatedInstagram: [
-          (v) => !(this.djangoExistenceList.instagram.find(e=>e === v) && this.user.instagram !== v) || "Instagram account is already used"
+          () => !(this.djangoExistenceList.instagram) || "Instagram account is already used"
         ],
         repeatedTwitter: [
-          (v) => !(this.djangoExistenceList.twitter.find(e=>e === v) && this.user.twitter !== v) || "Twitter account is already used"
+          () => !(this.djangoExistenceList.twitter) || "Twitter account is already used"
         ],
         repeatedTelegram: [
-          (v) => !(this.djangoExistenceList.telegram.find(e=>e === v) && this.user.telegram !== v) || "Telegram account is already used"
+          () => !(this.djangoExistenceList.telegram) || "Telegram account is already used"
         ],
       },
     }
@@ -290,17 +276,18 @@ export default {
             const dataValues = data[arr[0]]
             if (typeof dataValues !== "object") {
               this.form[arr[0]] = dataValues
-            }
-            else {
+            } else {
               Object.keys(arr[1]).forEach(key => { arr[1][key] = dataValues[key] })
             }
           })
           this.form.id = data.id
-          this.imgBanner = baseUrl+data.banner
-          this.imgAvatar = baseUrl+data.avatar
+          this.imgBanner = data.avatar ? baseUrl+data.banner : this.user.banner
+          this.imgAvatar = data.avatar ? baseUrl+data.avatar : this.user.avatar
           this.userExist = true
         } else {
           this.form.wallet = accountId
+          this.imgBanner = this.user.banner
+          this.imgAvatar = this.user.avatar
           this.userExist = false
         }
       }).catch(error => {
@@ -308,35 +295,62 @@ export default {
         console.error(error);
       })
     },
+    clearRepeted(key) {
+      if (this.djangoExistenceList[key]) this.djangoExistenceList[key] = undefined
+    },
     saveForm() {
-      if (this.$refs.form.validate()) {
-          const formData = new FormData();
-          Object.entries(this.form).forEach(arr => {
-            const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(arr[1])
-
-            // if object only
-            if (typeof arr[1] === 'object' && !arr[1].type) { formData.append(arr[0], JSON.stringify(arr[1])) }
-            // if file object
-            else if (arr[1].type) { formData.append(arr[0], arr[1]) }
-            // else
-            else if (excludeUrl) { formData.append(arr[0], arr[1] || "") }
-          })
-
-        if (this.userExist) {
-          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
-          .then(() => this.goBack()).catch(error => {
-            this.$alert("cancel", {desc: error.message})
-            console.error(error);
-          })
-        } else {
-          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
-          .then(() => this.goBack()).catch(error => {
-            this.$alert("cancel", {desc: error.message})
-            console.error(error);
-          })
-        }
+      const consult = {
+        username: this.form.username,
+        email: this.form.email,
+        twitter: this.form.twitter,
+        discord: this.form.discord,
+        instagram: this.form.instagram,
+        telegram: this.form.telegram,
+        wallet: this.form.wallet,
       }
-      else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
+      Object.keys(consult).forEach(key => { if (consult[key] === null) { consult[key] = "" } })
+      // checkout no repeated info
+      this.$axios.post("https://testnet.musicfeast.io/musicfeast/api/v1/validate-perfil/", consult).then(fetch => {
+        this.djangoExistenceList = fetch.data
+        if (this.$refs.form.validate()) {
+            const formData = new FormData();
+            // set null to empty string
+            Object.entries(this.form).forEach(arr => {
+              const dataValues = this.form[arr[0]]
+              if (dataValues && typeof dataValues === "object") {
+                Object.keys(arr[1]).forEach(key => { arr[1][key] = "" })
+              } else if (dataValues === null) { this.form[arr[0]] = "" }
+            })
+
+            // push to form data
+            Object.entries(this.form).forEach(arr => {
+              const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(arr[1])
+              const file = arr[1] && arr[1].type
+              if (typeof arr[1] === 'object' && !file) { formData.append(arr[0], JSON.stringify(arr[1])) } // if object only
+              else if (file) { formData.append(arr[0], arr[1]) } // if file object
+              else if (excludeUrl) { formData.append(arr[0], arr[1] || "") } // else
+            })
+
+          if (this.userExist) {
+            this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
+            .then(() => this.goBack()).catch(error => {
+              this.$alert("cancel", {desc: error.message})
+              console.error(error);
+            })
+          } else {
+            this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
+            .then(() => this.goBack()).catch(error => {
+              this.$alert("cancel", {desc: error.message})
+              console.error(error);
+            })
+          }
+        }
+        else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
+      // catch error repeted values consult
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error)
+      })
     },
     goBack() {
       setTimeout(() => this.$router.go(0), 100);

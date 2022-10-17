@@ -23,16 +23,16 @@
 
     <section class="container-user">
       <aside class="container-user--social center gap1">
-        <v-btn icon>
+        <!-- <v-btn icon>
           <v-icon size="clamp(2em, 2.4vw, 2.4em)" style="transform: rotate(-50deg)">mdi-link</v-icon>
-        </v-btn>
+        </v-btn> -->
         
         <v-btn v-for="(item,i) in user.dataSocial" :key="i" icon :href="item.link" target="_blank">
           <v-icon size="clamp(2em, 2.4vw, 2.4em)">{{item.icon}}</v-icon>
         </v-btn>
       </aside>
 
-      <h2 class="p">{{user.username}}</h2>
+      <h2 class="p">{{user.username ? user.username : user.accountId}}</h2>
 
       <section class="container-profit bold fwrap align" style="max-width: 62.616875em">
         <v-sheet color="transparent" class="divcol center">
@@ -49,7 +49,7 @@
         </v-sheet>
       </section>
 
-      <p class="p tcenter">{{user.bio}}</p>
+      <p v-show="user.bio" class="p tcenter">{{user.bio}}</p>
     </section>
 
     <h2 class="Title tup">my nfts</h2>
@@ -109,7 +109,7 @@
         
         <div class="container-content tcenter">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
+            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
           </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}}</p>
@@ -182,7 +182,7 @@ export default {
       dataNfts: [
         {
           img: require('~/assets/sources/images/img-listed-1.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -193,7 +193,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-2.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -203,7 +203,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-3.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -213,7 +213,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -223,7 +223,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -234,7 +234,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-6.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -284,7 +284,7 @@ export default {
   },
   methods: {
     // setProfile() {
-    //   if (this.$route.path === '/profile' && this.$store.dispatch("getData", {get: "profile"}).then(res => {return res})) {
+    //   if (this.$route.path === '/profile') {
     //     this.$router.replace(`${this.$route.path}/:${this.user.username}`)
     //   }
     // },

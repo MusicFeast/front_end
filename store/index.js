@@ -18,7 +18,7 @@ export const state = () => ({
   overlay: { opacity: 0.2, color: "black" },
   dataUser: {
     banner: undefined,
-    avatar: undefined,
+    avatar: require('~/assets/sources/images/avatar.png'),
     accountId: undefined,
     username: undefined,
     email: undefined,
@@ -53,8 +53,8 @@ export const mutations = {
       state.dataUser.user = true;
     } else if (wallet.isSignedIn() && typeof data === 'object') {
       state.dataUser.accountId = data.wallet;
-      state.dataUser.banner = this.$axios.defaults.baseURL+data.banner;
-      state.dataUser.avatar = this.$axios.defaults.baseURL+data.avatar;
+      state.dataUser.banner = data.banner ? this.$axios.defaults.baseURL+data.banner : undefined;
+      state.dataUser.avatar = data.avatar ? this.$axios.defaults.baseURL+data.avatar : require('~/assets/sources/images/avatar.png');
       state.dataUser.username = data.username;
       state.dataUser.email = data.email;
       state.dataUser.bio = data.bio;
@@ -102,7 +102,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async getData({commit}, {fetch, get} = {}) {
+  async getData({commit}, {get} = {}) {
     try {
       // connect to NEAR
       const near = await connect(config);
@@ -116,15 +116,9 @@ export const actions = {
         // get data user
         this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
         .then(fetch => {
-          if (get === "profile") {
-            // return near wallet
-            return fetch.data[0]
-            // return fetch;
-          } else {
-            // set data profile
-            fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
-          }
-          // catch error django
+          // set data profile
+          fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
+        // catch error django
         }).catch(error => {
           this.$alert("cancel", {desc: error.message})
           console.error(error);

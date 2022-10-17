@@ -16,7 +16,7 @@
 
         <div class="center gap1 alignl">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--of: cover">
+            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
           </v-avatar>
           <span>{{item.artist}}</span>
         </div>

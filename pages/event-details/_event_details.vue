@@ -4,7 +4,7 @@
       <div class="header-background divcol">
         <div class="center gap1 alignl">
           <v-avatar style="border: 2px solid #fff">
-            <img src="@/assets/sources/images/avatar.jpg" alt="artist image" style="--of: cover">
+            <img src="@/assets/sources/images/avatar.png" alt="artist image" style="--w: 100%; --of: cover">
           </v-avatar>
           <span>Artist Name</span>
         </div>
@@ -151,7 +151,7 @@
                   
                   <div class="container-content tcenter">
                     <v-avatar style="border: 2px solid #fff">
-                      <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--of: cover">
+                      <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--w: 100%; --of: cover">
                     </v-avatar>
                     <a>{{dataCarousel[+index + i].name}}</a>
                     <p>{{dataCarousel[+index + i].desc}}</p>
@@ -220,7 +220,7 @@ export default {
       dataCarousel: [
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -230,7 +230,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -239,7 +239,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -248,7 +248,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -257,7 +257,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -267,7 +267,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.jpg"),
+          avatar: require("~/assets/sources/images/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
