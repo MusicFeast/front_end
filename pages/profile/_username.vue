@@ -283,11 +283,11 @@ export default {
     this.setProfile();
   },
   methods: {
-    setProfile() {
-      if (this.$route.path === '/profile' && this.$store.dispatch("getData", {get: "profile"}).then(res => {return res})) {
-        this.$router.replace(`${this.$route.path}/:${this.user.username}`)
-      }
-    },
+    // setProfile() {
+    //   if (this.$route.path === '/profile' && this.$store.dispatch("getData", {get: "profile"}).then(res => {return res})) {
+    //     this.$router.replace(`${this.$route.path}/:${this.user.username}`)
+    //   }
+    // },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
   }
