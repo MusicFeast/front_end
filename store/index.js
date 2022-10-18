@@ -102,28 +102,22 @@ export const mutations = {
 };
 
 export const actions = {
-  async getData({commit}, {get} = {}) {
+  async getData({commit}) {
     try {
       // connect to NEAR
       const near = await connect(config);
       // create wallet connection
       wallet = new WalletConnection(near);
-      
-      if (get === "wallet") {
-        // return near wallet
-        return wallet.getAccountId();
-      } else {
-        // get data user
-        this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
-        .then(fetch => {
-          // set data profile
-          fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
-        // catch error django
-        }).catch(error => {
-          this.$alert("cancel", {desc: error.message})
-          console.error(error);
-        })
-      }
+      // get data user
+      this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
+      .then(fetch => {
+        // set data profile
+        fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
+      // catch error django
+      }).catch(error => {
+        this.$alert("cancel", {desc: error.message})
+        console.error(error);
+      })
       // catch error near
     } catch (error) {
       this.$alert("cancel", {desc: error.message})
