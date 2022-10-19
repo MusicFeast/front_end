@@ -48,6 +48,46 @@ export const mutations = {
     else { state.overlay.opacity = 0.5; state.overlay.color = "black" }
   },
   setData(state, data) {
+    if (wallet.isSignedIn() && typeof data === 'string') {
+      state.dataUser.accountId = data;
+      state.dataUser.user = true;
+    } else if (wallet.isSignedIn() && typeof data === 'object') {
+      state.dataUser.accountId = data.wallet;
+      state.dataUser.banner = data.banner ? this.$axios.defaults.baseURL+data.banner : undefined;
+      state.dataUser.avatar = data.avatar ? this.$axios.defaults.baseURL+data.avatar : require('~/assets/sources/images/avatar.png');
+      state.dataUser.username = data.username;
+      state.dataUser.email = data.email;
+      state.dataUser.bio = data.bio;
+      // find socials
+      const [...arrSocials] = Object.entries(data)
+      .filter(arr =>
+        arr[0] === 'telegram' && arr[1] || arr[0] === 'discord' && arr[1]
+        || arr[0] === 'instagram' && arr[1] || arr[0] === 'twitter' && arr[1])
+      // set socials accounts
+      arrSocials.forEach(arr => { state.dataUser[arr[0]] = arr[1] })
+      // transform in object to push
+      const socials = Object.fromEntries(arrSocials)
+      Object.entries(socials).forEach(arr => {
+        if (arr[0] === "telegram") {
+          // telegram
+          arr[1] = `https://t.me/${socials.telegram}`
+        } else if (arr[0] === "discord") {
+          // discord
+          arr[1] = `https://discord.com/channels/${socials.discord}`
+        } else if (arr[0] === "instagram") {
+          // instagram
+          arr[0] = 'mdi-instagram'
+          arr[1] = `https://instagram.com/${socials.instagram}`
+        } else if (arr[0] === "twitter") {
+          // twitter
+          arr[0] = 'mdi-twitter'
+          arr[1] = `https://twitter.com/${socials.twitter}`
+        }
+        // push data socials
+        state.dataUser.dataSocial.push({ icon: arr[0], link: arr[1] })
+      })
+      state.dataUser.user = true;
+    };
   },
   signIn() {
     wallet.requestSignIn(
