@@ -32,7 +32,7 @@
         </v-btn>
       </aside>
 
-      <h2 class="p">{{user.username ? user.username : user.accountId}}</h2>
+      <h2 class="p">{{user.username}}</h2>
 
       <section class="container-profit bold fwrap align" style="max-width: 62.616875em">
         <v-sheet color="transparent" class="divcol center">
