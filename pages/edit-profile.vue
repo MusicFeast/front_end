@@ -300,6 +300,7 @@ export default {
       if (this.djangoExistenceList[key]) this.djangoExistenceList[key] = undefined
     },
     saveForm() {
+      // verification ⭐
       const consult = {
         username: this.form.username,
         email: this.form.email,
@@ -334,6 +335,7 @@ export default {
           else if (excludeUrl) { formData.append(keys, typeof values === 'string' ? values.toLowerCase() : values || "") } // else
         })
 
+        // save form ✔️
         if (this.userExist) {
           this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
           .then(() => this.goBack()).catch(error => {
