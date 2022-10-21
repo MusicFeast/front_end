@@ -45,11 +45,7 @@
               <div class="divcol">
                 <h3>{{item.name}}</h3>
                 <p>
-                  {{
-                    item.description.length >= 300
-                    ? `${item.description.substring(0, 300)}...`
-                    : item.description
-                  }}
+                  {{item.description}}
                 </p>
               </div>
             </v-sheet>

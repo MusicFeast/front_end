@@ -15,11 +15,7 @@
           <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
           <h3 class="p">{{item.title}}</h3>
           <p class="p">
-            {{
-              item.description.length >= 500
-              ? `${item.description.substring(0, 500)}...`
-              : item.description
-            }}
+            {{item.description}}
           </p>
         </v-card>
       </v-slide-item>

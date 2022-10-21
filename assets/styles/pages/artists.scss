@@ -55,7 +55,14 @@
             opacity: 0;
             transition: .5s $ease-return;
             h3 {font-size: 2em; font-weight: 600; color: #f7931e}
-            p {font-size: 1.2em; font-weight: 300}
+            p {
+              font-size: 1.2em;
+              font-weight: 300;
+              display: -webkit-box;
+              -webkit-line-clamp: 8;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
             @include media(max, small) {font-size: 14px}
           }
         }

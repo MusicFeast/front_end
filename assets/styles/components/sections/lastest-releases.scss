@@ -55,7 +55,13 @@
       }
       @include media(min, small) {&:only-of-type {max-width: 20em}}
       a {font-size: 1.3em; text-decoration: underline; margin-bottom: .3em}
-      p {font-size: 1.1em;}
+      p {
+        font-size: 1.1em;
+        display: -webkit-box;
+        -webkit-line-clamp: 11;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
       .container-img {
         overflow: hidden;
         position: relative;
