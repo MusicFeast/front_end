@@ -273,11 +273,12 @@ export default {
         const data = fetch.data[0]
         if (data) {
           Object.entries(this.form).forEach(arr => {
-            const dataValues = data[arr[0]]
+            const [keys, values] = arr
+            const dataValues = data[keys]
             if (typeof dataValues !== "object") {
-              this.form[arr[0]] = dataValues
+              this.form[keys] = dataValues
             } else {
-              Object.keys(arr[1]).forEach(key => { arr[1][key] = dataValues[key] })
+              Object.keys(values).forEach(key => { values[key] = dataValues[key] })
             }
           })
           this.form.id = data.id
@@ -312,40 +313,40 @@ export default {
       // checkout no repeated info
       this.$axios.post("https://testnet.musicfeast.io/musicfeast/api/v1/validate-perfil/", consult).then(fetch => {
         this.djangoExistenceList = fetch.data
-        if (this.$refs.form.validate()) {
-            const formData = new FormData();
-            Object.entries(this.form).forEach(arr => {
-              // set null to empty string
-              const dataValues = this.form[arr[0]]
-              if (dataValues && typeof dataValues === "object") {
-                Object.keys(arr[1]).forEach(key => { arr[1][key] ??= "" })
-              } else { this.form[arr[0]] ??= "" }
-              
-              // push to form data
-              const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(arr[1])
-              const file = arr[1] && arr[1].type
-              if (typeof arr[1] === 'object' && !file) {
-                formData.append(arr[0], JSON.stringify(typeof arr[1] === 'string' ? arr[1].toLowerCase() : arr[1]))
-              } // if object only
-              else if (file) { formData.append(arr[0], arr[1]) } // if file object
-              else if (excludeUrl) { formData.append(arr[0], typeof arr[1] === 'string' ? arr[1].toLowerCase() : arr[1] || "") } // else
-            })
 
-          if (this.userExist) {
-            this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
-            .then(() => this.goBack()).catch(error => {
-              this.$alert("cancel", {desc: error.message})
-              console.error(error);
-            })
-          } else {
-            this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
-            .then(() => this.goBack()).catch(error => {
-              this.$alert("cancel", {desc: error.message})
-              console.error(error);
-            })
-          }
+        if (!this.$refs.form.validate()) {
+          return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
         }
-        else {this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})}
+        
+        const formData = new FormData();
+        Object.entries(this.form).forEach(arr => {
+          const [keys, values] = arr
+          // set null to empty string
+          if (this.form[keys] && typeof this.form[keys] === "object") {
+            Object.keys(values).forEach(key => { values[key] ??= "" })
+          } else { this.form[keys] ??= "" }
+          
+          // push to form data
+          const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(values)
+          const file = values?.type
+          if (typeof values === 'object' && !file) { formData.append(keys, JSON.stringify(values).toLowerCase()) } // if object only
+          else if (file) { formData.append(keys, values) } // if file object
+          else if (excludeUrl) { formData.append(keys, typeof values === 'string' ? values.toLowerCase() : values || "") } // else
+        })
+
+        if (this.userExist) {
+          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
+          .then(() => this.goBack()).catch(error => {
+            this.$alert("cancel", {desc: error.message})
+            console.error(error);
+          })
+        } else {
+          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
+          .then(() => this.goBack()).catch(error => {
+            this.$alert("cancel", {desc: error.message})
+            console.error(error);
+          })
+        }
       // catch error repeted values consult
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
