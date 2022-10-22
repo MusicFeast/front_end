@@ -282,14 +282,13 @@ export default {
       if (this.search && this.filterA.model) return this.dataNfts.filter(data => 
         data.name.includes(this.search) && data.tier === this.filterA.model)
       // search
-      if (this.search) return this.dataNfts.filter(data => data.name.includes(this.search))
+      else if (this.search) return this.dataNfts.filter(data => data.name.includes(this.search))
       // filter A (tier)
-      if (this.filterA.model) return this.dataNfts.filter(data => data.tier === this.filterA.model)
+      else if (this.filterA.model) return this.dataNfts.filter(data => data.tier === this.filterA.model)
       // default
       return this.dataNfts
     },
     dataNfts_pagination() {
-      console.log(this.dataNfts_filtered)
       return this.dataNfts_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
     },
     pagination_per_page() {
