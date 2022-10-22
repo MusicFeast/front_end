@@ -158,7 +158,6 @@
 
     <Pagination
       :total-pages="pagination_per_page"
-      :per-page="pagination_per_page"
       :current-page="currentPage"
       @pagechanged="(page) => currentPage = page"
     />
