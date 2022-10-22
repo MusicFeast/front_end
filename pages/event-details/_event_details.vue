@@ -114,7 +114,7 @@
       hide-delimiters
       :show-arrows="false"
     >
-      <template v-for="(item, index) in dataCarousel_pagination">
+      <template v-for="(item, index) in dataCarousel">
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataCarousel.length">
@@ -175,8 +175,8 @@
     <pagination
       :total-pages="pagination_per_page"
       :per-page="pagination_per_page"
-      :current-page="current_page"
-      @pagechanged="(page) => current_page = page"
+      :current-page="modelCarousel+1"
+      @pagechanged="(page) => modelCarousel = page-1"
     />
   </div>
 </template>
@@ -258,8 +258,6 @@ export default {
           tier: 1,
         },
       ],
-      current_page: 1,
-      items_per_page: 10,
     }
   },
   head() {
@@ -270,11 +268,8 @@ export default {
   },
   computed: {
     event() {return JSON.parse(localStorage.getItem("event"))},
-    dataCarousel_pagination() {
-      return this.dataCarousel.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
-    },
     pagination_per_page() {
-      return Math.ceil(this.dataCarousel.length / this.items_per_page)
+      return Math.ceil(this.dataCarousel.length / this.columnsCarousel())
     }
   },
   created() {
