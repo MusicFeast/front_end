@@ -99,8 +99,14 @@ export default {
     }
   },
   computed: {
+    dataArtists_filtered() {
+      // search
+      if (this.search) return this.dataArtists.filter(data => data.name.includes(this.search))
+      // default
+      return this.dataArtists
+    },
     dataArtists_pagination() {
-      return this.dataArtists.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      return this.dataArtists_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
     },
     pagination_per_page() {
       return Math.ceil(this.dataArtists.length / this.items_per_page)

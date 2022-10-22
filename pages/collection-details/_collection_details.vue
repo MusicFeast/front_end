@@ -78,11 +78,43 @@
       ></v-text-field>
 
       <v-select
-        v-for="(item,i) in dataFilters" :key="i"
-        v-model="item.model"
-        :items="item.list"
+        v-model="filterA.model"
+        :items="filterA.list"
         hide-details solo
-        :label="item.key==='filterA'?'by Tier:':'Sort by:'"
+        label="by Tier:"
+        style="--p: 0 1em 0 2em"
+      >
+        <template #selection="{ item }">
+          <div class="v-select__selection v-select__selection--comma">
+            {{
+              item === 1 ? "Bronze" :
+              item === 2 ? "Silver" :
+              item === 3 ? "Gold" :
+              item === 4 ? "platinum" :
+              item === 5 ? "Diamond" :
+              item === 6 ? "Uranium" : undefined
+            }}
+          </div>
+        </template>
+        <template #item="{ item }">
+          <v-list-item-title>
+            {{
+              item === 1 ? "Bronze" :
+              item === 2 ? "Silver" :
+              item === 3 ? "Gold" :
+              item === 4 ? "platinum" :
+              item === 5 ? "Diamond" :
+              item === 6 ? "Uranium" : undefined
+            }}
+          </v-list-item-title>
+        </template>
+      </v-select>
+
+      <v-select
+        v-model="filterB.model"
+        :items="filterB.list"
+        hide-details solo
+        label="Sort by:"
         style="--p: 0 1em 0 2em"
       ></v-select>
     </h2>
@@ -175,18 +207,14 @@ export default {
         high: 120.45,
       },
       search: "",
-      dataFilters: [
-        {
-          key: "filterA",
-          model: "",
-          list: ["Uranium", "Diamond", "platinum", "gold", "silver", "bronze"],
-        },
-        {
-          key: "filterB",
-          model: "",
-          list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
-        },
-      ],
+      filterA: {
+        model: "",
+        list: [6, 5, 4, 3, 2, 1],
+      },
+      filterB: {
+        model: "",
+        list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
+      },
       dataNfts: [
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
@@ -269,8 +297,19 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     collection() {return JSON.parse(localStorage.getItem("collection"))},
+    dataNfts_filtered() {
+      // search, filter A (tier)
+      if (this.search && this.filterA.model) return this.dataNfts.filter(data => 
+        data.name.includes(this.search) && data.tier === this.filterA.model)
+      // search
+      else if (this.search) return this.dataNfts.filter(data => data.name.includes(this.search))
+      // filter A (tier)
+      else if (this.filterA.model) return this.dataNfts.filter(data => data.tier === this.filterA.model)
+      // default
+      return this.dataNfts
+    },
     dataNfts_pagination() {
-      return this.dataNfts.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      return this.dataNfts_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
     },
     pagination_per_page() {
       return Math.ceil(this.dataNfts.length / this.items_per_page)

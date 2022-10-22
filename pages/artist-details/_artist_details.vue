@@ -445,8 +445,14 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     artist() {return JSON.parse(localStorage.getItem("artist"))},
+    dataCollections_filtered() {
+      // search
+      if (this.search) return this.dataCollections.filter(data => data.name.includes(this.search))
+      // default
+      return this.dataCollections
+    },
     dataCollections_pagination() {
-      return this.dataCollections.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      return this.dataCollections_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
     },
     pagination_per_page() {
       return Math.ceil(this.dataCollections.length / this.items_per_page)
