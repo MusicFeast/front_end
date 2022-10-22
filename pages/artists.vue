@@ -50,7 +50,7 @@
       ></v-select>
     </h2>
 
-    <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
+    <section class="container-listed grid">
       <v-card
         v-for="(item,i) in dataArtists_pagination" :key="i" class="card divcol custome" :class="{comming: item.comming}"
         @click="$store.dispatch('goTo', {key: 'artist', item})">

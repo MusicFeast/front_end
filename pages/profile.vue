@@ -71,10 +71,11 @@
         hide-details solo
         :label="item.key==='filterA'?'by Tier:':'Sort by:'"
         style="--p: 0 1em 0 2em"
+        @change.prevent=""
       ></v-select>
     </section>
 
-    <section class="container-nfts grid">
+    <section ref="container" class="container-nfts grid">
       <v-card
         v-for="(item,i) in dataNfts_pagination" :key="i"
         class="card divcol custome"

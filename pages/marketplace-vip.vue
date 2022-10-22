@@ -119,9 +119,9 @@
 
     <div class="separator" />
 
-    <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
+    <section class="container-listed grid">
       <v-card
-        v-for="(item,i) in dataListed" :key="i" class="card divcol custome"
+        v-for="(item,i) in dataListed_pagination" :key="i" class="card divcol custome"
         :class="{
           uranium: item.tier===6,
           diamond: item.tier===5,

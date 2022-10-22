@@ -190,7 +190,7 @@
       ></v-select>
     </h2>
 
-    <section class="container-collections grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap:2em">
+    <section class="container-collections grid">
       <v-card
         v-for="(item,i) in dataCollections_pagination" :key="i"
         class="card divcol custome"
