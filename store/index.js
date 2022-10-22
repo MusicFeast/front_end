@@ -27,7 +27,7 @@ export const state = () => ({
     twitter: undefined,
     telegram: undefined,
     user: false,
-    tier: 2,
+    tier: 4,
     balance: 0,
     dataSocial: [],
   },

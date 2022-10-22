@@ -126,8 +126,10 @@
         </div>
 
         <div class="container-actions divcol">
-          <a @click="$router.push(localePath(`/nft-details/`))">More Details</a>
-          <v-btn :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)">Buy</v-btn>
+          <a @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
+          <v-btn
+            :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
+            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Buy</v-btn>
         </div>
       </v-sheet>
     </v-slide-item>
@@ -190,7 +192,7 @@
 
     <section class="container-collections grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap:2em">
       <v-card
-        v-for="(item,i) in dataCollections" :key="i"
+        v-for="(item,i) in dataCollections_pagination" :key="i"
         class="card divcol custome"
         :class="{
           uranium: item.tier===6,
@@ -236,23 +238,12 @@
       </v-card>
     </section>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
-      <button
-        :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination > 0 ? pagination-- : ''"
-      >
-        <v-icon size="2em" class="reverse">mdi-play</v-icon>
-      </button>
-
-      <v-btn v-for="n in dataCollections.length" :key="n" text>{{n}}</v-btn>
-
-      <button
-        :style="pagination < dataCollections.length-1 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination < dataCollections.length-1 ? pagination++ : ''"
-      >
-        <v-icon size="2em">mdi-play</v-icon>
-      </button>
-    </v-btn-toggle>
+    <pagination
+      :total-pages="pagination_per_page"
+      :per-page="pagination_per_page"
+      :current-page="current_page"
+      @pagechanged="(page) => current_page = page"
+    />
 
     <h2 class="Title tup">chats</h2>
 
@@ -438,7 +429,8 @@ export default {
           type: "collection",
         },
       ],
-      pagination: 0,
+      current_page: 1,
+      items_per_page: 10,
       dataChats: [
         { icon: "discord", chat: "discord" },
       ],
@@ -453,6 +445,12 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     artist() {return JSON.parse(localStorage.getItem("artist"))},
+    dataCollections_pagination() {
+      return this.dataCollections.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+    },
+    pagination_per_page() {
+      return Math.ceil(this.dataCollections.length / this.items_per_page)
+    }
   },
   created() {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}

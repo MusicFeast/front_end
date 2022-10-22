@@ -114,7 +114,7 @@
       hide-delimiters
       :show-arrows="false"
     >
-      <template v-for="(item, index) in dataCarousel">
+      <template v-for="(item, index) in dataCarousel_pagination">
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataCarousel.length">
@@ -172,29 +172,12 @@
       </template>
     </v-carousel>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
-      <button
-        :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="
-          pagination > 0 ? modelCarousel-- : '';
-          pagination > 0 ? pagination-- : '';
-        "
-      >
-        <v-icon size="2em" class="reverse">mdi-play</v-icon>
-      </button>
-
-      <v-btn v-for="n in 2" :key="n" text @click="modelCarousel = n-1">{{n}}</v-btn>
-
-      <button
-        :style="pagination < 1 ? 'opacity: 1' : 'opacity: .5'"
-        @click="
-          pagination < 1 ? modelCarousel++ : '';
-          pagination < 1 ? pagination++ : '';
-        "
-      >
-        <v-icon size="2em">mdi-play</v-icon>
-      </button>
-    </v-btn-toggle>
+    <pagination
+      :total-pages="pagination_per_page"
+      :per-page="pagination_per_page"
+      :current-page="current_page"
+      @pagechanged="(page) => current_page = page"
+    />
   </div>
 </template>
 
@@ -275,7 +258,8 @@ export default {
           tier: 1,
         },
       ],
-      pagination: 0,
+      current_page: 1,
+      items_per_page: 10,
     }
   },
   head() {
@@ -285,7 +269,13 @@ export default {
     }
   },
   computed: {
-    event() {return JSON.parse(localStorage.getItem("event"))}
+    event() {return JSON.parse(localStorage.getItem("event"))},
+    dataCarousel_pagination() {
+      return this.dataCarousel.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+    },
+    pagination_per_page() {
+      return Math.ceil(this.dataCarousel.length / this.items_per_page)
+    }
   },
   created() {
     if (!this.event) {this.$router.push(this.localePath('/'))}

@@ -14,7 +14,7 @@
           <p class="p">{{item.desc}}</p>
         </div>
 
-        <div class="center gap1 alignl">
+        <div class="center gap1 alignl" style="margin-top: 1em !important">
           <v-avatar style="border: 2px solid #fff">
             <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
           </v-avatar>

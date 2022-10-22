@@ -89,7 +89,7 @@
 
     <section class="container-nfts grid">
       <v-card
-        v-for="(item,i) in dataNfts" :key="i"
+        v-for="(item,i) in dataNfts_pagination" :key="i"
         class="card divcol custome"
         :class="{
           uranium: item.tier===6,
@@ -136,23 +136,12 @@
       </v-card>
     </section>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
-      <button
-        :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination > 0 ? pagination-- : ''"
-      >
-        <v-icon size="2em" class="reverse">mdi-play</v-icon>
-      </button>
-
-      <v-btn v-for="n in 2" :key="n" text>{{n}}</v-btn>
-
-      <button
-        :style="pagination < 1 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination < 1 ? pagination++ : ''"
-      >
-        <v-icon size="2em">mdi-play</v-icon>
-      </button>
-    </v-btn-toggle>
+    <pagination
+      :total-pages="pagination_per_page"
+      :per-page="pagination_per_page"
+      :current-page="current_page"
+      @pagechanged="(page) => current_page = page"
+    />
 
     <h2 class="Title tup">chat</h2>
 
@@ -262,7 +251,8 @@ export default {
           tier: 1,
         },
       ],
-      pagination: 0,
+      current_page: 1,
+      items_per_page: 10,
       dataChats: [
         { icon: "discord", chat: "discord artist name 1" },
         { icon: "discord", chat: "discord artist name 2" },
@@ -278,7 +268,13 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
-    collection() {return JSON.parse(localStorage.getItem("collection"))}
+    collection() {return JSON.parse(localStorage.getItem("collection"))},
+    dataNfts_pagination() {
+      return this.dataNfts.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+    },
+    pagination_per_page() {
+      return Math.ceil(this.dataNfts.length / this.items_per_page)
+    }
   },
   created() {
     if (!this.collection) {this.$router.push(this.localePath('/marketplace'))}

@@ -52,7 +52,7 @@
 
     <section class="container-listed grid" style="--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2em">
       <v-card
-        v-for="(item,i) in dataArtists" :key="i" class="card divcol custome" :class="{comming: item.comming}"
+        v-for="(item,i) in dataArtists_pagination" :key="i" class="card divcol custome" :class="{comming: item.comming}"
         @click="$store.dispatch('goTo', {key: 'artist', item})">
         <div class="container-img" :style="item.comming ? `--tag-state: 'Comming soon` : ''">
           <img :src="item.image" :alt="`${item.name} image`">
@@ -67,23 +67,12 @@
       </v-card>
     </section>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" background-color="rgba(0, 0, 0, .4)" active-class="activeClass">
-      <button
-        :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination > 0 ? pagination-- : ''"
-      >
-        <v-icon size="2em" class="reverse">mdi-play</v-icon>
-      </button>
-
-      <v-btn v-for="n in 4" :key="n" text>{{n}}</v-btn>
-
-      <button
-        :style="pagination < 3 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination < 3 ? pagination++ : ''"
-      >
-        <v-icon size="2em">mdi-play</v-icon>
-      </button>
-    </v-btn-toggle>
+    <pagination
+      :total-pages="pagination_per_page"
+      :per-page="pagination_per_page"
+      :current-page="current_page"
+      @pagechanged="(page) => current_page = page"
+    />
   </div>
 </template>
 
@@ -99,13 +88,22 @@ export default {
         model: "",
         list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
       },
-      pagination: 0,
+      current_page: 1,
+      items_per_page: 10,
     }
   },
   head() {
     const title = "Artists"
     return {
       title,
+    }
+  },
+  computed: {
+    dataArtists_pagination() {
+      return this.dataArtists.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+    },
+    pagination_per_page() {
+      return Math.ceil(this.dataArtists.length / this.items_per_page)
     }
   },
   mounted() {

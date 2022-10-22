@@ -167,23 +167,12 @@
       </v-card>
     </section>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" active-class="activeClassVip">
-      <button
-        :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination > 0 ? pagination-- : ''"
-      >
-        <v-icon size="2em" class="reverse">mdi-play</v-icon>
-      </button>
-
-      <v-btn v-for="n in dataListed.length" :key="n" text>{{n}}</v-btn>
-
-      <button
-        :style="pagination < dataListed.length-1 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination < dataListed.length-1 ? pagination++ : ''"
-      >
-        <v-icon size="2em">mdi-play</v-icon>
-      </button>
-    </v-btn-toggle>
+    <pagination
+      :total-pages="pagination_per_page"
+      :per-page="pagination_per_page"
+      :current-page="current_page"
+      @pagechanged="(page) => current_page = page"
+    />
   </div>
 </template>
 
@@ -349,7 +338,8 @@ export default {
           tier: 1,
         },
       ],
-      pagination: 0,
+      current_page: 1,
+      items_per_page: 10,
     }
   },
   head() {
@@ -360,6 +350,12 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
+    dataListed_pagination() {
+      return this.dataListed.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+    },
+    pagination_per_page() {
+      return Math.ceil(this.dataListed.length / this.items_per_page)
+    }
   },
   created() {
     if (this.user.tier < 3) {this.$router.push(this.localePath("/marketplace"))}
