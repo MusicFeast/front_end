@@ -32,22 +32,14 @@
     <h2 class="Title fwrap" style="--fb: 200px; gap: .3em clamp(1em, 2vw, 2em)">
       <span class="tup">artists</span>
 
-      <v-text-field
-        v-model="search"
-        hide-details solo
-        append-icon="mdi-magnify"
-        label="Search for NFTs Name, Artist, Event &amp; Collections"
-        style="--p: 0 1em 0 2em"
-        class="search"
-      ></v-text-field>
-
-      <v-select
-        v-model="filter.model"
-        :items="filter.list"
-        hide-details solo
-        label="Sort by"
-        style="--p: 0 1em 0 2em"
-      ></v-select>
+      <Filters
+        contents
+        :hide="['filterA']"
+        :search="search"
+        :filter-b="filter.list"
+        @search="(model) => search = model"
+        @filterB="(model) => filter.model = model"
+      />
     </h2>
 
     <section class="container-listed grid">
@@ -67,11 +59,11 @@
       </v-card>
     </section>
 
-    <pagination
+    <Pagination
       :total-pages="pagination_per_page"
       :per-page="pagination_per_page"
-      :current-page="current_page"
-      @pagechanged="(page) => current_page = page"
+      :current-page="currentPage"
+      @pagechanged="(page) => currentPage = page"
     />
   </div>
 </template>
@@ -88,8 +80,8 @@ export default {
         model: "",
         list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
       },
-      current_page: 1,
-      items_per_page: 10,
+      currentPage: 1,
+      itemsPerPage: 10,
     }
   },
   head() {
@@ -99,17 +91,14 @@ export default {
     }
   },
   computed: {
-    dataArtists_filtered() {
-      // search
-      if (this.search) return this.dataArtists.filter(data => data.name.includes(this.search))
-      // default
-      return this.dataArtists
-    },
     dataArtists_pagination() {
-      return this.dataArtists_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      return this.$store.getters.pagination({
+        items: this.dataArtists, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
+        search: this.search
+      })
     },
     pagination_per_page() {
-      return Math.ceil(this.dataArtists.length / this.items_per_page)
+      return Math.ceil(this.dataArtists.length / this.itemsPerPage)
     }
   },
   mounted() {

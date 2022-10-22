@@ -54,57 +54,14 @@
 
     <h2 class="Title tup">my nfts</h2>
 
-    <section class="container-filters fwrap gap2" style="--fb: 200px">
-      <v-text-field
-        v-model="search"
-        hide-details solo
-        append-icon="mdi-magnify"
-        label="Search for NFTs Name, Artist, Event &amp; Collections"
-        style="--p: 0 1em 0 2em"
-        class="search"
-      ></v-text-field>
-
-      <v-select
-        v-model="filterA.model"
-        :items="filterA.list"
-        hide-details solo
-        label="by Tier:"
-        style="--p: 0 1em 0 2em"
-      >
-        <template #selection="{ item }">
-          <div class="v-select__selection v-select__selection--comma">
-            {{
-              item === 1 ? "Bronze" :
-              item === 2 ? "Silver" :
-              item === 3 ? "Gold" :
-              item === 4 ? "platinum" :
-              item === 5 ? "Diamond" :
-              item === 6 ? "Uranium" : undefined
-            }}
-          </div>
-        </template>
-        <template #item="{ item }">
-          <v-list-item-title>
-            {{
-              item === 1 ? "Bronze" :
-              item === 2 ? "Silver" :
-              item === 3 ? "Gold" :
-              item === 4 ? "platinum" :
-              item === 5 ? "Diamond" :
-              item === 6 ? "Uranium" : undefined
-            }}
-          </v-list-item-title>
-        </template>
-      </v-select>
-
-      <v-select
-        v-model="filterB.model"
-        :items="filterB.list"
-        hide-details solo
-        label="Sort by:"
-        style="--p: 0 1em 0 2em"
-      ></v-select>
-    </section>
+    <Filters
+      :search="search"
+      :filter-a="filterA.list"
+      :filter-b="filterB.list"
+      @search="(model) => search = model"
+      @filterA="(model) => filterA.model = model"
+      @filterB="(model) => filterB.model = model"
+    />
 
     <section ref="container" class="container-nfts grid">
       <v-card
@@ -155,11 +112,11 @@
       </v-card>
     </section>
 
-    <pagination
+    <Pagination
       :total-pages="pagination_per_page"
       :per-page="pagination_per_page"
-      :current-page="current_page"
-      @pagechanged="(page) => current_page = page"
+      :current-page="currentPage"
+      @pagechanged="(page) => currentPage = page"
     />
 
     <h2 class="Title tup">chat</h2>
@@ -260,8 +217,8 @@ export default {
           tier: 1,
         },
       ],
-      current_page: 1,
-      items_per_page: 10,
+      currentPage: 1,
+      itemsPerPage: 10,
       dataChats: [
         { icon: "discord", chat: "discord artist name 1" },
         { icon: "discord", chat: "discord artist name 2" },
@@ -277,23 +234,15 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
-    dataNfts_filtered() {
-      // search, filter A (tier)
-      if (this.search && this.filterA.model) return this.dataNfts.filter(data => 
-        data.name.includes(this.search) && data.tier === this.filterA.model)
-      // search
-      else if (this.search) return this.dataNfts.filter(data => data.name.includes(this.search))
-      // filter A (tier)
-      else if (this.filterA.model) return this.dataNfts.filter(data => data.tier === this.filterA.model)
-      // default
-      return this.dataNfts
-    },
     dataNfts_pagination() {
-      return this.dataNfts_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      return this.$store.getters.pagination({
+        items: this.dataNfts, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
+        search: this.search, filterA: this.filterA.model
+      })
     },
     pagination_per_page() {
-      return Math.ceil(this.dataNfts.length / this.items_per_page)
-    }
+      return Math.ceil(this.dataNfts.length / this.itemsPerPage)
+    },
   },
   mounted() {
     const pageName = 'profile';

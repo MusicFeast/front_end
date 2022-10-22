@@ -172,7 +172,7 @@
       </template>
     </v-carousel>
 
-    <pagination
+    <Pagination
       :total-pages="pagination_per_page"
       :per-page="pagination_per_page"
       :current-page="modelCarousel+1"

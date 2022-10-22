@@ -97,8 +97,8 @@
     <v-data-table
       :headers="tableHeaders"
       :items="tableItems"
-      :page.sync="current_page"
-      :items-per-page="items_per_page"
+      :page.sync="currentPage"
+      :items-per-page="itemsPerPage"
       hide-default-footer
       mobile-breakpoint="-1"
     >
@@ -155,11 +155,11 @@
       </template>
     </v-data-table>
 
-    <pagination
+    <Pagination
       :total-pages="pagination_per_page"
       :per-page="pagination_per_page"
-      :current-page="current_page"
-      @pagechanged="(page) => current_page = page"
+      :current-page="currentPage"
+      @pagechanged="(page) => currentPage = page"
     />
   </div>
 </template>
@@ -212,8 +212,8 @@ export default {
           seller_avatar: require("~/assets/sources/images/avatar.png"),
         },
       ],
-      current_page: 1,
-      items_per_page: 10,
+      currentPage: 1,
+      itemsPerPage: 10,
     }
   },
   head() {
@@ -226,7 +226,7 @@ export default {
     user() {return this.$store.state.dataUser},
     nft() {return JSON.parse(localStorage.getItem("nft"))},
     pagination_per_page() {
-      return Math.ceil(this.tableItems.length / this.items_per_page)
+      return Math.ceil(this.tableItems.length / this.itemsPerPage)
     }
   },
   created() {

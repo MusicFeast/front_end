@@ -172,22 +172,14 @@
     <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
       <span class="tup" style="--fb: max-content">nft &amp; collections</span>
 
-      <v-text-field
-        v-model="search"
-        hide-details solo
-        append-icon="mdi-magnify"
-        label="Search for NFTs Name, Artist, Event &amp; Collections"
-        style="--p: 0 1em 0 2em"
-        class="search"
-      ></v-text-field>
-
-      <v-select
-        v-model="filter.model"
-        :items="filter.list"
-        hide-details solo
-        label="Sort by"
-        style="--p: 0 1em 0 2em"
-      ></v-select>
+      <Filters
+        contents
+        :hide="['filterA']"
+        :search="search"
+        :filter-b="filter.list"
+        @search="(model) => search = model"
+        @filterB="(model) => filter.model = model"
+      />
     </h2>
 
     <section class="container-collections grid">
@@ -238,11 +230,11 @@
       </v-card>
     </section>
 
-    <pagination
+    <Pagination
       :total-pages="pagination_per_page"
       :per-page="pagination_per_page"
-      :current-page="current_page"
-      @pagechanged="(page) => current_page = page"
+      :current-page="currentPage"
+      @pagechanged="(page) => currentPage = page"
     />
 
     <h2 class="Title tup">chats</h2>
@@ -429,8 +421,8 @@ export default {
           type: "collection",
         },
       ],
-      current_page: 1,
-      items_per_page: 10,
+      currentPage: 1,
+      itemsPerPage: 10,
       dataChats: [
         { icon: "discord", chat: "discord" },
       ],
@@ -445,17 +437,14 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     artist() {return JSON.parse(localStorage.getItem("artist"))},
-    dataCollections_filtered() {
-      // search
-      if (this.search) return this.dataCollections.filter(data => data.name.includes(this.search))
-      // default
-      return this.dataCollections
-    },
     dataCollections_pagination() {
-      return this.dataCollections_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      return this.$store.getters.pagination({
+        items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
+        search: this.search
+      })
     },
     pagination_per_page() {
-      return Math.ceil(this.dataCollections.length / this.items_per_page)
+      return Math.ceil(this.dataCollections.length / this.itemsPerPage)
     }
   },
   created() {

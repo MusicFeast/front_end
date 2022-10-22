@@ -133,11 +133,6 @@
   &.bronze .container-img::after {--bg-tier: linear-gradient(to right, #7D3716, #D57535, #5E170B)}
 }
 
-// filters
-.container-filters {
-  padding-inline: var(--margin-separator);
-}
-
 // h2 titles
 h2.Title {
   font-size: 3em;
