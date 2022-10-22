@@ -65,13 +65,44 @@
       ></v-text-field>
 
       <v-select
-        v-for="(item,i) in dataFilters" :key="i"
-        v-model="item.model"
-        :items="item.list"
+        v-model="filterA.model"
+        :items="filterA.list"
         hide-details solo
-        :label="item.key==='filterA'?'by Tier:':'Sort by:'"
+        label="by Tier:"
         style="--p: 0 1em 0 2em"
-        @change.prevent=""
+      >
+        <template #selection="{ item }">
+          <div class="v-select__selection v-select__selection--comma">
+            {{
+              item === 1 ? "Bronze" :
+              item === 2 ? "Silver" :
+              item === 3 ? "Gold" :
+              item === 4 ? "platinum" :
+              item === 5 ? "Diamond" :
+              item === 6 ? "Uranium" : undefined
+            }}
+          </div>
+        </template>
+        <template #item="{ item }">
+          <v-list-item-title>
+            {{
+              item === 1 ? "Bronze" :
+              item === 2 ? "Silver" :
+              item === 3 ? "Gold" :
+              item === 4 ? "platinum" :
+              item === 5 ? "Diamond" :
+              item === 6 ? "Uranium" : undefined
+            }}
+          </v-list-item-title>
+        </template>
+      </v-select>
+
+      <v-select
+        v-model="filterB.model"
+        :items="filterB.list"
+        hide-details solo
+        label="Sort by:"
+        style="--p: 0 1em 0 2em"
       ></v-select>
     </section>
 
@@ -157,23 +188,19 @@ export default {
         high: 120.45,
       },
       search: "",
-      dataFilters: [
-        {
-          key: "filterA",
-          model: "",
-          list: ["Uranium", "Diamond", "platinum", "gold", "silver", "bronze"],
-        },
-        {
-          key: "filterB",
-          model: "",
-          list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
-        },
-      ],
+      filterA: {
+        model: "",
+        list: [6, 5, 4, 3, 2, 1],
+      },
+      filterB: {
+        model: "",
+        list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
+      },
       dataNfts: [
         {
           img: require('~/assets/sources/images/img-listed-1.jpg'),
           avatar: require("~/assets/sources/images/avatar.png"),
-          name: "Artist Name o Collection  n°5",
+          name: "Artist Name o Collection  n°1",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           type: "nft",
@@ -184,7 +211,7 @@ export default {
         {
           img: require('~/assets/sources/images/img-listed-2.jpg'),
           avatar: require("~/assets/sources/images/avatar.png"),
-          name: "Artist Name o Collection  n°5",
+          name: "Artist Name o Collection  n°2",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           type: "nft",
@@ -194,7 +221,7 @@ export default {
         {
           img: require('~/assets/sources/images/img-listed-3.jpg'),
           avatar: require("~/assets/sources/images/avatar.png"),
-          name: "Artist Name o Collection  n°5",
+          name: "Artist Name o Collection  n°3",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           type: "nft",
@@ -204,7 +231,7 @@ export default {
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
           avatar: require("~/assets/sources/images/avatar.png"),
-          name: "Artist Name o Collection  n°5",
+          name: "Artist Name o Collection  n°4",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           type: "nft",
@@ -225,7 +252,7 @@ export default {
         {
           img: require('~/assets/sources/images/img-listed-6.jpg'),
           avatar: require("~/assets/sources/images/avatar.png"),
-          name: "Artist Name o Collection  n°5",
+          name: "Artist Name o Collection  n°6",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           type: "nft",
@@ -250,8 +277,20 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
+    dataNfts_filtered() {
+      // search, filter A (tier)
+      if (this.search && this.filterA.model) return this.dataNfts.filter(data => 
+        data.name.includes(this.search) && data.tier === this.filterA.model)
+      // search
+      if (this.search) return this.dataNfts.filter(data => data.name.includes(this.search))
+      // filter A (tier)
+      if (this.filterA.model) return this.dataNfts.filter(data => data.tier === this.filterA.model)
+      // default
+      return this.dataNfts
+    },
     dataNfts_pagination() {
-      return this.dataNfts.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
+      console.log(this.dataNfts_filtered)
+      return this.dataNfts_filtered.slice((this.current_page - 1) * this.items_per_page, this.current_page * this.items_per_page)
     },
     pagination_per_page() {
       return Math.ceil(this.dataNfts.length / this.items_per_page)

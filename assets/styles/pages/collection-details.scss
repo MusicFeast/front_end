@@ -102,9 +102,11 @@
 
   .container-nfts {
     --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    --max-w-child: 300px;
     gap: 2em;
     margin-bottom: 4em;
     margin-inline: var(--margin-separator);
+    .v-card {
+      max-width: 300px !important;
+    }
   }
 }

@@ -101,11 +101,13 @@
 
   .container-nfts {
     --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    --max-w-child: 300px;
     gap: 2em;
     margin-block: 4em;
     margin-inline: var(--margin-separator);
     min-height: 900px;
+    .v-card {
+      max-width: 300px !important;
+    }
   }
 
   // edit profile
