@@ -97,6 +97,8 @@
     <v-data-table
       :headers="tableHeaders"
       :items="tableItems"
+      :page.sync="current_page"
+      :items-per-page="items_per_page"
       hide-default-footer
       mobile-breakpoint="-1"
     >
@@ -153,23 +155,12 @@
       </template>
     </v-data-table>
 
-    <v-btn-toggle v-model="pagination" mandatory class="pagination align" active-class="activeClassVip">
-      <button
-        :style="pagination > 0 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination > 0 ? pagination-- : ''"
-      >
-        <v-icon size="2em" class="reverse">mdi-play</v-icon>
-      </button>
-
-      <v-btn v-for="n in 2" :key="n" text>{{n}}</v-btn>
-
-      <button
-        :style="pagination < 1 ? 'opacity: 1' : 'opacity: .5'"
-        @click="pagination < 1 ? pagination++ : ''"
-      >
-        <v-icon size="2em">mdi-play</v-icon>
-      </button>
-    </v-btn-toggle>
+    <pagination
+      :total-pages="pagination_per_page"
+      :per-page="pagination_per_page"
+      :current-page="current_page"
+      @pagechanged="(page) => current_page = page"
+    />
   </div>
 </template>
 
@@ -221,7 +212,8 @@ export default {
           seller_avatar: require("~/assets/sources/images/avatar.png"),
         },
       ],
-      pagination: 0,
+      current_page: 1,
+      items_per_page: 10,
     }
   },
   head() {
@@ -233,6 +225,9 @@ export default {
   computed: {
     user() {return this.$store.state.dataUser},
     nft() {return JSON.parse(localStorage.getItem("user-nft"))},
+    pagination_per_page() {
+      return Math.ceil(this.tableItems.length / this.items_per_page)
+    }
   },
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/profile'))}
