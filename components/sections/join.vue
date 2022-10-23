@@ -6,7 +6,7 @@
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi laborum aliquid aperiam minima nulla voluptatem sequi 
         perferendis doloribus molestias doloremque. Omnis dolorum recusandae unde rem eos quam minima vero nihil.
       </p>
-      <div class="center wrap" style="gap: clamp(2em, 4vw, 4em)">
+      <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)">
         <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn>
         <v-btn
           class="btn" style="--w: 8.5em"

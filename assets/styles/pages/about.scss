@@ -38,7 +38,7 @@
       z-index: 1;
       display: flex;
       align-items: flex-end;
-      transform: skewX(-15deg);
+      transform: skewX(-13deg);
       .v-sheet {
         // settings
         --padding: clamp(1em, 2vw, 1.875em);
@@ -70,12 +70,27 @@
           }
         }
       }
-      img {
-        --w: calc(var(--h-container) / 2);
-        --h: var(--h-container);
-        --of: cover;
-        --f: grayscale(100%)
+      // new <----
+      .wrapper-img {
+        width: calc(var(--h-container) / 2);
+        height: var(--h-container);
+        overflow: hidden;
+        img {
+          --w: calc(100% + 200px);
+          --h: 100%;
+          --of: cover;
+          --f: grayscale(100%);
+          --t: skewX(15deg);
+          translate: -71.5px 0;
+        }
       }
+      // old <----
+      // img {
+      //   --w: calc(var(--h-container) / 2);
+      //   --h: var(--h-container);
+      //   --of: cover;
+      //   --f: grayscale(100%);
+      // }
     }
     &--content {
       z-index: 0;
@@ -121,6 +136,53 @@
           left: auto;
           right: calc(var(--h-container) / 3 * -1);
         }
+      }
+    }
+  }
+  @include media(max, small) {
+    .container-team.mobile {
+      display: flex;
+      align-items: center;
+      min-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      background-color: var(--secondary);
+      margin-top: 30px;
+      .container-team--header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 28px;
+        gap: clamp(20px, 5vw, 30px);
+        &::before {display: none !important}
+        .wrapper-img {
+          width: 8em;
+          aspect-ratio: 1 / 1;
+          overflow: hidden;
+          transform: skewX(-13deg);
+          img {
+            --w: calc(100% + 30px);
+            --h: 100%;
+            --of: cover;
+            --f: grayscale(100%);
+            --t: skewX(13deg);
+            translate: -12px 0;
+          }
+        }
+        h3 {
+          font-size: 20px;
+          font-weight: bold;
+          text-transform: capitalize;
+          text-decoration: underline;
+        }
+        span {
+          font-size: 14px;
+          margin-top: 8px;
+          font-weight: 600;
+        }
+      }
+      p {
+        padding-inline: 28px;
+        padding-bottom: 28px;
       }
     }
   }

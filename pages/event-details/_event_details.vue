@@ -6,16 +6,16 @@
           <v-avatar style="border: 2px solid #fff">
             <img src="@/assets/sources/images/avatar.png" alt="artist image" style="--w: 100%; --of: cover">
           </v-avatar>
-          <span>Artist Name</span>
+          <span class="h9_em">Artist Name</span>
         </div>
       </div>
 
-      <article class="card divcol gap2">
+      <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
           <div class="space gap1">
             <v-btn class="btn" style="--fs: 1.05em">sold out</v-btn>
 
-            <div class="center" style="gap: .2em">
+            <div class="center eliminarmobile" style="gap: .2em">
               <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
                 <v-icon>{{item.icon}}</v-icon>
               </v-btn>
@@ -36,6 +36,12 @@
         </p>
 
         <v-btn :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 12.8px">Buy</v-btn>
+
+        <div class="center vermobile" style="gap: .2em">
+          <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
+            <v-icon>{{item.icon}}</v-icon>
+          </v-btn>
+        </div>
       </article>
     </section>
 

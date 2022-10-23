@@ -7,31 +7,58 @@
     <section class="divcol" style="margin-block: 2.5em; padding-inline: var(--margin-separator); gap: 3em">
       <div v-for="(item,i) in dataAbout" :key="i">
         <h2 class="tup">{{item.title}}</h2>
-        <p class="p" style="font-size: 1.2em">{{item.desc}}</p>
+        <p class="p">{{item.desc}}</p>
       </div>
     </section>
 
     <h2 class="Title tup">core team</h2>
 
-    <section v-for="(item,i) in dataTeam" :key="i" class="container-team">
-      <aside class="container-team--photo">
-        <v-sheet color="transparent">
-          <div>
-            <v-btn
-              v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank"
-              :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
-              <v-icon color="var(--accent)">{{item2.icon}}</v-icon>
-            </v-btn>
-          </div>
-        </v-sheet>
-        <img :src="item.img" :alt="`${item.name}'s image`">
-      </aside>
+    <section v-for="(item,i) in dataTeam" :key="i" class="container-team mobile">
+      <template v-if="!isMobile">
+        <aside class="container-team--photo">
+          <v-sheet color="transparent">
+            <div>
+              <v-btn
+                v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank"
+                :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
+                <v-icon color="var(--accent)">{{item2.icon}}</v-icon>
+              </v-btn>
+            </div>
+          </v-sheet>
 
-      <v-sheet class="container-team--content divcol gap1" color="transparent">
-        <h3 class="p">{{item.name}}</h3>
-        <span>{{item.position}}</span>
+          <div class="wrapper-img">
+            <img :src="item.img" :alt="`${item.name}'s image`">
+          </div>
+        </aside>
+
+        <v-sheet class="container-team--content divcol gap1" color="transparent">
+          <h3 class="p">{{item.name}}</h3>
+          <span>{{item.position}}</span>
+          <p class="p">{{item.desc}}</p>
+        </v-sheet>
+      </template>
+
+      <tempalte v-else>
+        <aside class="container-team--header" color="transparent">
+          <div class="wrapper-img">
+            <img :src="item.img" :alt="`${item.name}'s image`">
+          </div>
+
+          <div class="divcol center tcenter">
+            <h3 class="p">{{item.name}}</h3>
+            <span>{{item.position}}</span>
+            <div>
+              <v-btn
+                v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank"
+                :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
+                <v-icon color="var(--accent)">{{item2.icon}}</v-icon>
+              </v-btn>
+            </div>
+          </div>
+        </aside>
+
         <p class="p">{{item.desc}}</p>
-      </v-sheet>
+      </tempalte>
     </section>
   </div>
 </template>
@@ -41,6 +68,7 @@ export default {
   name: "AboutPage",
   data() {
     return {
+      isMobile: undefined,
       dataAbout: [
         {
           title: "music feast",
@@ -118,10 +146,17 @@ export default {
     window.addEventListener('resize', () => {
       if (this.$route.path.includes(`/${pageName}`)) {
         heightH2();
+        this.listenerMobile();
       };
     });
+    this.listenerMobile();
   },
   methods: {
+    listenerMobile() {
+      if (window.innerWidth <= 880) {
+        this.isMobile = true
+      } else {this.isMobile = false}
+    }
   }
 };
 </script>

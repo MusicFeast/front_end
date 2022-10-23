@@ -37,11 +37,14 @@
     }
     .v-slide-group__content {
       gap: 1.5em;
-      @include media(max, small) {gap: 3em}
+      @include media(max, small) {
+        gap: 3em;
+        padding-inline: 16px;
+      }
       .v-sheet {
         display: flex;
         flex-direction: column;
-        width: 25em;
+        width: clamp(23em, 25vw, 25em);
         gap: 1em;
         border-radius: 15px;
         white-space: initial;

@@ -35,7 +35,6 @@
       mandatory
       show-arrows
       class="custome-slider"
-      :style="`padding-inline: ${dataOtherNews.length >= 4 ? '0' : 'var(--margin-separator)'}`"
     >
       <v-slide-item
         v-for="(item,i) in dataOtherNews"

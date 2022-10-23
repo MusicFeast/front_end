@@ -17,11 +17,11 @@
           <v-avatar style="border: 2px solid #fff">
             <img :src="nft.avatar" alt="artist image" style="--w: 100%; --of: cover">
           </v-avatar>
-          <span>Artist Name</span>
+          <span class="h9_em">Artist Name</span>
         </div>
       </div>
 
-      <article class="card divcol gap2">
+      <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
           <v-btn class="tag btn" style="--fs: 1.05em">{{
             nft.tier===1 ? 'bronze' :
@@ -49,9 +49,9 @@
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
             <span class="bold" style="--c: var(--accent)">{{nft.floor_price}}
-              <img src="~/assets/sources/logos/near-orange.svg" alt="near">
+              <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .9em">
             </span>
-            <span style="font-size: calc(var(--font-text) / 1.5)">$ {{dollarConversion(nft.floor_price)}}</span>
+            <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft.floor_price)}}</span>
           </div>
         </div>
 

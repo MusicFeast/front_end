@@ -37,29 +37,8 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 // // // menu header // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-#menuMarket {
-  --width: 20px;
-  background-color: #000000;
-  margin-left: calc(var(--width) * 2);
-  position: relative;
-  // triangule
-  &::before {
-    content: "";
-    @include absolute(calc(var(--width) * -1));
-    border-block: var(--width) solid transparent;
-    border-right: calc(var(--width) * 2) solid #000000;
-  }
-  & .v-list {
-    &-item {
-      &__title {
-        color: #FFFFFF;
-      }
-    }
-  }
-}
-
-
 #menuProfile {
+  font-size: clamp(14px, 2vw, 16px);
   margin-top: .5em;
   padding-bottom: 0;
   display: flex;
@@ -98,4 +77,8 @@
     justify-content: flex-end;
     text-transform: capitalize;
   }
+}
+
+#drawer-toggle {
+  font-size: clamp(14px, 2vw, 16px);
 }

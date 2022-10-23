@@ -11,6 +11,7 @@
     width: 100vw;
     margin-inline: calc(50% - 50vw);
     margin-bottom: calc(var(--h-header-title) / 2.5);
+    @include media(max, small) {margin-bottom: calc(var(--h-header-title) + 52.03px)}
     height: 50em;
     background: center no-repeat var(--bg-image);
     background-size: cover;
@@ -19,7 +20,7 @@
     &-title {
       @include absolute(0,auto,auto,calc(var(--h-header-title) / 2.5 * -1));
       width: calc(100% - (var(--w-header-social) + var(--margin-items) + clamp(1em, 2vw, 2em)));
-      min-height: 15em;
+      min-height: clamp(13em, 15vw, 15em);
       background-color: #000;
       z-index: 2;
 
@@ -27,9 +28,20 @@
       justify-content: flex-end;
       align-items: center;
       border-radius: 0 200px 200px 0;
+      @include media(max, small) {
+        width: 90%;
+        min-height: 12em;
+        bottom: calc(var(--h-header-title) / 2 * -1);
+        display: flex;
+        justify-content: center;
+      }
       h2 {
         margin-left: 1.5em;
         margin-right: var(--w-avatar);
+      }
+      @include media(max, 400px) {
+        min-height: 10em;
+        h2 {font-size: 1.7em}
       }
       img {
         @include absolute(auto,0,0,0);
@@ -37,6 +49,10 @@
         --b: 25px solid #000;
         aspect-ratio: 1 / 1;
         border-radius: 50%;
+        @include media(max, small) {
+          border-width: 10px;
+          --h: calc(100% + 10px);
+        }
       }
     }
     &-social {
@@ -48,15 +64,24 @@
       padding-inline: var(--margin-items);
       padding-block: .8em;
       z-index: 1;
+      @include media(max, small) {
+        bottom: calc((var(--h-header-title) / 2 * -1) - var(--h-header-social));
+        justify-content: flex-start;
+        background: linear-gradient(to right, #EE3938, transparent 80%);
+      }
     }
   }
 
-  .v-item-group {
+  #custome-slider.v-item-group {
+    @include media(max, 400px) {
+      min-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+    }
     .v-slide-group {
       &__next--disabled i,
       &__prev--disabled i {filter: invert(77%)}
       &__content {
-        --basis: 300px;
+        --basis: clamp(250px, 20vw, 300px);
         gap: 2em;
         // padding-inline: 70px;
         display: flex;
@@ -71,7 +96,6 @@
           max-width: var(--basis);
           * {white-space: initial}
           .v-card {
-            @include media(max, 700px) {--max-w-child: 400px; margin-inline: auto}
             transition: .5s $ease;
             .container-content {
               position: relative;
@@ -87,6 +111,7 @@
           .tier-desc {
             --gap: .5em;
             gap: var(--gap);
+            font-size: 13px;
             ul, a {padding-inline: 24px}
             a {
               line-height: 1.2;
@@ -101,6 +126,7 @@
             }
           }
           .container-actions {
+            font-size: 13px;
             a {
               --margin: 1em;
               --c: var(--accent);
@@ -130,8 +156,5 @@
     padding-inline: var(--margin-separator);
     margin-bottom: 6em;
     gap:2em;
-    .v-card {
-      max-width: 300px !important;
-    }
   }
 }

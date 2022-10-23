@@ -117,7 +117,7 @@
             <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
           </v-avatar>
           <a>{{item.name}}</a>
-          <p>{{item.desc}}</p>
+          <p>{{item.desc}} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga minus aut porro laboriosam saepe dolores, perspiciatis officiis soluta impedit dolorem nesciunt consequuntur corporis explicabo itaque dolore iste quas placeat esse?</p>
 
           <div class="center" style="gap: 6.4px">
             <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>

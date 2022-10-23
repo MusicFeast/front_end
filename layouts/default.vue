@@ -3,12 +3,13 @@
     id="layout" class="relative" :style="$route.path==='/about'?'overflow:hidden':''"
     :class="{
       vip: $route.path.includes('-vip'),
-      uranium: user.tier===6,
-      diamond: user.tier===5,
-      platinum: user.tier===4,
-      gold: user.tier===3,
-      silver: user.tier===2,
-      bronze: user.tier===1,
+      uranium: user.tier === 6,
+      diamond: user.tier === 5,
+      platinum: user.tier === 4,
+      gold: user.tier === 3,
+      silver: user.tier === 2,
+      bronze: user.tier === 1,
+      variant: $route.path === '/artist-details',
     }">
 
     <!-- just for testing tiers -->

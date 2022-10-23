@@ -33,3 +33,7 @@
     padding-block: var(--h-header) 0 !important
   }
 }
+
+#layout.variant {
+  background: center no-repeat linear-gradient(to top, var(--primary), var(--secondary));
+}

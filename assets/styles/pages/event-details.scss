@@ -21,6 +21,7 @@
       --br: none;
       padding: calc(var(--padding-header) * 2);
       padding-bottom: calc(var(--padding-header) * 2 + 2em);
+      @include media(max, small) {padding-top: 0};
       .v-btn span {text-transform: capitalize}
       div .v-btn.btn {
         --br: 5px;
@@ -31,10 +32,18 @@
         --p: 0 1.5em;
         font-weight: 600;
         text-transform: capitalize;
+        @include media(max, small) {
+          --w: 100vw;
+          --br: 0;
+          --min-h: 40px;
+          --fs: 16px !important;
+          margin-inline: calc(50% - 50vw);
+          margin-bottom: 30px;
+        }
       }
       h2 {font-size: 3.5em}
-      span:not(.v-btn__content), p {font-weight: 500; font-size: 1.05em}
-      p {line-height: 1.2}
+      span:not(.v-btn__content), p {font-weight: 500; font-size: 16px}
+      p {font-size: 16px; line-height: 1.2}
     }
   }
 
@@ -64,7 +73,7 @@
       --p: calc(var(--padding-header) * 2);
       padding-bottom: calc(var(--padding-header) * 2 + 2em);
       h3 {font-size: 3em; font-weight: 600}
-      p {line-height: 1.2; font-weight: 400; font-size: 1.05em}
+      p {line-height: 1.2; font-weight: 400; font-size: 16px}
     }
   }
 

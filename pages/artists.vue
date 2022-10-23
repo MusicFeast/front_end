@@ -147,12 +147,14 @@ export default {
         return 6
       } else if (window.innerWidth >= 1000) {
         return 5
-      } else if (window.innerWidth >= 500) {
+      } else if (window.innerWidth >= 800) {
         return 4
-      } else if (window.innerWidth >= 320) {
+      } else if (window.innerWidth >= 550) {
         return 3
-      } else {
+      } else if (window.innerWidth >= 370) {
         return 2
+      } else {
+        return 1
       }
     },
   }

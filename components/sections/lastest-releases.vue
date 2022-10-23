@@ -18,7 +18,7 @@
           <v-avatar style="border: 2px solid #fff">
             <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
           </v-avatar>
-          <span>{{item.artist}}</span>
+          <span class="h10_em">{{item.artist}}</span>
         </div>
       </v-card>
     </section>
