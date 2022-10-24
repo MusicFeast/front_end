@@ -340,7 +340,7 @@ export default {
       search: "",
       filter: {
         model: "",
-        list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
+        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataCollections: [
         {
@@ -439,7 +439,7 @@ export default {
     dataCollections_pagination() {
       return this.$store.getters.pagination({
         items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
-        search: this.search
+        search: this.search, filterB: this.filter.model
       })
     },
     pagination_per_page() {

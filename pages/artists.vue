@@ -77,7 +77,7 @@ export default {
       search: "",
       filter: {
         model: "",
-        list: ["Lastest Releases", "Newest", "Oldest", "Comming Soon", "Lorem ipsum", "Lorem ipsum"],
+        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
       },
       currentPage: 1,
       itemsPerPage: 10,

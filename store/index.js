@@ -162,6 +162,8 @@ export const getters = {
     if (search) filters = filters.filter(data => data.name.includes(search))
     // filter A (tier)
     if (filterA) filters = filters.filter(data => data.tier === filterA)
+    // filter B (comming)
+    if (filterB === 'comming soon') filters = filters.filter(data => data.comming)
     // if mobile
     if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2;
 
