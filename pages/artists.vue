@@ -93,7 +93,7 @@ export default {
     dataArtists_pagination() {
       return this.$store.getters.pagination({
         items: this.dataArtists, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
-        search: this.search
+        search: this.search, filterB: this.filter.model
       })
     },
     pagination_per_page() {

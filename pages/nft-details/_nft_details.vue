@@ -101,21 +101,8 @@
       :items-per-page="itemsPerPage"
       hide-default-footer
       mobile-breakpoint="-1"
+      :header-props="{sortIcon: 'mdi-menu-down'}"
     >
-      <template #[`header.number`]>
-        <center class="center">
-          <span>edition number</span>
-          <v-icon :class="{reverse: false}" size="2.2em">mdi-menu-down</v-icon>
-        </center>
-      </template>
-      
-      <template #[`header.price`]>
-        <center class="center">
-          <span>price</span>
-          <v-icon :class="{reverse: false}" size="2.2em">mdi-menu-down</v-icon>
-        </center>
-      </template>
-
       <template #[`item.vault`]="{ item }">
         <span :style="`--c:${item.vault ? '#26A17B' : ''}`">{{item.vault ? 'Yes' : 'No'}}</span>
       </template>
@@ -182,10 +169,10 @@ export default {
         lorem_ipsum: 205,
       },
       tableHeaders: [
-        { value: "number", text: "edition number", align: "start", sortable: false },
+        { value: "number", text: "edition number", align: "center" },
         { value: "vault", text: "vault item", align: "center", sortable: false },
         { value: "seller", text: "seller", align: "center", sortable: false },
-        { value: "price", text: "price", align: "center", sortable: false },
+        { value: "price", text: "price", align: "center" },
         { value: "buy", align: "center", sortable: false },
         { value: "offer", align: "center", sortable: false },
       ],

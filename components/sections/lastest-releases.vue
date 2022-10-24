@@ -3,8 +3,7 @@
     <h2>Lastest Releases</h2>
     <section class="wrapper">
       <v-card
-        v-for="(item,i) in dataLastestReleases" :key="i" color="#000"
-        @click="$store.dispatch('goTo', {key: 'collection', item})">
+        v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
         <div class="container-img" :style="`--tag: '${item.state}'`">
           <img :src="item.img" :alt="`${item.title} image`" style="--w: 100%; --br: 15px">
         </div>

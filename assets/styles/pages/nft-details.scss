@@ -79,6 +79,12 @@
     thead {
       tr {
         th {
+          &:nth-of-type(3n + 1) {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+          }
           span {
             font-size: 1.125em;
             text-transform: uppercase;

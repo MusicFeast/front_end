@@ -16,7 +16,7 @@
       v-model="filterA_model"
       :items="filterA"
       hide-details solo
-      label="by Tier:"
+      label="By Tier:"
       style="--p: 0 1em 0 2em"
       @change="$emit('filterA', filterA_model)"
     >
@@ -28,7 +28,7 @@
             item === 3 ? "Gold" :
             item === 4 ? "platinum" :
             item === 5 ? "Diamond" :
-            item === 6 ? "Uranium" : undefined
+            item === 6 ? "Uranium" : item
           }}
         </div>
       </template>
@@ -40,7 +40,7 @@
             item === 3 ? "Gold" :
             item === 4 ? "platinum" :
             item === 5 ? "Diamond" :
-            item === 6 ? "Uranium" : undefined
+            item === 6 ? "Uranium" : item
           }}
         </v-list-item-title>
       </template>

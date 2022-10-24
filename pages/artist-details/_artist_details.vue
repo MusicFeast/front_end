@@ -439,7 +439,7 @@ export default {
     dataCollections_pagination() {
       return this.$store.getters.pagination({
         items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
-        search: this.search, filterB: this.filter.model
+        search: this.search
       })
     },
     pagination_per_page() {

@@ -26,6 +26,7 @@
 .v-card.custome {
   --spacing: .5em;
   --w: 100%;
+  --h: max-content;
   --bg: var(--bg-tier-hover);
   &.comming {pointer-events: none}
   @include media(min, small) {--w: min(100%, 300px)}
