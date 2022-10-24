@@ -349,7 +349,7 @@ export default {
             console.error(error);
           })
         }
-      // catch error repeted values consult
+      // catch error repeated values consult
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
         console.error(error)
