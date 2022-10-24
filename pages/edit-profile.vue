@@ -272,15 +272,13 @@ export default {
       .then(fetch => {
         const data = fetch.data[0]
         if (data) {
-          Object.entries(this.form).forEach(arr => {
-            const [keys, values] = arr
+          for (const [keys, values] of Object.entries(this.form)) {
             const dataValues = data[keys]
-            if (typeof dataValues !== "object") {
-              this.form[keys] = dataValues
-            } else {
+            if (typeof dataValues !== "object") { this.form[keys] = dataValues }
+            else {
               Object.keys(values).forEach(key => { values[key] = dataValues[key] })
             }
-          })
+          }
           this.form.id = data.id
           this.imgBanner = data.avatar ? baseUrl+data.banner : this.user.banner
           this.imgAvatar = data.avatar ? baseUrl+data.avatar : this.user.avatar
@@ -320,8 +318,7 @@ export default {
         }
         
         const formData = new FormData();
-        Object.entries(this.form).forEach(arr => {
-          const [keys, values] = arr
+        for (const [keys, values] of Object.entries(this.form)) {
           // set null to empty string
           if (this.form[keys] && typeof this.form[keys] === "object") {
             Object.keys(values).forEach(key => { values[key] ??= "" })
@@ -333,7 +330,7 @@ export default {
           if (typeof values === 'object' && !file) { formData.append(keys, JSON.stringify(values).toLowerCase()) } // if object only
           else if (file) { formData.append(keys, values) } // if file object
           else if (excludeUrl) { formData.append(keys, typeof values === 'string' ? values.toLowerCase() : values || "") } // else
-        })
+        }
 
         // save form ✔️
         if (this.userExist) {
