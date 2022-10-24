@@ -162,6 +162,8 @@ export const getters = {
     if (search) filters = filters.filter(data => data.name.includes(search))
     // filter A (tier)
     if (filterA) filters = filters.filter(data => data.tier === filterA)
+    // if mobile
+    if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2;
 
     return filters.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   }

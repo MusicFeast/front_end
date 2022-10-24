@@ -363,13 +363,9 @@ export default {
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
     previewFile(key, file) {
-      if (key === 'avatar') {
-        this.imgAvatar = URL.createObjectURL(file);
-        this.form.avatar = file;
-      } else {
-        this.imgBanner = URL.createObjectURL(file);
-        this.form.banner = file;
-      }
+      this.form[key] = file;
+      if (key === 'avatar') { this.imgAvatar = URL.createObjectURL(file) }
+      else { this.imgBanner = URL.createObjectURL(file) }
     },
   }
 };

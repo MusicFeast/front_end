@@ -28,7 +28,7 @@
   --w: 100%;
   --bg: var(--bg-tier-hover);
   &.comming {pointer-events: none}
-  @include media(min, small) {max-width: 300px !important}
+  @include media(min, small) {--w: min(100%, 300px)}
   .container-img {
     --h: 272px;
     min-height: var(--h);
