@@ -36,5 +36,5 @@ export default function ({app, route}) {
       }
       break;
     }
-  }, 100);
+  }, 200);
 }
