@@ -98,13 +98,16 @@ export default {
       title,
     }
   },
+  computed: {
+    baseUrl() {
+      return this.$axios.defaults.baseURL
+    }
+  },
   mounted() {
-    const baseUrl = this.$axios.defaults.baseURL;
-    
     // get carousel
-    this.$axios.get(`${baseUrl}api/v1/get-carousel`)
+    this.$axios.get(`${this.baseUrl}api/v1/get-carousel`)
       .then(fetch => {
-        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
         this.dataHero = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
@@ -113,9 +116,9 @@ export default {
     );
     
     // get artists
-    this.$axios.get(`${baseUrl}api/v1/get-artists-home`)
+    this.$axios.get(`${this.baseUrl}api/v1/get-artists-home`)
       .then(fetch => {
-        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
         this.dataArtists = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
@@ -124,9 +127,9 @@ export default {
     );
     
     // get news
-    this.$axios.get(`${baseUrl}api/v1/get-news`)
+    this.$axios.get(`${this.baseUrl}api/v1/get-news`)
       .then(fetch => {
-        fetch.data.forEach(e => {e.image = baseUrl+e.image});
+        fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
         this.dataNews = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})

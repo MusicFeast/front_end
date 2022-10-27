@@ -252,6 +252,8 @@
 </template>
 
 <script>
+const pageName = 'artist-details';
+
 export default {
   name: "CollectionDetailsPage",
   data() {
@@ -450,75 +452,33 @@ export default {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   mounted() {
-    const pageName = 'artist-details';
-    const page = document.querySelector(`#${pageName}`);
-    
-    // listener title height
-    const titleHeight = () => {
-      const title = document.querySelector(".header-title");
-      page.style.setProperty('--h-header-title', `${title.getBoundingClientRect().height}px`)
-    }
-    titleHeight();
-
-    // listener social width
-    const titleWidth = () => {
-      const social = document.querySelector(".header-social div.center");
-      page.style.setProperty('--w-header-social', `${social.getBoundingClientRect().width}px`)
-    }
-    titleWidth();
-
-    // listener social height
-    const socialHeight = () => {
-      const social = document.querySelector(".header-social");
-      page.style.setProperty('--h-header-social', `${social.getBoundingClientRect().height}px`)
-    }
-    socialHeight();
-    
-    // listener avatar width
-    const avatarWidth = () => {
-      const avatar = document.querySelector(".header-title img");
-      page.style.setProperty('--w-avatar', `${avatar.getBoundingClientRect().width}px`)
-    }
-    avatarWidth();
-
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(e => {
-        const h2Rect = e.getBoundingClientRect().height;
-        page.style.setProperty('--h-title', `${h2Rect}px`)
-      });
-    };
-    heightH2();
+    this.styles();
 
     // resize listener
-    window.addEventListener('resize', () => {
-      if (this.$route.path.includes(`/${pageName}`)) {
-        titleHeight();
-        titleWidth();
-        socialHeight();
-        avatarWidth();
-        heightH2();
-
-        // listener reload columns in caraousel
-        const reload = this.modelCarousel;
-        this.modelCarousel = -1;
-        this.modelCarousel = reload;
-      };
-    });
+    window.addEventListener('resize', this.styles);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.styles);
   },
   methods: {
-    columnsCarousel() {
-      if (window.innerWidth >= 1600) {
-        return 5
-      } else if (window.innerWidth >= 1345) {
-        return 4
-      } else if (window.innerWidth >= 1000) {
-        return 3
-      } else if (window.innerWidth >= 500) {
-        return 2
-      } else {
-        return 1
-      }
+    styles() {
+      const page = document.querySelector(`#${pageName}`);
+      // title height
+      const titleHeight = document.querySelector(".header-title").getBoundingClientRect().height;
+      page.style.setProperty('--h-header-title', `${titleHeight}px`);
+      // title width
+      const socialWidth = document.querySelector(".header-social div.center").getBoundingClientRect().width;
+      page.style.setProperty('--w-header-social', `${socialWidth}px`);
+      // social height
+      const socialHeight = document.querySelector(".header-social").getBoundingClientRect().height;
+      page.style.setProperty('--h-header-social', `${socialHeight}px`);
+      // avatar width
+      const avatarWidth = document.querySelector(".header-title img").getBoundingClientRect().width;
+      page.style.setProperty('--w-avatar', `${avatarWidth}px`);
+      // height h2
+      document.querySelectorAll('h2.Title').forEach(h2 => {
+        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
+      });
     },
   }
 };

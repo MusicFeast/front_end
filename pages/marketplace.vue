@@ -165,6 +165,8 @@
 </template>
 
 <script>
+const pageName = 'marketplace';
+
 export default {
   name: "CollectionsPage",
   data() {
@@ -348,31 +350,26 @@ export default {
     if (this.user.tier >= 3) {this.$router.push(this.localePath("/marketplace-vip"))}
   },
   mounted() {
-    const pageName = 'marketplace';
-    const page = document.querySelector(`#${pageName}`);
-    
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(e => {
-        const h2Rect = e.getBoundingClientRect().height;
-        page.style.setProperty('--h-title', `${h2Rect}px`)
-      });
-    };
-    heightH2();
+    this.styles();
     
     // resize listener
-    window.addEventListener('resize', () => {
-      if (this.$route.path.includes(`/${pageName}`)) {
-        heightH2();
-
-        // listener reload columns in caraousel
-        const reload = this.modelCarousel;
-        this.modelCarousel = -1;
-        this.modelCarousel = reload;
-      };
-    });
+    window.addEventListener('resize', this.styles);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.styles);
   },
   methods: {
+    styles() {
+      const page = document.querySelector(`#${pageName}`);
+      // height h2
+      document.querySelectorAll('h2.Title').forEach(h2 => {
+        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
+      });
+      // reload carousel
+      const reload = this.modelCarousel;
+      this.modelCarousel = -1;
+      this.modelCarousel = reload;
+    },
     columnsCarousel() {
       if (window.innerWidth >= 1600) {
         return 5

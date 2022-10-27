@@ -12,6 +12,8 @@
 </template>
 
 <script>
+const pageName = 'terms-and-conditions';
+
 export default {
   name: "TermsAndConditions",
   data() {
@@ -41,26 +43,21 @@ export default {
     }
   },
   mounted() {
-    const pageName = 'terms-and-conditions';
-    const page = document.querySelector(`#${pageName}`);
-    
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(e => {
-        const h2Rect = e.getBoundingClientRect().height;
-        page.style.setProperty('--h-title', `${h2Rect}px`)
-      });
-    };
-    heightH2();
+    this.heightH2();
 
     // resize listener
-    window.addEventListener('resize', () => {
-      if (this.$route.path.includes(`/${pageName}`)) {
-        heightH2();
-      };
-    });
+    window.addEventListener('resize', this.heightH2);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.heightH2);
   },
   methods: {
+    heightH2() {
+      const page = document.querySelector(`#${pageName}`);
+      document.querySelectorAll('h2.Title').forEach(h2 => {
+        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
+      });
+    },
   }
 };
 </script>

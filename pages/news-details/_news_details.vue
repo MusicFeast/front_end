@@ -65,6 +65,8 @@
 </template>
 
 <script>
+const pageName = 'news-details';
+
 export default {
   name: "NewsDetailsPage",
   data() {
@@ -87,49 +89,43 @@ export default {
     }
   },
   computed: {
-    news() {return JSON.parse(localStorage.getItem("news"))}
+    news() {
+      return JSON.parse(localStorage.getItem("news"))
+    },
+    baseUrl() {
+      return this.$axios.defaults.baseURL
+    }
   },
   mounted() {
-    this.mountData();
+    this.getData();
+    this.heightH2();
 
-    const pageName = 'news-details';
-    const page = document.querySelector(`#${pageName}`);
-    
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(e => {
-        const h2Rect = e.getBoundingClientRect().height;
-        page.style.setProperty('--h-title', `${h2Rect}px`)
-      });
-    };
-    heightH2();
-    
     // resize listener
-    window.addEventListener('resize', () => {
-      if (this.$route.path.includes(`/${pageName}`)) {
-        heightH2();
-      };
-    });
+    window.addEventListener('resize', this.heightH2);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.heightH2);
   },
   methods: {
     async getData() {
-      const baseUrl = this.$axios.defaults.baseURL;
       // get news
-      await this.$axios.get(`${baseUrl}api/v1/get-news`)
+      await this.$axios.get(`${this.baseUrl}api/v1/get-news`)
         .then(fetch => {
-          fetch.data.forEach(e => {e.image = baseUrl+e.image});
+          fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
           this.dataOtherNews = fetch.data
+          if (localStorage.getItem("validator-news") === "pages") { this.dataNews = this.news }
+          else { this.dataNews = this.dataOtherNews.at(-1) }
         }).catch(error => {
           this.$alert("cancel", {desc: error.message})
           console.error(error);
         }
       );
     },
-    async mountData() {
-      // mount data
-      await this.getData();
-      if (localStorage.getItem("validator-news") === "pages") { this.dataNews = this.news }
-      else { this.dataNews = await this.dataOtherNews.at(-1) }
+    heightH2() {
+      const page = document.querySelector(`#${pageName}`);
+      document.querySelectorAll('h2.Title').forEach(h2 => {
+        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
+      });
     },
     selectNews(item) {
       this.dataNews = item;

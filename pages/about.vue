@@ -64,6 +64,8 @@
 </template>
 
 <script>
+const pageName = 'about';
+
 export default {
   name: "AboutPage",
   data() {
@@ -130,28 +132,22 @@ export default {
     }
   },
   mounted() {
-    const pageName = 'about';
-    const page = document.querySelector(`#${pageName}`);
-    
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(e => {
-        const h2Rect = e.getBoundingClientRect().height;
-        page.style.setProperty('--h-title', `${h2Rect}px`)
-      });
-    };
-    heightH2();
+    this.heightH2();
+    this.listenerMobile();
 
     // resize listener
-    window.addEventListener('resize', () => {
-      if (this.$route.path.includes(`/${pageName}`)) {
-        heightH2();
-        this.listenerMobile();
-      };
-    });
-    this.listenerMobile();
+    window.addEventListener('resize', this.heightH2);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.heightH2);
   },
   methods: {
+    heightH2() {
+      const page = document.querySelector(`#${pageName}`);
+      document.querySelectorAll('h2.Title').forEach(h2 => {
+        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
+      });
+    },
     listenerMobile() {
       if (window.innerWidth <= 880) {
         this.isMobile = true

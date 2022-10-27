@@ -68,6 +68,8 @@
 </template>
 
 <script>
+const pageName = 'artists';
+
 export default {
   name: "CollectionsPage",
   data() {
@@ -98,48 +100,44 @@ export default {
     },
     pagination_per_page() {
       return Math.ceil(this.dataArtists.length / this.itemsPerPage)
+    },
+    baseUrl() {
+      return this.$axios.defaults.baseURL
     }
   },
   mounted() {
-    const baseUrl = this.$axios.defaults.baseURL;
-    
-    // get artists
-    this.$axios.get(`${baseUrl}api/v1/get-artists`)
-      .then(fetch => {
-        fetch.data.forEach(e => {e.image = baseUrl+e.image});
-        this.dataArtists = fetch.data
-      }).catch(error => {
-        this.$alert("cancel", {desc: error.message})
-        console.error(error);
-      }
-    );
+    this.styles();
+    this.getData();
 
-    // styles //
-    const pageName = 'artists';
-    const page = document.querySelector(`#${pageName}`);
-    
-    // listener to h2
-    const heightH2 = () => {
-      document.querySelectorAll('h2.Title').forEach(e => {
-        const h2Rect = e.getBoundingClientRect().height;
-        page.style.setProperty('--h-title', `${h2Rect}px`)
-      });
-    };
-    heightH2();
-    
     // resize listener
-    window.addEventListener('resize', () => {
-      if (this.$route.path.includes(`/${pageName}`)) {
-        heightH2();
-
-        // listener reload columns in caraousel
-        const reload = this.modelCarousel;
-        this.modelCarousel = -1;
-        this.modelCarousel = reload;
-      };
-    });
+    window.addEventListener('resize', this.styles);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.styles);
   },
   methods: {
+    styles() {
+      const page = document.querySelector(`#${pageName}`);
+      // height h2
+      document.querySelectorAll('h2.Title').forEach(h2 => {
+        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
+      });
+      // reload carousel
+      const reload = this.modelCarousel;
+      this.modelCarousel = -1;
+      this.modelCarousel = reload;
+    },
+    getData() {
+      this.$axios.get(`${this.baseUrl}api/v1/get-artists`)
+        .then(fetch => {
+          fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
+          this.dataArtists = fetch.data
+        }).catch(error => {
+          this.$alert("cancel", {desc: error.message})
+          console.error(error);
+        }
+      );
+    },
     columnsCarousel() {
       if (window.innerWidth >= 1600) {
         return 7

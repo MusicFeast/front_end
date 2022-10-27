@@ -259,16 +259,18 @@ export default {
   },
   computed: {
     user() {return this.$store.state.dataUser},
+    baseUrl() {
+      return this.$axios.defaults.baseURL
+    }
   },
   created() {
     this.getData();
   },
   methods: {
     async getData() {
-      const baseUrl = this.$axios.defaults.baseURL;
       const accountId = JSON.parse(localStorage.getItem("undefined_wallet_auth_key")).accountId
       // get data user
-      await this.$axios.post(`${baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+      await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(fetch => {
         const data = fetch.data[0]
         if (data) {
@@ -280,8 +282,8 @@ export default {
             }
           }
           this.form.id = data.id
-          this.imgBanner = data.avatar ? baseUrl+data.banner : this.user.banner
-          this.imgAvatar = data.avatar ? baseUrl+data.avatar : this.user.avatar
+          this.imgBanner = data.avatar ? this.baseUrl+data.banner : this.user.banner
+          this.imgAvatar = data.avatar ? this.baseUrl+data.avatar : this.user.avatar
           this.userExist = true
         } else {
           this.form.wallet = accountId
