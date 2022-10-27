@@ -266,6 +266,9 @@ export default {
   created() {
     this.getData();
   },
+  mounted() {
+    this.EnterKeyboardListener();
+  },
   methods: {
     async getData() {
       const accountId = JSON.parse(localStorage.getItem("undefined_wallet_auth_key")).accountId
@@ -298,6 +301,14 @@ export default {
     },
     clearRepeted(key) {
       if (this.djangoExistenceList[key]) this.djangoExistenceList[key] = undefined
+    },
+    EnterKeyboardListener() {
+      // keyboard enter listener
+      this.$refs.form.$el.querySelectorAll("input").forEach(input => {
+        input.addEventListener("keypress", event => {
+          if (event.key === "Enter") { this.saveForm() }
+        })
+      })
     },
     saveForm() {
       // verification ⭐
