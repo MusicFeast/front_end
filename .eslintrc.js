@@ -15,5 +15,6 @@ module.exports = {
     "no-console": "off",
     "vue/no-v-html": "off",
     "no-new-object": "off",
+    "no-extend-native": "off",
   },
 }

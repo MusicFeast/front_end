@@ -332,7 +332,7 @@ export default {
         
         const formData = new FormData();
         for (const [keys, values] of Object.entries(this.form)) {
-          // set null to empty string
+          // set empty string in null 
           if (this.form[keys] && typeof this.form[keys] === "object") {
             Object.keys(values).forEach(key => { values[key] ??= "" })
           } else { this.form[keys] ??= "" }
