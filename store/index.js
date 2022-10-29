@@ -133,7 +133,7 @@ export const actions = {
         const canvas = data.toDataURL('image/png')
         item.canvas = canvas
         localStorage.setItem(key, JSON.stringify(item))
-        this.$loadCursorEnd(".v-card");
+        this.$loadCursor(true);
       }).then(() => {
         this.$router.push(
           this.localePath(key === 'nft'
@@ -145,7 +145,7 @@ export const actions = {
         );
       }).catch((error) => {
         this.$alert("cancel", {desc: error.message})
-        this.$loadCursorEnd(".v-card")
+        this.$loadCursor(false)
         console.error(error);
       })
     } else {
