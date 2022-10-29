@@ -360,7 +360,8 @@ export default {
   },
   methods: {
     styles() {
-      const page = document.querySelector(`#${pageName}`);
+      const [first, second] = pageName.split("-")
+      const page = document.querySelector(`#${first}.${second}`);
       // height h2
       document.querySelectorAll('h2.Title').forEach(h2 => {
         page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
