@@ -128,12 +128,12 @@ export const actions = {
   goTo({commit, state}, {key, item, event, id}) {
     if (key === 'nft' || key === 'user-nft') {
       const target = event.target.parentNode.parentNode
-      this.$loadCursorStart(".v-card");
+      this.$loadCursor(true);
       html2canvas(target, { allowTaint: true, backgroundColor: "#000" }).then((data) => {
         const canvas = data.toDataURL('image/png')
         item.canvas = canvas
         localStorage.setItem(key, JSON.stringify(item))
-        this.$loadCursor(true);
+        this.$loadCursor(false);
       }).then(() => {
         this.$router.push(
           this.localePath(key === 'nft'
