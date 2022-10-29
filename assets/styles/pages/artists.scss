@@ -17,7 +17,7 @@
       // padding-inline: 48px;
       padding-block: 20px calc(50px + 40px);
       @include media(max, 370px) {padding-top: 0}
-      .v-card {
+      .v-card, .v-skeleton-loader {
         background: center no-repeat var(--bg-image);
         background-size: cover;
         box-shadow: 8px 14px 5px 2px rgb(0, 0, 0, .4) !important;

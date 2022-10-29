@@ -15,12 +15,18 @@
       `"
     >
       <v-avatar
+        v-if="imgAvatar"
         width="var(--size)" height="var(--size)" style="--size: 13.954375em"
         @mouseenter="showTag()" @mouseleave="hideTag()">
         <label for="avatar" title="change avatar">
           <img :src="imgAvatar" alt="avatar image">
         </label>
       </v-avatar>
+      <v-skeleton-loader
+        v-else
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+        type="avatar"
+      ></v-skeleton-loader>
       <v-file-input
         id="avatar"
         v-model="avatar_model"

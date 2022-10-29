@@ -278,6 +278,15 @@ img:not(.not_html, .not) {
 /* // //  vuetify classes (components) // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 
+//- skeleton loader -//
+.v-skeleton-loader:not(.not_vuetify, .not) {
+  .v-skeleton-loader__card .v-skeleton-loader__card-heading {display: none !important}
+  > *, > * > * {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 //- defaut tabs -//
 .v-tabs:not(.not_vuetify, .not) {
   --bg: var(--primary);

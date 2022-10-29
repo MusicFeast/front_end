@@ -4,11 +4,16 @@
       id="custome-carousel"
       height="max-content"
     >
-      <v-carousel-item
-        v-for="(item,i) in dataHero"
-        :key="i"
-        :src="item.image"
-      ></v-carousel-item>
+      <template v-for="(item,i) in dataHero">
+        <v-carousel-item
+          v-if="item.image" :key="i"
+          :src="item.image"
+        ></v-carousel-item>
+        <!-- <v-skeleton-loader
+          v-else :key="item.image"
+          type="card"
+        ></v-skeleton-loader> -->
+      </template>
 
       <template #prev="{on, attrs}">
         <v-btn

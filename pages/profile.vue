@@ -14,10 +14,16 @@
         }'
       `">
       <v-avatar
+        v-if="user.avatar"
         width="var(--size)" height="var(--size)" style="--size: 13.954375em"
         @mouseenter="showTag()" @mouseleave="hideTag()">
         <img :src="user.avatar" alt="avatar image">
       </v-avatar>
+      <v-skeleton-loader
+        v-else
+        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+        type="avatar"
+      ></v-skeleton-loader>
       <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
     </section>
 

@@ -29,6 +29,8 @@
         <span class="h11_em">&copy; 2022 Music Feast. All Rights Reserved.</span>
         <span class="h11_em">Cookie statement <span class="pointer semibold" @click="$router.push(localePath('/terms-and-conditions'))">Terms &amp; Conditions</span> Privacy Policy</span>
       </section>
+
+      <a class="h11_em alignr mt-3 pr-8" href="https://www.dvconsultores.com/#/" target="_blank">Powered by GlobalDv</a>
     </v-row>
   </v-footer>
 </template>

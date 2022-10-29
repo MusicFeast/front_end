@@ -12,7 +12,8 @@
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataArtists.length">
               <v-card
-                :key="i" :class="{active: dataArtists[+index + i].active}" :style="`--bg-image: url('${dataArtists[+index + i].image}')`" :ripple="false"
+                v-if="dataArtists[+index + i].image" :key="i" :ripple="false"
+                :class="{active: dataArtists[+index + i].active}" :style="`--bg-image: url('${dataArtists[+index + i].image}')`"
                 @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i]})">
                 <v-sheet>
                   <div class="divcol">
@@ -23,6 +24,10 @@
                   </div>
                 </v-sheet>
               </v-card>
+              <v-skeleton-loader
+                v-else :key="i"
+                type="card"
+              ></v-skeleton-loader>
             </template>
           </template>
         </v-carousel-item>
