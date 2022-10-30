@@ -51,7 +51,7 @@
       gap: var(--spacing);
       &:hover {
         box-shadow: 0 0 0 1px var(--accent) !important;
-        .v-image .v-image__image {transform: scale(1.2)}
+        .v-image:not(.v-avatar .v-image) .v-image__image {transform: scale(1.2)}
       }
       @include media(min, small) {&:only-of-type {max-width: 20em}}
       a {font-size: 1.3em; text-decoration: underline; margin-bottom: .3em}
@@ -62,10 +62,15 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
-      .v-image {
+      .v-image:not(.v-avatar .v-image) {
         overflow: hidden;
         position: relative;
-        &__image {transition: .5s $ease}
+        --w: 100%;
+        --h: 337px;
+        --br: 5px;
+        min-height: var(--h);
+        height: var(--h);
+        .v-image__image {transition: .5s $ease}
         // tag
         &::after {
           content: var(--tag);
