@@ -17,7 +17,7 @@
     background: linear-gradient(-30deg, var(--primary), var(--secondary) 40%) !important;
     transition: 0.4s ease-in-out;
   }
-  &.hide::before {opacity: 0}
+  &.transparent::before {background: linear-gradient(-30deg, hsl(0 84% 58% / .85), hsl(0 0% 0% / .85) 40%) !important}
   .v-toolbar__content {
     * {--fw: 500}
     display: flex;
