@@ -25,7 +25,7 @@
         <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
       </template>
       <template #placeholder>
-        <v-skeleton-loader type="card" />
+        <v-skeleton-loader v-show="user.banner" type="card" />
       </template>
     </v-img>
 

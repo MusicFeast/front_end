@@ -7,10 +7,10 @@
   padding-bottom: 4em;
 
   .header {
+    --bg: hsl(0, 0%, 62%, .4);
     --w: 100vw;
     --h: 500px;
     margin-inline: calc(50% - 50vw);
-    background-color: hsl(0, 0%, 62%, .6);
     .v-responsive__content {
       position: relative;
       display: grid;

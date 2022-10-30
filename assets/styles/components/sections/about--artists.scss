@@ -75,10 +75,7 @@
             max-width: 20em;
             white-space: initial;
             aspect-ratio: 1 / 2.3;
-            @include media(max, small) {
-              max-width: 15em;
-              aspect-ratio: 1 / 2
-            };
+            // @include media(max, small) {max-width: 17em};
             border-radius: .2vmax;
             transform: skew(-7deg);
             transition: .2s $ease-return;

@@ -43,7 +43,7 @@
         ></v-file-input>
       </template>
       <template #placeholder>
-        <v-skeleton-loader type="card" />
+        <v-skeleton-loader v-show="imgBanner" type="card" />
       </template>
     </v-img>
 

@@ -12,8 +12,11 @@
     width: 100vw;
     margin-inline: calc(50% - 50vw);
     margin-bottom: calc(var(--h-header-title) / 2.5);
-    @include media(max, small) {margin-bottom: calc(var(--h-header-title) + 52.03px)}
-    height: 650px;
+    height: calc(100vh - (var(--h-header-title) - 20px)) !important;
+    @include media(max, small) {
+      margin-bottom: calc(var(--h-header-title) + 52.03px);
+      height: calc(100vh - (var(--h-header-title) + var(--h-header-social) + 30px)) !important;
+    }
     position: relative;
     isolation: isolate;
     &-title {
