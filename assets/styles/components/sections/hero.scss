@@ -7,10 +7,10 @@
   margin-inline: calc(50% - 50vw);
   #custome-carousel {
     max-height: 750px;
-    // .v-skeleton-loader {
-    //   height: 750px;
-    //   @include media(max, 880px) {height: 450px}
-    // }
+    .v-skeleton-loader {
+      height: 750px;
+      @include media(max, 880px) {height: 450px}
+    }
     .v-responsive__content {
       @include media(max, 880px) {min-height: 450px}
     }

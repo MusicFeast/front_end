@@ -1,9 +1,8 @@
 <template>
   <div id="profile" class="divcol">
-    <section
-      class="header"
+    <v-img
+      :src="user.banner" transition="fade-transition" class="header"
       :style="`
-        --bg-image: url(${user.banner});
         --tag-tier: '${
           user.tier===1 ? 'bronze' :
           user.tier===2 ? 'silver' :
@@ -13,19 +12,22 @@
           user.tier===6 ? 'uranium' : 'user'
         }'
       `">
-      <v-avatar
-        v-if="user.avatar"
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
-        @mouseenter="showTag()" @mouseleave="hideTag()">
-        <img :src="user.avatar" alt="avatar image">
-      </v-avatar>
-      <v-skeleton-loader
-        v-else
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
-        type="avatar"
-      ></v-skeleton-loader>
-      <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
-    </section>
+      <template #default>
+        <v-avatar
+          width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+          @mouseenter="showTag()" @mouseleave="hideTag()">
+          <v-img :src="user.avatar" alt="avatar image" transition="fade-transition">
+            <template #placeholder>
+              <v-skeleton-loader type="avatar" />
+            </template>
+          </v-img>
+        </v-avatar>
+        <v-btn :ripple="false" class="btn activeBtn" :to="localePath('/edit-profile')">Edit Profile</v-btn>
+      </template>
+      <template #placeholder>
+        <v-skeleton-loader type="card" />
+      </template>
+    </v-img>
 
     <section class="container-user">
       <aside class="container-user--social center gap1">
@@ -82,8 +84,8 @@
           bronze: item.tier===1,
         }"
         @click="$store.dispatch('goTo', {key: 'user-nft', item, event: $event})">
-        <div
-          class="container-img"
+        <v-img
+          :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -97,14 +99,19 @@
               `: ''
             };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
-          "
-        >
-          <img :src="item.img" :alt="`${item.name} image`">
-        </div>
+          ">
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
         
         <div class="container-content tcenter">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
+            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
           </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}}</p>

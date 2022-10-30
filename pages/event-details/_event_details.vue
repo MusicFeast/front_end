@@ -1,14 +1,23 @@
 <template>
   <div id="event" class="divcol">
     <section class="header grid">
-      <div class="header-background divcol">
-        <div class="center gap1 alignl">
-          <v-avatar style="border: 2px solid #fff">
-            <img src="@/assets/sources/images/avatar.png" alt="artist image" style="--w: 100%; --of: cover">
-          </v-avatar>
-          <span class="h9_em">Artist Name</span>
-        </div>
-      </div>
+      <v-img :src="require('~/assets/sources/images/img-event-header.jpg')" class="header-background" transition="fade-transition">
+        <template #default>
+          <div class="center gap1 alignl">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="require('~/assets/sources/images/avatar.png')" alt="artist image" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <span class="h9_em">Artist Name</span>
+          </div>
+        </template>
+        <template #placeholder>
+          <v-skeleton-loader type="card" />
+        </template>
+      </v-img>
 
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
@@ -84,31 +93,37 @@
           augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing
         </p>
       </article>
-      <div class="map">
-        <iframe
-          id="gmap_canvas"
-          width="100%"
-          height="100%"
-          src="https://maps.google.com/maps?
-            q=2880%20Broadway,%20New%20York
-            &t=
-            &z=13
-            &ie=UTF8
-            &iwloc=
-            &output=embed
-          "
-          frameborder="0"
-          scrolling="no"
-          marginheight="0"
-          marginwidth="0"
-        ></iframe>
-        <v-btn
-          :ripple="false"
-          class="btn bold activeBtn"
-          href="https://maps.google.com/maps?ll=40.827295,-74.019999&amp;z=13&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=embed&amp;q=2880%20Broadway%20New%20York%2C%20NY%2010025%20EE.%20UU."
-          target="_blank"
-        >open maps</v-btn>
-      </div>
+      <v-img class="map">
+        <template #default>
+          <iframe
+            id="gmap_canvas"
+            transition="fade-transition"
+            width="100%"
+            height="100%"
+            src="https://maps.google.com/maps?
+              q=2880%20Broadway,%20New%20York
+              &t=
+              &z=13
+              &ie=UTF8
+              &iwloc=
+              &output=embed
+            "
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+          ></iframe>
+          <v-btn
+            :ripple="false"
+            class="btn bold activeBtn"
+            href="https://maps.google.com/maps?ll=40.827295,-74.019999&amp;z=13&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=embed&amp;q=2880%20Broadway%20New%20York%2C%20NY%2010025%20EE.%20UU."
+            target="_blank"
+          >open maps</v-btn>
+        </template>
+        <template #placeholder>
+          <v-skeleton-loader type="card" />
+        </template>
+      </v-img>
     </section>
 
     <h2 class="Title tup">tickets available</h2>
@@ -135,8 +150,8 @@
                     silver: dataCarousel[+index + i].tier===2,
                     bronze: dataCarousel[+index + i].tier===1,
                   }">
-                  <div
-                    class="container-img"
+                  <v-img
+                    :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" transition="fade-transition"
                     :style="`
                       ${
                         dataCarousel[+index + i].tier ? `--tag-tier: '${
@@ -150,14 +165,19 @@
                         `: ''
                       };
                       ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
-                    "
-                  >
-                    <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`">
-                  </div>
+                    ">
+                    <template #placeholder>
+                      <v-skeleton-loader type="card" />
+                    </template>
+                  </v-img>
                   
                   <div class="container-content tcenter">
                     <v-avatar style="border: 2px solid #fff">
-                      <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--w: 100%; --of: cover">
+                      <v-img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" transition="fade-transition">
+                        <template #placeholder>
+                          <v-skeleton-loader type="avatar" />
+                        </template>
+                      </v-img>
                     </v-avatar>
                     <a>{{dataCarousel[+index + i].name}}</a>
                     <p>{{dataCarousel[+index + i].desc}}</p>

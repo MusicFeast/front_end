@@ -38,18 +38,21 @@
         center-active
       >
         <v-slide-item v-for="(item,i) in dataArtists" :key="i">
-          <v-card
-            :style="`--bg-image: url('${item.image}')`" :ripple="false"
+          <v-img
+            :src="item.image" :alt="`${item.name} image`" transition="fade-transition"
             @click="$store.dispatch('goTo', {key: 'artist', item})">
-            <v-sheet>
-              <div class="divcol">
-                <h3>{{item.name}}</h3>
-                <p>
-                  {{item.description}}
-                </p>
-              </div>
-            </v-sheet>
-          </v-card>
+            <template #default>
+              <v-sheet>
+                <div class="divcol">
+                  <h3>{{item.name}}</h3>
+                  <p>{{item.description}}</p>
+                </div>
+              </v-sheet>
+            </template>
+            <template #placeholder>
+              <v-skeleton-loader width="100%" height="100%" type="card" />
+            </template>
+          </v-img>
         </v-slide-item>
 
         <template #prev="{ on, attrs}">

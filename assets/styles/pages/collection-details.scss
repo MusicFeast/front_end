@@ -9,14 +9,13 @@
   .header {
     width: 100vw;
     margin-inline: calc(50% - 50vw);
-    min-height: 451px;
-    background: no-repeat center var(--bg-image);
+    height: 500px;
     background-color: #fff;
-    background-size: cover;
-    position: relative;
-
-    display: grid;
-    place-items: center;
+    .v-responsive__content {
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
     // tier background
     --bg-tier: #280909;
     &.uranium {--bg-tier: linear-gradient(to top right, #87B95C, #9F9B1B, #0C4020)}

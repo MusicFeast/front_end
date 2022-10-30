@@ -11,23 +11,24 @@
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
             <template v-if="(+index + i) < dataArtists.length">
-              <v-card
-                v-if="dataArtists[+index + i].image" :key="i" :ripple="false"
-                :class="{active: dataArtists[+index + i].active}" :style="`--bg-image: url('${dataArtists[+index + i].image}')`"
-                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i]})">
-                <v-sheet>
-                  <div class="divcol">
-                    <h3>{{dataArtists[+index + i].name}}</h3>
-                    <p>
-                      {{dataArtists[+index + i].description}}
-                    </p>
-                  </div>
-                </v-sheet>
-              </v-card>
-              <v-skeleton-loader
-                v-else :key="i"
-                type="card"
-              ></v-skeleton-loader>
+              <v-img
+                :key="i" :src="dataArtists[+index + i].image" :alt="`${dataArtists[+index + i].name} image`" transition="fade-transition"
+                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i]})"
+              >
+                <template #default>
+                  <v-sheet>
+                    <div class="divcol">
+                      <h3>{{dataArtists[+index + i].name}}</h3>
+                      <p>
+                        {{dataArtists[+index + i].description}}
+                      </p>
+                    </div>
+                  </v-sheet>
+                </template>
+                <template #placeholder>
+                  <v-skeleton-loader width="100%" height="100%" type="card" />
+                </template>
+              </v-img>
             </template>
           </template>
         </v-carousel-item>
@@ -51,9 +52,13 @@
       <v-card
         v-for="(item,i) in dataArtists_pagination" :key="i" class="card divcol custome" :class="{comming: item.comming}"
         @click="$store.dispatch('goTo', {key: 'artist', item})">
-        <div class="container-img" :style="item.comming ? `--tag-state: 'Comming soon` : ''">
-          <img :src="item.image" :alt="`${item.name} image`">
-        </div>
+        <v-img
+          :src="item.image" :alt="`${item.name} image`" :style="item.comming ? `--tag-state: 'Comming soon` : ''"
+          transition="fade-transition">
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
         
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>

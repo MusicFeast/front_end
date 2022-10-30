@@ -17,15 +17,11 @@
       // padding-inline: 48px;
       padding-block: 20px calc(50px + 40px);
       @include media(max, 370px) {padding-top: 0}
-      .v-card, .v-skeleton-loader {
-        background: center no-repeat var(--bg-image);
-        background-size: cover;
+      .v-image {
+        cursor: pointer;
         box-shadow: 8px 14px 5px 2px rgb(0, 0, 0, .4) !important;
-        width: 20em;
-        @include media(max, small) {
-          width: 15em;
-          aspect-ratio: 1 / 2
-        };
+        max-width: 320px;
+        @include media(max, small) {aspect-ratio: 1 / 2};
         border-radius: .2vmax;
         transform: skew(-7deg);
         transition: .2s $ease-return;

@@ -12,7 +12,7 @@
         <v-card
           color="transparent" class="tcentermobile" :ripple="false"
           @click="toggle; goTo(item)">
-          <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
+          <v-img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px" transition="fade-transition" />
           <h3 class="p">{{item.title}}</h3>
           <p class="p">
             {{item.description}}

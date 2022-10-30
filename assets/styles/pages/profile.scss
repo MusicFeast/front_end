@@ -7,16 +7,15 @@
   padding-bottom: 4em;
 
   .header {
-    width: 100vw;
+    --w: 100vw;
+    --h: 500px;
     margin-inline: calc(50% - 50vw);
-    min-height: 451px;
-    background: no-repeat center var(--bg-image);
     background-color: hsl(0, 0%, 62%, .6);
-    background-size: cover;
-    position: relative;
-
-    display: grid;
-    place-items: center;
+    .v-responsive__content {
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
     // tier tag
     &::before {
       content: var(--tag-tier);

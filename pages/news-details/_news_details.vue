@@ -3,8 +3,11 @@
     <h2 class="Title tup">press &amp; news</h2>
 
     <section class="container-press-and-news grid">
-      <div class="container-press-and-news--background" :style="`--bg-image: url(${dataNews.image})`">
-      </div>
+      <v-img :src="dataNews.image" class="container-press-and-news--background" transition="fade-transition">
+        <template #placeholder>
+          <v-skeleton-loader type="card" />
+        </template>
+      </v-img>
 
       <article class="divcol gap1">
         <v-btn icon class="share">
@@ -42,7 +45,11 @@
         :key="i" v-slot="{ toggle }"
       >
         <v-card class="card tcentermobile" :ripple="false" @click="toggle; selectNews(item)">
-          <img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px; --of: cover">
+          <v-img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px" transition="fade-transition">
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+          </v-img>
           <h3 class="p">{{item.title}}</h3>
           <p class="p">
             {{item.description}}

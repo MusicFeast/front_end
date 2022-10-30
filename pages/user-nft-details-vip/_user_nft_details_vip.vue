@@ -12,14 +12,23 @@
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
     
     <section class="header grid">
-      <div class="header-background divcol" :style="`--bg-image: url(${nft.img})`">
-        <div class="center gap1 alignl">
-          <v-avatar style="border: 2px solid #fff">
-            <img :src="nft.avatar" alt="artist image" style="--w: 100%; --of: cover">
-          </v-avatar>
-          <span class="h9_em">Artist Name</span>
-        </div>
-      </div>
+      <v-img :src="nft.img" class="header-background" transition="fade-transition">
+        <template #default>
+          <div class="center gap1 alignl">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <span class="h9_em">Artist Name</span>
+          </div>
+        </template>
+        <template #placeholder>
+          <v-skeleton-loader type="card" />
+        </template>
+      </v-img>
 
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
@@ -110,7 +119,11 @@
       <template #[`item.seller`]="{ item }">
         <center class="center" style="gap:10px">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.seller_avatar" alt="artist avatar" style="--w: 100%; --of: cover">
+            <v-img :src="item.seller_avatar" alt="artist avatar" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
           </v-avatar>
           <span>{{item.seller}}</span>
         </center>

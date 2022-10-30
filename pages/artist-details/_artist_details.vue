@@ -1,19 +1,28 @@
 <template>
   <div id="artist-details" class="divcol">
-    <section class="header" :style="`--bg-image: url(${artist.image})`">
-      <aside class="header-title">
-        <h2>{{artist.name}}</h2>
-        <img src="@/assets/sources/images/avatar.png" alt="avatar image">
-      </aside>
+    <v-img :src="artist.image" class="header" transition="fade-transition">
+      <template #default>
+        <aside class="header-title">
+          <h2>{{artist.name}}</h2>
+          <v-img :src="artist.image" alt="avatar image" transition="fade-transition">
+            <template #placeholder>
+              <v-skeleton-loader type="avatar" />
+            </template>
+          </v-img>
+        </aside>
 
-      <aside class="header-social">
-        <div class="center" style="gap:clamp(1em, 2.5vw, 2.5em)">
-          <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link" target="_blank">
-            <v-icon size="clamp(2em, 2.8vw, 2.8em)">{{item.icon}}</v-icon>
-          </v-btn>
-        </div>
-      </aside>
-    </section>
+        <aside class="header-social">
+          <div class="center" style="gap:clamp(1em, 2.5vw, 2.5em)">
+            <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link" target="_blank">
+              <v-icon size="clamp(2em, 2.8vw, 2.8em)">{{item.icon}}</v-icon>
+            </v-btn>
+          </div>
+        </aside>
+      </template>
+      <template #placeholder>
+        <v-skeleton-loader type="card" />
+      </template>
+    </v-img>
     
     <section class="container-profit bold fwrap">
       <v-sheet color="transparent" class="divcol center">
@@ -80,8 +89,8 @@
             active: active
           }"
           @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
-          <div
-            class="container-img"
+          <v-img
+            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
             :style="`--tag-tier: '${
               item.tier===1 ? 'bronze' :
               item.tier===2 ? 'silver' :
@@ -89,14 +98,19 @@
               item.tier===4 ? 'platinum' :
               item.tier===5 ? 'diamond' :
               item.tier===6 ? 'uranium' : 'user'
-            }'`"
-          >
-            <img :src="item.img" :alt="`${item.name} image`">
-          </div>
+            }'`">
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+          </v-img>
           
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
-              <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
+              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
             </v-avatar>
             <a>{{item.name}}</a>
             <p>{{item.desc}}</p>
@@ -195,8 +209,8 @@
           bronze: item.tier===1,
         }"
         @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
-        <div
-          class="container-img"
+        <v-img
+          :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -210,14 +224,19 @@
               `: ''
             };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
-          "
-        >
-          <img :src="item.img" :alt="`${item.name} image`">
-        </div>
+          ">
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
         
         <div class="container-content tcenter">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
+            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
           </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}}</p>
@@ -473,7 +492,7 @@ export default {
       const socialHeight = document.querySelector(".header-social").getBoundingClientRect().height;
       page.style.setProperty('--h-header-social', `${socialHeight}px`);
       // avatar width
-      const avatarWidth = document.querySelector(".header-title img").getBoundingClientRect().width;
+      const avatarWidth = document.querySelector(".header-title .v-image").getBoundingClientRect().width;
       page.style.setProperty('--w-avatar', `${avatarWidth}px`);
       // height h2
       document.querySelectorAll('h2.Title').forEach(h2 => {

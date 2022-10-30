@@ -4,9 +4,11 @@
     <section class="wrapper">
       <v-card
         v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
-        <div class="container-img" :style="`--tag: '${item.state}'`">
-          <img :src="item.img" :alt="`${item.title} image`" style="--w: 100%; --br: 15px">
-        </div>
+        <v-img :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`">
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
         
         <div class="container-content tcenter">
           <a>{{item.title}}</a>
@@ -15,7 +17,11 @@
 
         <div class="center gap1 alignl" style="margin-top: 1em !important">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
+            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
           </v-avatar>
           <span class="h10_em">{{item.artist}}</span>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div id="collection-details" class="divcol">
-    <section
-      class="header"
+    <v-img
+      :src="profileBanner" transition="fade-transition" class="header"
       :class="{
         uranium: collection.tier===6,
         diamond: collection.tier===5,
@@ -11,7 +11,6 @@
         bronze: collection.tier===1,
       }"
       :style="`
-        --bg-image: url(${profileBanner});
         --tag-tier: '${
           collection.tier===1 ? 'bronze' :
           collection.tier===2 ? 'silver' :
@@ -21,12 +20,21 @@
           collection.tier===6 ? 'uranium' : 'user'
         }'
       `">
-      <v-avatar
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
-        @mouseenter="showTag()" @mouseleave="hideTag()">
-        <img :src="collection.avatar" alt="avatar image">
-      </v-avatar>
-    </section>
+      <template #default>
+        <v-avatar
+          width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+          @mouseenter="showTag()" @mouseleave="hideTag()">
+          <v-img :src="collection.avatar" alt="avatar image" transition="fade-transition">
+            <template #placeholder>
+              <v-skeleton-loader type="avatar" />
+            </template>
+          </v-img>
+        </v-avatar>
+      </template>
+      <template #placeholder>
+        <v-skeleton-loader type="card" />
+      </template>
+    </v-img>
 
     <section class="container-user">
       <aside class="container-user--social center gap1">
@@ -92,8 +100,8 @@
           bronze: item.tier===1,
         }"
         @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
-        <div
-          class="container-img"
+        <v-img
+          :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -107,14 +115,19 @@
               `: ''
             };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
-          "
-        >
-          <img :src="item.img" :alt="`${item.name} image`">
-        </div>
+          ">
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
         
         <div class="container-content tcenter">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
+            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
           </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga minus aut porro laboriosam saepe dolores, perspiciatis officiis soluta impedit dolorem nesciunt consequuntur corporis explicabo itaque dolore iste quas placeat esse?</p>

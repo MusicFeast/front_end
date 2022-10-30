@@ -14,8 +14,8 @@
               <v-card
                 :key="i" class="card divcol custome"
                 @click="$store.dispatch('goTo', {key: 'collection', item: dataCarousel[+index + i]})">
-                <div
-                  class="container-img"
+                <v-img
+                  :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`" transition="fade-transition"
                   :style="`
                     ${
                       dataCarousel[+index + i].tier ? `--tag-tier: '${
@@ -29,14 +29,19 @@
                       `: ''
                     };
                     ${dataCarousel[+index + i].state ? `--tag-state: '${dataCarousel[+index + i].state}'` : ''}`
-                  "
-                >
-                  <img :src="dataCarousel[+index + i].img" :alt="`${dataCarousel[+index + i].name} image`">
-                </div>
+                  ">
+                  <template #placeholder>
+                    <v-skeleton-loader type="card" />
+                  </template>
+                </v-img>
 
                 <div class="container-content tcenter">
                   <v-avatar style="border: 2px solid #fff">
-                    <img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" style="--w: 100%; --of: cover">
+                    <v-img :src="dataCarousel[+index + i].avatar" :alt="`${dataCarousel[+index + i].artist} image`" transition="fade-transition">
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
                   </v-avatar>
                   <a>{{dataCarousel[+index + i].name}}</a>
                   <p>{{dataCarousel[+index + i].desc}}</p>
@@ -120,8 +125,8 @@
           bronze: item.tier===1,
         }"
         @click="$store.dispatch('goTo', {key: 'collection', item})">
-        <div
-          class="container-img"
+        <v-img
+          :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
           :style="`
             ${
               item.tier ? `--tag-tier: '${
@@ -135,14 +140,19 @@
               `: ''
             };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
-          "
-        >
-          <img :src="item.img" :alt="`${item.name} image`">
-        </div>
+          ">
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
         
         <div class="container-content tcenter">
           <v-avatar style="border: 2px solid #fff">
-            <img :src="item.avatar" :alt="`${item.artist} image`" style="--w: 100%; --of: cover">
+            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
           </v-avatar>
           <a>{{item.name}}</a>
           <p>{{item.desc}}</p>

@@ -6,15 +6,14 @@
   padding-inline: var(--margin-global);
   padding-bottom: 4em;
 
-    .header {
+  .header {
     --margin-items: 3em;
+    --o: visible;
     width: 100vw;
     margin-inline: calc(50% - 50vw);
     margin-bottom: calc(var(--h-header-title) / 2.5);
     @include media(max, small) {margin-bottom: calc(var(--h-header-title) + 52.03px)}
-    height: 50em;
-    background: center no-repeat var(--bg-image);
-    background-size: cover;
+    height: 650px;
     position: relative;
     isolation: isolate;
     &-title {
@@ -43,7 +42,7 @@
         min-height: 10em;
         h2 {font-size: 1.7em}
       }
-      img {
+      .v-image, img {
         @include absolute(auto,0,0,0);
         --h: calc(100% + 25px);
         --b: 25px solid #000;

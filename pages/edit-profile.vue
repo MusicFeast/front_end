@@ -1,9 +1,8 @@
 <template>
   <div id="profile" class="divcol">
-    <section
-      class="header"
+    <v-img
+      :src="imgBanner" transition="fade-transition" class="header"
       :style="`
-        --bg-image: url(${imgBanner});
         --tag-tier: '${
           user.tier===1 ? 'bronze' :
           user.tier===2 ? 'silver' :
@@ -14,36 +13,39 @@
         }'
       `"
     >
-      <v-avatar
-        v-if="imgAvatar"
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
-        @mouseenter="showTag()" @mouseleave="hideTag()">
-        <label for="avatar" title="change avatar">
-          <img :src="imgAvatar" alt="avatar image">
-        </label>
-      </v-avatar>
-      <v-skeleton-loader
-        v-else
-        width="var(--size)" height="var(--size)" style="--size: 13.954375em"
-        type="avatar"
-      ></v-skeleton-loader>
-      <v-file-input
-        id="avatar"
-        v-model="avatar_model"
-        style="display:none"
-        accept="image/png, image/jpeg"
-        @change="previewFile('avatar', avatar_model)"
-      ></v-file-input>
+      <template #default>
+        <v-avatar
+          width="var(--size)" height="var(--size)" style="--size: 13.954375em"
+          @mouseenter="showTag()" @mouseleave="hideTag()">
+          <label for="avatar" title="change avatar">
+            <v-img :src="imgAvatar" alt="avatar image" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
+          </label>
+        </v-avatar>
+        <v-file-input
+          id="avatar"
+          v-model="avatar_model"
+          style="display:none"
+          accept="image/png, image/jpeg"
+          @change="previewFile('avatar', avatar_model)"
+        ></v-file-input>
 
-      <label for="bannerBtn" class="btn activeBtn" style="--p: 0 2em">Upload</label>
-      <v-file-input
-        id="bannerBtn"
-        v-model="banner_model"
-        style="display:none"
-        accept="image/png, image/jpeg"
-        @change="previewFile('banner', banner_model)"
-      ></v-file-input>
-    </section>
+        <label for="bannerBtn" class="btn activeBtn" style="--p: 0 2em">Upload</label>
+        <v-file-input
+          id="bannerBtn"
+          v-model="banner_model"
+          style="display:none"
+          accept="image/png, image/jpeg"
+          @change="previewFile('banner', banner_model)"
+        ></v-file-input>
+      </template>
+      <template #placeholder>
+        <v-skeleton-loader type="card" />
+      </template>
+    </v-img>
 
     <v-form ref="form" class="grid" @submit.prevent="saveForm()">
       <section class="card">
@@ -198,7 +200,7 @@ export default {
     return {
       userExist: undefined,
       imgBanner: undefined,
-      imgAvatar: require('~/assets/sources/images/avatar.png'),
+      imgAvatar: undefined,
       avatar_model: [],
       banner_model: [],
       form: {

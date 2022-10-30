@@ -30,13 +30,14 @@
   --bg: var(--bg-tier-hover);
   &.comming {pointer-events: none}
   @include media(min, small) {--w: min(100%, 300px)}
-  .container-img {
+  .v-image {
     --h: 272px;
+    --br: 5px;
     min-height: var(--h);
     height: var(--h);
     overflow: hidden;
     position: relative;
-    img {--w: 100%; --h: 100%; --br: 5px; transition: .5s $ease}
+    &__image {--w: 100%; --h: 100%; transition: .5s $ease}
 
     // tag state
     &::before {
@@ -123,15 +124,15 @@
   // normal hover
   &:hover:not(.uranium, .diamond, .platinum, .gold, .silver, .bronze) {
     box-shadow: 0 0 0 1px var(--accent) !important;
-    .container-img img {--t: scale(1.2)}
+    .v-image .v-image__image {--t: scale(1.2)}
   }
   // tier tag background
-  &.uranium .container-img::after {--bg-tier: linear-gradient(to right, #87B95C, #9F9B1B, #0C4020)}
-  &.diamond .container-img::after {--bg-tier: linear-gradient(to right, #DBDBDB, #AC38EE, #45348E, #B49176)}
-  &.platinum .container-img::after {--bg-tier: linear-gradient(to right, #DBD9D7, #D27073, #503367, #000000)}
-  &.gold .container-img::after {--bg-tier: linear-gradient(to right, #EE9938, #672F04)}
-  &.silver .container-img::after {--bg-tier: linear-gradient(to right, #D1D1D1, #000000)}
-  &.bronze .container-img::after {--bg-tier: linear-gradient(to right, #7D3716, #D57535, #5E170B)}
+  &.uranium .v-image::after {--bg-tier: linear-gradient(to right, #87B95C, #9F9B1B, #0C4020)}
+  &.diamond .v-image::after {--bg-tier: linear-gradient(to right, #DBDBDB, #AC38EE, #45348E, #B49176)}
+  &.platinum .v-image::after {--bg-tier: linear-gradient(to right, #DBD9D7, #D27073, #503367, #000000)}
+  &.gold .v-image::after {--bg-tier: linear-gradient(to right, #EE9938, #672F04)}
+  &.silver .v-image::after {--bg-tier: linear-gradient(to right, #D1D1D1, #000000)}
+  &.bronze .v-image::after {--bg-tier: linear-gradient(to right, #7D3716, #D57535, #5E170B)}
 }
 
 // h2 titles

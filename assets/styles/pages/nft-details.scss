@@ -20,9 +20,11 @@
     @include media(min, small) {--gtc: repeat(2, 1fr)}
     &-background {
       @include media(max, small) {height: 400px}
-      background: no-repeat center var(--bg-image);
-      background-size: cover;
       padding: var(--padding-header);
+      .v-responsive__content {
+        display: flex;
+        flex-direction: column;
+      }
     }
     article {
       --br: none;
