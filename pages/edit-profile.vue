@@ -285,15 +285,9 @@ export default {
       .then(fetch => {
         const data = fetch.data[0]
         if (data) {
-          for (const [keys, values] of Object.entries(this.form)) {
-            const dataValues = data[keys]
-            if (typeof dataValues !== "object") { this.form[keys] = dataValues }
-            else {
-              Object.keys(values).forEach(key => { values[key] = dataValues[key] })
-            }
-          }
+          this.$equalData(this.form, data)
           this.form.id = data.id
-          this.imgBanner = data.avatar ? this.baseUrl+data.banner : this.user.banner
+          this.imgBanner = data.banner ? this.baseUrl+data.banner : this.user.banner
           this.imgAvatar = data.avatar ? this.baseUrl+data.avatar : this.user.avatar
           this.userExist = true
         } else {
@@ -333,35 +327,18 @@ export default {
       // checkout no repeated info
       this.$axios.post("https://testnet.musicfeast.io/musicfeast/api/v1/validate-perfil/", consult).then(fetch => {
         this.djangoExistenceList = fetch.data
-
-        if (!this.$refs.form.validate()) {
-          return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
-        }
         
-        const formData = new FormData();
-        for (const [keys, values] of Object.entries(this.form)) {
-          // set empty string in null 
-          if (this.form[keys] && typeof this.form[keys] === "object") {
-            Object.keys(values).forEach(key => { values[key] ??= "" })
-          } else { this.form[keys] ??= "" }
-          
-          // push to form data
-          const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(values)
-          const file = values?.type
-          if (typeof values === 'object' && !file) { formData.append(keys, JSON.stringify(values).toLowerCase()) } // if object only
-          else if (file) { formData.append(keys, values) } // if file object
-          else if (excludeUrl) { formData.append(keys, typeof values === 'string' ? values.toLowerCase() : values || "") } // else
-        }
-
+        if (!this.$refs.form.validate()) return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
+        
         // save form ✔️
         if (this.userExist) {
-          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, formData)
+          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
           .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error);
           })
         } else {
-          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', formData)
+          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.$formData(this.form))
           .then(() => this.goBack()).catch(error => {
             this.$alert("cancel", {desc: error.message})
             console.error(error);

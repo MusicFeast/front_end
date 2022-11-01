@@ -4,7 +4,7 @@
       <template #default>
         <aside class="header-title">
           <h2>{{artist.name}}</h2>
-          <v-img :src="artist.image" alt="avatar image" transition="fade-transition">
+          <v-img :src="artist.avatar" alt="avatar image" transition="fade-transition">
             <template #placeholder>
               <v-skeleton-loader type="avatar" />
             </template>
