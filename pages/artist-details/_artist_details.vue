@@ -1,10 +1,10 @@
 <template>
   <div id="artist-details" class="divcol">
-    <v-img :src="artist.image" class="header" transition="fade-transition">
+    <v-img :src="artist.banner" class="header" transition="fade-transition">
       <template #default>
         <aside class="header-title">
           <h2>{{artist.name}}</h2>
-          <v-img :src="artist.avatar" alt="avatar image" transition="fade-transition">
+          <v-img :src="artist.image" alt="avatar image" transition="fade-transition">
             <template #placeholder>
               <v-skeleton-loader type="avatar" />
             </template>
@@ -20,7 +20,7 @@
         </aside>
       </template>
       <template #placeholder>
-        <v-skeleton-loader type="card" />
+        <v-skeleton-loader v-show="artist.banner" type="card" />
       </template>
     </v-img>
     

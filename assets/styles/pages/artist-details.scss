@@ -9,6 +9,7 @@
   .header {
     --margin-items: 3em;
     --o: visible;
+    --bg: hsl(0, 0%, 62%, .4);
     width: 100vw;
     margin-inline: calc(50% - 50vw);
     margin-bottom: calc(var(--h-header-title) / 2.5);

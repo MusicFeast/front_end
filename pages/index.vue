@@ -118,7 +118,10 @@ export default {
     // get artists
     this.$axios.get(`${this.baseUrl}api/v1/get-artists-home`)
       .then(fetch => {
-        fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
+        fetch.data.forEach(e => {
+          e.banner = this.baseUrl+e.banner;
+          e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/images/avatar.png');
+        });
         this.dataArtists = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})
