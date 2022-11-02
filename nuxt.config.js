@@ -43,7 +43,7 @@ export default {
   },
 
   loading: {
-    color: 'var(--clr-primary)',
+    color: 'var(--primary)',
     height: '1em',
   },
 
