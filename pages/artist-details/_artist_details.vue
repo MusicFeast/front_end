@@ -188,7 +188,7 @@
 
       <Filters
         contents
-        :hide="['filterA']"
+        :hide="[2]"
         :search="search"
         :filter-b="filter.list"
         @search="(model) => search = model"
