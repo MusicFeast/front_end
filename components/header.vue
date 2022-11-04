@@ -129,8 +129,8 @@ export default {
 
     // mobile listener scroll
     window.onscroll = () => {
-      if (window.innerWidth <= 880 && document.documentElement.scrollTop >= 80) {header.classList.add("transparent")}
-      else {header.classList.remove("transparent")}
+      if (document.documentElement.scrollTop >= 80) {header.classList.add("header-transparent")}
+      else {header.classList.remove("header-transparent")}
     }
   },
   // created() {
