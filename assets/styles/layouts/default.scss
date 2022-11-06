@@ -6,9 +6,9 @@
   background-size: cover;
   &.vip {
     background-image: linear-gradient(to right top, #F7931E, #7C4A0F);
-    #header {
+    #navbar {
       &::before {background-image: linear-gradient(to right top, #F7931E, #7C4A0F) !important}
-      &.header-transparent::before {background: linear-gradient(to right top, hsl(32 93% 54% / .85), hsl(32 78% 27% / .85) 40%) !important}
+      &.navbar-transparent::before {background: linear-gradient(to right top, hsl(32 93% 54% / .85), hsl(32 78% 27% / .85) 40%) !important}
     }
   }
   // tier background
@@ -30,10 +30,10 @@
   }
   // footer margin modifiable
   & .with {
-    padding-block: var(--h-header) var(--h-footer) !important
+    padding-block: var(--h-navbar) var(--h-footer) !important
   }
   & .without {
-    padding-block: var(--h-header) 0 !important
+    padding-block: var(--h-navbar) 0 !important
   }
 }
 

@@ -1,13 +1,13 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-// // // header // // // 
+// // // navbar // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-#header {
+#navbar {
   font-size: 16px;
   @include media(min, 2500px) {font-size: 19px !important}
   @include media(max, 1000px) {font-size: 14px !important}
   
   @include media(min, small) {padding-inline: 3em}
-  height: var(--h-header) !important;
+  height: var(--h-navbar) !important;
   animation: movedown .5s $ease-return;
   transition: 0.4s ease-in-out;
   &::before {
@@ -17,14 +17,14 @@
     background: linear-gradient(-30deg, var(--primary), var(--secondary) 40%) !important;
     transition: 0.4s ease-in-out;
   }
-  &.header-transparent::before {background: linear-gradient(-30deg, hsl(0 84% 58% / .85), hsl(0 0% 0% / .85) 40%) !important}
+  &.navbar-transparent::before {background: linear-gradient(-30deg, hsl(0 84% 58% / .85), hsl(0 0% 0% / .85) 40%) !important}
   .v-toolbar__content {
     * {--fw: 500}
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-inline: 2em;
-    height: var(--h-header) !important;
+    height: var(--h-navbar) !important;
     // overflow: hidden;
     #logoApp {
       width: min(70%, 7.5em);
@@ -35,7 +35,7 @@
 }
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-// // // menu header // // // 
+// // // menu navbar // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #menuProfile {
   font-size: clamp(14px, 2vw, 16px);

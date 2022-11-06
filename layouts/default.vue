@@ -19,7 +19,7 @@
     <!-- just for testing tiers -->
 
     <Alerts ref="alerts"></Alerts>
-    <Header ref="header" />
+    <Navbar ref="navbar" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
       <nuxt-child />
     </v-main>

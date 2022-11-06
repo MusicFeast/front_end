@@ -121,7 +121,9 @@ export default {
           fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
           this.dataOtherNews = fetch.data
           if (localStorage.getItem("validator-news") === "pages") { this.dataNews = this.news }
-          else { this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1] }
+          else if (localStorage.getItem("validator-news") === "navbar") {
+            this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
+          }
         }).catch(error => {
           this.$alert("cancel", {desc: error.message})
           console.error(error);

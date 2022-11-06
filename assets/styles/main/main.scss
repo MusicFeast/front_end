@@ -194,7 +194,7 @@ h2.Title {
       line-height: 1.2;
       &:last-child {margin-bottom: 0 !important}
     }
-    &-header {
+    &-navbar {
       font-size: 1.5em;
       border-radius: 5px;
       background-color: rgb(0, 0, 0, .4);
@@ -265,12 +265,12 @@ h2.Title {
   width: var(--w-drawer) !important;
   background: linear-gradient(to right bottom, var(--primary), var(--secondary)) !important;
   .v-navigation-drawer__content {
-    --h-drawer-header: 158.13px;
+    --h-drawer-navbar: 158.13px;
     //
-    --padding-drawer-header: 2em;
-    &--header {
+    --padding-drawer-navbar: 2em;
+    &--navbar {
       padding: 1em;
-      padding-top: var(--padding-drawer-header);
+      padding-top: var(--padding-drawer-navbar);
       position: relative;
       // line
       &::before {
@@ -284,7 +284,7 @@ h2.Title {
     }
 
     &--content {
-      height: calc(100% - (var(--h-drawer-header) + var(--padding-drawer-header)) );
+      height: calc(100% - (var(--h-drawer-navbar) + var(--padding-drawer-navbar)) );
       & > :is(.v-expansion-panels, .v-list .v-list-item) {
         span, img {
           font-weight: 400;

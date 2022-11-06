@@ -1,5 +1,5 @@
 <template>
-  <div id="menuHeader">
+  <div id="menuNavbar">
     <!-- drawer -->
     <v-navigation-drawer
       id="drawer-toggle"
@@ -51,8 +51,8 @@
             
             <v-list-item
               v-for="(item,i) in $parent.dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
-              :ripple="false" :class="{active: item.active}" @click="item.active?'':$parent.dataMenuProfile.forEach(e=>{e.active=false;
-              item.active=true});menuProfile = false; drawer = false; $router.push(localePath(item.to))">
+              :ripple="false" :class="{active: item.to === $route.path}"
+              @click="menuProfile = false; drawer = false; $router.push(localePath(item.to))">
               <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
                 {{item.title}}
                 <v-chip
@@ -83,8 +83,8 @@
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
         <v-list class="fill_w">
           <v-list-item
-            v-for="(item,i) in $parent.dataNavbar" :key="i" :ripple="false" link :class="{active: item.active}"
-            @click="$parent.dataNavbar.forEach(e=>e.active=false); item.active=true; drawer = false; $router.push(localePath(item.to))">
+            v-for="(item,i) in $parent.dataNavbar" :key="i" :ripple="false" link :class="{active: item.to === $route.path}"
+            @click="drawer = false; $router.push(localePath(item.to))">
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content" class="tcap">
                 {{ item.name }}
@@ -109,7 +109,7 @@
 
 <script>
 export default {
-  name: "HeaderMenuComponent",
+  name: "NavbarMenuComponent",
   data() {
     return {
       messages: 1,
@@ -136,9 +136,6 @@ export default {
     // set route push to marketplace
   },
   methods: {
-    Logout(key) {
-      if (key === 'logout') {localStorage.setItem('auth', false);this.$router.push(this.localePath('/'));this.$router.go()}
-    },
     // isScrollTop() {
     //   if (this.$route.path === this.localePath('/') {
     //     this.dataDrawer.forEach(e => {
@@ -161,4 +158,4 @@ export default {
 };
 </script>
 
-<style src="~/assets/styles/components/header.scss" lang="scss" />
+<style src="~/assets/styles/components/navbar.scss" lang="scss" />

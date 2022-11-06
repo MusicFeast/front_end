@@ -1,7 +1,7 @@
 <template>
   <div>
-    <MenuHeader ref="menu"></MenuHeader>
-    <v-app-bar id="header" fixed class="font2 isolate" color="transparent">
+    <MenuNavbar ref="menu"></MenuNavbar>
+    <v-app-bar id="navbar" fixed class="font2 isolate" color="transparent">
       <a id="logoApp" class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
         <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">
@@ -52,8 +52,8 @@
             
             <v-list-item
               v-for="(item,i) in dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
-              :ripple="false" :class="{active: item.active}" @click="item.active?'':dataMenuProfile.forEach(e=>{e.active=false;
-              item.active=true});menuProfile = false; drawer = false; $router.push(localePath(item.to))">
+              :ripple="false" :class="{active: item.to === $route.path}"
+              @click="menuProfile = false; drawer = false; $router.push(localePath(item.to))">
               <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
                 {{item.title}}
                 <v-chip
@@ -90,29 +90,27 @@
 
 <script>
 export default {
-  name: "HeaderComponent",
+  name: "NavbarComponent",
   data() {
     return {
       menuProfile: false,
       dataMenuProfile: [
         {
           title: "my profile",
-          to: "/profile",
-          active: false,
+          to: "/profile"
         },
         {
           title: "special marketplace",
-          to: "/marketplace-vip",
-          active: false,
+          to: "/marketplace-vip"
         },
       ],
       dataNavbar: [
-        { name: "home", to: "/", active: false },
-        { name: "about", to: "/about", active: false },
-        { name: "artists", to: "/artists", active: false },
-        { name: "news", to: "/news-details", active: false },
-        { name: "marketplace", to: "", active: false },
-        { name: "contact", to: "/", active: false },
+        { name: "home", to: "/" },
+        { name: "about", to: "/about" },
+        { name: "artists", to: "/artists" },
+        { name: "news", to: "/news-details" },
+        { name: "marketplace", to: "" },
+        { name: "contact", to: "" },
       ],
     };
   },
@@ -120,7 +118,7 @@ export default {
     user() {return this.$store.state.dataUser},
   },
   mounted() {
-    const header = document.querySelector("#header");
+    const navbar = document.querySelector("#navbar");
     
     // tier loading data
     this.user.tier < 3 
@@ -129,8 +127,8 @@ export default {
 
     // mobile listener scroll
     window.onscroll = () => {
-      if (document.documentElement.scrollTop >= 80) {header.classList.add("header-transparent")}
-      else {header.classList.remove("header-transparent")}
+      if (document.documentElement.scrollTop >= 80) {navbar.classList.add("navbar-transparent")}
+      else {navbar.classList.remove("navbar-transparent")}
     }
   },
   // created() {
@@ -146,7 +144,7 @@ export default {
   methods: {
     goTo(to) {
       this.$router.push(this.localePath(to))
-      if (to === '/news-details') { localStorage.setItem("validator-news", "header") }
+      if (to === '/news-details') { localStorage.setItem("validator-news", "navbar") }
     }
     // changeTheme(theme) {
     //   this.$store.commit("switchTheme", theme);
@@ -156,4 +154,4 @@ export default {
 };
 </script>
 
-<style src="~/assets/styles/components/header.scss" lang="scss" />
+<style src="~/assets/styles/components/navbar.scss" lang="scss" />
