@@ -12,12 +12,14 @@
 </template>
 
 <script>
-const pageName = 'terms-and-conditions';
+import styles from '~/mixins/styles'
 
 export default {
   name: "TermsAndConditions",
+  mixins: [styles],
   data() {
     return {
+      pageName: 'terms-and-conditions',
       dataTerms: [
         {
           update: 'last updated: september 12, 2022',
@@ -42,23 +44,6 @@ export default {
       title,
     }
   },
-  mounted() {
-    this.heightH2();
-
-    // resize listener
-    window.addEventListener('resize', this.heightH2);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.heightH2);
-  },
-  methods: {
-    heightH2() {
-      const page = document.querySelector(`#${pageName}`);
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
-      });
-    },
-  }
 };
 </script>
 

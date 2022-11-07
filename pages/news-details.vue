@@ -73,13 +73,14 @@
 
 <script>
 import computeds from '~/mixins/computeds'
-const pageName = 'news-details';
+import styles from '~/mixins/styles'
 
 export default {
   name: "NewsDetailsPage",
-  mixins: [computeds],
+  mixins: [computeds, styles],
   data() {
     return {
+      pageName: 'news-details',
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
         { icon: "mdi-twitter", link: "#" },
@@ -99,13 +100,6 @@ export default {
   },
   mounted() {
     this.getData();
-    this.heightH2();
-
-    // resize listener
-    window.addEventListener('resize', this.heightH2);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.heightH2);
   },
   methods: {
     async getData() {
@@ -123,12 +117,6 @@ export default {
           console.error(err);
         }
       );
-    },
-    heightH2() {
-      const page = document.querySelector(`#${pageName}`);
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
-      });
     },
     selectNews(item) {
       this.dataNews = item;

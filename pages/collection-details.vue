@@ -164,13 +164,14 @@
 
 <script>
 import computeds from '~/mixins/computeds'
-const pageName = 'collection-details';
+import styles from '~/mixins/styles'
 
 export default {
   name: "CollectionPage",
-  mixins: [computeds],
+  mixins: [computeds, styles],
   data() {
     return {
+      pageName: 'collection-details',
       profileBanner: require('~/assets/sources/images/img-header-profile.jpg'),
       dataSocial: [
         { icon: "mdi-share-variant" },
@@ -284,22 +285,7 @@ export default {
   created() {
     if (!this.collection) {this.$router.push(this.localePath('/marketplace'))}
   },
-  mounted() {
-    this.heightH2();
-
-    // resize listener
-    window.addEventListener('resize', this.heightH2);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.heightH2);
-  },
   methods: {
-    heightH2() {
-      const page = document.querySelector(`#${pageName}`);
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
-      });
-    },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
   }

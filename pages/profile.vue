@@ -148,13 +148,14 @@
 
 <script>
 import computeds from '~/mixins/computeds'
-const pageName = 'profile';
+import styles from '~/mixins/styles'
 
 export default {
   name: "ProfilePage",
-  mixins: [computeds],
+  mixins: [computeds, styles],
   data() {
     return {
+      pageName: 'profile',
       dataProfits: {
         nfts: 7659,
         chats: 3,
@@ -261,13 +262,6 @@ export default {
   },
   mounted() {
     // this.setProfile();
-    this.heightH2();
-
-    // resize listener
-    window.addEventListener('resize', this.heightH2);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.heightH2);
   },
   methods: {
     // setProfile() {
@@ -275,12 +269,6 @@ export default {
     //     this.$router.replace(`${this.$route.path}/:${this.user.username}`)
     //   }
     // },
-    heightH2() {
-      const page = document.querySelector(`#${pageName}`);
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
-      });
-    },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
   }
