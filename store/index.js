@@ -134,10 +134,10 @@ export const actions = {
       }).then(() => {
         this.$router.push(
           this.localePath(key === 'nft'
-            ? `/nft-details`
+            ? `/nft-details/`
             : state.dataUser.tier < 3
-            ? `/user-nft-details`
-            : `/user-nft-details-vip`
+            ? `/user-nft-details/`
+            : `/user-nft-details-vip/`
           )
         );
       }).catch((error) => {
@@ -147,7 +147,7 @@ export const actions = {
       })
     } else {
       localStorage.setItem(key, JSON.stringify(item))
-      this.$router.push(this.localePath(`/${key}-details`));
+      this.$router.push(this.localePath(`/${key}-details/`));
     }
   },
 };
