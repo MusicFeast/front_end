@@ -107,7 +107,10 @@ export default {
     // get carousel
     this.$axios.get(`${this.baseUrl}api/v1/get-carousel`)
       .then(fetch => {
-        fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
+        fetch.data.forEach(e => {
+          e.image = this.baseUrl+e.image
+          e.image_mobile = this.baseUrl+e.image_mobile
+        });
         this.dataHero = fetch.data
       }).catch(error => {
         this.$alert("cancel", {desc: error.message})

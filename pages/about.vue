@@ -7,7 +7,7 @@
     <section class="divcol" style="margin-block: 2.5em; padding-inline: var(--margin-separator); gap: 3em">
       <div v-for="(item,i) in dataAbout" :key="i">
         <h2 class="tup">{{item.title}}</h2>
-        <p class="p">{{item.desc}}</p>
+        <p class="p">{{item.description}}</p>
       </div>
     </section>
 
@@ -19,9 +19,9 @@
           <v-sheet color="transparent">
             <div>
               <v-btn
-                v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank"
+                v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.user" target="_blank"
                 :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
-                <v-icon color="var(--accent)">{{item2.icon}}</v-icon>
+                <v-icon color="var(--accent)">{{item2.name}}</v-icon>
               </v-btn>
             </div>
           </v-sheet>
@@ -34,11 +34,11 @@
         <v-sheet class="container-team--content divcol gap1" color="transparent">
           <h3 class="p">{{item.name}}</h3>
           <span>{{item.position}}</span>
-          <p class="p">{{item.desc}}</p>
+          <p class="p">{{item.description}}</p>
         </v-sheet>
       </template>
 
-      <tempalte v-else>
+      <template v-else>
         <aside class="container-team--header" color="transparent">
           <div class="wrapper-img">
             <img :src="item.img" :alt="`${item.name}'s image`">
@@ -57,68 +57,23 @@
           </div>
         </aside>
 
-        <p class="p">{{item.desc}}</p>
-      </tempalte>
+        <p class="p">{{item.description}}</p>
+      </template>
     </section>
   </div>
 </template>
 
 <script>
+import isMobile from '~/mixins/isMobile'
 const pageName = 'about';
 
 export default {
   name: "AboutPage",
+  mixins: [isMobile],
   data() {
     return {
-      isMobile: undefined,
-      dataAbout: [
-        {
-          title: "music feast",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.",
-        },
-        {
-          title: "everyone eats entertainment (eee)",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet",
-        },
-      ],
-      dataTeam: [
-        {
-          img: require("~/assets/sources/team/team.jpg"),
-          name: "herian palencia",
-          position: "layout designer",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit",
-          social: [
-            { icon: "mdi-instagram", link: "" },
-            { icon: "mdi-twitter", link: "" },
-            { icon: "mdi-facebook", link: "" },
-            { icon: "discord", link: "" },
-          ],
-        },
-        {
-          img: require("~/assets/sources/team/team.jpg"),
-          name: "herian palencia",
-          position: "layout designer",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit",
-          social: [
-            { icon: "mdi-instagram", link: "" },
-            { icon: "mdi-twitter", link: "" },
-            { icon: "mdi-facebook", link: "" },
-            { icon: "discord", link: "" },
-          ],
-        },
-        {
-          img: require("~/assets/sources/team/team.jpg"),
-          name: "herian palencia",
-          position: "layout designer",
-          desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit",
-          social: [
-            { icon: "mdi-instagram", link: "" },
-            { icon: "mdi-twitter", link: "" },
-            { icon: "mdi-facebook", link: "" },
-            { icon: "discord", link: "" },
-          ],
-        },
-      ],
+      dataAbout: [],
+      dataTeam: [],
     }
   },
   head() {
@@ -127,9 +82,15 @@ export default {
       title,
     }
   },
+  computed: {
+    baseUrl() {
+      return this.$axios.defaults.baseURL
+    }
+  },
   mounted() {
+    this.getAbout();
+    this.getTeam();
     this.heightH2();
-    this.listenerMobile();
 
     // resize listener
     window.addEventListener('resize', this.heightH2);
@@ -138,17 +99,46 @@ export default {
     window.removeEventListener('resize', this.heightH2);
   },
   methods: {
+    getAbout() {
+      this.$axios.get("https://testnet.musicfeast.io/musicfeast/api/v1/get-about").then(result => {
+        for (const item of result.data) { this.dataAbout.push(item) }
+      }).catch((err) => {
+        console.error(err)
+      });
+    },
+    getTeam() {
+      this.$axios.get("https://testnet.musicfeast.io/musicfeast/api/v1/get-core-team").then(result => {
+        for (const item of result.data) {
+          item.img = this.baseUrl + item.img
+          item.social.forEach(el => {
+            if (el.name === "telegram") {
+              // telegram
+              el.user = `https://t.me/${el.user}`
+            } else if (el.name === "discord") {
+              // discord
+              el.user = `https://discord.com/channels/${el.user}`
+            } else if (el.name === "instagram") {
+              // instagram
+              el.name = 'mdi-instagram'
+              el.user = `https://instagram.com/${el.user}`
+            } else if (el.name === "twitter") {
+              // twitter
+              el.name = 'mdi-twitter'
+              el.user = `https://twitter.com/${el.user}`
+            }
+          })
+          this.dataTeam.push(item)
+        }
+      }).catch((err) => {
+        console.error(err)
+      });
+    },
     heightH2() {
       const page = document.querySelector(`#${pageName}`);
       document.querySelectorAll('h2.Title').forEach(h2 => {
         page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
       });
     },
-    listenerMobile() {
-      if (window.innerWidth <= 880) {
-        this.isMobile = true
-      } else {this.isMobile = false}
-    }
   }
 };
 </script>
