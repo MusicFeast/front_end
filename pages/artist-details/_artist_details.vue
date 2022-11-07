@@ -49,7 +49,7 @@
 
     <v-expansion-panels id="artist-about" class="custome-expansion">
       <v-expansion-panel>
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">About Artist</v-expansion-panel-header>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Nutritional Facts</v-expansion-panel-header>
 
         <v-expansion-panel-content>
           <p v-for="n in 3" :key="n">

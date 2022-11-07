@@ -34,10 +34,6 @@ export const state = () => ({
 });
 
 export const mutations = {
-  // just for testing tiers
-  tierTest(state) {state.dataUser.tier === 6 ? state.dataUser.tier = 1 : state.dataUser.tier++},
-  // just for testing tiers
-
   switchTheme(state, theme) {
     // theme
     state.theme = theme
