@@ -3,25 +3,9 @@
     <section id="about--home">
       <h1>ABOUT</h1>
       <v-sheet color="transparent" class="content divcol gap1 gap2mobile">
-        <div class="content-top divcol">
-          <h2>MUSIC FEAST</h2>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
-            at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
-            at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
-          </p>
-          <a class="eliminarmobile" @click="$router.push(localePath('/about'))">More</a>
-        </div>
-
-        <div class="content-bottom divcol">
-          <h2>Everyone Eats Entertainment (EEE)</h2>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
-            at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa nulla debitis, est modi eius cupiditate nesciunt mollitia dolorum! In, 
-            at! Dolor quisquam dignissimos adipisci molestias debitis esse eos sequi nisi.
-          </p>
+        <div v-for="(item,i) in dataAbout" :key="i" class="content-top divcol">
+          <h2 class="tup">{{item.title}}</h2>
+          <p class="p">{{item.description}}</p>
           <a class="eliminarmobile" @click="$router.push(localePath('/about'))">More</a>
         </div>
       </v-sheet>
@@ -88,14 +72,18 @@
 export default {
   name: "AboutXArtistsSection",
   props: {
+    dataAbout: {
+      type: Array,
+      default: undefined
+    },
     dataArtists: {
       type: Array,
-      default: null
+      default: undefined
     }
   },
   data() {
     return {
-      slider: null,
+      slider: undefined,
     }
   },
   methods: {

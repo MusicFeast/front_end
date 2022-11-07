@@ -7,20 +7,20 @@
       hide-delimiter-background
       :show-arrows="false"
     >
-      <template v-for="(item, index) in dataArtists">
+      <template v-for="(item, index) in dataArtists_carousel">
         <v-carousel-item v-if="(index + 1) % columnsCarousel() === 1 || columnsCarousel() === 1" :key="index">
           <template v-for="(n,i) in columnsCarousel()">
-            <template v-if="(+index + i) < dataArtists.length">
+            <template v-if="(+index + i) < dataArtists_carousel.length">
               <v-img
-                :key="i" :src="dataArtists[+index + i].image" :alt="`${dataArtists[+index + i].name} image`" transition="fade-transition"
-                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists[+index + i]})"
+                :key="i" :src="dataArtists_carousel[+index + i].image" :alt="`${dataArtists_carousel[+index + i].name} image`" transition="fade-transition"
+                @click="$store.dispatch('goTo', {key: 'artist', item: dataArtists_carousel[+index + i]})"
               >
                 <template #default>
                   <v-sheet>
                     <div class="divcol">
-                      <h3>{{dataArtists[+index + i].name}}</h3>
+                      <h3>{{dataArtists_carousel[+index + i].name}}</h3>
                       <p>
-                        {{dataArtists[+index + i].description}}
+                        {{dataArtists_carousel[+index + i].description}}
                       </p>
                     </div>
                   </v-sheet>
@@ -104,6 +104,9 @@ export default {
     }
   },
   computed: {
+    dataArtists_carousel() {
+      return this.dataArtists.filter(data => !data.comming)
+    },
     dataArtists_pagination() {
       return this.$store.getters.pagination({
         items: this.dataArtists, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
@@ -138,15 +141,15 @@ export default {
     },
     getData() {
       this.$axios.get(`${this.baseUrl}api/v1/get-artists`)
-        .then(fetch => {
-          fetch.data.forEach(e => {
+        .then(result => {
+          result.data.forEach(e => {
             e.banner = this.baseUrl+e.banner;
             e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/images/avatar.png');
           });
-          this.dataArtists = fetch.data
-        }).catch(error => {
-          this.$alert("cancel", {desc: error.message})
-          console.error(error);
+          this.dataArtists = result.data
+        }).catch(err => {
+          this.$alert("cancel", {desc: err.message})
+          console.error(err);
         }
       );
     },

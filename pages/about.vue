@@ -66,13 +66,14 @@
 <script>
 import isMobile from '~/mixins/isMobile'
 import computeds from '~/mixins/computeds'
-const pageName = 'about';
+import styles from '~/mixins/styles'
 
 export default {
   name: "AboutPage",
-  mixins: [isMobile, computeds],
+  mixins: [isMobile, computeds, styles],
   data() {
     return {
+      pageName: "about",
       dataAbout: [],
       dataTeam: [],
     }
@@ -86,19 +87,12 @@ export default {
   mounted() {
     this.getAbout();
     this.getTeam();
-    this.heightH2();
-
-    // resize listener
-    window.addEventListener('resize', this.heightH2);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.heightH2);
   },
   methods: {
     getAbout() {
       this.$axios.get("https://testnet.musicfeast.io/musicfeast/api/v1/get-about").then(result => {
         for (const item of result.data) { this.dataAbout.push(item) }
-      }).catch((err) => {
+      }).catch(err => {
         console.error(err)
       });
     },
@@ -127,14 +121,8 @@ export default {
           })
           this.dataTeam.push(item)
         }
-      }).catch((err) => {
+      }).catch(err => {
         console.error(err)
-      });
-    },
-    heightH2() {
-      const page = document.querySelector(`#${pageName}`);
-      document.querySelectorAll('h2.Title').forEach(h2 => {
-        page.style.setProperty('--h-title', `${h2.getBoundingClientRect().height}px`)
       });
     },
   }

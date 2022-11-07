@@ -279,8 +279,8 @@ export default {
       const accountId = JSON.parse(localStorage.getItem("undefined_wallet_auth_key")).accountId
       // get data user
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
-      .then(fetch => {
-        const data = fetch.data[0]
+      .then(result => {
+        const data = result.data[0]
         if (data) {
           this.$equalData(this.form, data)
           this.form.id = data.id
@@ -293,9 +293,9 @@ export default {
           this.imgAvatar = this.user.avatar
           this.userExist = false
         }
-      }).catch(error => {
-        this.$alert("cancel", {desc: error.message})
-        console.error(error);
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
       })
     },
     clearRepeted(key) {
@@ -322,29 +322,29 @@ export default {
       }
       Object.keys(consult).forEach(key => { if (consult[key] === null) { consult[key] = "" } })
       // checkout no repeated info
-      this.$axios.post("https://testnet.musicfeast.io/musicfeast/api/v1/validate-perfil/", consult).then(fetch => {
-        this.djangoExistenceList = fetch.data
+      this.$axios.post("https://testnet.musicfeast.io/musicfeast/api/v1/validate-perfil/", consult).then(result => {
+        this.djangoExistenceList = result.data
         
         if (!this.$refs.form.validate()) return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
         
         // save form ✔️
         if (this.userExist) {
           this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
-          .then(() => this.goBack()).catch(error => {
-            this.$alert("cancel", {desc: error.message})
-            console.error(error);
+          .then(() => this.goBack()).catch(err => {
+            this.$alert("cancel", {desc: err.message})
+            console.error(err);
           })
         } else {
           this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.$formData(this.form))
-          .then(() => this.goBack()).catch(error => {
-            this.$alert("cancel", {desc: error.message})
-            console.error(error);
+          .then(() => this.goBack()).catch(err => {
+            this.$alert("cancel", {desc: err.message})
+            console.error(err);
           })
         }
       // catch error repeated values consult
-      }).catch(error => {
-        this.$alert("cancel", {desc: error.message})
-        console.error(error)
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err)
       })
     },
     goBack() {

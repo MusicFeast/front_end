@@ -111,16 +111,16 @@ export default {
     async getData() {
       // get news
       await this.$axios.get(`${this.baseUrl}api/v1/get-news`)
-        .then(fetch => {
-          fetch.data.forEach(e => {e.image = this.baseUrl+e.image});
-          this.dataOtherNews = fetch.data
+        .then(result => {
+          result.data.forEach(e => {e.image = this.baseUrl+e.image});
+          this.dataOtherNews = result.data
           if (localStorage.getItem("validator-news") === "pages") { this.dataNews = this.news }
           else if (localStorage.getItem("validator-news") === "navbar") {
             this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           }
-        }).catch(error => {
-          this.$alert("cancel", {desc: error.message})
-          console.error(error);
+        }).catch(err => {
+          this.$alert("cancel", {desc: err.message})
+          console.error(err);
         }
       );
     },

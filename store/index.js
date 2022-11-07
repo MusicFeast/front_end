@@ -110,18 +110,18 @@ export const actions = {
       wallet = new WalletConnection(near);
       // get data user
       this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": wallet.getAccountId() })
-      .then(fetch => {
+      .then(result => {
         // set data profile
-        fetch.data[0] ? commit("setData", fetch.data[0]) : commit("setData", wallet.getAccountId());
+        result.data[0] ? commit("setData", result.data[0]) : commit("setData", wallet.getAccountId());
       // catch error django
-      }).catch(error => {
-        this.$alert("cancel", {desc: error.message})
-        console.error(error);
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
       })
     // catch error near
-    } catch (error) {
-      this.$alert("cancel", {desc: error.message})
-      console.error(error);
+    } catch (err) {
+      this.$alert("cancel", {desc: err.message})
+      console.error(err);
     }
   },
   goTo({commit, state}, {key, item, event, id}) {
@@ -142,10 +142,10 @@ export const actions = {
             : `/user-nft-details-vip`
           )
         );
-      }).catch((error) => {
-        this.$alert("cancel", {desc: error.message})
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
         this.$loadCursor(false)
-        console.error(error);
+        console.error(err);
       })
     } else {
       localStorage.setItem(key, JSON.stringify(item))
