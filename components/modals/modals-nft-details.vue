@@ -421,8 +421,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "NftDetailsModals",
+  mixins: [computeds],
   data() {
     return {
       modalSell: false,
@@ -453,14 +456,6 @@ export default {
       hash_redemption: "5xfi6WGSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT5GSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT4",
       dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
     };
-  },
-  computed: {
-    user() {return this.$store.state.dataUser},
-    nft() {
-      return JSON.parse(localStorage.getItem(
-        this.$route.path.includes("/user-nft") ? "user-nft" : "nft"
-      ))
-    },
   },
   mounted() {
   },

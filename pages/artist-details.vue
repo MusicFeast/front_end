@@ -271,10 +271,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'artist-details';
 
 export default {
   name: "CollectionDetailsPage",
+  mixins: [computeds],
   data() {
     return {
       dataSocial: [
@@ -455,7 +457,6 @@ export default {
     }
   },
   computed: {
-    user() {return this.$store.state.dataUser},
     artist() {return JSON.parse(localStorage.getItem("artist"))},
     dataCollections_pagination() {
       return this.$store.getters.pagination({

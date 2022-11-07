@@ -1,6 +1,6 @@
 <template>
   <div
-    id="nft-details" class="divcol"
+    id="nft-details" class="divcol vip"
     :class="{
       uranium: nft.tier===6,
       diamond: nft.tier===5,
@@ -10,7 +10,7 @@
       bronze: nft.tier===1,
     }">
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
-
+    
     <section class="header grid">
       <v-img :src="nft.img" class="header-background" transition="fade-transition">
         <template #default>
@@ -70,7 +70,7 @@
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="$refs.modal.modalBuy = true">Buy</v-btn>
+            @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
         </div>
       </article>
     </section>
@@ -164,8 +164,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "CollectionDetailsPage",
+  mixins: [computeds],
   data() {
     return {
       dataSocial: [
@@ -222,14 +225,13 @@ export default {
     }
   },
   computed: {
-    user() {return this.$store.state.dataUser},
-    nft() {return JSON.parse(localStorage.getItem("nft"))},
     pagination_per_page() {
       return Math.ceil(this.tableItems.length / this.itemsPerPage)
     }
   },
   created() {
-    if (!this.nft) {this.$router.push(this.localePath('/artists'))}
+    if (!this.nft) {this.$router.push(this.localePath('/profile'))}
+    if (this.user.tier < 3) {this.$router.push(this.localePath("/user-nft-details"))}
   },
   mounted() {
   },

@@ -163,10 +163,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'collection-details';
 
 export default {
   name: "CollectionPage",
+  mixins: [computeds],
   data() {
     return {
       profileBanner: require('~/assets/sources/images/img-header-profile.jpg'),
@@ -269,8 +271,6 @@ export default {
     }
   },
   computed: {
-    user() {return this.$store.state.dataUser},
-    collection() {return JSON.parse(localStorage.getItem("collection"))},
     dataNfts_pagination() {
       return this.$store.getters.pagination({
         items: this.dataNfts, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,

@@ -147,10 +147,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'profile';
 
 export default {
   name: "ProfilePage",
+  mixins: [computeds],
   data() {
     return {
       dataProfits: {
@@ -247,7 +249,6 @@ export default {
     }
   },
   computed: {
-    user() {return this.$store.state.dataUser},
     dataNfts_pagination() {
       return this.$store.getters.pagination({
         items: this.dataNfts, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,

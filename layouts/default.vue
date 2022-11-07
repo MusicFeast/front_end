@@ -21,16 +21,16 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "DefaultLayout",
+  mixins: [computeds],
   // middleware: ['authenticated'],
   data() {
     return {
       wrapperSpace: true,
     }
-  },
-  computed: {
-    user() {return this.$store.state.dataUser},
   },
   created() {
     // get data profile

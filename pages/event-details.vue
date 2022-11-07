@@ -207,10 +207,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'event';
 
 export default {
   name: "EventPage",
+  mixins: [computeds],
   data() {
     return {
       dataSocial: [
@@ -294,7 +296,6 @@ export default {
     }
   },
   computed: {
-    event() {return JSON.parse(localStorage.getItem("event"))},
     pagination_per_page() {
       return Math.ceil(this.dataCarousel.length / this.columnsCarousel())
     }

@@ -65,11 +65,12 @@
 
 <script>
 import isMobile from '~/mixins/isMobile'
+import computeds from '~/mixins/computeds'
 const pageName = 'about';
 
 export default {
   name: "AboutPage",
-  mixins: [isMobile],
+  mixins: [isMobile, computeds],
   data() {
     return {
       dataAbout: [],
@@ -80,11 +81,6 @@ export default {
     const title = "About"
     return {
       title,
-    }
-  },
-  computed: {
-    baseUrl() {
-      return this.$axios.defaults.baseURL
     }
   },
   mounted() {
@@ -125,6 +121,8 @@ export default {
               // twitter
               el.name = 'mdi-twitter'
               el.user = `https://twitter.com/${el.user}`
+            } else if (el.name === "facebook") {
+              el.user = `https://www.facebook.com/${el.user}`
             }
           })
           this.dataTeam.push(item)

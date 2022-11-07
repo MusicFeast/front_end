@@ -175,10 +175,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'marketplace-vip';
 
 export default {
   name: "CollectionsPage",
+  mixins: [computeds],
   data() {
     return {
       modelCarousel: 0,
@@ -345,7 +347,6 @@ export default {
     }
   },
   computed: {
-    user() {return this.$store.state.dataUser},
     dataListed_pagination() {
       return this.$store.getters.pagination({
         items: this.dataListed, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,

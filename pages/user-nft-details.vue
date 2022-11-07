@@ -1,6 +1,6 @@
 <template>
   <div
-    id="nft-details" class="divcol vip"
+    id="nft-details" class="divcol"
     :class="{
       uranium: nft.tier===6,
       diamond: nft.tier===5,
@@ -10,7 +10,7 @@
       bronze: nft.tier===1,
     }">
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
-    
+
     <section class="header grid">
       <v-img :src="nft.img" class="header-background" transition="fade-transition">
         <template #default>
@@ -164,8 +164,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "CollectionDetailsPage",
+  mixins: [computeds],
   data() {
     return {
       dataSocial: [
@@ -222,15 +225,13 @@ export default {
     }
   },
   computed: {
-    user() {return this.$store.state.dataUser},
-    nft() {return JSON.parse(localStorage.getItem("user-nft"))},
     pagination_per_page() {
       return Math.ceil(this.tableItems.length / this.itemsPerPage)
     }
   },
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/profile'))}
-    if (this.user.tier < 3) {this.$router.push(this.localePath("/user-nft-details"))}
+    if (this.user.tier >= 3) {this.$router.push(this.localePath("/user-nft-details-vip"))}
   },
   mounted() {
   },

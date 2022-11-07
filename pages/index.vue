@@ -9,8 +9,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "HomePage",
+  mixins: [computeds],
   data() {
     return {
       dataHero: [],
@@ -96,11 +99,6 @@ export default {
     const title = 'Home';
     return {
       title,
-    }
-  },
-  computed: {
-    baseUrl() {
-      return this.$axios.defaults.baseURL
     }
   },
   mounted() {

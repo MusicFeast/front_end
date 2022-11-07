@@ -18,14 +18,14 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "JoinSection",
+  mixins: [computeds],
   data() {
     return {
     }
-  },
-  computed: {
-    user() {return this.$store.state.dataUser},
   },
   methods: {
   }

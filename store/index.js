@@ -80,6 +80,8 @@ export const mutations = {
           // twitter
           keys = 'mdi-twitter'
           values = `https://twitter.com/${values}`
+        } else if (keys === "facebook") {
+          values = `https://www.facebook.com/${values}`
         }
         // push data socials
         state.dataUser.dataSocial.push({ icon: keys, link: values })

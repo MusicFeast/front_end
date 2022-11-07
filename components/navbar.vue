@@ -89,8 +89,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "NavbarComponent",
+  mixins: [computeds],
   data() {
     return {
       menuProfile: false,
@@ -113,9 +116,6 @@ export default {
         { name: "contact", to: "" },
       ],
     };
-  },
-  computed: {
-    user() {return this.$store.state.dataUser},
   },
   mounted() {
     const navbar = document.querySelector("#navbar");

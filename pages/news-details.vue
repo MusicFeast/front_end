@@ -72,10 +72,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'news-details';
 
 export default {
   name: "NewsDetailsPage",
+  mixins: [computeds],
   data() {
     return {
       dataSocial: [
@@ -93,14 +95,6 @@ export default {
     const title = "News Details"
     return {
       title,
-    }
-  },
-  computed: {
-    news() {
-      return JSON.parse(localStorage.getItem("news"))
-    },
-    baseUrl() {
-      return this.$axios.defaults.baseURL
     }
   },
   mounted() {

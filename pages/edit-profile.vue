@@ -194,8 +194,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "EditProfilePage",
+  mixins: [computeds],
   data() {
     return {
       userExist: undefined,
@@ -263,12 +266,6 @@ export default {
     const title = "Edit Profile"
     return {
       title,
-    }
-  },
-  computed: {
-    user() {return this.$store.state.dataUser},
-    baseUrl() {
-      return this.$axios.defaults.baseURL
     }
   },
   created() {

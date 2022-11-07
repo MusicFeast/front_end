@@ -78,10 +78,12 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 const pageName = 'artists';
 
 export default {
   name: "CollectionsPage",
+  mixins: [computeds],
   data() {
     return {
       modelCarousel: 0,
@@ -111,9 +113,6 @@ export default {
     pagination_per_page() {
       return Math.ceil(this.dataArtists.length / this.itemsPerPage)
     },
-    baseUrl() {
-      return this.$axios.defaults.baseURL
-    }
   },
   mounted() {
     this.styles();

@@ -108,8 +108,11 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "NavbarMenuComponent",
+  mixins: [computeds],
   data() {
     return {
       messages: 1,
@@ -122,9 +125,6 @@ export default {
         { icon:"discord", url:"#" }
       ],
     };
-  },
-  computed: {
-    user() {return this.$store.state.dataUser},
   },
   // created() {
   //   const theme = localStorage.getItem("theme");
