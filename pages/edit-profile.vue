@@ -275,7 +275,7 @@ export default {
   },
   methods: {
     async getData() {
-      const accountId = JSON.parse(localStorage.getItem("undefined_wallet_auth_key")).accountId
+      const accountId = this.user.accountId
       // get data user
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(result => {

@@ -20,7 +20,7 @@
           <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
         </a>
         <v-btn
-          v-if="!user.user"
+          v-if="!isLogged"
           class="btn activeBtn"
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
           :ripple="false" @click="$store.commit('signIn')">Connect</v-btn>

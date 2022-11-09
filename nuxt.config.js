@@ -59,13 +59,16 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // plugins
+    '~/plugins/injects.js',
+    '~/plugins/polyfills.js',
+    '~/plugins/directives.js',
     '~/plugins/axios.js',
     '~/plugins/apexchart.js',
     '~/plugins/google-maps.js',
     '~/plugins/vue-debounce.js',
-    '~/plugins/injects.js',
-    '~/plugins/polyfills.js',
-    '~/plugins/directives.js',
+    // services
+    '~/services/near-api',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

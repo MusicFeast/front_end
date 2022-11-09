@@ -17,7 +17,7 @@
       <section class="center">
         <!-- button connect -->
         <v-btn
-          v-if="!user.user"
+          v-if="!isLogged"
           :ripple="false"
           class="btn activeBtn eliminarmobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em)"
