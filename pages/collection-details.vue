@@ -195,7 +195,7 @@ export default {
       dataNfts: [
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -206,7 +206,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -216,7 +216,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -226,7 +226,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -236,7 +236,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -247,7 +247,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",

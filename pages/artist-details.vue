@@ -296,7 +296,7 @@ export default {
       dataSlider: [
         {
           img: require('~/assets/sources/images/img-listed-1.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -306,7 +306,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-2.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -316,7 +316,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-3.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -326,7 +326,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -336,7 +336,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -346,7 +346,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-6.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -368,7 +368,7 @@ export default {
       dataCollections: [
         {
           img: require('~/assets/sources/images/img-listed-1.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°1",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -378,7 +378,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-2.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°2",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -387,7 +387,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-3.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°3",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -397,7 +397,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°4",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -406,7 +406,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -416,7 +416,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -426,7 +426,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -435,7 +435,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",

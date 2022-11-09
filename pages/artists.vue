@@ -144,7 +144,7 @@ export default {
         .then(result => {
           result.data.forEach(e => {
             e.banner = this.baseUrl+e.banner;
-            e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/images/avatar.png');
+            e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           });
           this.dataArtists = result.data
         }).catch(err => {

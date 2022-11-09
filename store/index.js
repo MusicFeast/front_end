@@ -31,12 +31,12 @@ export const mutations = {
   },
   setData(state, data) {
     if (window.$nuxt.$wallet.isSignedIn() && typeof data === 'string') {
-      state.dataUser.avatar = require('~/assets/sources/images/avatar.png');
+      state.dataUser.avatar = require('~/assets/sources/avatars/avatar.png');
       state.dataUser.accountId = data;
     } else if (window.$nuxt.$wallet.isSignedIn() && typeof data === 'object') {
       state.dataUser.accountId = data.wallet;
       state.dataUser.banner = data.banner ? this.$axios.defaults.baseURL+data.banner : undefined;
-      state.dataUser.avatar = data.avatar ? this.$axios.defaults.baseURL+data.avatar : require('~/assets/sources/images/avatar.png');
+      state.dataUser.avatar = data.avatar ? this.$axios.defaults.baseURL+data.avatar : require('~/assets/sources/avatars/avatar.png');
       state.dataUser.username = data.username || data.wallet;
       state.dataUser.email = data.email;
       state.dataUser.bio = data.bio;

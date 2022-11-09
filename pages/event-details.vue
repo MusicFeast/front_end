@@ -5,7 +5,7 @@
         <template #default>
           <div class="center gap1 alignl">
             <v-avatar style="border: 2px solid #fff">
-              <v-img :src="require('~/assets/sources/images/avatar.png')" alt="artist image" transition="fade-transition">
+              <v-img :src="require('~/assets/sources/avatars/avatar.png')" alt="artist image" transition="fade-transition">
                 <template #placeholder>
                   <v-skeleton-loader type="avatar" />
                 </template>
@@ -232,7 +232,7 @@ export default {
       dataCarousel: [
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -242,7 +242,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -251,7 +251,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -260,7 +260,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -269,7 +269,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
@@ -279,7 +279,7 @@ export default {
         },
         {
           img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/images/avatar.png"),
+          avatar: require("~/assets/sources/avatars/avatar.png"),
           name: "Artist Name o Collection  n°5",
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
