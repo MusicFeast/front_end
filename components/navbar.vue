@@ -2,7 +2,7 @@
   <div>
     <MenuNavbar ref="menu"></MenuNavbar>
     <v-app-bar id="navbar" fixed class="font2 isolate" color="transparent">
-      <a id="logoApp" class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
+      <a id="logoApp" class="center" @click="$router.push(localePath('/'))">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
         <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">
       </a>
