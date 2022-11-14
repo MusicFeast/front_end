@@ -73,7 +73,19 @@ export const mutations = {
       }
     };
   },
-  signIn() {
+  signIn(state, key) {
+    const nearWallet = "https://wallet.testnet.near.org"
+    const myNearWallet = "https://testnet.mynearwallet.com"
+    
+    if (key === 'near') {
+      localStorage.setItem("walletUrl", nearWallet)
+      window.$nuxt.$wallet._walletBaseUrl = nearWallet
+    }
+    else if (key === 'myNear') {
+      localStorage.setItem("walletUrl", myNearWallet)
+      window.$nuxt.$wallet._walletBaseUrl = myNearWallet
+    }
+    
     window.$nuxt.$wallet.requestSignIn(
       'contract.musicfeast.testnet'
     );

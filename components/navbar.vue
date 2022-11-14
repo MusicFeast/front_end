@@ -1,6 +1,8 @@
 <template>
   <div>
+    <ModalsConnect ref="connect"></ModalsConnect>
     <MenuNavbar ref="menu"></MenuNavbar>
+    
     <v-app-bar id="navbar" fixed class="font2 isolate" color="transparent">
       <a id="logoApp" class="center" @click="$router.push(localePath('/'))">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
@@ -20,17 +22,17 @@
           v-if="!isLogged"
           :ripple="false"
           class="btn activeBtn eliminarmobile"
-          style="--p: .5em clamp(1em, 3vw, 2.5em)"
-          @click="$store.commit('signIn')">Connect</v-btn>
-          
+          style="--p: .5em clamp(1em, 3vw, 2.5em);"
+          @click="$refs.connect.modalConnect = true">Connect</v-btn>
+        
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs }">
             <!-- button profile -->
             <v-btn
               :ripple="false"
               class="btn activeBtn eliminarmobile"
-              style="--p: .5em" v-bind="attrs" v-on="on">
-              <span>{{user.accountId}}</span>
+              style="--p: .5em; --tt-first: none" v-bind="attrs" v-on="on">
+              <span class="tlow">{{user.accountId}}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
