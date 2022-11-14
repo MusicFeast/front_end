@@ -275,7 +275,7 @@ export default {
   },
   methods: {
     async getData() {
-      const accountId = this.user.accountId
+      const accountId = this.$wallet._authData.accountId
       // get data user
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(result => {
