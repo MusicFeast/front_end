@@ -321,20 +321,21 @@ export default {
       }
       Object.keys(consult).forEach(key => { if (consult[key] === null) { consult[key] = "" } })
       // checkout no repeated info
-      this.$axios.post("https://testnet.musicfeast.io/musicfeast/api/v1/validate-perfil/", consult).then(result => {
+      this.$axios.post(`${this.baseUrl}api/v1/validate-perfil/`, consult).then(result => {
+        console.log(result.data)
         this.djangoExistenceList = result.data
         
         if (!this.$refs.form.validate()) return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
         
         // save form ✔️
         if (this.userExist) {
-          this.$axios.put(`https://testnet.musicfeast.io/musicfeast/api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
+          this.$axios.put(`${this.baseUrl}api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
           .then(() => this.goBack()).catch(err => {
             this.$alert("cancel", {desc: err.message})
             console.error(err);
           })
         } else {
-          this.$axios.post('https://testnet.musicfeast.io/musicfeast/api/v1/perfil/', this.$formData(this.form))
+          this.$axios.post(`${this.baseUrl}api/v1/perfil/`, this.$formData(this.form))
           .then(() => this.goBack()).catch(err => {
             this.$alert("cancel", {desc: err.message})
             console.error(err);

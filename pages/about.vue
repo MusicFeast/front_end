@@ -90,14 +90,14 @@ export default {
   },
   methods: {
     getAbout() {
-      this.$axios.get("https://testnet.musicfeast.io/musicfeast/api/v1/get-about").then(result => {
+      this.$axios.get(`${this.baseUrl}api/v1/get-about`).then(result => {
         for (const item of result.data) { this.dataAbout.push(item) }
       }).catch(err => {
         console.error(err)
       });
     },
     getTeam() {
-      this.$axios.get("https://testnet.musicfeast.io/musicfeast/api/v1/get-core-team").then(result => {
+      this.$axios.get(`${this.baseUrl}api/v1/get-core-team`).then(result => {
         for (const item of result.data) {
           item.img = this.baseUrl + item.img
           item.social.forEach(el => {

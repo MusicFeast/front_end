@@ -118,7 +118,7 @@ export default {
     );
     
     // get about
-    this.$axios.get("https://testnet.musicfeast.io/musicfeast/api/v1/get-about").then(result => {
+    this.$axios.get(`${this.baseUrl}api/v1/get-about`).then(result => {
       for (const item of result.data) { this.dataAbout.push(item) }
     }).catch((err) => {
       console.error(err)
