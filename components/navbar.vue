@@ -5,11 +5,11 @@
     
     <v-app-bar id="navbar" fixed class="font2 isolate" color="transparent">
       <a id="logoApp" class="center" @click="$router.push(localePath('/'))">
-        <img src="~/assets/sources/logos/logo.svg" alt="logo" class="eliminarmobile" style="--w: 100%">
-        <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="vermobile" style="--w: 100%">
+        <img src="~/assets/sources/logos/logo.svg" alt="logo" class="deletemobile" style="--w: 100%">
+        <img src="~/assets/sources/logos/logo-mobile.svg" alt="logo" class="showmobile" style="--w: 100%">
       </a>
 
-      <section class="center gap2 eliminarmobile">
+      <section class="center gap2 deletemobile">
         <a
           v-for="(item,i) in dataNavbar" :key="i" class="tcap"
           @click="goTo(item.to)"
@@ -21,7 +21,7 @@
         <v-btn
           v-if="!isLogged"
           :ripple="false"
-          class="btn activeBtn eliminarmobile"
+          class="btn activeBtn deletemobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em);"
           @click="$refs.connect.modalConnect = true">Connect</v-btn>
         
@@ -30,7 +30,7 @@
             <!-- button profile -->
             <v-btn
               :ripple="false"
-              class="btn activeBtn eliminarmobile"
+              class="btn activeBtn deletemobile"
               style="--p: .5em; --tt-first: none" v-bind="attrs" v-on="on">
               <span class="tlow">{{user.accountId}}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
@@ -82,7 +82,7 @@
           </v-list>
         </v-menu>
 
-        <v-btn icon class="vermobile" @click="$refs.menu.drawer = true">
+        <v-btn icon class="showmobile" @click="$refs.menu.drawer = true">
           <v-icon large>mdi-menu</v-icon>
         </v-btn>
       </section>

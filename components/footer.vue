@@ -6,7 +6,7 @@
         <aside class="left divcol gap1" style="width: min(100%, 12em)">
           <img src="~/assets/sources/logos/logo-footer.jpg" alt="Logo" class="alignmobile" style="--w:100%">
 
-          <div class="gap1 space eliminarmobile">
+          <div class="gap1 space deletemobile">
             <v-btn
               v-for="(item,i) in dataRedes" :key="i" icon :href="item.to" target="_blank">
               <v-icon size="2em">{{item.icon}}</v-icon>

@@ -24,7 +24,7 @@
           <div class="space gap1">
             <v-btn class="btn" style="--fs: 1.05em">sold out</v-btn>
 
-            <div class="center eliminarmobile" style="gap: .2em">
+            <div class="center deletemobile" style="gap: .2em">
               <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
                 <v-icon>{{item.icon}}</v-icon>
               </v-btn>
@@ -46,7 +46,7 @@
 
         <v-btn :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 12.8px">Buy</v-btn>
 
-        <div class="center vermobile" style="gap: .2em">
+        <div class="center showmobile" style="gap: .2em">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
             <v-icon>{{item.icon}}</v-icon>
           </v-btn>

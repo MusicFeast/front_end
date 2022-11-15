@@ -6,7 +6,7 @@
         <div v-for="(item,i) in dataAbout" :key="i" class="content-top divcol">
           <h2 class="tup">{{item.title}}</h2>
           <p class="p">{{item.description}}</p>
-          <a class="eliminarmobile" @click="$router.push(localePath('/about'))">More</a>
+          <a class="deletemobile" @click="$router.push(localePath('/about'))">More</a>
         </div>
       </v-sheet>
     </section>
