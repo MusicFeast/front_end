@@ -12,7 +12,9 @@
       variant: $route.path === '/artist-details',
     }">
     <Alerts ref="alerts"></Alerts>
+    <ModalsConnect ref="connect"></ModalsConnect>
     <Navbar ref="navbar" />
+    
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
       <nuxt-child />
     </v-main>

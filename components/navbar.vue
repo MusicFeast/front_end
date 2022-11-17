@@ -1,6 +1,5 @@
 <template>
   <div>
-    <ModalsConnect ref="connect"></ModalsConnect>
     <MenuNavbar ref="menu"></MenuNavbar>
     
     <v-app-bar id="navbar" fixed class="font2 isolate" color="transparent">
@@ -23,7 +22,7 @@
           :ripple="false"
           class="btn activeBtn deletemobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em);"
-          @click="$refs.connect.modalConnect = true">Connect</v-btn>
+          @click="$store.dispatch('modalConnect')">Connect</v-btn>
         
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs }">

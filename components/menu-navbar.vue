@@ -23,7 +23,7 @@
           v-if="!isLogged"
           class="btn activeBtn"
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
-          :ripple="false" @click="$parent.$refs.connect.modalConnect = true">Connect</v-btn>
+          :ripple="false" @click="$store.dispatch('modalConnect')">Connect</v-btn>
 
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs}">
