@@ -147,7 +147,7 @@ export default {
 
   // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
   router: {
-    // base: '/music-feast/',
+    base: development ? '/music-feast/' : '/',
     // middleware: ['route-validator'],
   },
 
@@ -158,7 +158,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    // publicPath: '/music-feast/',
+    publicPath: development ? '/music-feast/' : '/',
     plugins: [
       new webpack.ProvidePlugin({
         // global modules
