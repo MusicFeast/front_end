@@ -7,7 +7,7 @@
     <section class="divcol" style="margin-block: 2.5em; padding-inline: var(--margin-separator); gap: 3em">
       <div v-for="(item,i) in dataAbout" :key="i">
         <h2 class="tup">{{item.title}}</h2>
-        <p class="p">{{item.description}}</p>
+        <p class="p" v-html="item.description" />
       </div>
     </section>
 
@@ -34,7 +34,7 @@
         <v-sheet class="container-team--content divcol gap1" color="transparent">
           <h3 class="p">{{item.name}}</h3>
           <span>{{item.position}}</span>
-          <p class="p">{{item.description}}</p>
+          <p class="p" v-html="item.description" />
         </v-sheet>
       </template>
 
