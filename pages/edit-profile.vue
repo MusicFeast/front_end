@@ -320,10 +320,8 @@ export default {
         telegram: this.form.telegram,
         wallet: this.form.wallet,
       }
-      Object.keys(consult).forEach(key => { if (consult[key] === null) { consult[key] = "" } })
       // checkout no repeated info
       this.$axios.post(`${this.baseUrl}api/v1/validate-perfil/`, consult).then(result => {
-        console.log(result.data)
         this.djangoExistenceList = result.data
         
         if (!this.$refs.form.validate()) return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
