@@ -141,6 +141,7 @@
           :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
           placeholder="Select The Country"
           style="--fs-place: 16px"
+          clearable clear-icon="mdi-close"
         ></v-select>
         
         <label for="street">street address</label>

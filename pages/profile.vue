@@ -164,7 +164,7 @@ export default {
       search: "",
       filterA: {
         model: "",
-        list: ["all tiers", 6, 5, 4, 3, 2, 1],
+        list: [6, 5, 4, 3, 2, 1],
       },
       filterB: {
         model: "",

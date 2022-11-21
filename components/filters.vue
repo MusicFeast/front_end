@@ -18,6 +18,7 @@
       hide-details solo
       label="By Tier:"
       style="--p: 0 1em 0 2em"
+      clearable clear-icon="mdi-close"
       @change="$emit('filterA', filterA_model)"
     >
       <template #selection="{ item }">
@@ -53,6 +54,7 @@
       hide-details solo
       label="Sort by:"
       style="--p: 0 1em 0 2em"
+      clearable clear-icon="mdi-close"
       @change="$emit('filterB', filterB_model)"
     ></v-select>
   </section>

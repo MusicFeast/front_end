@@ -157,7 +157,7 @@ export const getters = {
     // search
     if (search) items = items.filter(data => data.name.includes(search))
     // filter A (tier)
-    if (filterA && filterA !== 'all tiers') items = items.filter(data => data.tier === filterA)
+    if (filterA) items = items.filter(data => data.tier === filterA)
     // filter B (comming)
     if (filterB === 'comming soon') items = items.filter(data => data.comming)
     // if mobile
