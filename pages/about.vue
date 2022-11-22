@@ -57,7 +57,7 @@
           </div>
         </aside>
 
-        <p class="p">{{item.description}}</p>
+        <p class="p" v-html="item.description" />
       </template>
     </section>
   </div>
