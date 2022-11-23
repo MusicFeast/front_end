@@ -68,7 +68,8 @@ export default {
     '~/plugins/google-maps.js',
     '~/plugins/vue-debounce.js',
     // services
-    '~/services/near-api',
+    // '~/services/near-api',
+    '~/services/ramper-api',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

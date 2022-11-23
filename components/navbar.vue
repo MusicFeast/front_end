@@ -22,7 +22,7 @@
           :ripple="false"
           class="btn activeBtn deletemobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em);"
-          @click="$store.dispatch('modalConnect')">Connect</v-btn>
+          @click="$store.commit('signIn')">Connect</v-btn>
         
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs }">
@@ -31,7 +31,7 @@
               :ripple="false"
               class="btn activeBtn deletemobile"
               style="--p: .5em; --tt-first: none" v-bind="attrs" v-on="on">
-              <span class="tlow">{{user.accountId}}</span>
+              <span class="tlow">{{user.accountName}}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -49,6 +49,14 @@
                 <span class="bold">MF</span>
                 <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
               </div>
+            </v-list-item>
+
+            <v-list-item
+              :ripple="false"
+              @click="$ramper.openWallet()">
+              <v-list-item-title class="tcap" :class="{not_transform: false}">
+                Open Wallet
+              </v-list-item-title>
             </v-list-item>
             
             <v-list-item

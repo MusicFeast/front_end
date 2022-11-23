@@ -25,7 +25,7 @@
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
           :ripple="false" @click="$store.dispatch('modalConnect')">Connect</v-btn>
 
-        <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
+        <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false"> 
           <template #activator="{ on, attrs}">
             <v-btn
               class="btn activeBtn"

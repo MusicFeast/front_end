@@ -7,6 +7,7 @@ export const state = () => ({
     banner: undefined,
     avatar: undefined,
     accountId: undefined,
+    accountName: undefined,
     username: undefined,
     email: undefined,
     discord: undefined,
@@ -30,11 +31,23 @@ export const mutations = {
     else { state.overlay.opacity = 0.5; state.overlay.color = "black" }
   },
   setData(state, data) {
-    if (window.$nuxt.$wallet.isSignedIn() && typeof data === 'string') {
+    const user = window.$nuxt.$ramper.getUser()
+    let accountName
+    if (user) {
+      if (user.email) {
+        accountName = user.email
+      } else {
+        accountName = user.wallets.near.publicKey
+      }
+    }
+    
+    if (window.$nuxt.$ramper.getUser() && typeof data === 'string') {
       state.dataUser.avatar = require('~/assets/sources/avatars/avatar.png');
       state.dataUser.accountId = data;
-    } else if (window.$nuxt.$wallet.isSignedIn() && typeof data === 'object') {
+      state.dataUser.accountName = accountName;
+    } else if (window.$nuxt.$ramper.getUser() && typeof data === 'object') {
       state.dataUser.accountId = data.wallet;
+      state.dataUser.accountName = accountName;
       state.dataUser.banner = data.banner ? this.$axios.defaults.baseURL+data.banner : undefined;
       state.dataUser.avatar = data.avatar ? this.$axios.defaults.baseURL+data.avatar : require('~/assets/sources/avatars/avatar.png');
       state.dataUser.username = data.username || data.wallet;
@@ -73,27 +86,33 @@ export const mutations = {
       }
     };
   },
-  signIn(state, key) {
-    const nearWallet = "https://wallet.testnet.near.org"
-    const myNearWallet = "https://testnet.mynearwallet.com"
+  async signIn(state, key) {
+    const login = await window.$nuxt.$ramper.signIn()
     
-    if (key === 'near') {
-      localStorage.setItem("walletUrl", nearWallet)
-      window.$nuxt.$wallet._walletBaseUrl = nearWallet
+    if (login.user) {
+      this.$router.go()
     }
-    else if (key === 'myNear') {
-      localStorage.setItem("walletUrl", myNearWallet)
-      window.$nuxt.$wallet._walletBaseUrl = myNearWallet
-    } else if (key === 'sender') {
-      return this.$alert("cancel", {title: "comming soon", desc: "is comming soon for now"})
-    }
+ 
+    // const nearWallet = "https://wallet.testnet.near.org"
+    // const myNearWallet = "https://testnet.mynearwallet.com"
     
-    window.$nuxt.$wallet.requestSignIn(
-      'contract.musicfeast.testnet'
-    );
+    // if (key === 'near') {
+    //   localStorage.setItem("walletUrl", nearWallet)
+    //   window.$nuxt.$wallet._walletBaseUrl = nearWallet
+    // }
+    // else if (key === 'myNear') {
+    //   localStorage.setItem("walletUrl", myNearWallet)
+    //   window.$nuxt.$wallet._walletBaseUrl = myNearWallet
+    // } else if (key === 'sender') {
+    //   return this.$alert("cancel", {title: "comming soon", desc: "is comming soon for now"})
+    // }
+    
+    // window.$nuxt.$wallet.requestSignIn(
+    //   'contract.musicfeast.testnet'
+    // );
   },
   signOut() {
-    window.$nuxt.$wallet.signOut();
+    window.$nuxt.$ramper.signOut();
     setTimeout(() => this.$router.go(0), 100);
     this.$router.push(this.localePath('/'));
   },
@@ -104,22 +123,23 @@ export const actions = {
     const layout = this.$router.app.$children.find(data=>data.$el === document.getElementById("layout"));
     layout.$refs.connect.modalConnect = true
   },
-  getData({commit}) {
+  getData({state, commit}) {
     try {
+      const user = window.$nuxt.$ramper.getUser()
       // get data user
-      this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": window.$nuxt.$wallet.getAccountId() })
+      this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": user ? user.wallets.near.publicKey : "" })
       .then(result => {
         // set data profile
-        result.data[0] ? commit("setData", result.data[0]) : commit("setData", window.$nuxt.$wallet.getAccountId());
+        result.data[0] ? commit("setData", result.data[0]) : commit("setData", user ? user.wallets.near.publicKey : "");
       // catch error django
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
         console.error(err);
+        this.$alert("cancel", {desc: err.message})
       })
     // catch error near
     } catch (err) {
-      this.$alert("cancel", {desc: err.message})
       console.error(err);
+      this.$alert("cancel", {desc: err.message})
     }
   },
   goTo({commit, state}, {key, item, event, id}) {
