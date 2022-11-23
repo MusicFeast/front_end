@@ -66,8 +66,8 @@
 
 <script>
 import { AUTH_PROVIDER, CHAIN,getUser, init, openWallet, sendTransaction, signIn, signOut, THEME, WALLET_PROVIDER } from "@ramper/near";
-import { transactions } from 'near-api-js'
-import BN from "bn.js";
+// import BN from "bn.js";
+import {functionCall} from 'near-api-js/lib/transaction'
 
 init({
   appName: 'Near Test App',
@@ -106,11 +106,19 @@ export default {
       openWallet()
     },
     async sendSampleTransaction() {
-      const actions2 = [transactions.transfer(new BN(10000000))]
+      const actions2 = [functionCall(
+        "nft_buy",       
+        {
+          token_series_id: "1:1", 
+          receiver_id: "c9ec2aeeaaba6154ac224ebfa27d50615d1d0699ce539d1ea4da7136b8f350de",
+        }, 
+        '300000000000000', 
+        '1500000000000000000000000'
+      )]
       const res = await sendTransaction({
         transactionActions: [
           {
-            receiverId: 'hrpalencia.testnet',
+            receiverId: 'nft.musicfeast.testnet',
             actions: actions2,
           },
         ],
