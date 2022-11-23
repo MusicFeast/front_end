@@ -23,7 +23,7 @@
           v-if="!isLogged"
           class="btn activeBtn"
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
-          :ripple="false" @click="$store.dispatch('modalConnect')">Connect</v-btn>
+          :ripple="false" @click="$store.commit('signIn')">Connect</v-btn>
 
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false"> 
           <template #activator="{ on, attrs}">
@@ -32,7 +32,7 @@
               style="--w:75%; --min-h: 30px; --p: .5em"
               :ripple="false"
               v-bind="attrs"
-              v-on="on">{{user.accountId}}</v-btn>
+              v-on="on">{{user.username || account}}</v-btn>
           </template>
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
@@ -47,6 +47,14 @@
                 <span class="bold">MF</span>
                 <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
               </div>
+            </v-list-item>
+
+            <v-list-item
+              :ripple="false"
+              @click="$ramper.openWallet()">
+              <v-list-item-title class="tcap" :class="{not_transform: false}">
+                Open Wallet
+              </v-list-item-title>
             </v-list-item>
             
             <v-list-item
@@ -131,6 +139,11 @@ export default {
   //   this.overlayMethod(theme);
   // },
   mounted() {
+    const act = this.$ramper.getAccountId()
+
+    if (act) {
+      this.account = act.substring(0, 20) + "..."
+    }
     // this.isScrollTop();
     // window.onscroll = () => this.isScrollTop();
     // set route push to marketplace
