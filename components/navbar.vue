@@ -31,7 +31,7 @@
               :ripple="false"
               class="btn activeBtn deletemobile"
               style="--p: .5em; --tt-first: none" v-bind="attrs" v-on="on">
-              <span class="tlow">{{user.accountName}}</span>
+              <span class="tlow">{{user.username || account}}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -105,6 +105,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      account: null,
       menuProfile: false,
       dataMenuProfile: [
         {
@@ -127,6 +128,12 @@ export default {
     };
   },
   mounted() {
+    const act = this.$ramper.getAccountId()
+
+    if (act) {
+      this.account = act.substring(0, 20) + "..."
+    }
+
     const navbar = document.querySelector("#navbar");
     
     // tier loading data
@@ -151,6 +158,12 @@ export default {
   //   else {this.themeButton = false}
   // },
   methods: {
+    limitString(item, num) {
+      if (item.length > num) {
+        return item.substring(0, num) + "..."
+      }
+      return item
+    },
     goTo(to) {
       this.$router.push(this.localePath(to))
       if (to === '/news-details') { localStorage.setItem("validator-news", "navbar") }
