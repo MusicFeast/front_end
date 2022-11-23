@@ -16,7 +16,8 @@
 
         <h3 class="bold">{{dataNews.title}}</h3>
         <span class="tcap">{{dataNews.title2}}</span>
-        <p class="p">{{dataNews.description}}</p>
+        <!-- <p class="p">{{dataNews.description}}</p> -->
+        <p class="p" v-html="dataNews.description" />
 
         <!-- <div class="container-press-and-news--social center gap1">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon>
@@ -28,7 +29,8 @@
 
     <blockquote class="divcol" style="margin-block: 3em; padding-inline: var(--margin-separator)">
       <h2 class="tup" style="text-decoration: underline">{{dataNews.title2}}</h2>
-      <p>{{dataNews.desc_long}}</p>
+      <!-- <p>{{dataNews.desc_long}}</p> -->
+      <p v-html="dataNews.desc_long" />
     </blockquote>
 
     <h2 class="Title tup">other news</h2>
@@ -51,9 +53,10 @@
             </template>
           </v-img>
           <h3 class="p">{{item.title}}</h3>
-          <p class="p">
+          <!-- <p class="p">
             {{item.description}}
-          </p>
+          </p> -->
+          <p class="p" v-html="dataNews.description" />
         </v-card>
       </v-slide-item>
       

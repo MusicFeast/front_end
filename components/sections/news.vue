@@ -14,9 +14,10 @@
           @click="toggle; goTo(item)">
           <v-img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px" transition="fade-transition" />
           <h3 class="p">{{item.title}}</h3>
-          <p class="p">
+          <!-- <p class="p">
             {{item.description}}
-          </p>
+          </p> -->
+          <p class="p" v-html="item.description" />
         </v-card>
       </v-slide-item>
       

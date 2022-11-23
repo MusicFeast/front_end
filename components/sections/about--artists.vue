@@ -5,7 +5,8 @@
       <v-sheet color="transparent" class="content divcol gap1 gap2mobile">
         <div v-for="(item,i) in dataAbout" :key="i" class="content-top divcol">
           <h2 class="tup">{{item.title}}</h2>
-          <p class="p">{{item.description}}</p>
+          <!-- <p class="p">{{item.description}}</p> -->
+          <p class="p" v-html="item.description" />
           <a class="deletemobile" @click="$router.push(localePath('/about'))">More</a>
         </div>
       </v-sheet>

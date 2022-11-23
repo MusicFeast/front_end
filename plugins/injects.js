@@ -78,7 +78,13 @@ export default ({app}, inject) => {
       // push to form data
       const excludeUrl = !(/\.(gif|jpg|jpeg|tiff|png)$/i).test(values)
       const file = values?.type
-      if (typeof values === 'object' && !file) { formData.append(keys, JSON.stringify(values).toLowerCase()) } // if object only
+      if (typeof values === 'object' && !file) { 
+        if (values === null || values === "") {
+          formData.append(keys, "") 
+        } else {
+          formData.append(keys, JSON.stringify(values).toLowerCase()) 
+        }
+      } // if object only
       else if (file) { formData.append(keys, values) } // if file object
       else if (excludeUrl) { formData.append(keys, typeof values === 'string' ? values.toLowerCase() : values || "") } // else
     }

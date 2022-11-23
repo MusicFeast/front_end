@@ -36,20 +36,88 @@
         </div>
       </v-btn>
     </v-sheet>
+    <v-sheet class="grid" color="transparent">
+      {{user}}
+
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="loginRamper()">
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">Login Ramper</span>
+        </div>
+      </v-btn>
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="handleSignOut()">
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">Logout Ramper</span>
+        </div>
+      </v-btn>
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="openWalletView()">
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">Open Wallet</span>
+        </div>
+      </v-btn>
+
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="sendSampleTransaction()">
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">Call</span>
+        </div>
+      </v-btn>
+    </v-sheet>
   </v-dialog>
 </template>
 
 <script>
+import { AUTH_PROVIDER, CHAIN,getUser, init, openWallet, sendTransaction, signIn, signOut, THEME, WALLET_PROVIDER } from "@ramper/near";
+import { transactions } from 'near-api-js'
+import BN from "bn.js";
+
+init({
+  appName: 'Near Test App',
+  chainName: CHAIN.NEAR,
+  walletProviders: [WALLET_PROVIDER.NEAR_WALLET],
+  theme: THEME.LIGHT,
+  network: 'testnet',
+  authProviders: [
+    AUTH_PROVIDER.GOOGLE,
+    AUTH_PROVIDER.FACEBOOK,
+    AUTH_PROVIDER.EMAIL
+  ]
+})
+
 export default {
   name: "ConnectModal",
   data() {
     return {
+      user: getUser(),
       modalConnect: false,
     };
   },
   mounted() {
+    console.log("user",this.user)
   },
   methods: {
+    async loginRamper() {
+      const userData = await signIn()
+      this.user = userData.user || null
+    },
+    handleSignOut() {
+      signOut()
+      this.user = null
+    },
+    openWalletView() {
+      openWallet()
+    },
+    async sendSampleTransaction() {
+      const actions2 = [transactions.transfer(new BN(10000000))]
+      const res = await sendTransaction({
+        transactionActions: [
+          {
+            receiverId: 'hrpalencia.testnet',
+            actions: actions2,
+          },
+        ],
+        network: 'testnet',
+      })
+      console.log("Transaction Result: ", res)
+    }
   }
 };
 </script>
