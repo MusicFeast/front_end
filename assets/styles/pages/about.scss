@@ -92,10 +92,11 @@
       //   --f: grayscale(100%);
       // }
     }
+    
     &--content {
       z-index: 0;
       padding: 3em;
-      padding-right: 0;
+      padding-inline: 0 !important;
       isolation: isolate;
       position: relative;
       &::before {
@@ -107,11 +108,22 @@
         background-color: var(--secondary);
         z-index: -1;
       }
+      .div-shaped {
+        width: 200px;
+        height: calc(var(--h-container) / 2);
+        float: left;
+        shape-outside: polygon(50px 0px, -10px 100%, -13px 50%);
+        shape-margin: 15px;
+      }
       h3 {font-size: clamp(2em, 3vw, 3em); font-weight: bold; text-transform: uppercase}
       span {font-weight: bold}
-      p {font-weight: 400}
+      p {font-weight: 400;}
+      p:last-of-type {margin-bottom: 0}
       span, p {
         @include media(min, small) { font-size: clamp(.8em, 1vw, 1em)}
+      }
+      h3 + span {
+        line-height: 4ch;
       }
     }
 
@@ -136,9 +148,46 @@
           left: auto;
           right: calc(var(--h-container) / 3 * -1);
         }
+        .div-shaped {
+          order: 1;
+          float: right;
+          shape-outside: polygon(222px 3px, 155px 106.55%, 181px 64.55%);
+        }
+      }
+    }
+    
+    // special section
+    &.special {
+      margin-block: 4em;
+      .container-team {
+        &--photo {
+          .v-sheet {
+            // settings
+            --padding: clamp(1em, 2vw, 1.875em);
+            width: var(--width);
+            padding-block: calc(var(--padding) / 2);
+            padding-inline: var(--padding);
+            height: calc(var(--h-container) / 2);
+          }
+          .wrapper-img {
+            width: calc(var(--h-container) / 2);
+            height: var(--h-content);
+            img {
+              --w: calc(100% + 200px);
+              --h: 100%;
+              translate: clamp(-80px, -10vw,  -71.5px) 0;
+            }
+          }
+        }
+      }
+      
+      .div-shaped {
+        height: calc(var(--h-container) / 2 + 50px);
       }
     }
   }
+
+
   @include media(max, small) {
     .container-team.mobile {
       display: flex;

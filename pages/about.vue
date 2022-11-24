@@ -13,7 +13,7 @@
 
     <h2 class="Title tup">core team</h2>
 
-    <section v-for="(item,i) in dataTeam" :key="i" class="container-team mobile">
+    <section v-for="(item,i) in dataTeam" :key="i" class="container-team mobile" :class="{special: i === 0}">
       <template v-if="!isMobile">
         <aside class="container-team--photo">
           <v-sheet color="transparent">
@@ -31,7 +31,9 @@
           </div>
         </aside>
 
-        <v-sheet class="container-team--content divcol gap1" color="transparent">
+        <v-sheet class="container-team--content" color="transparent">
+          <div class="div-shaped" />
+          
           <h3 class="p">{{item.name}}</h3>
           <span>{{item.position}}</span>
           <p class="p" v-html="item.description" />
@@ -88,7 +90,19 @@ export default {
     this.getAbout();
     this.getTeam();
   },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.styles)
+  },
   methods: {
+    styles() {
+      if (window.innerWidth > 880) {
+        setTimeout(() => {
+          const specialContainer = document.querySelector(".container-team.special")
+          const special = specialContainer.querySelector(".container-team--content")
+          specialContainer.style.setProperty("--h-content", `${special.getBoundingClientRect().height}px`)
+        }, 100);
+      }
+    },
     getAbout() {
       this.$axios.get(`${this.baseUrl}api/v1/get-about`).then(result => {
         for (const item of result.data) { this.dataAbout.push(item) }
@@ -121,6 +135,8 @@ export default {
           })
           this.dataTeam.push(item)
         }
+        this.styles()
+        window.addEventListener("resize", this.styles)
       }).catch(err => {
         console.error(err)
       });
