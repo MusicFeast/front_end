@@ -69,14 +69,14 @@
             </v-list-item>
             
             <v-list-item
-              v-for="(item,i) in dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
+              v-for="(item,i) in dataMenuProfile" :key="i" :disabled="false && user.tier < 3 ? true : false"
               :ripple="false" :class="{active: item.to === $route.path}"
               @click="menuProfile = false; drawer = false; $router.push(localePath(item.to))">
-              <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
+              <v-list-item-title class="tcap" :class="{not_transform: false}">
                 {{item.title}}
-                <v-chip
+                <!-- <v-chip
                   v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
-                  :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip>
+                  :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip> -->
               </v-list-item-title>
             </v-list-item>
 
@@ -121,17 +121,17 @@ export default {
           title: "my profile",
           to: "/profile"
         },
-        {
-          title: "special marketplace",
-          to: "/marketplace-vip"
-        },
+        // {
+        //   title: "special marketplace",
+        //   to: "/marketplace-vip"
+        // },
       ],
       dataNavbar: [
         { name: "home", to: "/" },
         { name: "about", to: "/about" },
         { name: "artists", to: "/artists" },
         { name: "news", to: "/news-details" },
-        { name: "marketplace", to: "" },
+        // { name: "marketplace", to: "" },
         { name: "contact", to: "" },
       ],
     };
@@ -146,9 +146,9 @@ export default {
     const navbar = document.querySelector("#navbar");
     
     // tier loading data
-    this.user.tier < 3 
-    ? this.dataNavbar.find(data=>data.name==='marketplace').to = '/marketplace'
-    : this.dataNavbar.find(data=>data.name==='marketplace').to = '/marketplace-vip'
+    // this.user.tier < 3 
+    // ? this.dataNavbar.find(data=>data.name==='marketplace').to = '/marketplace'
+    // : this.dataNavbar.find(data=>data.name==='marketplace').to = '/marketplace-vip'
 
     // mobile listener scroll
     window.onscroll = () => {
