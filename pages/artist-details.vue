@@ -463,15 +463,33 @@ export default {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   mounted() {
+    this.dataSocials()
     this.styles();
 
     // resize listener
     window.addEventListener('resize', this.styles);
+    
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    dataSocials() {
+      const social = []
+      if (this.artist.instagram) {
+        social.push({ icon: "mdi-instagram", link: `https://instagram.com/${this.artist.instagram}` },)
+      }
+      if (this.artist.twitter) {
+        social.push({ icon: "mdi-twitter", link: `https://twitter.com/${this.artist.twitter}` },)
+      }
+      if (this.artist.facebook) {
+        social.push({ icon: "mdi-facebook", link: `https://www.facebook.com/${this.artist.twitter}` },)
+      }
+      if (this.artist.discord) {
+        social.push({ icon: "mdi-discord", link: `https://discord.com/channels/${this.artist.twitter}` },)
+      }
+      this.dataSocial = social
+    },
     styles() {
       const page = document.querySelector(`#${pageName}`);
       // title height

@@ -36,7 +36,7 @@
         </div>
       </v-btn>
     </v-sheet>
-    <v-sheet class="grid" color="transparent">
+    <!-- <v-sheet class="grid" color="transparent">
       {{user}}
 
       <v-btn plain color="hsl(0 0% 0% / .5)" @click="loginRamper()">
@@ -60,72 +60,71 @@
           <span class="h12_em bold">Call</span>
         </div>
       </v-btn>
-    </v-sheet>
+    </v-sheet> -->
   </v-dialog>
 </template>
 
 <script>
-import { AUTH_PROVIDER, CHAIN,getUser, init, openWallet, sendTransaction, signIn, signOut, THEME, WALLET_PROVIDER } from "@ramper/near";
-// import BN from "bn.js";
-import {functionCall} from 'near-api-js/lib/transaction'
+// import { AUTH_PROVIDER, CHAIN,getUser, init, openWallet, sendTransaction, signIn, signOut, THEME, WALLET_PROVIDER } from "@ramper/near";
+// // import BN from "bn.js";
+// import {functionCall} from 'near-api-js/lib/transaction'
 
-init({
-  appName: 'Near Test App',
-  chainName: CHAIN.NEAR,
-  walletProviders: [WALLET_PROVIDER.NEAR_WALLET],
-  theme: THEME.LIGHT,
-  network: 'testnet',
-  authProviders: [
-    AUTH_PROVIDER.GOOGLE,
-    AUTH_PROVIDER.FACEBOOK,
-    AUTH_PROVIDER.EMAIL
-  ]
-})
+// init({
+//   appName: 'Near Test App',
+//   chainName: CHAIN.NEAR,
+//   walletProviders: [WALLET_PROVIDER.NEAR_WALLET],
+//   theme: THEME.LIGHT,
+//   network: 'testnet',
+//   authProviders: [
+//     AUTH_PROVIDER.GOOGLE,
+//     AUTH_PROVIDER.FACEBOOK,
+//     AUTH_PROVIDER.EMAIL
+//   ]
+// })
 
 export default {
   name: "ConnectModal",
   data() {
     return {
-      user: getUser(),
+      // user: getUser(),
       modalConnect: false,
     };
   },
   mounted() {
-    console.log("user",this.user)
   },
   methods: {
-    async loginRamper() {
-      const userData = await signIn()
-      this.user = userData.user || null
-    },
-    handleSignOut() {
-      signOut()
-      this.user = null
-    },
-    openWalletView() {
-      openWallet()
-    },
-    async sendSampleTransaction() {
-      const actions2 = [functionCall(
-        "nft_buy",       
-        {
-          token_series_id: "1:1", 
-          receiver_id: "c9ec2aeeaaba6154ac224ebfa27d50615d1d0699ce539d1ea4da7136b8f350de",
-        }, 
-        '300000000000000', 
-        '1500000000000000000000000'
-      )]
-      const res = await sendTransaction({
-        transactionActions: [
-          {
-            receiverId: 'nft.musicfeast.testnet',
-            actions: actions2,
-          },
-        ],
-        network: 'testnet',
-      })
-      console.log("Transaction Result: ", res)
-    }
+    // async loginRamper() {
+    //   const userData = await signIn()
+    //   this.user = userData.user || null
+    // },
+    // handleSignOut() {
+    //   signOut()
+    //   this.user = null
+    // },
+    // openWalletView() {
+    //   openWallet()
+    // },
+    // async sendSampleTransaction() {
+    //   const actions2 = [functionCall(
+    //     "nft_buy",       
+    //     {
+    //       token_series_id: "1:1", 
+    //       receiver_id: "c9ec2aeeaaba6154ac224ebfa27d50615d1d0699ce539d1ea4da7136b8f350de",
+    //     }, 
+    //     '300000000000000', 
+    //     '1500000000000000000000000'
+    //   )]
+    //   const res = await sendTransaction({
+    //     transactionActions: [
+    //       {
+    //         receiverId: 'nft.musicfeast.testnet',
+    //         actions: actions2,
+    //       },
+    //     ],
+    //     network: 'testnet',
+    //   })
+    //   console.log("Transaction Result: ", res)
+    // }
   }
 };
 </script>

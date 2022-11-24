@@ -58,6 +58,15 @@
                 Open Wallet
               </v-list-item-title>
             </v-list-item>
+
+            <v-list-item
+              v-if="user.username == 'juanochando'"
+              :ripple="false"
+              @click="$store.commit('sendTransactionRamper')">
+              <v-list-item-title class="tcap" :class="{not_transform: false}">
+                Buy Nft
+              </v-list-item-title>
+            </v-list-item>
             
             <v-list-item
               v-for="(item,i) in dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
@@ -158,12 +167,6 @@ export default {
   //   else {this.themeButton = false}
   // },
   methods: {
-    limitString(item, num) {
-      if (item.length > num) {
-        return item.substring(0, num) + "..."
-      }
-      return item
-    },
     goTo(to) {
       this.$router.push(this.localePath(to))
       if (to === '/news-details') { localStorage.setItem("validator-news", "navbar") }

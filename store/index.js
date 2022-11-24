@@ -116,6 +116,27 @@ export const mutations = {
     setTimeout(() => this.$router.go(0), 100);
     this.$router.push(this.localePath('/'));
   },
+  async sendTransactionRamper() {
+    const actions2 = [window.$nuxt.$ramper.functionCall(
+      "nft_buy",       
+      {
+        token_series_id: "1|1", 
+        receiver_id: "c9ec2aeeaaba6154ac224ebfa27d50615d1d0699ce539d1ea4da7136b8f350de",
+      }, 
+      '300000000000000', 
+      '1500000000000000000000000'
+    )]
+    const res = await window.$nuxt.$ramper.sendTransaction({
+      transactionActions: [
+        {
+          receiverId: 'nft2.musicfeast.testnet',
+          actions: actions2,
+        },
+      ],
+      network: 'testnet',
+    })
+    console.log("Transaction Result: ", res)
+  }
 };
 
 export const actions = {
