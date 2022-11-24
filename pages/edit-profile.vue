@@ -281,7 +281,7 @@ export default {
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(result => {
         const data = result.data[0]
-        if (data) {
+        if (result.data[0]) {
           this.$equalData(this.form, data)
           this.form.id = data.id
           this.imgBanner = data.banner ? this.baseUrl+data.banner : this.user.banner
