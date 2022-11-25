@@ -40,13 +40,13 @@
             <v-list-item disabled class="divcol" style="gap:3px">
               <div class="space gap1 fill_w">
                 <span class="bold">NEAR</span>
-                <span class="semibold" style="--c:var(--accent)">478.5 N</span>
+                <span class="semibold" style="--c:var(--accent)">{{balanceNear}} N</span>
               </div>
               
-              <div class="space gap1 fill_w">
+              <!-- <div class="space gap1 fill_w">
                 <span class="bold">MF</span>
                 <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
-              </div>
+              </div> -->
             </v-list-item>
 
             <v-list-item
@@ -123,6 +123,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      balanceNear: 0,
       messages: 1,
       drawer: false,
       menuProfile: false,
@@ -144,11 +145,24 @@ export default {
     if (act) {
       this.account = act.substring(0, 20) + "..."
     }
+
+    this.getBalance()
     // this.isScrollTop();
     // window.onscroll = () => this.isScrollTop();
     // set route push to marketplace
   },
   methods: {
+    async getBalance () {
+      if (this.$ramper.getUser()) {
+        const account = await this.$near.account(this.$ramper.getAccountId());
+        const response = await account.state();
+        const valueStorage = Math.pow(10, 19)
+        const valueYocto = Math.pow(10, 24)
+
+        const storage = (response.storage_usage * valueStorage) / valueYocto 
+        this.balanceNear = ((response.amount / valueYocto) - storage).toFixed(2)
+      }
+    },
     // isScrollTop() {
     //   if (this.$route.path === this.localePath('/') {
     //     this.dataDrawer.forEach(e => {

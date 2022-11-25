@@ -68,7 +68,7 @@ export default {
     '~/plugins/google-maps.js',
     '~/plugins/vue-debounce.js',
     // services
-    // '~/services/near-api',
+    '~/services/near-api',
     '~/services/ramper-api',
   ],
 
@@ -78,7 +78,17 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    // GraphQl Apollo Client
+    '@nuxtjs/apollo'
   ],
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/hrpalencia/musicfeast',
+      }
+    }
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

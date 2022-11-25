@@ -22,7 +22,7 @@
                 </template>
               </v-img>
             </v-avatar>
-            <span class="h9_em">Artist Name</span>
+            <span class="h9_em">{{nft.desc.toUpperCase()}}</span>
           </div>
         </template>
         <template #placeholder>
@@ -41,10 +41,10 @@
             nft.tier===6 ? 'uranium' : 'user'
           }}</v-btn>
 
-          <h2 class="p tup">Name of the NFT artist or collection</h2>
+          <h2 class="p tup">{{nft.name}}</h2>
         </div>
 
-        <span>Name of the artist</span>
+        <span>{{nft.desc}}</span>
 
         <p class="p">
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna 
@@ -233,6 +233,7 @@ export default {
     if (!this.nft) {this.$router.push(this.localePath('/artists'))}
   },
   mounted() {
+    console.log("NFT", this.nft)
   },
   methods: {
     dollarConversion(price) {

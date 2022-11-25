@@ -13,6 +13,7 @@
     "lintfix": "prettier --write --list-different . && npm run lint:js -- --fix"
   },
   "dependencies": {
+    "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/i18n": "^7.3.0",
     "@ramper/core": "0.0.28",
@@ -20,6 +21,7 @@
     "apexcharts": "^3.36.3",
     "bn.js": "^5.2.1",
     "core-js": "^3.19.3",
+    "graphql-tag": "^2.12.6",
     "html2canvas": "^1.4.1",
     "near-api-js": "^1.1.0",
     "nuxt": "^2.15.8",
