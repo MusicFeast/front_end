@@ -147,6 +147,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 import styles from '~/mixins/styles'
 
@@ -171,68 +172,68 @@ export default {
         list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataNfts: [
-        {
-          img: require('~/assets/sources/images/img-listed-1.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°1",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          type: "nft",
-          editions: "250.00",
-          tier: 3,
-          state: "sold out",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-2.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°2",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          type: "nft",
-          editions: "250.00",
-          tier: 2,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-3.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°3",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          type: "nft",
-          editions: "250.00",
-          tier: 4,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-4.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°4",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          type: "nft",
-          editions: "250.00",
-          tier: 5,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          type: "nft",
-          editions: "250.00",
-          tier: 6,
-          state: "sold out",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-6.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°6",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          type: "nft",
-          editions: "250.00",
-          tier: 1,
-        },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-1.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°1",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   type: "nft",
+        //   editions: "250.00",
+        //   tier: 3,
+        //   state: "sold out",
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-2.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°2",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   type: "nft",
+        //   editions: "250.00",
+        //   tier: 2,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-3.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°3",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   type: "nft",
+        //   editions: "250.00",
+        //   tier: 4,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-4.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°4",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   type: "nft",
+        //   editions: "250.00",
+        //   tier: 5,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   type: "nft",
+        //   editions: "250.00",
+        //   tier: 6,
+        //   state: "sold out",
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-6.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°6",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   type: "nft",
+        //   editions: "250.00",
+        //   tier: 1,
+        // },
       ],
       currentPage: 1,
       itemsPerPage: 10,
@@ -261,9 +262,105 @@ export default {
     },
   },
   mounted() {
+    this.getMyNfts()
     // this.setProfile();
   },
   methods: {
+    async getMyNfts() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner_id: String) {
+          nfts(
+            where: {owner_id: $owner_id}
+          ) {
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {owner_id: this.$ramper.getAccountId()},
+      })
+
+      const data = res.data.nfts
+
+      const arrayIds = []
+
+      for (let i = 0; i < data.length; i++) {
+        const item = {
+          floor_price: null,
+          img: data[i].media,
+          avatar: require("~/assets/sources/avatars/avatar.png"),
+          name: data[i].title,
+          desc: data[i].description,
+          editions: data[i].copies || "Multi",
+          tier: Number(data[i].reference),
+          type: "nft",
+          token_id: data[i].id,
+          supply: data[i].supply,
+          state: null,
+        }
+
+        const varSplit = item.token_id.split("|")
+        const idArtist = varSplit[0]
+        const typeToken = varSplit[1].split(":").shift()
+
+        const serie = await this.getSerie(idArtist, typeToken)
+
+        item.editions = serie.copies || "Multi"
+        item.floor_price = serie.price_near
+        item.id_artist = idArtist
+
+        arrayIds.push(idArtist)
+        this.dataNfts.push(item)
+      }
+
+      console.log(arrayIds)
+      const result = Array.from(new Set(arrayIds));
+      console.log("AQUI",result)
+    },
+    async getSerie(idArtist, typeToken) {
+      console.log(idArtist, typeToken)
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $typetoken: String) {
+          series(where: {artist_id: $artist_id, typetoken_id_in: [$typetoken]}) {
+            id
+            media
+            price
+            reference
+            title
+            typetoken_id
+            fecha
+            extra
+            description
+            creator_id
+            artist_id
+            price_near
+            supply
+            copies
+            desc_series
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(idArtist), typetoken: String(typeToken)},
+      })
+
+      return res.data.series[0]
+    },
     // setProfile() {
     //   if (this.$route.path === '/profile') {
     //     this.$router.replace(`${this.$route.path}/:${this.user.username}`)

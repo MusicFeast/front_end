@@ -43,7 +43,8 @@
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
         <span>All Time High</span>
-        <span>$ {{dataProfits.high}}K</span>
+        <span v-if="dataProfits.high === '---'">{{dataProfits.high}}</span>
+        <span v-else>$ {{dataProfits.high}}K</span>
       </v-sheet>
     </section>
 
@@ -89,7 +90,8 @@
               item.tier===4 ? 'platinum' :
               item.tier===5 ? 'diamond' :
               item.tier===6 ? 'uranium' : 'user'
-            }'`">
+            }';
+            ${item.state ? `--tag-state: '${item.state}'` : ''}`">
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
@@ -115,7 +117,7 @@
         </v-card>
 
         <div class="tier-desc divcol">
-          <a class="tup bold" style="cursor:default">{{item.name}} tier {{
+          <a class="tup bold" style="cursor:default">{{item.name}} {{
             item.tier==='bronze' ? 1 :
             item.tier==='silver' ? 2 :
             item.tier==='gold' ? 3 :
@@ -124,7 +126,7 @@
             item.tier==='uranium' ? 6 : ''
           }} nft</a>
           <ul>
-            <li v-show="item.access">{{item.access}}</li>
+            <li v-show="item.description">{{item.description}}</li>
             <!-- <li v-show="item.tier">Access to special membership perks.</li>
             <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
           </ul>
@@ -133,6 +135,11 @@
         <div class="container-actions divcol">
           <a @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
           <v-btn
+            v-if="!item.state" 
+            :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
+            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Buy</v-btn>
+            <v-btn
+            v-else
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
             @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Buy</v-btn>
         </div>
@@ -464,7 +471,7 @@ export default {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   mounted() {
-    console.log(this.artist)
+    this.getDataHeader()
     this.dataSocials()
     this.styles();
     this.getTiers()
@@ -477,38 +484,57 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
-    async queryApollo() {
+    async getDataHeader() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
-
-      const ALL_CHARACTERS_QUERY = gql`
-        query ALL_CHARACTERS_QUERY($user_id: String) {
-          forms(first: 1000, where: {creator: $user_id}) {
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String) {
+          artists(where: {id: $artist_id}) {
+            total_nft
+            total_event
+            total_collection
+            name
             id
-            questions
-            possibly_answers
-            creator
             fecha
-            results
-            title
-            creation
           }
         }
       `;
 
       const res = await clientApollo.query({
-        query: ALL_CHARACTERS_QUERY,
-        variables: {user_id: this.$wallet.getAccountId()},
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.artist.id_collection)},
       })
 
-      for (let i = 0; i < res.data.forms.length; i++) {
-        const item = {
-          id: res.data.forms[i].id,
-          name: res.data.forms[i].title,
-          url: window.location.host + window.location.pathname + res.data.forms[i].id
-          // url: window.location.host + window.location.pathname + CryptoJs.AES.encrypt(String(res.data.forms[i].id), 'owling').toString()
-        }
-        this.formEdit.push(item)
+      const data = res.data.artists[0]
+
+      console.log("HEADER",data)
+
+      this.dataProfits = {
+        nfts: data.total_nft,
+        owners: "---",
+        events: data.total_event,
+        collections: data.total_collection,
+        high: "---",
       }
+
+      // for (let i = 0; i < data.length; i++) {
+      //   const item = {
+      //     img: data[i].media,
+      //     avatar: this.artist.image,
+      //     name: data[i].desc_series.toUpperCase(),
+      //     desc: this.artist.name,
+      //     description: data[i].description,
+      //     floor_price: data[i].price_near,
+      //     price: data[i].price,
+      //     editions: data[i].copies || "Multi",
+      //     tier: Number(data[i].reference),
+      //     type: "nft",
+      //     token_id: data[i].id,
+      //     supply: data[i].supply,
+      //     copies: data[i].copies || 0,
+      //     state: null,
+      //   }
+      //   this.dataSlider.push(item)
+      // }
     },
     async getTiers() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -529,6 +555,7 @@ export default {
             price_near
             supply
             copies
+            desc_series
           }
         }
       `;
@@ -538,16 +565,15 @@ export default {
         variables: {artist_id: String(this.artist.id_collection)},
       })
 
-      console.log("TIERS",res.data)
-
       const data = res.data.series
 
       for (let i = 0; i < data.length; i++) {
         const item = {
           img: data[i].media,
           avatar: this.artist.image,
-          name: data[i].description.toUpperCase(),
+          name: data[i].desc_series.toUpperCase(),
           desc: this.artist.name,
+          description: data[i].description,
           floor_price: data[i].price_near,
           price: data[i].price,
           editions: data[i].copies || "Multi",
@@ -555,20 +581,11 @@ export default {
           type: "nft",
           token_id: data[i].id,
           supply: data[i].supply,
-          access: null
+          copies: data[i].copies || 0,
+          state: null,
         }
-        if (item.tier === 1) {
-          item.access = "Access to membership token that unlocks artist community Discord & higher valued NFTs."
-        } else if (item.tier === 2) {
-          item.access = "Access to unlockable video content, audio content, etc."
-        } else if (item.tier === 3) {
-          item.access = "Access to physical merch."
-        } else if (item.tier === 4) {
-          item.access = "Access to signed physical merch."
-        } else if (item.tier === 5) {
-          item.access = "Access to audio ownership / tickets / meet and greets / ownership DAO access."
-        } else if (item.tier === 6) {
-          item.access = "Auction item."
+        if (item.copies !== 0 && Number(item.supply) <= Number(item.copies)) {
+          item.state = "sold out"
         }
         this.dataSlider.push(item)
       }

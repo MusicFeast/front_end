@@ -15,6 +15,15 @@
       <v-img :src="nft.img" class="header-background" transition="fade-transition">
         <template #default>
           <div class="center gap1 alignl">
+            <!-- <button @click="$router.push(this.localePath(`/artist-details`))">
+              <v-avatar style="border: 2px solid #fff">
+                <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
+                  <template #placeholder>
+                    <v-skeleton-loader type="avatar" />
+                  </template>
+                </v-img>
+              </v-avatar>
+            </button> -->
             <v-avatar style="border: 2px solid #fff">
               <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
                 <template #placeholder>
@@ -47,11 +56,7 @@
         <span>{{nft.desc}}</span>
 
         <p class="p">
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna 
-          aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-          ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-          eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue 
-          duis dolore te feugait nulla
+          {{nft.description}}
         </p>
 
         <div class="spacea">
@@ -234,6 +239,10 @@ export default {
   },
   mounted() {
     console.log("NFT", this.nft)
+    if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
+      localStorage.removeItem('buyDirect')
+      setTimeout(this.buyNftRamper, 400)
+    }
   },
   methods: {
     async buyNftRamper() {

@@ -18,6 +18,7 @@ export const state = () => ({
     balance: 0,
     dataSocial: [],
   },
+  buyDirect: null
 });
 
 export const mutations = {
@@ -163,8 +164,7 @@ export const actions = {
       this.$alert("cancel", {desc: err.message})
     }
   },
-  goTo({commit, state}, {key, item, event, id}) { if (key === 'nft' || key === 'user-nft') {
-      console.log("goTo", key, item)
+  goTo({commit, state}, {key, item, event, buyDirect}) { if (key === 'nft' || key === 'user-nft') {
       const target = event.target.parentNode.parentNode
       this.$loadCursor(true);
       // html2canvas(target, { allowTaint: true, backgroundColor: "#000" }).then((data) => {
@@ -174,6 +174,9 @@ export const actions = {
         localStorage.setItem(key, JSON.stringify(item))
         this.$loadCursor(false);
       }).then(() => {
+        if (buyDirect) {
+          localStorage.buyDirect = true
+        }
         this.$router.push(
           this.localePath(key === 'nft'
             ? `/nft-details`
