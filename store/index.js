@@ -163,11 +163,12 @@ export const actions = {
       this.$alert("cancel", {desc: err.message})
     }
   },
-  goTo({commit, state}, {key, item, event, id}) {
-    if (key === 'nft' || key === 'user-nft') {
+  goTo({commit, state}, {key, item, event, id}) { if (key === 'nft' || key === 'user-nft') {
+      console.log("goTo", key, item)
       const target = event.target.parentNode.parentNode
       this.$loadCursor(true);
-      html2canvas(target, { allowTaint: true, backgroundColor: "#000" }).then((data) => {
+      // html2canvas(target, { allowTaint: true, backgroundColor: "#000" }).then((data) => {
+      html2canvas(target, { backgroundColor: "#000" }).then((data) => {
         const canvas = data.toDataURL('image/png')
         item.canvas = canvas
         localStorage.setItem(key, JSON.stringify(item))

@@ -124,9 +124,9 @@
             item.tier==='uranium' ? 6 : ''
           }} nft</a>
           <ul>
-            <li v-show="item.tier">Access to artists community discord.</li>
-            <li v-show="item.tier">Access to special membership perks.</li>
-            <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li>
+            <li v-show="item.access">{{item.access}}</li>
+            <!-- <li v-show="item.tier">Access to special membership perks.</li>
+            <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
           </ul>
         </div>
 
@@ -549,9 +549,26 @@ export default {
           name: data[i].description.toUpperCase(),
           desc: this.artist.name,
           floor_price: data[i].price_near,
+          price: data[i].price,
           editions: data[i].copies || "Multi",
           tier: Number(data[i].reference),
           type: "nft",
+          token_id: data[i].id,
+          supply: data[i].supply,
+          access: null
+        }
+        if (item.tier === 1) {
+          item.access = "Access to membership token that unlocks artist community Discord & higher valued NFTs."
+        } else if (item.tier === 2) {
+          item.access = "Access to unlockable video content, audio content, etc."
+        } else if (item.tier === 3) {
+          item.access = "Access to physical merch."
+        } else if (item.tier === 4) {
+          item.access = "Access to signed physical merch."
+        } else if (item.tier === 5) {
+          item.access = "Access to audio ownership / tickets / meet and greets / ownership DAO access."
+        } else if (item.tier === 6) {
+          item.access = "Auction item."
         }
         this.dataSlider.push(item)
       }
@@ -565,10 +582,10 @@ export default {
         social.push({ icon: "mdi-twitter", link: `https://twitter.com/${this.artist.twitter}` },)
       }
       if (this.artist.facebook) {
-        social.push({ icon: "mdi-facebook", link: `https://www.facebook.com/${this.artist.twitter}` },)
+        social.push({ icon: "mdi-facebook", link: `https://www.facebook.com/${this.artist.facebook}` },)
       }
       if (this.artist.discord) {
-        social.push({ icon: "mdi-discord", link: `https://discord.com/channels/${this.artist.twitter}` },)
+        social.push({ icon: "mdi-discord", link: `https://discord.com/channels/${this.artist.discord}` },)
       }
       this.dataSocial = social
     },

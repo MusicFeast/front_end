@@ -3,7 +3,7 @@ import Vue from 'vue'
 
 export default async function NearApi() {
   const
-    { connect, keyStores, WalletConnection } = nearAPI,
+    { connect, keyStores, WalletConnection, utils } = nearAPI,
     keyStore = new keyStores.BrowserLocalStorageKeyStore(),
     config = {
       networkId: "testnet",
@@ -19,6 +19,7 @@ export default async function NearApi() {
     wallet = new WalletConnection(near);
   
   Vue.prototype.$wallet = wallet
+  Vue.prototype.$utils = utils
   Vue.prototype.$near = near
 }
 

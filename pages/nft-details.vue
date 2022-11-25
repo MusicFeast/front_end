@@ -70,7 +70,7 @@
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="$refs.modal.modalBuy = true">Buy</v-btn>
+            @click="buyNftRamper()">Buy</v-btn>
         </div>
       </article>
     </section>
@@ -236,6 +236,28 @@ export default {
     console.log("NFT", this.nft)
   },
   methods: {
+    async buyNftRamper() {
+      const price = Number(this.nft.floor_price) + 0.3
+      const action = [this.$ramper.functionCall(
+        "nft_buy",       
+        {
+          token_series_id: this.nft.token_id, 
+          receiver_id: this.$ramper.getAccountId(),
+        }, 
+        '300000000000000', 
+        this.$utils.format.parseNearAmount(String(price))
+      )]
+      const res = await this.$ramper.sendTransaction({
+        transactionActions: [
+          {
+            receiverId: 'nft2.musicfeast.testnet',
+            actions: action,
+          },
+        ],
+        network: 'testnet',
+      })
+      console.log("Transaction Result: ", res)
+    },
     dollarConversion(price) {
       return price / 2
     },
