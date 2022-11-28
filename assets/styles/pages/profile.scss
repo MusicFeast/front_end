@@ -105,7 +105,7 @@
     margin-inline: var(--margin-separator);
     min-height: 900px;
     .v-card {
-      min-height: 473.81px !important;
+      aspect-ratio: 1 / 1.5 !important;
     }
   }
 
