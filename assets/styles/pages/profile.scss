@@ -104,6 +104,9 @@
     margin-block: 4em;
     margin-inline: var(--margin-separator);
     min-height: 900px;
+    .v-card {
+      min-height: 473.81px !important;
+    }
   }
 
   // edit profile
