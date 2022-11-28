@@ -317,6 +317,7 @@ export default {
 
         const serie = await this.getSerie(idArtist, typeToken)
 
+        item.artist_id = serie.artist_id
         item.editions = serie.copies || "Multi"
         item.floor_price = serie.price_near
         item.id_artist = idArtist
@@ -324,10 +325,27 @@ export default {
         arrayIds.push(idArtist)
         this.dataNfts.push(item)
       }
-
-      console.log(arrayIds)
       const result = Array.from(new Set(arrayIds));
-      console.log("AQUI",result)
+      
+      this.getAvatars(result)
+    },
+    async getAvatars(datos) {
+      await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
+      .then(result => {
+        const data = result.data
+        if (data[0]) {
+          for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < this.dataNfts.length; j++) {
+              if (String(data[i].id_collection) === String(this.dataNfts[j].artist_id)) {
+                this.dataNfts[j].avatar = this.baseUrl+data[i].image
+              }
+            }
+          }
+        }
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
     },
     async getSerie(idArtist, typeToken) {
       console.log(idArtist, typeToken)

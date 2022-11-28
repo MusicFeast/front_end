@@ -14,7 +14,7 @@ export const state = () => ({
     instagram: undefined,
     twitter: undefined,
     telegram: undefined,
-    tier: 4,
+    tier: 1,
     balance: 0,
     dataSocial: [],
   },
@@ -89,6 +89,8 @@ export const mutations = {
   },
   async signIn(state, key) {
     const login = await window.$nuxt.$ramper.signIn()
+
+    console.log(login)
     
     if (login.user) {
       this.$router.go()
@@ -191,7 +193,8 @@ export const actions = {
         console.error(err);
       })
     } else {
-      localStorage.setItem(key, JSON.stringify(item))
+      console.log(item)
+      localStorage.setItem(key, JSON.stringify(item.id))
       this.$router.push(this.localePath(`/${key}-details`));
     }
   },

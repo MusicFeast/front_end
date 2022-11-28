@@ -70,6 +70,7 @@
     <v-slide-item v-for="(item,i) in dataSlider" :key="i" v-slot="{ active, toggle }">
       <v-sheet :key="i" color="rgba(0, 0, 0, .4)" class="divcol" @click="toggle">
         <v-card
+          v-if="!item.validate"
           class="card divcol custome"
           :class="{
             uranium: item.tier===6,
@@ -81,6 +82,53 @@
             active: active
           }"
           @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
+          <v-img
+            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
+            :style="`--tag-tier: '${
+              item.tier===1 ? 'bronze' :
+              item.tier===2 ? 'silver' :
+              item.tier===3 ? 'gold' :
+              item.tier===4 ? 'platinum' :
+              item.tier===5 ? 'diamond' :
+              item.tier===6 ? 'uranium' : 'user'
+            }';
+            ${item.state ? `--tag-state: '${item.state}'` : ''}`">
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+          </v-img>
+          
+          <div class="container-content tcenter">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <a>{{item.name}}</a>
+            <p>{{item.desc}}</p>
+
+            <div class="center" style="gap: 6.4px">
+              <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
+              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
+            </div>
+            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
+          </div>
+        </v-card>
+
+        <v-card
+          v-else
+          class="card divcol custome"
+          :class="{
+            uranium: item.tier===6,
+            diamond: item.tier===5,
+            platinum: item.tier===4,
+            gold: item.tier===3,
+            silver: item.tier===2,
+            bronze: item.tier===1,
+            active: active
+          }">
           <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
             :style="`--tag-tier: '${
@@ -133,13 +181,16 @@
         </div>
 
         <div class="container-actions divcol">
-          <a @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
+          <a v-if="!item.validate" @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
+          <a v-else>More Details</a>
           <v-btn
             v-if="!item.state" 
+            :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
             @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Buy</v-btn>
             <v-btn
             v-else
+            :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
             @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Buy</v-btn>
         </div>
@@ -278,6 +329,8 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      artist: {},
+      validateTier: false,
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
         { icon: "mdi-twitter", link: "#" },
@@ -285,11 +338,11 @@ export default {
         { icon: "discord", link: "#" },
       ],
       dataProfits: {
-        nfts: 7659,
-        owners: 1256,
-        events: 1206,
-        collections: 205,
-        high: 120.45,
+        nfts: null,
+        owners: null,
+        events: null,
+        collections: null,
+        high: null,
       },
       slider: 0,
       dataSlider: [
@@ -311,46 +364,6 @@ export default {
         //   floor_price: "250.00",
         //   editions: "250.00",
         //   tier: 2,
-        //   type: "nft",
-        // },
-        // {
-        //   img: require('~/assets/sources/images/img-listed-3.jpg'),
-        //   avatar: require("~/assets/sources/avatars/avatar.png"),
-        //   name: "Artist Name o Collection  n°5",
-        //   desc: "Lorem ipsum dolor sit amet,",
-        //   floor_price: "250.00",
-        //   editions: "250.00",
-        //   tier: 4,
-        //   type: "nft",
-        // },
-        // {
-        //   img: require('~/assets/sources/images/img-listed-4.jpg'),
-        //   avatar: require("~/assets/sources/avatars/avatar.png"),
-        //   name: "Artist Name o Collection  n°5",
-        //   desc: "Lorem ipsum dolor sit amet,",
-        //   floor_price: "250.00",
-        //   editions: "250.00",
-        //   tier: 5,
-        //   type: "nft",
-        // },
-        // {
-        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
-        //   avatar: require("~/assets/sources/avatars/avatar.png"),
-        //   name: "Artist Name o Collection  n°5",
-        //   desc: "Lorem ipsum dolor sit amet,",
-        //   floor_price: "250.00",
-        //   editions: "250.00",
-        //   tier: 6,
-        //   type: "nft",
-        // },
-        // {
-        //   img: require('~/assets/sources/images/img-listed-6.jpg'),
-        //   avatar: require("~/assets/sources/avatars/avatar.png"),
-        //   name: "Artist Name o Collection  n°5",
-        //   desc: "Lorem ipsum dolor sit amet,",
-        //   floor_price: "250.00",
-        //   editions: "250.00",
-        //   tier: 1,
         //   type: "nft",
         // },
       ],
@@ -456,7 +469,6 @@ export default {
     }
   },
   computed: {
-    artist() {return JSON.parse(localStorage.getItem("artist"))},
     dataCollections_pagination() {
       return this.$store.getters.pagination({
         items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
@@ -470,11 +482,11 @@ export default {
   created() {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
-  mounted() {
-    this.getDataHeader()
-    this.dataSocials()
+  async mounted() {
+    await this.getCurrentArtist()
+    
     this.styles();
-    this.getTiers()
+    
 
     // resize listener
     window.addEventListener('resize', this.styles);
@@ -484,6 +496,96 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    getCurrentArtist() {
+      const artist = JSON.parse(localStorage.getItem("artist"))
+      this.$axios.post(`${this.baseUrl}api/v1/get-artist/`, {"id": Number(artist)})
+        .then(async response => {
+          const data = response.data[0]
+          if (data) {
+            this.artist = data
+            this.artist.banner = this.baseUrl+this.artist.banner;
+            this.artist.image = this.artist.image ? this.baseUrl+this.artist.image : require('~/assets/sources/avatars/avatar.png');
+
+            await this.validateTierOne()
+            this.getDataHeader()
+            this.dataSocials()
+            this.getTiers()
+          } else {
+            this.$alert("cancel", {desc: "The artist does not exist"})
+            // this.$router.push(this.localePath("/artists"))
+          }
+        }).catch(err => {
+          this.$alert("cancel", {desc: err.message})
+          console.error(err);
+        })
+    },
+    async getOwners() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String) {
+          nfts(where: {artist_id: $artist_id}) {
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+            artist_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.artist.id_collection)},
+      })
+
+      const data = res.data.nfts
+
+      const ownersArray = []
+
+      for (let i = 0; i < data.length; i++) {
+        ownersArray.push(data[i].owner_id)
+      }
+
+      const owners = Array.from(new Set(ownersArray));
+
+      this.dataProfits.owners = owners.length
+    },
+    async validateTierOne() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String, $owner_id: String) {
+          nfts(where: {serie_id: $serie_id, owner_id: $owner_id}) {
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: String(this.artist.id_collection)+"|1", owner_id: this.$ramper.getAccountId()},
+      })
+
+      const data = res.data.nfts
+
+      if (data.length > 0) {
+        this.validateTier = false
+      } else {
+        this.validateTier = true
+      }
+    },
     async getDataHeader() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
@@ -506,8 +608,6 @@ export default {
 
       const data = res.data.artists[0]
 
-      console.log("HEADER",data)
-
       this.dataProfits = {
         nfts: data.total_nft,
         owners: "---",
@@ -516,25 +616,7 @@ export default {
         high: "---",
       }
 
-      // for (let i = 0; i < data.length; i++) {
-      //   const item = {
-      //     img: data[i].media,
-      //     avatar: this.artist.image,
-      //     name: data[i].desc_series.toUpperCase(),
-      //     desc: this.artist.name,
-      //     description: data[i].description,
-      //     floor_price: data[i].price_near,
-      //     price: data[i].price,
-      //     editions: data[i].copies || "Multi",
-      //     tier: Number(data[i].reference),
-      //     type: "nft",
-      //     token_id: data[i].id,
-      //     supply: data[i].supply,
-      //     copies: data[i].copies || 0,
-      //     state: null,
-      //   }
-      //   this.dataSlider.push(item)
-      // }
+      this.getOwners()
     },
     async getTiers() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -583,10 +665,20 @@ export default {
           supply: data[i].supply,
           copies: data[i].copies || 0,
           state: null,
+          validate: this.validateTier
         }
-        if (item.copies !== 0 && Number(item.supply) <= Number(item.copies)) {
+        if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
           item.state = "sold out"
         }
+
+        if (item.validate && item.tier !== 1) {
+          item.state = "unlocked"
+        }
+
+        if (item.tier === 1) {
+          item.validate = false
+        }
+
         this.dataSlider.push(item)
       }
     },

@@ -12,13 +12,15 @@ export default {
     news() {
       return JSON.parse(localStorage.getItem("news"))
     },
-    artist() {
-      return JSON.parse(localStorage.getItem("artist"))
-    },
     event() {
       return JSON.parse(localStorage.getItem("event"))
     },
     nft() {
+      return JSON.parse(localStorage.getItem(
+        this.$route.path.includes("/user-nft") ? "user-nft" : "nft"
+      ))
+    },
+    nft_details() {
       return JSON.parse(localStorage.getItem(
         this.$route.path.includes("/user-nft") ? "user-nft" : "nft"
       ))

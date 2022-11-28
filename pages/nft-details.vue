@@ -2,17 +2,17 @@
   <div
     id="nft-details" class="divcol"
     :class="{
-      uranium: nft.tier===6,
-      diamond: nft.tier===5,
-      platinum: nft.tier===4,
-      gold: nft.tier===3,
-      silver: nft.tier===2,
-      bronze: nft.tier===1,
+      uranium: nft_main.tier===6,
+      diamond: nft_main.tier===5,
+      platinum: nft_main.tier===4,
+      gold: nft_main.tier===3,
+      silver: nft_main.tier===2,
+      bronze: nft_main.tier===1,
     }">
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
-      <v-img :src="nft.img" class="header-background" transition="fade-transition">
+      <v-img :src="nft_main.img" class="header-background" transition="fade-transition">
         <template #default>
           <div class="center gap1 alignl">
             <!-- <button @click="$router.push(this.localePath(`/artist-details`))">
@@ -25,13 +25,13 @@
               </v-avatar>
             </button> -->
             <v-avatar style="border: 2px solid #fff">
-              <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
+              <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
                 <template #placeholder>
                   <v-skeleton-loader type="avatar" />
                 </template>
               </v-img>
             </v-avatar>
-            <span class="h9_em">{{nft.desc.toUpperCase()}}</span>
+            <span class="h9_em">{{nft_main.desc.toUpperCase()}}</span>
           </div>
         </template>
         <template #placeholder>
@@ -42,30 +42,30 @@
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
           <v-btn class="tag btn" style="--fs: 1.05em">{{
-            nft.tier===1 ? 'bronze' :
-            nft.tier===2 ? 'silver' :
-            nft.tier===3 ? 'gold' :
-            nft.tier===4 ? 'platinum' :
-            nft.tier===5 ? 'diamond' :
-            nft.tier===6 ? 'uranium' : 'user'
+            nft_main.tier===1 ? 'bronze' :
+            nft_main.tier===2 ? 'silver' :
+            nft_main.tier===3 ? 'gold' :
+            nft_main.tier===4 ? 'platinum' :
+            nft_main.tier===5 ? 'diamond' :
+            nft_main.tier===6 ? 'uranium' : 'user'
           }}</v-btn>
 
-          <h2 class="p tup">{{nft.name}}</h2>
+          <h2 class="p tup">{{nft_main.name}}</h2>
         </div>
 
-        <span>{{nft.desc}}</span>
+        <span>{{nft_main.desc}}</span>
 
         <p class="p">
-          {{nft.description}}
+          {{nft_main.description}}
         </p>
 
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">{{nft.floor_price}}
+            <span class="bold" style="--c: var(--accent)">{{nft_main.floor_price}}
               <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .9em">
             </span>
-            <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft.floor_price)}}</span>
+            <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft_main.floor_price)}}</span>
           </div>
         </div>
 
@@ -96,14 +96,14 @@
           <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em">
         </div>
       </v-sheet>
-      <v-sheet color="transparent" class="divcol center">
+      <!-- <v-sheet color="transparent" class="divcol center">
         <span>Tickets Sold</span>
         <span>{{dataProfits.tickets_sold}}</span>
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
         <span>Lorem Ipsum</span>
         <span>{{dataProfits.lorem_ipsum}}</span>
-      </v-sheet>
+      </v-sheet> -->
     </section>
 
     <h2 id="buy">Buy NFT</h2>
@@ -169,6 +169,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
 export default {
@@ -176,6 +177,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
         { icon: "mdi-twitter", link: "#" },
@@ -183,11 +185,11 @@ export default {
         { icon: "discord", link: "#" },
       ],
       dataProfits: {
-        total_tickets: 125,
-        owners: 85,
-        price: 520.00 ,
-        tickets_sold: 100,
-        lorem_ipsum: 205,
+        total_tickets: null,
+        owners: null,
+        price: null,
+        tickets_sold: null,
+        lorem_ipsum: null,
       },
       tableHeaders: [
         { value: "number", text: "edition number", align: "center" },
@@ -236,21 +238,110 @@ export default {
   },
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/artists'))}
+    this.nft_main = this.nft
   },
   mounted() {
-    console.log("NFT", this.nft)
     if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
       localStorage.removeItem('buyDirect')
       setTimeout(this.buyNftRamper, 400)
     }
+
+    this.nft_main = this.nft
+    // this.getSerie()
+    this.getDataNft()
   },
   methods: {
+    async getSerie() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          series(where: {id: $serie_id}) {
+            artist_id
+            copies
+            creator_id
+            desc_series
+            description
+            extra
+            fecha
+            id
+            media
+            price
+            price_near
+            reference
+            supply
+            title
+            typetoken_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: String(this.nft_main.token_id)},
+      })
+
+      const data = res.data.series[0]
+
+      this.nft_main.price_near = Number(data.price_near)
+
+      // this.getOwners()
+    },
+    async getDataNft() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          nfts(where: {serie_id: $serie_id}) {
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+            artist_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: String(this.nft_main.token_id)},
+      })
+
+      const data = res.data.nfts
+
+      console.log(data)
+
+      const ownersArray = []
+
+      for (let i = 0; i < data.length; i++) {
+        ownersArray.push(data[i].owner_id)
+      }
+
+      const owners = Array.from(new Set(ownersArray));
+
+      this.dataProfits.total_tickets = data.length
+      this.dataProfits.owners = owners.length
+      this.dataProfits.price = this.nft_main.floor_price
+
+      // this.dataProfits = {
+      //   total_tickets: data.length,
+      //   owners: owners.length,
+      //   price: 520.00 ,
+      //   tickets_sold: 100,
+      //   lorem_ipsum: 205,
+      // }
+
+      // this.getOwners()
+    },
     async buyNftRamper() {
-      const price = Number(this.nft.floor_price) + 0.3
+      const price = Number(this.nft_main.floor_price) + 0.3
       const action = [this.$ramper.functionCall(
         "nft_buy",       
         {
-          token_series_id: this.nft.token_id, 
+          token_series_id: this.nft_main.token_id, 
           receiver_id: this.$ramper.getAccountId(),
         }, 
         '300000000000000', 
