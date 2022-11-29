@@ -31,7 +31,7 @@
                 </template>
               </v-img>
             </v-avatar>
-            <span class="h9_em">{{nft_main.desc.toUpperCase()}}</span>
+            <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
           </div>
         </template>
         <template #placeholder>
@@ -312,8 +312,6 @@ export default {
 
       const data = res.data.nfts
 
-      console.log(data)
-
       const ownersArray = []
 
       for (let i = 0; i < data.length; i++) {
@@ -350,13 +348,19 @@ export default {
       const res = await this.$ramper.sendTransaction({
         transactionActions: [
           {
-            receiverId: 'nft2.musicfeast.testnet',
+            receiverId: 'nft4.musicfeast.testnet',
             actions: action,
           },
         ],
         network: 'testnet',
       })
       console.log("Transaction Result: ", res)
+
+      if (res.result[0].status.SuccessValue) {
+        this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+      } else if (res.result[0].status.Failure) {
+        this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+      }
     },
     dollarConversion(price) {
       return price / 2

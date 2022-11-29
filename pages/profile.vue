@@ -311,6 +311,18 @@ export default {
           state: null,
         }
 
+        if (item.tier === 7) {
+          item.tier = 3
+        } else if (item.tier === 8) {
+          item.tier = 4
+        } else if (item.tier === 9) {
+          item.tier = 5
+        } else if (item.tier === 10) {
+          item.tier = 2
+        } else if (item.tier === 11) {
+          item.tier = 2
+        }
+
         const varSplit = item.token_id.split("|")
         const idArtist = varSplit[0]
         const typeToken = varSplit[1].split(":").shift()
@@ -348,7 +360,6 @@ export default {
       })
     },
     async getSerie(idArtist, typeToken) {
-      console.log(idArtist, typeToken)
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $typetoken: String) {

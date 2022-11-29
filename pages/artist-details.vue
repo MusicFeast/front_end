@@ -291,7 +291,7 @@
           <p>{{item.desc}}</p>
 
           <div class="center bold" style="gap: 6.4px">
-            <span class="floor" style="--c: var(--accent)">Floor Price: 250.00</span>
+            <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
             <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
           </div>
         </div>
@@ -329,6 +329,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      ownerTiers: [],
       artist: {},
       validateTier: false,
       dataSocial: [
@@ -336,6 +337,14 @@ export default {
         { icon: "mdi-twitter", link: "#" },
         { icon: "mdi-facebook", link: "#" },
         { icon: "discord", link: "#" },
+      ],
+      tiers: [
+        { tier: "1", validate: false },
+        { tier: "2", validate: false },
+        { tier: "3", validate: false },
+        { tier: "4", validate: false },
+        { tier: "5", validate: false },
+        { tier: "6", validate: false },
       ],
       dataProfits: {
         nfts: null,
@@ -378,82 +387,25 @@ export default {
         list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataCollections: [
-        {
-          img: require('~/assets/sources/images/img-listed-1.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°1",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "live",
-          type: "nft",
-          tier: 3,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-2.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°2",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "sold out",
-          type: "collection",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-3.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°3",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "comming soon",
-          type: "nft",
-          tier: 2,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-4.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°4",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "live",
-          type: "collection",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "sold out",
-          type: "nft",
-          tier: 4,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "sold out",
-          type: "nft",
-          tier: 6,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "sold out",
-          type: "collection",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          state: "sold out",
-          type: "collection",
-        },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-1.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°1",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   state: "live",
+        //   type: "nft",
+        //   tier: 3,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-2.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°2",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   state: "sold out",
+        //   type: "collection",
+        // },
       ],
       currentPage: 1,
       itemsPerPage: 10,
@@ -507,6 +459,7 @@ export default {
             this.artist.image = this.artist.image ? this.baseUrl+this.artist.image : require('~/assets/sources/avatars/avatar.png');
 
             await this.validateTierOne()
+            this.validateTiers()
             this.getDataHeader()
             this.dataSocials()
             this.getTiers()
@@ -558,8 +511,11 @@ export default {
     async validateTierOne() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($serie_id: String, $owner_id: String) {
-          nfts(where: {serie_id: $serie_id, owner_id: $owner_id}) {
+        query QUERY_APOLLO($artist_id: String, $owner_id: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, reference: "1"}
+          ) {
+            artist_id
             description
             extra
             fecha
@@ -575,15 +531,138 @@ export default {
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
-        variables: {serie_id: String(this.artist.id_collection)+"|1", owner_id: this.$ramper.getAccountId()},
+        variables: {artist_id: String(this.artist.id_collection), owner_id: this.$ramper.getAccountId()},
       })
 
       const data = res.data.nfts
+
+      console.log("ONE", data)
 
       if (data.length > 0) {
         this.validateTier = false
       } else {
         this.validateTier = true
+      }
+    },
+    async validateTiers() {
+      for (let i = 0; i < this.tiers.length; i++) {
+        this.tiers[i].validate = await this.validateTierFn(i+1)
+        if (this.tiers[i].validate) {
+          this.ownerTiers.push(this.tiers[i].tier)
+        }
+      }
+      this.getDataNfts()
+    },
+    async getDataNfts() {
+      // const tiersArray = []
+      // for (let i = 0; i < this.tiers.length; i++) {
+      //   if (this.tiers[i].validate) {
+      //     if (this.tiers[i].tier === '3') {
+      //       tiersArray.push('7')
+      //     }
+      //   }
+      // }
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $typetoken: [String]) {
+          series(where: {artist_id: $artist_id, typetoken_id_in: $typetoken}) {
+            id
+            media
+            price
+            reference
+            title
+            typetoken_id
+            fecha
+            extra
+            description
+            creator_id
+            artist_id
+            price_near
+            supply
+            copies
+            desc_series
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.artist.id_collection), typetoken: ['7', '8', '9', '10', '11']},
+      })
+
+      const data = res.data.series
+
+      console.log(data)
+
+      this.dataCollections = []
+
+      for (let i = 0; i < data.length; i++) {
+        const item = {
+          token_id: data[i].id,
+          artist: this.artist.name,
+          img: data[i].media,
+          avatar: this.artist.image,
+          name: data[i].title,
+          desc: data[i].description,
+          floor_price: data[i].price_near,
+          price: data[i].price,
+          copies: data[i].copies || 0,
+          supply: data[i].supply,
+          artist_id: data[i].artist_id,
+          // state: "live",
+          state: null,
+          type: "nft",
+          tier: data[i].typetoken_id
+        }
+
+        if (item.tier === "7") {
+          item.tier = 3
+        } else if (item.tier === "8") {
+          item.tier = 4
+        } else if (item.tier === "9") {
+          item.tier = 5
+        } else if (item.tier === "10") {
+          item.tier = 2
+        } else if (item.tier === "11") {
+          item.tier = 2
+        }
+
+        this.dataCollections.push(item)
+      }
+    
+    },
+    async validateTierFn(tierId) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference}
+          ) {
+            artist_id
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.artist.id_collection), owner_id: this.$ramper.getAccountId(), reference: String(tierId)},
+      })
+
+      const data = res.data.nfts
+
+      if (data.length > 0) {
+        return true
+      } else {
+        return false
       }
     },
     async getDataHeader() {
@@ -654,6 +733,7 @@ export default {
           img: data[i].media,
           avatar: this.artist.image,
           name: data[i].desc_series.toUpperCase(),
+          artist: this.artist.name,
           desc: this.artist.name,
           description: data[i].description,
           floor_price: data[i].price_near,

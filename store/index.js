@@ -92,8 +92,10 @@ export const mutations = {
 
     console.log(login)
     
-    if (login.user) {
-      this.$router.go()
+    if (login) {
+      if (login.user) {
+        this.$router.go()
+      }
     }
  
     // const nearWallet = "https://wallet.testnet.near.org"
@@ -132,7 +134,7 @@ export const mutations = {
     const res = await window.$nuxt.$ramper.sendTransaction({
       transactionActions: [
         {
-          receiverId: 'nft2.musicfeast.testnet',
+          receiverId: 'nft4.musicfeast.testnet',
           actions: actions2,
         },
       ],
@@ -194,8 +196,13 @@ export const actions = {
       })
     } else {
       console.log(item)
-      localStorage.setItem(key, JSON.stringify(item.id))
-      this.$router.push(this.localePath(`/${key}-details`));
+      if (key === 'artist') {
+        localStorage.setItem(key, JSON.stringify(item.id))
+        this.$router.push(this.localePath(`/${key}-details`));
+      } else {
+        localStorage.setItem(key, JSON.stringify(item))
+        this.$router.push(this.localePath(`/${key}-details`));
+      }
     }
   },
 };
