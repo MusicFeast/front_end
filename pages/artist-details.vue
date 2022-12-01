@@ -246,56 +246,108 @@
     </h2>
 
     <section class="container-collections grid">
-      <v-card
-        v-for="(item,i) in dataCollections_pagination" :key="i"
-        class="card divcol custome"
-        :class="{
-          uranium: item.tier===6,
-          diamond: item.tier===5,
-          platinum: item.tier===4,
-          gold: item.tier===3,
-          silver: item.tier===2,
-          bronze: item.tier===1,
-        }"
-        @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
-        <v-img
-          :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-          :style="`
-            ${
-              item.tier ? `--tag-tier: '${
-                item.tier===1 ? 'bronze' :
-                item.tier===2 ? 'silver' :
-                item.tier===3 ? 'gold' :
-                item.tier===4 ? 'platinum' :
-                item.tier===5 ? 'diamond' :
-                item.tier===6 ? 'uranium' : 'user'
-              }'
-              `: ''
-            };
-            ${item.state ? `--tag-state: '${item.state}'` : ''}`
-          ">
-          <template #placeholder>
-            <v-skeleton-loader type="card" />
-          </template>
-        </v-img>
-        
-        <div class="container-content tcenter">
-          <v-avatar style="border: 2px solid #fff">
-            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
-              <template #placeholder>
-                <v-skeleton-loader type="avatar" />
-              </template>
-            </v-img>
-          </v-avatar>
-          <a>{{item.name}}</a>
-          <p>{{item.desc}}</p>
+      <div v-for="(item,i) in dataCollections_pagination" :key="i">
+        <v-card
+          v-if="!item.state"
+          class="card divcol custome"
+          :class="{
+            uranium: item.tier===6,
+            diamond: item.tier===5,
+            platinum: item.tier===4,
+            gold: item.tier===3,
+            silver: item.tier===2,
+            bronze: item.tier===1,
+          }"
+          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
+          <v-img
+            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
+            :style="`
+              ${
+                item.tier ? `--tag-tier: '${
+                  item.tier===1 ? 'bronze' :
+                  item.tier===2 ? 'silver' :
+                  item.tier===3 ? 'gold' :
+                  item.tier===4 ? 'platinum' :
+                  item.tier===5 ? 'diamond' :
+                  item.tier===6 ? 'uranium' : 'user'
+                }'
+                `: ''
+              };
+              ${item.state ? `--tag-state: '${item.state}'` : ''}`
+            ">
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+          </v-img>
+          
+          <div class="container-content tcenter">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <a>{{item.name}}</a>
+            <p>{{item.desc}}</p>
 
-          <div class="center bold" style="gap: 6.4px">
-            <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
-            <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
+            <div class="center bold" style="gap: 6.4px">
+              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
+              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
+            </div>
           </div>
-        </div>
-      </v-card>
+        </v-card>
+        <v-card
+          v-else
+          class="card divcol custome"
+          :class="{
+            uranium: item.tier===6,
+            diamond: item.tier===5,
+            platinum: item.tier===4,
+            gold: item.tier===3,
+            silver: item.tier===2,
+            bronze: item.tier===1,
+          }"
+          >
+          <v-img
+            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
+            :style="`
+              ${
+                item.tier ? `--tag-tier: '${
+                  item.tier===1 ? 'bronze' :
+                  item.tier===2 ? 'silver' :
+                  item.tier===3 ? 'gold' :
+                  item.tier===4 ? 'platinum' :
+                  item.tier===5 ? 'diamond' :
+                  item.tier===6 ? 'uranium' : 'user'
+                }'
+                `: ''
+              };
+              ${item.state ? `--tag-state: '${item.state}'` : ''}`
+            ">
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+          </v-img>
+          
+          <div class="container-content tcenter">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <a>{{item.name}}</a>
+            <p>{{item.desc}}</p>
+
+            <div class="center bold" style="gap: 6.4px">
+              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
+              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
+            </div>
+          </div>
+        </v-card>
+      </div>
     </section>
 
     <Pagination
@@ -329,6 +381,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      dia: false,
       ownerTiers: [],
       artist: {},
       validateTier: false,
@@ -422,6 +475,10 @@ export default {
   },
   computed: {
     dataCollections_pagination() {
+      console.log("ASD",this.$store.getters.pagination({
+        items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
+        search: this.search
+      }))
       return this.$store.getters.pagination({
         items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
         search: this.search
@@ -458,8 +515,8 @@ export default {
             this.artist.banner = this.baseUrl+this.artist.banner;
             this.artist.image = this.artist.image ? this.baseUrl+this.artist.image : require('~/assets/sources/avatars/avatar.png');
 
-            await this.validateTierOne()
-            this.validateTiers()
+            // await this.validateTierOne()
+            await this.validateTiers()
             this.getDataHeader()
             this.dataSocials()
             this.getTiers()
@@ -550,6 +607,13 @@ export default {
         if (this.tiers[i].validate) {
           this.ownerTiers.push(this.tiers[i].tier)
         }
+        if (this.tiers[i].tier === '1') {
+          if (this.tiers[i].validate) {
+            this.validateTier = false
+          } else {
+            this.validateTier = true
+          }
+        }
       }
       this.getDataNfts()
     },
@@ -611,24 +675,48 @@ export default {
           artist_id: data[i].artist_id,
           // state: "live",
           state: null,
+          activate: false,
           type: "nft",
-          tier: data[i].typetoken_id
+          tier: Number(data[i].typetoken_id)
         }
 
-        if (item.tier === "7") {
+        if (item.tier === 7) {
           item.tier = 3
-        } else if (item.tier === "8") {
+        } else if (item.tier === 8) {
           item.tier = 4
-        } else if (item.tier === "9") {
+        } else if (item.tier === 9) {
           item.tier = 5
-        } else if (item.tier === "10") {
+        } else if (item.tier === 10) {
           item.tier = 2
-        } else if (item.tier === "11") {
+        } else if (item.tier === 11) {
           item.tier = 2
+        }
+
+        if (item.tier === 2) {
+          if (this.tiers[1].validate === false) {
+            item.state = "locked"
+            item.activate = true
+          }
+        } else if (item.tier === 3) {
+          if (this.tiers[2].validate === false) {
+            item.state = "locked"
+            item.activate = true
+          }
+        } else if (item.tier === 4) {
+          if (this.tiers[3].validate === false) {
+            item.state = "locked"
+            item.activate = true
+          }
+        } else if (item.tier === 5) {
+          if (this.tiers[4].validate === false) {
+            item.state = "locked"
+            item.activate = true
+          }
         }
 
         this.dataCollections.push(item)
       }
+      console.log("DATANFTS", this.dataCollections)
     
     },
     async validateTierFn(tierId) {
@@ -734,6 +822,7 @@ export default {
           avatar: this.artist.image,
           name: data[i].desc_series.toUpperCase(),
           artist: this.artist.name,
+          artist_id: data[i].artist_id,
           desc: this.artist.name,
           description: data[i].description,
           floor_price: data[i].price_near,
@@ -752,13 +841,44 @@ export default {
         }
 
         if (item.validate && item.tier !== 1) {
-          item.state = "unlocked"
+          item.state = "locked"
         }
 
         if (item.tier === 1) {
           item.validate = false
         }
 
+        if (item.tier === 1) {
+          if (this.tiers[0].validate === true) {
+            item.state = "owned"
+            item.activate = false
+          }
+        } else if (item.tier === 2) {
+          if (this.tiers[1].validate === true) {
+            item.state = "owned"
+            item.activate = false
+          }
+        } else if (item.tier === 3) {
+          if (this.tiers[2].validate === true) {
+            item.state = "owned"
+            item.activate = false
+          }
+        } else if (item.tier === 4) {
+          if (this.tiers[3].validate === true) {
+            item.state = "owned"
+            item.activate = false
+          }
+        } else if (item.tier === 5) {
+          if (this.tiers[4].validate === true) {
+            item.state = "owned"
+            item.activate = false
+          }
+        } else if (item.tier === 6) {
+          if (this.tiers[5].validate === true) {
+            item.state = "owned"
+            item.activate = false
+          }
+        }
         this.dataSlider.push(item)
       }
     },

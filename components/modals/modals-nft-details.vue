@@ -14,6 +14,16 @@
               <p class="p">You are about to sell "{{nft.name}}".</p>
 
               <v-sheet color="transparent">
+                <v-select
+                  id="country"
+                  v-model="valueNft"
+                  :items="dataNfts" 
+                  item-text="id"
+                  solo
+                  :rules="[v => !!v || 'required field']"
+                  placeholder="Select the id token to sell"
+                  style="--fs-place: 16px; flex-grow: 0"
+                ></v-select>
                 <label for="amount">Amount in
                   <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: 1em">
                 </label>
@@ -22,7 +32,7 @@
                   v-model="form_sell.sellPrice"
                   filled dense
                   background-color="rgba(0, 0, 0, .2)"
-                  placeholder="1,345.67"
+                  placeholder="123.45"
                   type="number"
                   :rules="[v => !!v || 'required field']"
                 ></v-text-field>
@@ -48,6 +58,7 @@
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px; --bg: #fff; --c: var(--primary)"
                 @click="clearSell()">Cancel</v-btn>
               <v-btn
+                :disabled="btnSale"
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
                 @click="putSale()">Put On Sale</v-btn>
             </div>
@@ -421,6 +432,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
 export default {
@@ -428,6 +440,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      btnSale: false,
+      valueNft: null,
+      dataNfts: [],
       modalSell: false,
       modalBuy: false,
       modalOffer: false,
@@ -458,8 +473,96 @@ export default {
     };
   },
   mounted() {
+    console.log("HOLAAA",this.nft)
+    this.getDataNfts()
+  
   },
   methods: {
+    async sellNftRamper() {
+      this.btnSale = true
+      if (this.$ramper.getUser()) {
+        const price = Number(this.nft_main.floor_price) + 0.3
+        const action = [this.$ramper.functionCall(
+          "nft_buy",       
+          {
+            token_series_id: this.nft_main.token_id, 
+            receiver_id: this.$ramper.getAccountId(),
+          }, 
+          '300000000000000', 
+          this.$utils.format.parseNearAmount(String(price))
+        )]
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: 'nft4.musicfeast.testnet',
+              actions: action,
+            },
+          ],
+          network: 'testnet',
+        })
+        console.log("Transaction Result: ", res)
+
+        this.btnSale = false
+
+        if (res && res.result) {
+          if (res.result[0].status.SuccessValue) {
+            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+          } else if (res.result[0].status.Failure) {
+            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
+      }
+    },
+    // async storageMini(marketplace){
+    //   const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
+    //   const wallet = new WalletConnection(near);
+
+    //   const contract = new Contract(wallet.account(), marketplace, {
+    //     viewMethods: ["storage_minimum_balance"],
+    //     sender: wallet.account(),
+    //   })
+    //   await contract.storage_minimum_balance()
+    //   .then((response) => {
+    //     this.minimumStorage = utils.format.formatNearAmount(response)
+    //   }).catch(err => {
+    //     //console.log(err)
+    //   })
+    // },
+    async getDataNfts() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference}
+          ) {
+            artist_id
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.nft.artist_id), owner_id: this.$ramper.getAccountId(), reference: String(this.nft.tier)},
+      })
+
+      const data = res.data.nfts
+
+      this.dataNfts = data
+
+      console.log("DATANF", this.dataNfts)
+    },
     // sell
     clearSell() {
       Object.keys(this.form_sell).forEach(key => {this.form_sell[key] = null});

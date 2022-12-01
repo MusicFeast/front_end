@@ -71,9 +71,11 @@
 
         <div class="center gap2 wrap bold">
           <v-btn
+            :disabled="!ownedNft"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
+            :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
             @click="buyNftRamper()">Buy</v-btn>
         </div>
@@ -177,6 +179,8 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      ownedNft: true,
+      btnBuy: false,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
@@ -240,17 +244,56 @@ export default {
     if (!this.nft) {this.$router.push(this.localePath('/artists'))}
     this.nft_main = this.nft
   },
-  mounted() {
+  async mounted() {
     if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
-      localStorage.removeItem('buyDirect')
       setTimeout(this.buyNftRamper, 400)
+      localStorage.removeItem('buyDirect')
     }
 
     this.nft_main = this.nft
     // this.getSerie()
     this.getDataNft()
+
+    this.ownedNft = await this.validateTierFn(this.nft_main.tier)
+    console.log(this.nft_main)
   },
   methods: {
+    async validateTierFn(tierId) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference}
+          ) {
+            artist_id
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.nft_main.artist_id), owner_id: this.$ramper.getAccountId(), reference: String(tierId)},
+      })
+
+      const data = res.data.nfts
+
+      console.log("NFTS",data)
+
+      if (data.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    },
     async getSerie() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
@@ -335,31 +378,41 @@ export default {
       // this.getOwners()
     },
     async buyNftRamper() {
-      const price = Number(this.nft_main.floor_price) + 0.3
-      const action = [this.$ramper.functionCall(
-        "nft_buy",       
-        {
-          token_series_id: this.nft_main.token_id, 
-          receiver_id: this.$ramper.getAccountId(),
-        }, 
-        '300000000000000', 
-        this.$utils.format.parseNearAmount(String(price))
-      )]
-      const res = await this.$ramper.sendTransaction({
-        transactionActions: [
+      this.btnBuy = true
+      if (this.$ramper.getUser()) {
+        const price = Number(this.nft_main.floor_price) + 0.3
+        const action = [this.$ramper.functionCall(
+          "nft_buy",       
           {
-            receiverId: 'nft4.musicfeast.testnet',
-            actions: action,
-          },
-        ],
-        network: 'testnet',
-      })
-      console.log("Transaction Result: ", res)
+            token_series_id: this.nft_main.token_id, 
+            receiver_id: this.$ramper.getAccountId(),
+          }, 
+          '300000000000000', 
+          this.$utils.format.parseNearAmount(String(price))
+        )]
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: 'nft4.musicfeast.testnet',
+              actions: action,
+            },
+          ],
+          network: 'testnet',
+        })
+        console.log("Transaction Result: ", res)
 
-      if (res.result[0].status.SuccessValue) {
-        this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
-      } else if (res.result[0].status.Failure) {
-        this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+        this.btnBuy = false
+
+        if (res && res.result) {
+          if (res.result[0].status.SuccessValue) {
+            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+          } else if (res.result[0].status.Failure) {
+            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
       }
     },
     dollarConversion(price) {

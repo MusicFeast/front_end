@@ -53,7 +53,7 @@
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>All Time High</span>
-          <span>$ {{dataProfits.high}}K</span>
+          <span>$ {{dataProfits.high}}</span>
         </v-sheet>
       </section>
 
@@ -158,9 +158,9 @@ export default {
     return {
       pageName: 'profile',
       dataProfits: {
-        nfts: 7659,
-        chats: 3,
-        high: 120.45,
+        nfts: null,
+        chats: "---",
+        high: "---",
       },
       search: "",
       filterA: {
@@ -293,6 +293,8 @@ export default {
       })
 
       const data = res.data.nfts
+
+      this.dataProfits.nfts = data.length
 
       const arrayIds = []
 
