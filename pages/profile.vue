@@ -53,7 +53,8 @@
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>All Time High</span>
-          <span>$ {{dataProfits.high}}</span>
+          <span>{{dataProfits.high}} Near</span>
+          
         </v-sheet>
       </section>
 
@@ -298,6 +299,8 @@ export default {
 
       const arrayIds = []
 
+      let maxPrice = 0
+
       for (let i = 0; i < data.length; i++) {
         const item = {
           floor_price: null,
@@ -330,18 +333,71 @@ export default {
         const typeToken = varSplit[1].split(":").shift()
 
         const serie = await this.getSerie(idArtist, typeToken)
+        const floor = await this.getFloorPrice(serie.id)
 
         item.artist_id = serie.artist_id
         item.editions = serie.copies || "Multi"
-        item.floor_price = serie.price_near
         item.id_artist = idArtist
+
+        if (floor) {
+          if (Number(floor) < Number(serie.price_near)) {
+            item.floor_price = floor
+          } else {
+            item.floor_price = serie.price_near
+          }
+        } else {
+          item.floor_price = serie.price_near
+        }
+        
+        if (maxPrice < item.floor_price) {
+          maxPrice = item.floor_price
+        }
 
         arrayIds.push(idArtist)
         this.dataNfts.push(item)
       }
+      this.dataProfits.high = maxPrice
       const result = Array.from(new Set(arrayIds));
       
       this.getAvatars(result)
+    },
+    async getFloorPrice (serieId) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          markets(where: {serie_id: $serie_id}, first: 1, orderBy: price_near) {
+            id
+            typetoken_id
+            transaction_fee
+            token_id
+            started_at
+            serie_id
+            price_near
+            price
+            owner_id
+            nft_contract_id
+            is_auction
+            ft_token_id
+            ended_at
+            end_price
+            artist_id
+            approval_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: serieId},
+      })
+
+      const data = res.data.markets
+
+      if (data[0]) {
+        return data[0].price_near
+      } else {
+        return false
+      }
     },
     async getAvatars(datos) {
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })

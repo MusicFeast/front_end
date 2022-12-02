@@ -39,13 +39,13 @@
 
                 <div class="divcol" style="gap: 4px; margin-bottom: 10px">
                   <div class="space gap2">
-                    <span>Your Balance</span>
-                    <span>{{user.balance ?? 0}}</span>
+                    <span>Your Storage</span>
+                    <span>{{this.myStorage ?? 0}}</span>
                   </div>
                   
                   <div class="space gap2">
-                    <span>Sale Price</span>
-                    <span>{{form_sell.sellPrice || '---'}}</span>
+                    <span>Minimum Storage</span>
+                    <span>{{this.minimumStorage || '---'}}</span>
                   </div>
                 </div>
               </v-sheet>
@@ -71,7 +71,7 @@
             <h3>Offer Success</h3>
 
             <section class="divcol" style="gap: 1.5em">
-              <p class="p">Successfully offered sale "NFT Name #234" for</p>
+              <p class="p">Successfully offered sale "{{valueNft}}" for</p>
 
               <v-text-field
                 v-model="form_sell.sellPrice"
@@ -86,18 +86,22 @@
               </v-text-field>
 
               <v-sheet class="card bold">
-                <v-btn icon class="close" width="max-content" height="max-content">
+                <v-btn v-if="!copyBtn" @click="copyHash(hash_sell)" icon class="close" width="max-content" height="max-content">
                   <v-icon color="var(--accent)" size="1.2em">mdi-content-copy</v-icon>
                 </v-btn>
 
+                <v-btn v-else disabled icon class="close" width="max-content" height="max-content">
+                  <v-icon color="var(--accent)" size="1.2em">mdi-check-circle</v-icon>
+                </v-btn>
+
                 <span style="--c: var(--accent)">Transaction Hash</span>
-                <span>{{hash_sell}}</span>
+                <a :href="'https://explorer.testnet.near.org/transactions/' + hash_sell" target="_blank">{{hash_sell.limitString(28)}}</a>
               </v-sheet>
             </section>
 
             <v-btn
               :ripple="false" class="btn activeBtn" style="--w: 100%; --fs: 16px; margin-top: 4em"
-              :to="localePath('/profile')" @click="clearSell()">See NFT</v-btn>
+              @click="closeSell()">Close</v-btn>
           </v-card>
         </v-window-item>
       </v-window>
@@ -440,6 +444,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      copyBtn: false,
+      myStorage: null,
+      minimumStorage: null,
       btnSale: false,
       valueNft: null,
       dataNfts: [],
@@ -473,70 +480,52 @@ export default {
     };
   },
   mounted() {
-    console.log("HOLAAA",this.nft)
     this.getDataNfts()
-  
+    this.storageMini()
+    this.mystorage()
   },
   methods: {
-    async sellNftRamper() {
-      this.btnSale = true
-      if (this.$ramper.getUser()) {
-        const price = Number(this.nft_main.floor_price) + 0.3
-        const action = [this.$ramper.functionCall(
-          "nft_buy",       
-          {
-            token_series_id: this.nft_main.token_id, 
-            receiver_id: this.$ramper.getAccountId(),
-          }, 
-          '300000000000000', 
-          this.$utils.format.parseNearAmount(String(price))
-        )]
-        const res = await this.$ramper.sendTransaction({
-          transactionActions: [
-            {
-              receiverId: 'nft4.musicfeast.testnet',
-              actions: action,
-            },
-          ],
-          network: 'testnet',
-        })
-        console.log("Transaction Result: ", res)
-
-        this.btnSale = false
-
-        if (res && res.result) {
-          if (res.result[0].status.SuccessValue) {
-            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
-          } else if (res.result[0].status.Failure) {
-            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
-          }
-        }
-      } else {
-        await this.$ramper.signIn()
-        location.reload();
-      }
+    copyHash(item) {
+      this.copyBtn = true
+      navigator.clipboard.writeText(item)
+      setTimeout(() => {this.copyBtn = false}, 3000)
     },
-    // async storageMini(marketplace){
-    //   const near = await connect(CONFIG(new keyStores.BrowserLocalStorageKeyStore()));
-    //   const wallet = new WalletConnection(near);
+    async storageMini(){
+      const account = await this.$near.account(this.$ramper.getAccountId());
 
-    //   const contract = new Contract(wallet.account(), marketplace, {
-    //     viewMethods: ["storage_minimum_balance"],
-    //     sender: wallet.account(),
-    //   })
-    //   await contract.storage_minimum_balance()
-    //   .then((response) => {
-    //     this.minimumStorage = utils.format.formatNearAmount(response)
-    //   }).catch(err => {
-    //     //console.log(err)
-    //   })
-    // },
+      const contract = new this.$contract(account, "market.musicfeast.testnet", {
+        viewMethods: ["storage_minimum_balance"],
+        sender: account,
+      })
+      await contract.storage_minimum_balance()
+      .then((response) => {
+        this.minimumStorage = this.$utils.format.formatNearAmount(response)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    async mystorage(){
+      const account = await this.$near.account(this.$ramper.getAccountId());
+
+      const contract = new this.$contract(account, "market.musicfeast.testnet", {
+        viewMethods: ["storage_balance_of"],
+        sender: account,
+      })
+      await contract.storage_balance_of({
+        account_id: this.$ramper.getAccountId()
+      })
+      .then((response) => {
+        this.myStorage = this.$utils.format.formatNearAmount(response)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     async getDataNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String) {
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $serie_id: String) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference}
+            where: {owner_id: $owner_id, artist_id: $artist_id, serie_id: $serie_id}
           ) {
             artist_id
             description
@@ -552,24 +541,101 @@ export default {
         }
       `;
 
+
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
-        variables: {artist_id: String(this.nft.artist_id), owner_id: this.$ramper.getAccountId(), reference: String(this.nft.tier)},
+        variables: {artist_id: String(this.nft.artist_id), owner_id: this.$ramper.getAccountId(), serie_id: String(this.nft.type_id)},
       })
 
       const data = res.data.nfts
 
       this.dataNfts = data
 
-      console.log("DATANF", this.dataNfts)
     },
     // sell
     clearSell() {
       Object.keys(this.form_sell).forEach(key => {this.form_sell[key] = null});
       this.modalSell = false; this.windowSell = 1;
+      this.valueNft = null
     },
-    putSale() {
-      if (this.$refs.formSell.validate()) {this.windowSell++}
+    closeSell() {
+      location.reload();
+    },
+    async putSale() {
+      if (this.$refs.formSell.validate()) {
+        this.btnSale = true
+        if (this.$ramper.getUser()) {
+          const action1 = [
+            this.$ramper.functionCall(
+              "storage_deposit",       
+              {
+                account_id: this.$ramper.getAccountId(),
+              }, 
+              '50000000000000', 
+              this.$utils.format.parseNearAmount(this.minimumStorage)
+            )
+          ]
+          const msgs = {
+            price: String(this.$utils.format.parseNearAmount(this.form_sell.sellPrice)),
+            market_type: "sale",
+            ft_token_id: "near"
+          }
+          const action2 = [
+            this.$ramper.functionCall(
+              "nft_approve",       
+              {
+                token_id: this.valueNft, 
+                account_id: "market.musicfeast.testnet",
+                msg: JSON.stringify(msgs)
+              }, 
+              '200000000000000', 
+              '500000000000000000000'
+            )
+          ]
+          const action3 = [
+            this.$ramper.functionCall(
+              "storage_withdraw",       
+              '30000000000000', 
+              '1'
+            )
+          ]
+
+          const res = await this.$ramper.sendTransaction({
+            transactionActions: [
+              {
+                receiverId: 'market.musicfeast.testnet',
+                actions: action1,
+              },
+              {
+                receiverId: 'nft4.musicfeast.testnet',
+                actions: action2,
+              },
+              {
+                receiverId: 'market.musicfeast.testnet',
+                actions: action3,
+              },
+            ],
+            network: 'testnet',
+          })
+          console.log("Transaction Result: ", res)
+
+          this.btnSale = false
+
+          if (res && res.result) {
+            if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
+              this.hash_sell = res.txHashes[1]
+              this.windowSell++
+              // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
+            } else if (res.result[1].status.Failure) {
+              this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+            }
+          }
+        } else {
+          await this.$ramper.signIn()
+          location.reload();
+        }
+        // this.windowSell++
+      }
     },
     // buy
     clearBuy() {

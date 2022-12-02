@@ -89,8 +89,6 @@ export const mutations = {
   },
   async signIn(state, key) {
     const login = await window.$nuxt.$ramper.signIn()
-
-    console.log(login)
     
     if (login) {
       if (login.user) {

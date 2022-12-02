@@ -75,9 +75,14 @@
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
+            v-if="!soldBtn"
             :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
             @click="buyNftRamper()">Buy</v-btn>
+            <v-btn
+            v-if="soldBtn"
+            :disabled="true"
+            :ripple="false" class="btn activeBtn text-decoration-line-through" style="--w: min(100%, 12em); --fs: 14px">Sold Out</v-btn>
         </div>
       </article>
     </section>
@@ -92,7 +97,7 @@
         <span>{{dataProfits.owners}}</span>
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
-        <span>Price</span>
+        <span>Floor Price</span>
         <div class="acenter" style="gap: .5em">
           <span>{{dataProfits.price}}</span>
           <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em">
@@ -119,9 +124,9 @@
       mobile-breakpoint="-1"
       :header-props="{sortIcon: 'mdi-menu-down'}"
     >
-      <template #[`item.vault`]="{ item }">
+      <!-- <template #[`item.vault`]="{ item }">
         <span :style="`--c:${item.vault ? '#26A17B' : ''}`">{{item.vault ? 'Yes' : 'No'}}</span>
-      </template>
+      </template> -->
       
       <template #[`item.seller`]="{ item }">
         <center class="center" style="gap:10px">
@@ -132,7 +137,7 @@
               </template>
             </v-img>
           </v-avatar>
-          <span>{{item.seller}}</span>
+          <span :title="item.seller">{{item.seller.limitString(25)}}</span>
         </center>
       </template>
       
@@ -148,18 +153,35 @@
         </center>
       </template>
       
-      <template #[`item.buy`]>
+      <template #[`item.buy`]="{ item }">
         <v-btn
+          v-if="!item.owned"
+          :disabled="btnBuy"
           :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
-          @click="$refs.modal.modalBuy = true">Buy</v-btn>
+          @click="buyMarketRamper(item)">Buy</v-btn>
+          <v-btn
+          v-if="item.owned"
+          :disabled="btnBuy"
+          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
+          @click="unlistNft(item)">Unlist</v-btn>
       </template>
       
-      <template #[`item.offer`]>
+      <template #[`item.offer`]="{ item }">
         <v-btn
+          v-if="!item.owned"
+          :disabled="btnBuy"
           :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)"
           @click="$refs.modal.modalOffer = true"
         >Make an Offer</v-btn>
       </template>
+
+      <!-- <template #[`item.unlist`]="{ item }">
+        <v-btn
+          v-if="item.owned"
+          :disabled="btnBuy"
+          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
+          @click="unlistNft(item)">Unlist</v-btn>
+      </template> -->
     </v-data-table>
 
     <Pagination
@@ -179,6 +201,8 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      disabled: true,
+      soldBtn: false,
       ownedNft: true,
       btnBuy: false,
       nft_main: {},
@@ -197,33 +221,34 @@ export default {
       },
       tableHeaders: [
         { value: "number", text: "edition number", align: "center" },
-        { value: "vault", text: "vault item", align: "center", sortable: false },
+        { value: "token", text: "token id", align: "center", sortable: false },
         { value: "seller", text: "seller", align: "center", sortable: false },
         { value: "price", text: "price", align: "center" },
         { value: "buy", align: "center", sortable: false },
         { value: "offer", align: "center", sortable: false },
+        // { value: "unlist", align: "center", sortable: false },
       ],
       tableItems: [
-        {
-          number: "#1",
-          vault: true,
-          seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/avatars/avatar.png"),
-          price: "174",
-        },
-        {
-          number: "#123",
-          vault: false,
-          seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/avatars/avatar.png"),
-          price: "174",
-        },
-        {
-          number: "#123",
-          vault: false,
-          seller: "tonystark.near",
-          seller_avatar: require("~/assets/sources/avatars/avatar.png"),
-        },
+        // {
+        //   number: "#1",
+        //   vault: true,
+        //   seller: "tonystark.near",
+        //   seller_avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   price: "174",
+        // },
+        // {
+        //   number: "#123",
+        //   vault: false,
+        //   seller: "tonystark.near",
+        //   seller_avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   price: "174",
+        // },
+        // {
+        //   number: "#123",
+        //   vault: false,
+        //   seller: "tonystark.near",
+        //   seller_avatar: require("~/assets/sources/avatars/avatar.png"),
+        // },
       ],
       currentPage: 1,
       itemsPerPage: 10,
@@ -251,13 +276,69 @@ export default {
     }
 
     this.nft_main = this.nft
-    // this.getSerie()
+    this.getSerie()
     this.getDataNft()
 
     this.ownedNft = await this.validateTierFn(this.nft_main.tier)
-    console.log(this.nft_main)
+  
   },
   methods: {
+    async unlistNft(item) {
+      this.btnBuy = true
+      if (this.$ramper.getUser()) {
+        const action1 = [
+          this.$ramper.functionCall(
+            "delete_market_data",       
+            {
+              nft_contract_id: "nft4.musicfeast.testnet",
+              token_id: item.token
+            }, 
+            '100000000000000', 
+            '1'
+          )
+        ]
+        const action2 = [
+          this.$ramper.functionCall(
+            "nft_revoke",       
+            {
+              token_id: item.token, 
+              account_id: "market.musicfeast.testnet",
+            }, 
+            '100000000000000', 
+            '1'
+          )
+        ]
+
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: 'market.musicfeast.testnet',
+              actions: action1,
+            },
+            {
+              receiverId: 'nft4.musicfeast.testnet',
+              actions: action2,
+            },
+          ],
+          network: 'testnet',
+        })
+        console.log("Transaction Result: ", res)
+
+        this.btnBuy = false
+
+        if (res && res.result) {
+          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "" && res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
+            this.getNftsMarket()
+            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})   
+          } else if (res.result[0].status.Failure) {
+            this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
+      }
+    },
     async validateTierFn(tierId) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
@@ -286,7 +367,6 @@ export default {
 
       const data = res.data.nfts
 
-      console.log("NFTS",data)
 
       if (data.length > 0) {
         return true
@@ -320,14 +400,15 @@ export default {
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
-        variables: {serie_id: String(this.nft_main.token_id)},
+        variables: {serie_id: String(this.nft_main.type_id)},
       })
 
-      const data = res.data.series[0]
-
-      this.nft_main.price_near = Number(data.price_near)
-
-      // this.getOwners()
+      if (res.data.series[0]) {
+        const data = res.data.series[0]
+        if (data.copies && Number(data.copies) !== 0 && Number(data.supply) >= Number(data.copies)) {
+          this.soldBtn = true
+        }     
+      }
     },
     async getDataNft() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -365,17 +446,114 @@ export default {
 
       this.dataProfits.total_tickets = data.length
       this.dataProfits.owners = owners.length
-      this.dataProfits.price = this.nft_main.floor_price
+      // this.dataProfits.price = this.nft_main.floor_price
 
-      // this.dataProfits = {
-      //   total_tickets: data.length,
-      //   owners: owners.length,
-      //   price: 520.00 ,
-      //   tickets_sold: 100,
-      //   lorem_ipsum: 205,
-      // }
+      const floor = await this.getFloorPrice()
+      
+      if (floor) {
+        if (Number(floor) < Number(this.nft_main.floor_price)) {
+          this.dataProfits.price = floor
+        } else {
+          this.dataProfits.price = this.nft_main.floor_price
+        }
+      } else {
+        this.dataProfits.price = this.nft_main.floor_price
+      }
 
-      // this.getOwners()
+      this.getNftsMarket()
+    },
+    async getFloorPrice () {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          markets(where: {serie_id: $serie_id}, first: 1, orderBy: price_near) {
+            id
+            typetoken_id
+            transaction_fee
+            token_id
+            started_at
+            serie_id
+            price_near
+            price
+            owner_id
+            nft_contract_id
+            is_auction
+            ft_token_id
+            ended_at
+            end_price
+            artist_id
+            approval_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: String(this.nft.type_id)},
+      })
+
+      const data = res.data.markets
+
+      if (data[0]) {
+        return data[0].price_near
+      } else {
+        return false
+      }
+    },
+    async getNftsMarket () {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          markets(where: {serie_id: $serie_id}) {
+            id
+            typetoken_id
+            transaction_fee
+            token_id
+            started_at
+            serie_id
+            price_near
+            price
+            owner_id
+            nft_contract_id
+            is_auction
+            ft_token_id
+            ended_at
+            end_price
+            artist_id
+            approval_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: String(this.nft.type_id)},
+      })
+
+      const data = res.data.markets
+
+      const accountId = this.$ramper.getAccountId()
+
+      this.tableItems = []
+
+      for (let i = 0; i < data.length; i++) {
+        const edition = data[i].token_id.split(":")
+        const item = {
+          number: "#" + edition[1],
+          token: data[i].token_id,
+          seller: data[i].owner_id,
+          seller_avatar: require("~/assets/sources/avatars/avatar.png"),
+          price: data[i].price_near,
+          price_yocto: data[i].price,
+          owned: false
+        }
+
+        if (accountId === item.seller) {
+          item.owned = true
+        }
+
+        this.tableItems.push(item)
+      }
     },
     async buyNftRamper() {
       this.btnBuy = true
@@ -404,7 +582,45 @@ export default {
         this.btnBuy = false
 
         if (res && res.result) {
-          if (res.result[0].status.SuccessValue) {
+          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
+            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+          } else if (res.result[0].status.Failure) {
+            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
+      }
+    },
+    async buyMarketRamper(item) {
+      this.btnBuy = true
+      if (this.$ramper.getUser()) {
+        const price = Number(item.price)
+        const action = [this.$ramper.functionCall(
+          "buy",       
+          {
+            nft_contract_id: "nft4.musicfeast.testnet", 
+            token_id: item.token,
+          }, 
+          '300000000000000', 
+          this.$utils.format.parseNearAmount(String(price))
+        )]
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: 'market.musicfeast.testnet',
+              actions: action,
+            },
+          ],
+          network: 'testnet',
+        })
+        console.log("Transaction Result: ", res)
+
+        this.btnBuy = false
+
+        if (res && res.result) {
+          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
             this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
           } else if (res.result[0].status.Failure) {
             this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})

@@ -110,7 +110,7 @@
             <p>{{item.desc}}</p>
 
             <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
+              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
               <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
@@ -157,7 +157,7 @@
             <p>{{item.desc}}</p>
 
             <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
+              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
               <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
@@ -295,6 +295,7 @@
               <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
               <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
             </div>
+            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
         </v-card>
         <v-card
@@ -345,6 +346,7 @@
               <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
               <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
             </div>
+            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
         </v-card>
       </div>
@@ -475,10 +477,6 @@ export default {
   },
   computed: {
     dataCollections_pagination() {
-      console.log("ASD",this.$store.getters.pagination({
-        items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
-        search: this.search
-      }))
       return this.$store.getters.pagination({
         items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
         search: this.search
@@ -593,8 +591,6 @@ export default {
 
       const data = res.data.nfts
 
-      console.log("ONE", data)
-
       if (data.length > 0) {
         this.validateTier = false
       } else {
@@ -618,14 +614,6 @@ export default {
       this.getDataNfts()
     },
     async getDataNfts() {
-      // const tiersArray = []
-      // for (let i = 0; i < this.tiers.length; i++) {
-      //   if (this.tiers[i].validate) {
-      //     if (this.tiers[i].tier === '3') {
-      //       tiersArray.push('7')
-      //     }
-      //   }
-      // }
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $typetoken: [String]) {
@@ -656,7 +644,8 @@ export default {
 
       const data = res.data.series
 
-      console.log(data)
+      console.log("DATANFTS", data)
+
 
       this.dataCollections = []
 
@@ -671,13 +660,15 @@ export default {
           floor_price: data[i].price_near,
           price: data[i].price,
           copies: data[i].copies || 0,
+          editions: data[i].copies || "Multi",
           supply: data[i].supply,
           artist_id: data[i].artist_id,
           // state: "live",
           state: null,
           activate: false,
           type: "nft",
-          tier: Number(data[i].typetoken_id)
+          tier: Number(data[i].typetoken_id),
+          type_id: data[i].id,
         }
 
         if (item.tier === 7) {
@@ -716,7 +707,6 @@ export default {
 
         this.dataCollections.push(item)
       }
-      console.log("DATANFTS", this.dataCollections)
     
     },
     async validateTierFn(tierId) {
@@ -829,15 +819,13 @@ export default {
           price: data[i].price,
           editions: data[i].copies || "Multi",
           tier: Number(data[i].reference),
+          type_id: data[i].id,
           type: "nft",
           token_id: data[i].id,
           supply: data[i].supply,
           copies: data[i].copies || 0,
           state: null,
           validate: this.validateTier
-        }
-        if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
-          item.state = "sold out"
         }
 
         if (item.validate && item.tier !== 1) {
@@ -878,6 +866,9 @@ export default {
             item.state = "owned"
             item.activate = false
           }
+        }
+        if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
+          item.state = "sold out"
         }
         this.dataSlider.push(item)
       }
