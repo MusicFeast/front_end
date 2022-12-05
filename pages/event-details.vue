@@ -1,17 +1,17 @@
 <template>
   <div id="event" class="divcol">
     <section class="header grid">
-      <v-img :src="require('~/assets/sources/images/img-event-header.jpg')" class="header-background" transition="fade-transition">
+      <v-img :src="event.img" class="header-background" transition="fade-transition">
         <template #default>
           <div class="center gap1 alignl">
             <v-avatar style="border: 2px solid #fff">
-              <v-img :src="require('~/assets/sources/avatars/avatar.png')" alt="artist image" transition="fade-transition">
+              <v-img :src="event.artist_data.image || require('~/assets/sources/avatars/avatar.png')" alt="artist image" transition="fade-transition">
                 <template #placeholder>
                   <v-skeleton-loader type="avatar" />
                 </template>
               </v-img>
             </v-avatar>
-            <span class="h9_em">Artist Name</span>
+            <span class="h9_em">{{event.artist_data.name}}</span>
           </div>
         </template>
         <template #placeholder>
@@ -26,23 +26,21 @@
 
             <div class="center deletemobile" style="gap: .2em">
               <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
-                <v-icon>{{item.icon}}</v-icon>
+                <v-icon v-if="item.link">{{item.icon}}</v-icon>
               </v-btn>
             </div>
           </div>
 
-          <h2 class="p tup">Name or title of the event</h2>
+          <h2 class="p tup">{{event.name}}</h2>
         </div>
 
-        <span>Name of the artist</span>
+        <span>{{event.artist_data.name}}</span>
 
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna 
-          aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-          ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-          eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue 
-          duis dolore te feugait nulla
-        </p>
+        <!-- <p>
+          {{event.description}}
+        </p> -->
+
+        <p class="p" v-html="event.description" />
 
         <v-btn :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 12.8px">Buy</v-btn>
 
@@ -74,24 +72,21 @@
         <span>Tickets Sold</span>
         <span>{{dataProfits.tickets_sold}}</span>
       </v-sheet>
-      <v-sheet color="transparent" class="divcol center">
+      <!-- <v-sheet color="transparent" class="divcol center">
         <span>Lorem Ipsum</span>
         <span>{{dataProfits.lorem_ipsum}}</span>
-      </v-sheet>
+      </v-sheet> -->
     </section>
 
-    <h2 id="title">26 / 09 /2022  -  Place of the event</h2>
+    <h2 id="title">{{convertDate(event.date_event)}}  -  {{event.location_event}}</h2>
 
     <section class="container-desc grid">
       <article class="card">
-        <h3 class="tup">description</h3>
-        <p class="p">
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna 
-          aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-          ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore 
-          eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit 
-          augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing
-        </p>
+        <h3 class="tup">{{event.location_name}}</h3>
+        <!-- <p class="p">
+          {{event.location_desc}}
+        </p> -->
+        <p class="p" v-html="event.location_desc" />
       </article>
       <v-img class="map">
         <template #default>
@@ -116,7 +111,7 @@
           <v-btn
             :ripple="false"
             class="btn bold activeBtn"
-            href="https://maps.google.com/maps?ll=40.827295,-74.019999&amp;z=13&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=embed&amp;q=2880%20Broadway%20New%20York%2C%20NY%2010025%20EE.%20UU."
+            href="https://maps.google.com/maps?ll=40.6892494,-74.0445004&amp;z=13&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=embed&amp;q=2880%20Broadway%20New%20York%2C%20NY%2010025%20EE.%20UU."
             target="_blank"
           >open maps</v-btn>
         </template>
@@ -190,7 +185,7 @@
                   </div>
                 </v-card>
 
-                <v-btn :ripple="false" class="btn activeBtn align" style="--fs: 17.6px; --w: 85%" :disabled="dataCarousel[+index + i].state === 'sold out'">Buy</v-btn>
+                <v-btn :ripple="false" class="btn activeBtn align" style="--fs: 17.6px; --w: 85%" :disabled="dataCarousel[+index + i].state === 'sold out'" @click="buyNftRamper(dataCarousel[+index + i])">Buy</v-btn>
               </v-sheet>
             </template>
           </template>
@@ -207,6 +202,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 const pageName = 'event';
 
@@ -216,76 +213,75 @@ export default {
   data() {
     return {
       dataSocial: [
-        { icon: "mdi-instagram", link: "#" },
-        { icon: "mdi-twitter", link: "#" },
-        { icon: "mdi-facebook", link: "#" },
-        { icon: "discord", link: "#" },
+        // { icon: "mdi-instagram", link: null },
+        // { icon: "mdi-twitter", link: null },
+        // { icon: "mdi-facebook", link: null },
+        // { icon: "discord", link: "#" },
       ],
       dataProfits: {
-        total_tickets: 125,
-        owners: 85,
-        price: 520.00 ,
-        tickets_sold: 100,
-        lorem_ipsum: 205,
+        total_tickets: "---",
+        owners: "---",
+        price: "---" ,
+        tickets_sold: "---",
       },
       modelCarousel: 0,
       dataCarousel: [
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          editions: "250.00",
-          tier: 3,
-          state: "sold out",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          editions: "250.00",
-          tier: 2,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          editions: "250.00",
-          tier: 4,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          editions: "250.00",
-          tier: 5,
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          editions: "250.00",
-          tier: 6,
-          state: "sold out",
-        },
-        {
-          img: require('~/assets/sources/images/img-listed-5.jpg'),
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: "Artist Name o Collection  n°5",
-          desc: "Lorem ipsum dolor sit amet,",
-          floor_price: "250.00",
-          editions: "250.00",
-          tier: 1,
-        },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   editions: "250.00",
+        //   tier: 3,
+        //   state: "sold out",
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   editions: "250.00",
+        //   tier: 2,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   editions: "250.00",
+        //   tier: 4,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   editions: "250.00",
+        //   tier: 5,
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   editions: "250.00",
+        //   tier: 6,
+        //   state: "sold out",
+        // },
+        // {
+        //   img: require('~/assets/sources/images/img-listed-5.jpg'),
+        //   avatar: require("~/assets/sources/avatars/avatar.png"),
+        //   name: "Artist Name o Collection  n°5",
+        //   desc: "Lorem ipsum dolor sit amet,",
+        //   floor_price: "250.00",
+        //   editions: "250.00",
+        //   tier: 1,
+        // },
       ],
     }
   },
@@ -304,6 +300,8 @@ export default {
     if (!this.event) {this.$router.push(this.localePath('/'))}
   },
   mounted() {
+    this.getSocials()
+    this.getEventTickets()
     this.styles();
     
     // resize listener
@@ -313,6 +311,161 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    async buyNftRamper(item) {
+      if (this.$ramper.getUser()) {
+        const price = Number(item.floor_price) + 0.3
+        const action = [this.$ramper.functionCall(
+          "nft_buy",       
+          {
+            token_series_id: item.token_id, 
+            receiver_id: this.$ramper.getAccountId(),
+          }, 
+          '300000000000000', 
+          this.$utils.format.parseNearAmount(String(price))
+        )]
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: 'nft4.musicfeast.testnet',
+              actions: action,
+            },
+          ],
+          network: 'testnet',
+        })
+        console.log("Transaction Result: ", res)
+
+        if (res && res.result) {
+          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
+            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+          } else if (res.result[0].status.Failure) {
+            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
+      }
+    },
+    getEventTickets() {
+      this.$axios.post(`${this.baseUrl}api/v1/get-event-tickets/`, {"event_id": Number(this.event.id)})
+        .then(response => {
+          console.log("Tickets",response.data)
+          if (response.data[0]) {
+            const seriesArray = []
+            for (let i = 0; i < response.data.length; i++) {
+              seriesArray.push(response.data[i].serie_id)
+            }
+            this.getTicketsSeries(seriesArray)
+          }
+         }).catch(err => {
+          this.$alert("cancel", {desc: err.message})
+          console.error(err);
+        })
+    },
+    async getTicketsSeries(items) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($series_ids: [String]) {
+          series(where: {id_in: $series_ids}) {
+            artist_id
+            copies
+            creator_id
+            desc_series
+            description
+            extra
+            fecha
+            id
+            media
+            price
+            price_near
+            reference
+            supply
+            title
+            typetoken_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {series_ids: items},
+      })
+
+      const data = res.data.series
+
+      for (let i = 0; i < data.length; i++) {
+        const item = {
+          token_id: data[i].id,
+          artist: this.event.artist_data.name,
+          img: data[i].media,
+          avatar: this.event.artist_data.image,
+          name: data[i].title,
+          desc: data[i].description,
+          floor_price: data[i].price_near,
+          price: data[i].price,
+          copies: data[i].copies || 0,
+          editions: data[i].copies || "Multi",
+          supply: data[i].supply,
+          artist_id: data[i].artist_id,
+          // state: "live",
+          state: null,
+          activate: false,
+          type: "nft",
+          tier: Number(data[i].typetoken_id),
+          type_id: data[i].id,
+        }
+
+        if (item.tier === 7) {
+          item.tier = 3
+        } else if (item.tier === 8) {
+          item.tier = 4
+        } else if (item.tier === 9) {
+          item.tier = 5
+        } else if (item.tier === 10) {
+          item.tier = 2
+        } else if (item.tier === 11) {
+          item.tier = 2
+        } else if (item.tier === 12) {
+          item.tier = 5
+        }
+
+        if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
+          item.state = "sold out"
+        }
+
+        this.dataCarousel.push(item)
+      }
+
+      this.dataProfits.total_tickets = this.dataCarousel.length
+
+      // dataCarousel: [
+      //   {
+      //     img: require('~/assets/sources/images/img-listed-5.jpg'),
+      //     avatar: require("~/assets/sources/avatars/avatar.png"),
+      //     name: "Artist Name o Collection  n°5",
+      //     desc: "Lorem ipsum dolor sit amet,",
+      //     floor_price: "250.00",
+      //     editions: "250.00",
+      //     tier: 3,
+      //     state: "sold out",
+      //   },
+    },
+    getSocials() {
+      const datos = []
+      if (this.event.link_instagram) {
+        datos.push({ icon: "mdi-instagram", link: this.event.link_instagram })
+      }
+      if (this.event.link_twitter) {
+        datos.push({ icon: "mdi-twitter", link: this.event.link_twitter })
+      }
+      if (this.event.link_facebook) {
+        datos.push({ icon: "mdi-facebook", link: this.event.link_facebook })
+      }
+      this.dataSocial = datos
+    },
+    convertDate(item) {
+      return moment(item).format('YYYY / MM / DD')
+    },
     styles() {
       const page = document.querySelector(`#${pageName}`);
       // height h2

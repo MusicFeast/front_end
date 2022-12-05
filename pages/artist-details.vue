@@ -227,7 +227,7 @@
         <v-expansion-panel-header
           expand-icon="mdi-menu-down" class="bold tcap"
           @click="$store.dispatch('goTo', {key: 'event', item})">
-          {{item.event}}
+          {{item.name}}
         </v-expansion-panel-header>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -383,6 +383,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      artistId: null,
       dia: false,
       ownerTiers: [],
       artist: {},
@@ -432,9 +433,9 @@ export default {
         // },
       ],
       dataEvents: [
-        { event: "toronto" },
-        { event: "miami" },
-        { event: "madrid" },
+        // { event: "toronto" },
+        // { event: "miami" },
+        // { event: "madrid" },
       ],
       search: "",
       filter: {
@@ -490,6 +491,7 @@ export default {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   async mounted() {
+    this.artistId = JSON.parse(localStorage.getItem("artist"))
     await this.getCurrentArtist()
     
     this.styles();
@@ -503,9 +505,30 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    getEventsArtist() {
+      this.$axios.post(`${this.baseUrl}api/v1/get-events/`, {"artist_id": Number(this.artist.id_collection)})
+        .then(response => {
+          console.log("EVENTS",response.data)
+          // this.dataEvents = response.data.reverse()
+          
+          if (response.data[0]) {
+            const data = []
+            for (let i = 0; i < response.data.length; i++) {
+              const item = response.data[i]
+              item.artist_data = this.artist
+              item.img = this.baseUrl+item.img;
+              data.push(item)
+            }
+            this.dataEvents = data
+            this.dataProfits.events = this.dataEvents.length
+          }
+        }).catch(err => {
+          this.$alert("cancel", {desc: err.message})
+          console.error(err);
+        })
+    },
     getCurrentArtist() {
-      const artist = JSON.parse(localStorage.getItem("artist"))
-      this.$axios.post(`${this.baseUrl}api/v1/get-artist/`, {"id": Number(artist)})
+      this.$axios.post(`${this.baseUrl}api/v1/get-artist/`, {"id": Number(this.artistId)})
         .then(async response => {
           const data = response.data[0]
           if (data) {
@@ -518,6 +541,7 @@ export default {
             this.getDataHeader()
             this.dataSocials()
             this.getTiers()
+            this.getEventsArtist()
           } else {
             this.$alert("cancel", {desc: "The artist does not exist"})
             // this.$router.push(this.localePath("/artists"))
