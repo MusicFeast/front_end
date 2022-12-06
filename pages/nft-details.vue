@@ -34,7 +34,7 @@
         </div>
 
         <!-- if audio -->
-        <v-img v-if="false" :src="nft_main.img" class="header-background" transition="fade-transition">
+        <v-img v-if="true" :src="nft_main.img" class="header-background" transition="fade-transition">
           <template #default>
             <audio ref="track" src="test.mp3" type="audio/mpeg" muted></audio>
           </template>
