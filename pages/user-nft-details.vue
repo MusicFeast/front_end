@@ -65,6 +65,7 @@
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
+            disabled
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
             @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
         </div>

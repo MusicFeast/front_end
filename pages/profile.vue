@@ -206,18 +206,18 @@
 
             <template #[`item.actions`]="{ item }">
               <center class="center" style="gap: 30px">
-                <v-btn
+                <!-- <v-btn
                   :disabled="offerBtn"
                   :ripple="false" class="btn activeBtn bold"
                   style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
                   @click="acceptOffer(item)"
-                >Accept</v-btn>
+                >Accept</v-btn> -->
                 <v-btn
                   :disabled="offerBtn"
                   :ripple="false" class="btn activeBtn bold"
                   style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
                   @click="declineOffer(item)"
-                >Decline</v-btn>
+                >Cancel Offer</v-btn>
               </center>
             </template>
           </v-data-table>
@@ -294,12 +294,12 @@
                   style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
                   @click="acceptOffer(item)"
                 >Accept</v-btn>
-                <v-btn
+                <!-- <v-btn
                   :disabled="offerBtn"
                   :ripple="false" class="btn activeBtn bold"
                   style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
                   @click="declineOffer(item)"
-                >Decline</v-btn>
+                >Decline</v-btn> -->
               </center>
             </template>
           </v-data-table>
@@ -546,7 +546,7 @@ export default {
 
           if (res && res.result) {
             if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
-              this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
+              this.$alert("success", {desc: "You have successfully accepted the offer.", hash: res.txHashes[1]})
             } else if (res.result[1].status.Failure) {
               this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
             }
@@ -586,7 +586,7 @@ export default {
 
           if (res && res.result) {
             if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
-              this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+              this.$alert("success", {desc: "You have successfully canceled the offer.", hash: res.txHashes[0]})
             } else if (res.result[0].status.Failure) {
               this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
             }

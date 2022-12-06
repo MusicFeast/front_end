@@ -33,10 +33,13 @@
           <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
         </div>
 
+        <v-img v-show="!media" :src="nft_main.img" class="header-background" transition="fade-transition">
+        </v-img>
+
         <!-- if audio -->
-        <v-img v-if="true" :src="nft_main.img" class="header-background" transition="fade-transition">
+        <v-img v-show="media == 'audio'" :src="nft_main.img" class="header-background" transition="fade-transition">
           <template #default>
-            <audio ref="track" src="test.mp3" type="audio/mpeg" muted></audio>
+            <audio ref="track" :src="mediaUrl" type="audio/mpeg" muted></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
@@ -45,12 +48,12 @@
 
         <!-- if video -->
         <video
-          v-else ref="track" src="test.mp4"
+          v-show="media == 'video'" ref="track" :src="mediaUrl"
           @pause="reloadButton = false; reloadButton = true"
           @play="reloadButton = false; reloadButton = true"
         ></video>
 
-        <div class="header-controls grid">
+        <div v-show="media" class="header-controls grid">
           <aside class="center" style="gap: 3em">
             <button @click="backTrack()">
               <img src="~/assets/sources/icons/back-track.svg" alt="back 10 seconds" style="--w: 2.5em">
@@ -295,6 +298,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      media: false,
       reloadButton: true,
       trackInterval: null,
       sliderTrackState: false,
@@ -334,6 +338,7 @@ export default {
         { value: "offer", align: "center", sortable: false },
         // { value: "unlist", align: "center", sortable: false },
       ],
+      mediaUrl: null,
       tableItems: [
         // {
         //   number: "#1",
@@ -358,6 +363,8 @@ export default {
       ],
       currentPage: 1,
       itemsPerPage: 10,
+      ownedTier1: false,
+      ownedTier2: false
     }
   },
   head() {
@@ -376,6 +383,9 @@ export default {
     this.nft_main = this.nft
   },
   async mounted() {
+    this.ownedTier1 = await this.validateTierFn(1)
+    this.ownedTier2 = await this.validateTierFn(2)
+
     if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
       setTimeout(this.buyNftRamper, 400)
       localStorage.removeItem('buyDirect')
@@ -386,7 +396,6 @@ export default {
     this.getDataNft()
 
     this.ownedNft = await this.validateTierFn(this.nft_main.tier)
-  
   },
   methods: {
     makeOffer(item) {
@@ -477,7 +486,6 @@ export default {
 
       const data = res.data.nfts
 
-
       if (data.length > 0) {
         return true
       } else {
@@ -515,10 +523,34 @@ export default {
 
       if (res.data.series[0]) {
         const data = res.data.series[0]
+        console.log("ITEMMM",data)
         if (data.copies && Number(data.copies) !== 0 && Number(data.supply) >= Number(data.copies)) {
           this.soldBtn = true
         }     
+
+        console.log(data.typetoken_id, this.ownedTier2)
+
+        if (data.typetoken_id === '1' && this.ownedTier1) {
+          await this.getMedia(1)
+          this.media = 'audio'
+        } else if (data.typetoken_id === '2' && this.ownedTier2) {
+          await this.getMedia(2)
+          this.media = 'video'
+        }
       }
+    },
+    async getMedia(tier) {
+      await this.$axios.post(`${this.baseUrl}api/v1/get-media/`, { "tier": Number(tier), "artist": Number(this.nft_main.artist_id) })
+      .then(result => {
+        const data = result.data
+        if (data[0]) {
+          this.mediaUrl = this.baseUrl+data[0].media
+        }
+        console.log(data)
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
     },
     async getDataNft() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
