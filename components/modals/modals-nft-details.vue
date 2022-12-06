@@ -670,4 +670,4 @@ export default {
 };
 </script>
 
-<style src="~/assets/styles/components/modals/modals-nft-details.scss" lang="scss" />
+<style src="~/assets/styles/components/modals.scss" lang="scss" />

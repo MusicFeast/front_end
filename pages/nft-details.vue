@@ -12,32 +12,74 @@
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
-      <v-img :src="nft_main.img" class="header-background" transition="fade-transition">
-        <template #default>
-          <div class="center gap1 alignl">
-            <!-- <button @click="$router.push(this.localePath(`/artist-details`))">
+      <!-- if audio -->
+      <v-sheet class="header-background--wrapper" color="transparent">
+        <v-img v-if="true" :src="nft_main.img" class="header-background" transition="fade-transition">
+          <template #default>
+            <div class="center gap1 alignl">
+              <!-- <button @click="$router.push(this.localePath(`/artist-details`))">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </button> -->
               <v-avatar style="border: 2px solid #fff">
-                <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
+                <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
                   <template #placeholder>
                     <v-skeleton-loader type="avatar" />
                   </template>
                 </v-img>
               </v-avatar>
-            </button> -->
-            <v-avatar style="border: 2px solid #fff">
-              <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
-                <template #placeholder>
-                  <v-skeleton-loader type="avatar" />
-                </template>
-              </v-img>
-            </v-avatar>
-            <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
-          </div>
-        </template>
-        <template #placeholder>
-          <v-skeleton-loader type="card" />
-        </template>
-      </v-img>
+              <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
+            </div>
+            
+          </template>
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
+
+        <div class="header-controls grid">
+          <aside class="center" style="gap: 3em">
+            <button @click="backTrack()">
+              <img src="~/assets/sources/icons/back-track.svg" alt="back 10 seconds" style="--w: 2.5em">
+            </button>
+            
+            <button @click="playPauseTrack()">
+              <img
+                :src="require(`~/assets/sources/icons/${sliderTrackState ? 'pause' : 'play'}-track.svg`)"
+                alt="play / pause" style="--w: 4em"
+                @click="sliderTrackState = !sliderTrackState"
+              >
+            </button>
+            
+            <button @click="advanceTrack()">
+              <img src="~/assets/sources/icons/advance-track.svg" alt="advance 10 seconds" style="--w: 2.5em">
+            </button>
+          </aside>
+
+          <audio ref="audio" src="test.mp3" type="audio/mpeg" muted></audio>
+
+          <v-slider
+            v-model="sliderTrack"
+            color="#fff"
+            thumb-color="#000"
+            messages="always"
+            :min="0"
+            :max="100"
+            @mousedown="slideTrack($event, 'down')"
+            @mouseup="slideTrack($event, 'up')"
+          >
+            <template #message>
+              <span class="media-label">{{$refs.audio.currentTime.formatTime()}}</span>
+              <span class="media-label">{{$refs.audio.duration.formatTime()}}</span>
+            </template>
+          </v-slider>
+        </div>
+      </v-sheet>
 
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
@@ -113,82 +155,129 @@
       </v-sheet> -->
     </section>
 
-    <h2 id="buy">Buy NFT</h2>
 
-    <v-data-table
-      :headers="tableHeaders"
-      :items="tableItems"
-      :page.sync="currentPage"
-      :items-per-page="itemsPerPage"
-      hide-default-footer
-      mobile-breakpoint="-1"
-      :header-props="{sortIcon: 'mdi-menu-down'}"
-    >
-      <!-- <template #[`item.vault`]="{ item }">
-        <span :style="`--c:${item.vault ? '#26A17B' : ''}`">{{item.vault ? 'Yes' : 'No'}}</span>
-      </template> -->
-      
-      <template #[`item.seller`]="{ item }">
-        <center class="center" style="gap:10px">
-          <v-avatar style="border: 2px solid #fff">
-            <v-img :src="item.seller_avatar" alt="artist avatar" transition="fade-transition">
-              <template #placeholder>
-                <v-skeleton-loader type="avatar" />
-              </template>
-            </v-img>
-          </v-avatar>
-          <span :title="item.seller">{{item.seller.limitString(25)}}</span>
-        </center>
-      </template>
-      
-      <template #[`item.price`]="{ item }">
-        <center v-if="item.price" class="divcol" style="gap: 5px">
-          <span>{{item.price}} N</span>
-          <span class="normal">$ {{dollarConversion(item.price)}}</span>
-        </center>
+    <v-expansion-panels class="custome-expansion mt-10">
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Show More</v-expansion-panel-header>
 
-        <center v-else class="divcol" style="gap: 5px">
-          <span>---</span>
-          <span>---</span>
-        </center>
-      </template>
-      
-      <template #[`item.buy`]="{ item }">
-        <v-btn
-          v-if="!item.owned"
-          :disabled="btnBuy"
-          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
-          @click="buyMarketRamper(item)">Buy</v-btn>
-          <v-btn
-          v-if="item.owned"
-          :disabled="btnBuy"
-          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
-          @click="unlistNft(item)">Unlist</v-btn>
-      </template>
-      
-      <template #[`item.offer`]="{ item }">
-        <v-btn
-          v-if="!item.owned"
-          :disabled="btnBuy"
-          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)"
-          @click="$refs.modal.modalOffer = true"
-        >Make an Offer</v-btn>
-      </template>
+        <v-expansion-panel-content id="container-show-more" class="container-table--expansion mt-5">
+          <v-card class="card divcol">
+            <h3>Owner</h3>
+            <span>{{showMore.owner}}</span>
+          </v-card>
+          
+          <v-card class="card divcol">
+            <h3>Minter</h3>
+            <span>{{showMore.minter}}</span>
+          </v-card>
+          
+          <v-card class="card divcol">
+            <h3>Listed NFTs</h3>
+            <span>{{showMore.listed_nfts}}</span>
+          </v-card>
+          
+          <v-card class="card divcol">
+            <h3>Minted NFTs</h3>
+            <span>{{showMore.minted_nfts}}</span>
+          </v-card>
+          
+          <v-card class="card divcol">
+            <h3>Type</h3>
+            <span>{{showMore.type}}</span>
+          </v-card>
+          
+          <v-card class="card divcol">
+            <h3>Store</h3>
+            <span>{{showMore.store}}</span>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
 
-      <!-- <template #[`item.unlist`]="{ item }">
-        <v-btn
-          v-if="item.owned"
-          :disabled="btnBuy"
-          :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
-          @click="unlistNft(item)">Unlist</v-btn>
-      </template> -->
-    </v-data-table>
 
-    <Pagination
-      :total-pages="pagination_per_page"
-      :current-page="currentPage"
-      @pagechanged="(page) => currentPage = page"
-    />
+    <v-expansion-panels class="custome-expansion mt-10" :value="0">
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Buy NFT</v-expansion-panel-header>
+
+        <v-expansion-panel-content color="rgb(0, 0, 0, .4)" class="container-table--expansion mt-5">
+          <v-data-table
+            :headers="tableHeaders"
+            :items="tableItems"
+            :page.sync="currentPage"
+            :items-per-page="itemsPerPage"
+            hide-default-footer
+            mobile-breakpoint="-1"
+            :header-props="{sortIcon: 'mdi-menu-down'}"
+            style="background: transparent"
+          >
+            <!-- <template #[`item.vault`]="{ item }">
+              <span :style="`--c:${item.vault ? '#26A17B' : ''}`">{{item.vault ? 'Yes' : 'No'}}</span>
+            </template> -->
+            
+            <template #[`item.seller`]="{ item }">
+              <center class="center" style="gap:10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img :src="item.seller_avatar" alt="artist avatar" transition="fade-transition">
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <span :title="item.seller">{{item.seller.limitString(25)}}</span>
+              </center>
+            </template>
+            
+            <template #[`item.price`]="{ item }">
+              <center v-if="item.price" class="divcol" style="gap: 5px">
+                <span>{{item.price}} N</span>
+                <span class="normal">$ {{dollarConversion(item.price)}}</span>
+              </center>
+
+              <center v-else class="divcol" style="gap: 5px">
+                <span>---</span>
+                <span>---</span>
+              </center>
+            </template>
+            
+            <template #[`item.buy`]="{ item }">
+              <v-btn
+                v-if="!item.owned"
+                :disabled="btnBuy"
+                :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
+                @click="buyMarketRamper(item)">Buy</v-btn>
+                <v-btn
+                v-if="item.owned"
+                :disabled="btnBuy"
+                :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
+                @click="unlistNft(item)">Unlist</v-btn>
+            </template>
+            
+            <template #[`item.offer`]="{ item }">
+              <v-btn
+                v-if="!item.owned"
+                :disabled="btnBuy"
+                :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)"
+                @click="$refs.modal.modalOffer = true"
+              >Make an Offer</v-btn>
+            </template>
+
+            <!-- <template #[`item.unlist`]="{ item }">
+              <v-btn
+                v-if="item.owned"
+                :disabled="btnBuy"
+                :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px"
+                @click="unlistNft(item)">Unlist</v-btn>
+            </template> -->
+          </v-data-table>
+
+          <Pagination
+            :total-pages="pagination_per_page"
+            :current-page="currentPage"
+            @pagechanged="(page) => currentPage = page"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
@@ -201,6 +290,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      trackInterval: null,
+      sliderTrackState: false,
+      sliderTrack: 0,
       disabled: true,
       soldBtn: false,
       ownedNft: true,
@@ -218,6 +310,14 @@ export default {
         price: null,
         tickets_sold: null,
         lorem_ipsum: null,
+      },
+      showMore: {
+        owner: "nameowner.near",
+        minter: "nameaminter.near",
+        listed_nfts: 10,
+        minted_nfts: 10,
+        type: "Audio",
+        store: "perfilnameornicknameoftheartist.musicfeast.near"
       },
       tableHeaders: [
         { value: "number", text: "edition number", align: "center" },
@@ -633,6 +733,55 @@ export default {
     },
     dollarConversion(price) {
       return price / 2
+    },
+    backTrack() {
+      this.sliderTrack -= 10;
+      this.$refs.audio.currentTime -= 10
+      if (this.sliderTrack < 0) this.sliderTrack = 0
+    },
+    advanceTrack() {
+      this.sliderTrack += 10;
+      this.$refs.audio.currentTime += 10
+      if (this.sliderTrack > 100) this.sliderTrack = 100
+    },
+    slideTrack(event, key) {
+      // console.log(event, key)
+      if (key === 'down') {
+        clearInterval(this.trackInterval)
+      } else if (key === 'up') {
+        this.playPauseTrack()
+        const audioTime = Math.round(this.$refs.audio.currentTime);
+        const audioLength = Math.round(this.$refs.audio.duration)
+
+        console.log(
+          audioTime,
+          audioLength,
+          (audioTime * 100) / audioLength,
+          ((audioTime * 100) / audioLength).formatTime(),
+          "----------------",
+          this.sliderTrack,
+          (audioTime * this.sliderTrack) / audioLength,
+          ((audioTime * this.sliderTrack) / audioLength).formatTime()
+        )
+        // this.sliderTrack = event;
+      }
+    },
+    playPauseTrack() {
+      if (this.sliderTrackState) {
+        this.$refs.audio.play()
+        this.trackInterval = setInterval(() => {
+          // Get the value of what second the song is at
+          const audioTime = Math.round(this.$refs.audio.currentTime);
+          // We get songs all the time
+          const audioLength = Math.round(this.$refs.audio.duration)
+          // Assign a width to an element at time
+          this.sliderTrack = (audioTime * 100) / audioLength;
+        }, 10)
+      }
+      else {
+        this.$refs.audio.pause()
+        clearInterval(this.trackInterval)
+      }
     },
   }
 };

@@ -60,4 +60,18 @@ export default () => {
     }
   }
   // formatter(number) <-- example
+
+
+  // formatTime =========================================================================================================//
+  if (!Number.prototype.formatTime) {
+    Number.prototype.formatTime = function() {
+      let minutes = Math.floor(this / 60);
+      let seconds = this
+      minutes = (minutes >= 10) ? minutes : "0" + minutes;
+      seconds = Math.floor(seconds % 60);
+      seconds = (seconds >= 10) ? seconds : "0" + seconds;
+      return minutes + ":" + seconds;
+    }
+  }
+  // formatTime() <-- example
 }

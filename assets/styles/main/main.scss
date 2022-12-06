@@ -21,6 +21,48 @@
   @include media(max, x-small) {--margin-separator: 18px};
 }
 
+
+// container-table--expansion
+.container-table--expansion {
+  .v-expansion-panel-content__wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .v-data-table {
+    margin-bottom: 3em;
+    padding: 1.5em;
+    background-color: rgba(0, 0, 0, .4);
+    * {border-color: var(--accent)}
+    thead {
+      tr {
+        th {
+          // &:nth-of-type(3n) {
+          //   width: 100%;
+          //   display: inline-flex;
+          //   justify-content: center;
+          //   align-items: center;
+          // }
+          span {
+            font-size: 1.125em;
+            text-transform: uppercase;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          padding-block: 1em;
+          font-weight: 700;
+        }
+        &:hover {background-color: transparent}
+      }
+    }
+  }
+}
+
 // custome cards
 .v-responsive__content .v-card.custome:only-child {margin-inline: auto}
 .v-card.custome {

@@ -1,5 +1,7 @@
 <template>
   <div id="profile" class="divcol">
+    <ModalsProfile ref="modal"></ModalsProfile>
+
     <v-img
       :src="user.banner" transition="fade-transition" class="header"
       :style="`
@@ -132,7 +134,7 @@
       @pagechanged="(page) => currentPage = page"
     />
 
-    <h2 class="Title tup">chat</h2>
+    <!-- <h2 class="Title tup">chat</h2>
 
     <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
@@ -142,6 +144,75 @@
             <span class="tcap">{{item.chat}}</span>
           </div>
         </v-expansion-panel-header>
+      </v-expansion-panel>
+    </v-expansion-panels> -->
+    
+    <v-expansion-panels class="custome-expansion mt-10 not_padding">
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">My offers</v-expansion-panel-header>
+
+        <v-expansion-panel-content color="rgb(0, 0, 0, .4)" class="container-table--expansion mt-5">
+          <v-data-table
+            :headers="tableHeadersOffers"
+            :items="tableItemsOffers"
+            :page.sync="currentPageOffers"
+            :items-per-page="itemsPerPageOffers"
+            hide-default-footer
+            mobile-breakpoint="-1"
+            :header-props="{sortIcon: 'mdi-menu-down'}"
+            style="background: transparent"
+            bac
+          >
+            <template #[`item.price`]="{ item }">
+              <center v-if="item.price" class="divcol" style="gap: 5px">
+                <span>{{item.price}} N</span>
+                <span class="normal">$ {{dollarConversion(item.price)}}</span>
+              </center>
+
+              <center v-else class="divcol" style="gap: 5px">
+                <span>---</span>
+                <span>---</span>
+              </center>
+            </template>
+
+            <template #[`item.vault`]="{ item }">
+              <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
+            </template>
+
+            <template #[`item.buyer`]="{ item }">
+              <center class="center" style="gap:10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img :src="item.buyer_img" alt="artist avatar" transition="fade-transition">
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <span>{{item.buyer}}</span>
+              </center>
+            </template>
+
+            <template #[`item.actions`]>
+              <center class="center" style="gap: 30px">
+                <v-btn
+                  :ripple="false" class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                >Accept</v-btn>
+                <v-btn
+                  :ripple="false" class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
+                  @click="$refs.modal.modalOffer = true"
+                >Decline</v-btn>
+              </center>
+            </template>
+          </v-data-table>
+
+          <Pagination
+            :total-pages="pagination_per_page_offers"
+            :current-page="currentPageOffers"
+            @pagechanged="(page) => currentPageOffers = page"
+          />
+        </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>
@@ -243,6 +314,31 @@ export default {
         { icon: "discord", chat: "discord artist name 2" },
         { icon: "discord", chat: "discord artist name 3" },
       ],
+      tableHeadersOffers: [
+        { value: "name", text: "NFT NAME", align: "start", sortable: false },
+        { value: "vault", text: "VAULT ITEM", align: "center", sortable: false },
+        { value: "buyer", text: "BUYER", align: "center", sortable: false },
+        { value: "price", text: "PRICE", align: "center" },
+        { value: "actions", align: "center", sortable: false },
+      ],
+      tableItemsOffers: [
+        {
+          name: "Name of NFT",
+          vault: true,
+          buyer: "tonystart.near",
+          buyer_img: require("~/assets/sources/avatars/avatar.png"),
+          price: 174
+        },
+        {
+          name: "Name of NFT",
+          vault: false,
+          buyer: "tonystart.near",
+          buyer_img: require("~/assets/sources/avatars/avatar.png"),
+          price: 174
+        },
+      ],
+      currentPageOffers: 1,
+      itemsPerPageOffers: 10,
     }
   },
   head() {
@@ -261,6 +357,9 @@ export default {
     pagination_per_page() {
       return Math.ceil(this.dataNfts.length / this.itemsPerPage)
     },
+    pagination_per_page_offers() {
+      return Math.ceil(this.tableItemsOffers.length / this.itemsPerPageOffers)
+    }
   },
   mounted() {
     this.getMyNfts()
@@ -455,6 +554,9 @@ export default {
     // },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
+    dollarConversion(price) {
+      return price / 2
+    },
   }
 };
 </script>
