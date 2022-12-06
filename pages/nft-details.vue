@@ -12,35 +12,43 @@
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
-      <!-- if audio -->
       <v-sheet class="header-background--wrapper" color="transparent">
-        <v-img v-if="true" :src="nft_main.img" class="header-background" transition="fade-transition">
+        <div class="header--head start gap1">
+          <!-- <button @click="$router.push(this.localePath(`/artist-details`))">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+          </button> -->
+          <v-avatar style="border: 2px solid #fff">
+            <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
+          </v-avatar>
+          <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
+        </div>
+
+        <!-- if audio -->
+        <v-img v-if="false" :src="nft_main.img" class="header-background" transition="fade-transition">
           <template #default>
-            <div class="center gap1 alignl">
-              <!-- <button @click="$router.push(this.localePath(`/artist-details`))">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img :src="nft.avatar" alt="artist image" transition="fade-transition">
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-              </button> -->
-              <v-avatar style="border: 2px solid #fff">
-                <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
-                  <template #placeholder>
-                    <v-skeleton-loader type="avatar" />
-                  </template>
-                </v-img>
-              </v-avatar>
-              <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
-            </div>
-            
+            <audio ref="track" src="test.mp3" type="audio/mpeg" muted></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
           </template>
         </v-img>
+
+        <!-- if video -->
+        <video
+          v-else ref="track" src="test.mp4"
+          @pause="reloadButton = false; reloadButton = true"
+          @play="reloadButton = false; reloadButton = true"
+        ></video>
 
         <div class="header-controls grid">
           <aside class="center" style="gap: 3em">
@@ -48,11 +56,10 @@
               <img src="~/assets/sources/icons/back-track.svg" alt="back 10 seconds" style="--w: 2.5em">
             </button>
             
-            <button @click="playPauseTrack()">
+            <button v-show="reloadButton" @click="playPauseTrack()">
               <img
-                :src="require(`~/assets/sources/icons/${sliderTrackState ? 'pause' : 'play'}-track.svg`)"
+                :src="require(`~/assets/sources/icons/${$refs.track?.paused ? 'play' : 'pause'}-track.svg`)"
                 alt="play / pause" style="--w: 4em"
-                @click="sliderTrackState = !sliderTrackState"
               >
             </button>
             
@@ -61,21 +68,19 @@
             </button>
           </aside>
 
-          <audio ref="audio" src="test.mp3" type="audio/mpeg" muted></audio>
-
           <v-slider
             v-model="sliderTrack"
             color="#fff"
             thumb-color="#000"
             messages="always"
             :min="0"
-            :max="$refs.audio?.duration"
+            :max="$refs.track?.duration"
             @mousedown="slideTrack('down')"
             @mouseup="slideTrack('up')"
           >
             <template #message>
-              <span class="media-label">{{$refs.audio?.currentTime.formatTime()}}</span>
-              <span class="media-label">{{$refs.audio?.duration.formatTime()}}</span>
+              <span class="media-label">{{$refs.track?.currentTime.formatTime()}}</span>
+              <span class="media-label">{{$refs.track?.duration.formatTime()}}</span>
             </template>
           </v-slider>
         </div>
@@ -290,6 +295,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      reloadButton: true,
       trackInterval: null,
       sliderTrackState: false,
       sliderTrack: 0,
@@ -363,7 +369,7 @@ export default {
   computed: {
     pagination_per_page() {
       return Math.ceil(this.tableItems.length / this.itemsPerPage)
-    }
+    },
   },
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/artists'))}
@@ -736,32 +742,32 @@ export default {
     },
     backTrack() {
       this.sliderTrack -= 10;
-      this.$refs.audio.currentTime -= 10
+      this.$refs.track.currentTime -= 10
       if (this.sliderTrack < 0) this.sliderTrack = 0
     },
     advanceTrack() {
       this.sliderTrack += 10;
-      this.$refs.audio.currentTime += 10
+      this.$refs.track.currentTime += 10
       if (this.sliderTrack > 100) this.sliderTrack = 100
     },
     slideTrack(key) {
       if (key === 'down') {
         clearInterval(this.trackInterval)
       } else if (key === 'up') {
-        this.$refs.audio.currentTime = this.sliderTrack;
+        this.$refs.track.currentTime = this.sliderTrack;
         this.playPauseTrack()
       }
     },
     playPauseTrack() {
-      if (this.sliderTrackState) {
-        this.$refs.audio.play()
+      if (this.$refs.track?.paused) {
+        this.$refs.track.play()
         this.trackInterval = setInterval(() => {
-          const audioTime = Math.round(this.$refs.audio.currentTime);
+          const audioTime = Math.round(this.$refs.track.currentTime);
           this.sliderTrack = audioTime;
         }, 10)
       }
       else {
-        this.$refs.audio.pause()
+        this.$refs.track.pause()
         clearInterval(this.trackInterval)
       }
     },

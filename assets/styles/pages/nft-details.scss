@@ -21,7 +21,10 @@
       @include media(min, small) {max-height: calc(100vh - (var(--h-navbar) + 102px)) !important}
     }
     @include media(min, small) {--gtc: repeat(2, 1fr)}
+
     .header-background--wrapper {
+      --width: min(calc(100% - 4em), 47em);
+      
       position: relative;
       @include media(max, small) {height: 400px !important}
       .header-background {
@@ -36,11 +39,17 @@
         }
       }
 
+      .header--head {
+        @include absolute(0,30px,0);
+        width: var(--width);
+        z-index: 1;
+      }
+
       .header-controls {
         --pi: center;
-
+        
         @include absolute(0,auto,0,40px);
-        width: min(calc(100% - 4em), 47em);
+        width: var(--width);
         height: 14.205em;
         background-color: rgba(0, 0, 0, .4);
         box-shadow:  0 0 4px 2px rgba(0, 0, 0, .4);
@@ -74,6 +83,12 @@
           color: #fff !important;
           font-weight: 700;
         }
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+        background-color: var(--secondary);
       }
     }
 
