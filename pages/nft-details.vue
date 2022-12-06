@@ -160,7 +160,7 @@
       </v-sheet> -->
     </section>
 
-
+<!-- 
     <v-expansion-panels class="custome-expansion mt-10">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Show More</v-expansion-panel-header>
@@ -197,7 +197,7 @@
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
-    </v-expansion-panels>
+    </v-expansion-panels> -->
 
 
     <v-expansion-panels class="custome-expansion mt-10" :value="0">
@@ -262,7 +262,7 @@
                 v-if="!item.owned"
                 :disabled="btnBuy"
                 :ripple="false" class="btn activeBtn bold" style="--min-w: 112px; --w: min(100%, 8em); --fs: 14px; --bg: #fff; --c: var(--primary)"
-                @click="$refs.modal.modalOffer = true"
+                @click="makeOffer(item)"
               >Make an Offer</v-btn>
             </template>
 
@@ -389,6 +389,10 @@ export default {
   
   },
   methods: {
+    makeOffer(item) {
+      localStorage.setItem("offer", JSON.stringify(item))
+      this.$refs.modal.modalOffer = true
+    },
     async unlistNft(item) {
       this.btnBuy = true
       if (this.$ramper.getUser()) {

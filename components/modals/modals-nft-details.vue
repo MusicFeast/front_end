@@ -137,7 +137,7 @@
           <v-card id="modalOffer" class="nft-dialog--content">
             <h3>place an offer</h3>
             <v-form ref="formOffer" class="divcol gap2" @submit.prevent="submitOffer()">
-              <p class="p">You are about to sell "{{nft.name}}".</p>
+              <p class="p">You are about to bid on "{{offer.token}}".</p>
 
               <v-sheet color="transparent">
                 <label for="amount">Amount in
@@ -148,11 +148,11 @@
                   v-model="form_offer.offerPrice"
                   filled dense
                   background-color="rgba(0, 0, 0, .2)"
-                  placeholder="1,345.67"
+                  placeholder="123.45"
                   type="number"
                   :rules="[v => !!v || 'required field']"
                 ></v-text-field>
-
+<!-- 
                 <div class="divcol" style="gap: 4px; margin-bottom: 10px">
                   <div class="space gap2">
                     <span>Your Balance</span>
@@ -163,7 +163,7 @@
                     <span>Total Offer</span>
                     <span>{{form_offer.offerPrice || '---'}}</span>
                   </div>
-                </div>
+                </div> -->
               </v-sheet>
 
               <p class="p tcenter">You will be redirected to your wallet to confirm your transaction.</p>
@@ -174,6 +174,7 @@
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px; --bg: #fff; --c: var(--primary)"
                 @click="clearOffer()">Cancel</v-btn>
               <v-btn
+              :disabled="btnOffer"
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
                 @click="submitOffer()">Submit Offer</v-btn>
             </div>
@@ -186,7 +187,7 @@
             <h3>Offer Success</h3>
 
             <section class="divcol" style="gap: 1.5em">
-              <p class="p">Successfully offered sale "{{nft.name}}" for</p>
+              <p class="p">Successful bid "{{offer.token}}" for</p>
 
               <v-text-field
                 v-model="form_offer.offerPrice"
@@ -201,18 +202,22 @@
               </v-text-field>
 
               <v-sheet class="card bold">
-                <v-btn icon class="close" width="max-content" height="max-content">
+                <v-btn v-if="!copyBtn" @click="copyHash(hash_offer)" icon class="close" width="max-content" height="max-content">
                   <v-icon color="var(--accent)" size="1.2em">mdi-content-copy</v-icon>
                 </v-btn>
 
+                <v-btn v-else disabled icon class="close" width="max-content" height="max-content">
+                  <v-icon color="var(--accent)" size="1.2em">mdi-check-circle</v-icon>
+                </v-btn>
+
                 <span style="--c: var(--accent)">Transaction Hash</span>
-                <span>{{hash_offer}}</span>
+                <a :href="('https://explorer.testnet.near.org/transactions/' + hash_offer)" target="_blank">{{hash_offer.limitString(28)}}</a>
               </v-sheet>
             </section>
 
             <v-btn
               :ripple="false" class="btn activeBtn" style="--w: 100%; --fs: 16px; margin-top: 4em"
-              :to="localePath('/profile')" @click="clearOffer()">See NFT</v-btn>
+              @click="closeSell()">Close</v-btn>
           </v-card>
         </v-window-item>
       </v-window>
@@ -448,6 +453,7 @@ export default {
       myStorage: null,
       minimumStorage: null,
       btnSale: false,
+      btnOffer: false,
       valueNft: null,
       dataNfts: [],
       modalSell: false,
@@ -650,8 +656,49 @@ export default {
       Object.keys(this.form_offer).forEach(key => {this.form_offer[key] = null});
       this.modalOffer = false; this.windowOffer = 1;
     },
-    submitOffer() {
-      if (this.$refs.formOffer.validate()) {this.windowOffer++}
+    async submitOffer() {
+      if (this.$refs.formOffer.validate()) {
+        this.btnOffer = true
+        if (this.$ramper.getUser()) {
+          const action = [this.$ramper.functionCall(
+            "add_offer",       
+            {
+              nft_contract_id: "nft4.musicfeast.testnet", 
+              token_id: this.offer.token,
+              ft_token_id: "near",
+              price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))
+            }, 
+            '300000000000000', 
+            this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))
+          )]
+          const res = await this.$ramper.sendTransaction({
+            transactionActions: [
+              {
+                receiverId: 'market.musicfeast.testnet',
+                actions: action,
+              },
+            ],
+            network: 'testnet',
+          })
+          console.log("Transaction Result: ", res)
+
+          this.btnOffer = false
+
+          if (res && res.result) {
+            if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
+              // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+              this.hash_offer = res.txHashes[0]
+              this.windowOffer++
+            } else if (res.result[0].status.Failure) {
+              this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            }
+          }
+        } else {
+          await this.$ramper.signIn()
+          location.reload();
+        }
+        // this.windowOffer++
+      }
     },
     // redemption
     clearRedemption() {

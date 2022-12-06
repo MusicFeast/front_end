@@ -520,8 +520,8 @@ export default {
               data.push(item)
             }
             this.dataEvents = data
-            this.dataProfits.events = this.dataEvents.length
           }
+          this.dataProfits.events = this.dataEvents.length
         }).catch(err => {
           this.$alert("cancel", {desc: err.message})
           console.error(err);
@@ -789,13 +789,18 @@ export default {
 
       const data = res.data.artists[0]
 
-      this.dataProfits = {
-        nfts: data.total_nft,
-        owners: "---",
-        events: data.total_event,
-        collections: data.total_collection,
-        high: "---",
-      }
+      this.dataProfits.nfts = data.total_nft
+      this.dataProfits.owners = "---"
+      this.dataProfits.collections = data.total_collection
+      this.dataProfits.high = "---"
+
+      // this.dataProfits = {
+      //   nfts: data.total_nft,
+      //   owners: "---",
+      //   events: data.total_event,
+      //   collections: data.total_collection,
+      //   high: "---",
+      // }
 
       this.getOwners()
     },

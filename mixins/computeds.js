@@ -15,6 +15,9 @@ export default {
     event() {
       return JSON.parse(localStorage.getItem("event"))
     },
+    offer() {
+      return JSON.parse(localStorage.getItem("offer"))
+    },
     nft() {
       return JSON.parse(localStorage.getItem(
         this.$route.path.includes("/user-nft") ? "user-nft" : "nft"

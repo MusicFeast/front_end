@@ -59,14 +59,14 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item
+            <!-- <v-list-item
               v-if="user.username == 'juanochando'"
               :ripple="false"
               @click="$store.commit('sendTransactionRamper')">
               <v-list-item-title class="tcap" :class="{not_transform: false}">
                 Buy Nft
               </v-list-item-title>
-            </v-list-item>
+            </v-list-item> -->
             
             <v-list-item
               v-for="(item,i) in dataMenuProfile" :key="i" :disabled="false && user.tier < 3 ? true : false"

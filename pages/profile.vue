@@ -117,7 +117,7 @@
             </v-img>
           </v-avatar>
           <a>{{item.name}}</a>
-          <p>{{item.desc}}</p>
+          <p>{{item.desc.limitString(27)}}</p>
 
           <div class="center" style="gap: 6.4px">
             <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
@@ -154,6 +154,88 @@
         <v-expansion-panel-content color="rgb(0, 0, 0, .4)" class="container-table--expansion mt-5">
           <v-data-table
             :headers="tableHeadersOffers"
+            :items="tableItemsOffersRe"
+            :page.sync="currentPageOffers"
+            :items-per-page="itemsPerPageOffers"
+            hide-default-footer
+            mobile-breakpoint="-1"
+            :header-props="{sortIcon: 'mdi-menu-down'}"
+            style="background: transparent"
+            bac
+          >
+          <template #[`item.nft_media`]="{ item }">
+              <center class="center" style="gap:10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img :src="item.nft_media" alt="artist avatar" transition="fade-transition">
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </center>
+            </template>
+
+            <template #[`item.price_near`]="{ item }">
+              <center v-if="item.price_near" class="divcol" style="gap: 5px">
+                <span>{{item.price_near}} N</span>
+                <span class="normal">$ {{dollarConversion(item.price_near)}}</span>
+              </center>
+
+              <center v-else class="divcol" style="gap: 5px">
+                <span>---</span>
+                <span>---</span>
+              </center>
+            </template>
+
+            <!-- <template #[`item.token_id`]="{ item }">
+              <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
+            </template> -->
+
+            <template #[`item.buyer_id`]="{ item }">
+              <center class="center" style="gap:10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img :src="require('~/assets/sources/avatars/avatar.png')" alt="artist avatar" transition="fade-transition">
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <span :title="item.buyer_id">{{item.buyer_id.limitString(20)}}</span>
+              </center>
+            </template>
+
+            <template #[`item.actions`]="{ item }">
+              <center class="center" style="gap: 30px">
+                <v-btn
+                  :disabled="offerBtn"
+                  :ripple="false" class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                  @click="acceptOffer(item)"
+                >Accept</v-btn>
+                <v-btn
+                  :disabled="offerBtn"
+                  :ripple="false" class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
+                  @click="declineOffer(item)"
+                >Decline</v-btn>
+              </center>
+            </template>
+          </v-data-table>
+
+          <Pagination
+            :total-pages="pagination_per_page_offers"
+            :current-page="currentPageOffers"
+            @pagechanged="(page) => currentPageOffers = page"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Offers Received</v-expansion-panel-header>
+
+        <v-expansion-panel-content color="rgb(0, 0, 0, .4)" class="container-table--expansion mt-5">
+          <v-data-table
+            :headers="tableHeadersOffers"
             :items="tableItemsOffers"
             :page.sync="currentPageOffers"
             :items-per-page="itemsPerPageOffers"
@@ -163,10 +245,22 @@
             style="background: transparent"
             bac
           >
-            <template #[`item.price`]="{ item }">
-              <center v-if="item.price" class="divcol" style="gap: 5px">
-                <span>{{item.price}} N</span>
-                <span class="normal">$ {{dollarConversion(item.price)}}</span>
+          <template #[`item.nft_media`]="{ item }">
+              <center class="center" style="gap:10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img :src="item.nft_media" alt="artist avatar" transition="fade-transition">
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </center>
+            </template>
+
+            <template #[`item.price_near`]="{ item }">
+              <center v-if="item.price_near" class="divcol" style="gap: 5px">
+                <span>{{item.price_near}} N</span>
+                <span class="normal">$ {{dollarConversion(item.price_near)}}</span>
               </center>
 
               <center v-else class="divcol" style="gap: 5px">
@@ -175,33 +269,36 @@
               </center>
             </template>
 
-            <template #[`item.vault`]="{ item }">
+            <!-- <template #[`item.token_id`]="{ item }">
               <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
-            </template>
+            </template> -->
 
-            <template #[`item.buyer`]="{ item }">
+            <template #[`item.buyer_id`]="{ item }">
               <center class="center" style="gap:10px">
                 <v-avatar style="border: 2px solid #fff">
-                  <v-img :src="item.buyer_img" alt="artist avatar" transition="fade-transition">
+                  <v-img :src="require('~/assets/sources/avatars/avatar.png')" alt="artist avatar" transition="fade-transition">
                     <template #placeholder>
                       <v-skeleton-loader type="avatar" />
                     </template>
                   </v-img>
                 </v-avatar>
-                <span>{{item.buyer}}</span>
+                <span :title="item.buyer_id">{{item.buyer_id.limitString(20)}}</span>
               </center>
             </template>
 
-            <template #[`item.actions`]>
+            <template #[`item.actions`]="{ item }">
               <center class="center" style="gap: 30px">
                 <v-btn
+                  :disabled="offerBtn"
                   :ripple="false" class="btn activeBtn bold"
                   style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                  @click="acceptOffer(item)"
                 >Accept</v-btn>
                 <v-btn
+                  :disabled="offerBtn"
                   :ripple="false" class="btn activeBtn bold"
                   style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
-                  @click="$refs.modal.modalOffer = true"
+                  @click="declineOffer(item)"
                 >Decline</v-btn>
               </center>
             </template>
@@ -228,6 +325,7 @@ export default {
   mixins: [computeds, styles],
   data() {
     return {
+      offerBtn: false,
       pageName: 'profile',
       dataProfits: {
         nfts: null,
@@ -315,30 +413,33 @@ export default {
         { icon: "discord", chat: "discord artist name 3" },
       ],
       tableHeadersOffers: [
-        { value: "name", text: "NFT NAME", align: "start", sortable: false },
-        { value: "vault", text: "VAULT ITEM", align: "center", sortable: false },
-        { value: "buyer", text: "BUYER", align: "center", sortable: false },
-        { value: "price", text: "PRICE", align: "center" },
+        { value: "nft_media", text: "NFT", align: "start", sortable: false },
+        { value: "nft_title", text: "NFT NAME", align: "start", sortable: false },
+        { value: "token_id", text: "TOKEN ID", align: "center", sortable: false },
+        { value: "buyer_id", text: "BUYER", align: "center", sortable: false },
+        { value: "price_near", text: "PRICE", align: "center" },
         { value: "actions", align: "center", sortable: false },
       ],
       tableItemsOffers: [
-        {
-          name: "Name of NFT",
-          vault: true,
-          buyer: "tonystart.near",
-          buyer_img: require("~/assets/sources/avatars/avatar.png"),
-          price: 174
-        },
-        {
-          name: "Name of NFT",
-          vault: false,
-          buyer: "tonystart.near",
-          buyer_img: require("~/assets/sources/avatars/avatar.png"),
-          price: 174
-        },
+        // {
+        //   name: "Name of NFT",
+        //   vault: true,
+        //   buyer: "tonystart.near",
+        //   buyer_img: require("~/assets/sources/avatars/avatar.png"),
+        //   price: 174
+        // },
+        // {
+        //   name: "Name of NFT",
+        //   vault: false,
+        //   buyer: "tonystart.near",
+        //   buyer_img: require("~/assets/sources/avatars/avatar.png"),
+        //   price: 174
+        // },
       ],
+      tableItemsOffersRe: [],
       currentPageOffers: 1,
       itemsPerPageOffers: 10,
+      minimumStorage: null
     }
   },
   head() {
@@ -363,9 +464,241 @@ export default {
   },
   mounted() {
     this.getMyNfts()
+    this.getOffers()
+    this.getOffersReceived()
+    this.storageMini()
     // this.setProfile();
   },
   methods: {
+    async storageMini(){
+      const account = await this.$near.account(this.$ramper.getAccountId());
+
+      const contract = new this.$contract(account, "market.musicfeast.testnet", {
+        viewMethods: ["storage_minimum_balance"],
+        sender: account,
+      })
+      await contract.storage_minimum_balance()
+      .then((response) => {
+        this.minimumStorage = this.$utils.format.formatNearAmount(response)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    async acceptOffer(item) {
+      this.offerBtn = true
+      if (this.$ramper.getUser()) {
+        const action1 = [
+            this.$ramper.functionCall(
+              "storage_deposit",       
+              {
+                account_id: this.$ramper.getAccountId(),
+              }, 
+              '50000000000000', 
+              this.$utils.format.parseNearAmount(this.minimumStorage)
+            )
+          ]
+          const msgs = {
+            price: item.price,
+            market_type: "accept_offer",
+            ft_token_id: "near",
+            buyer_id: item.buyer_id
+          }
+          const action2 = [
+            this.$ramper.functionCall(
+              "nft_approve",       
+              {
+                token_id: item.token_id, 
+                account_id: "market.musicfeast.testnet",
+                msg: JSON.stringify(msgs)
+              }, 
+              '200000000000000', 
+              '500000000000000000000'
+            )
+          ]
+          const action3 = [
+            this.$ramper.functionCall(
+              "storage_withdraw",       
+              '30000000000000', 
+              '1'
+            )
+          ]
+
+          const res = await this.$ramper.sendTransaction({
+            transactionActions: [
+              {
+                receiverId: 'market.musicfeast.testnet',
+                actions: action1,
+              },
+              {
+                receiverId: 'nft4.musicfeast.testnet',
+                actions: action2,
+              },
+              {
+                receiverId: 'market.musicfeast.testnet',
+                actions: action3,
+              },
+            ],
+            network: 'testnet',
+          })
+          console.log("Transaction Result: ", res)
+
+          this.offerBtn = false
+
+          if (res && res.result) {
+            if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
+              this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
+            } else if (res.result[1].status.Failure) {
+              this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+            }
+          }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
+      }
+    },
+    async declineOffer(item) {
+      this.offerBtn = true
+      if (this.$ramper.getUser()) {
+        const action = [
+            this.$ramper.functionCall(
+              "delete_offer",       
+              {
+                nft_contract_id: "nft4.musicfeast.testnet", 
+                token_id: item.token_id
+              }, 
+              '200000000000000', 
+              '1'
+            )
+          ]
+
+          const res = await this.$ramper.sendTransaction({
+            transactionActions: [
+              {
+                receiverId: 'market.musicfeast.testnet',
+                actions: action,
+              },
+            ],
+            network: 'testnet',
+          })
+          console.log("Transaction Result: ", res)
+
+          this.offerBtn = false
+
+          if (res && res.result) {
+            if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
+              this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+            } else if (res.result[0].status.Failure) {
+              this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            }
+          }
+      } else {
+        await this.$ramper.signIn()
+        location.reload();
+      }
+    },
+    async getOffers () {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner: String) {
+          offers(where: {data_nft_: {owner_id: $owner}}) {
+            typetoken_id
+            serie_id
+            token_id
+            price
+            price_near
+            nft_contract_id
+            ft_token_id
+            buyer_id
+            artist_id
+            id
+            data_nft {
+              owner_id
+              title
+              serie_id
+              reference
+              media
+              id
+              fecha
+              extra
+              description
+              artist_id
+            }
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {owner: this.$ramper.getAccountId()}
+      })
+
+      const data = res.data.offers
+
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i]
+        item.nft_title = item.data_nft.title
+        item.nft_media = item.data_nft.media
+        this.tableItemsOffers.push(item)
+      }
+
+      console.log("MYOFERST", this.tableItemsOffers)
+
+      // {
+      //     name: "Name of NFT",
+      //     vault: true,
+      //     buyer: "tonystart.near",
+      //     buyer_img: require("~/assets/sources/avatars/avatar.png"),
+      //     price: 174
+      //   },
+
+    },
+    async getOffersReceived () {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner: String) {
+          offers(where: {buyer_id: $owner}) {
+            typetoken_id
+            serie_id
+            token_id
+            price
+            price_near
+            nft_contract_id
+            ft_token_id
+            buyer_id
+            artist_id
+            id
+            data_nft {
+              owner_id
+              title
+              serie_id
+              reference
+              media
+              id
+              fecha
+              extra
+              description
+              artist_id
+            }
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {owner: this.$ramper.getAccountId()}
+      })
+
+      const data = res.data.offers
+
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i]
+        item.nft_title = item.data_nft.title
+        item.nft_media = item.data_nft.media
+        this.tableItemsOffersRe.push(item)
+      }
+
+      console.log("FERST", this.tableItemsOffersRe)
+    },
     async getMyNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
 
@@ -413,6 +746,7 @@ export default {
           token_id: data[i].id,
           supply: data[i].supply,
           state: null,
+          type_id: data[i].serie_id
         }
 
         if (item.tier === 7) {
@@ -425,6 +759,8 @@ export default {
           item.tier = 2
         } else if (item.tier === 11) {
           item.tier = 2
+        } else if (item.tier === 12) {
+          item.tier = 5
         }
 
         const varSplit = item.token_id.split("|")
