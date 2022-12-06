@@ -69,13 +69,13 @@
             thumb-color="#000"
             messages="always"
             :min="0"
-            :max="100"
-            @mousedown="slideTrack($event, 'down')"
-            @mouseup="slideTrack($event, 'up')"
+            :max="$refs.audio?.duration"
+            @mousedown="slideTrack('down')"
+            @mouseup="slideTrack('up')"
           >
             <template #message>
-              <span class="media-label">{{$refs.audio.currentTime.formatTime()}}</span>
-              <span class="media-label">{{$refs.audio.duration.formatTime()}}</span>
+              <span class="media-label">{{$refs.audio?.currentTime.formatTime()}}</span>
+              <span class="media-label">{{$refs.audio?.duration.formatTime()}}</span>
             </template>
           </v-slider>
         </div>
@@ -744,38 +744,20 @@ export default {
       this.$refs.audio.currentTime += 10
       if (this.sliderTrack > 100) this.sliderTrack = 100
     },
-    slideTrack(event, key) {
-      // console.log(event, key)
+    slideTrack(key) {
       if (key === 'down') {
         clearInterval(this.trackInterval)
       } else if (key === 'up') {
+        this.$refs.audio.currentTime = this.sliderTrack;
         this.playPauseTrack()
-        const audioTime = Math.round(this.$refs.audio.currentTime);
-        const audioLength = Math.round(this.$refs.audio.duration)
-
-        console.log(
-          audioTime,
-          audioLength,
-          (audioTime * 100) / audioLength,
-          ((audioTime * 100) / audioLength).formatTime(),
-          "----------------",
-          this.sliderTrack,
-          (audioTime * this.sliderTrack) / audioLength,
-          ((audioTime * this.sliderTrack) / audioLength).formatTime()
-        )
-        // this.sliderTrack = event;
       }
     },
     playPauseTrack() {
       if (this.sliderTrackState) {
         this.$refs.audio.play()
         this.trackInterval = setInterval(() => {
-          // Get the value of what second the song is at
           const audioTime = Math.round(this.$refs.audio.currentTime);
-          // We get songs all the time
-          const audioLength = Math.round(this.$refs.audio.duration)
-          // Assign a width to an element at time
-          this.sliderTrack = (audioTime * 100) / audioLength;
+          this.sliderTrack = audioTime;
         }, 10)
       }
       else {
