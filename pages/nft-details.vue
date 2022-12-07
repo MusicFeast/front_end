@@ -49,8 +49,8 @@
         <!-- if video -->
         <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
         <lite-youtube
-            v-show="media == 'video'"    
-            :videoid="idVideoYoutube"
+            v-if="media == 'video'"    
+            :videoid="mediaUrl"
             :playlabel="labelYoutube"
             style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
         />
@@ -60,10 +60,10 @@
           v-show="media == 'video'" ref="track" :src="mediaUrl"
           @pause="reloadButton = false; reloadButton = true"
           @play="reloadButton = false; reloadButton = true"
-        ></video> 
+        ></video>  -->
 
 
-        <div v-show="media" class="header-controls grid">
+        <div v-show="media == 'audio'" class="header-controls grid">
           <aside class="center" style="gap: 3em">
             <button @click="backTrack()">
               <img src="~/assets/sources/icons/back-track.svg" alt="back 10 seconds" style="--w: 2.5em">
@@ -96,7 +96,7 @@
               <span class="media-label">{{$refs.track?.duration.formatTime()}}</span>
             </template>
           </v-slider>
-        </div> -->
+        </div>
       </v-sheet>
 
       <article class="card divcol" style="gap: 30px">
@@ -375,7 +375,6 @@ export default {
       itemsPerPage: 10,
       ownedTier1: false,
       ownedTier2: false,
-      idVideoYoutube: "P2DzqLIK-8o",
       labelYoutube: ""
     }
   },
@@ -557,22 +556,27 @@ export default {
         console.log(data.typetoken_id, this.ownedTier2)
 
         if (data.typetoken_id === '1' && this.ownedTier1) {
-          await this.getMedia(1)
+          await this.getMedia('audio')
           this.media = 'audio'
         } else if (data.typetoken_id === '2' && this.ownedTier2) {
-          await this.getMedia(2)
+          await this.getMedia('video')
           this.media = 'video'
         }
       }
     },
-    async getMedia(tier) {
-      await this.$axios.post(`${this.baseUrl}api/v1/get-media/`, { "tier": Number(tier), "artist": Number(this.nft_main.artist_id) })
+    async getMedia(media) {
+      await this.$axios.post(`${this.baseUrl}api/v1/get-media/`, { "media": String(media), "artist": Number(this.nft_main.artist_id) })
       .then(result => {
         const data = result.data
-        if (data[0]) {
-          this.mediaUrl = this.baseUrl+data[0].media
+        if (data.media) {
+          if (media === 'audio') {
+            this.mediaUrl = this.baseUrl+data.media
+          } else if (media === 'video') {
+            console.log("SIIIIUUUU")
+            this.mediaUrl = data.media
+          }
         }
-        console.log(data)
+        console.log(this.mediaUrl)
       }).catch(err => {
         this.$alert("cancel", {desc: err.message})
         console.error(err);

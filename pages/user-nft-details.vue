@@ -12,7 +12,7 @@
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
-      <v-img :src="nft_main.img" class="header-background" transition="fade-transition">
+      <!-- <v-img :src="nft_main.img" class="header-background" transition="fade-transition">
         <template #default>
           <div class="center gap1 alignl">
             <v-avatar style="border: 2px solid #fff">
@@ -28,7 +28,85 @@
         <template #placeholder>
           <v-skeleton-loader type="card" />
         </template>
-      </v-img>
+      </v-img> -->
+
+      <v-sheet class="header-background--wrapper" color="transparent">
+        <div class="header--head start gap1">
+          <v-avatar style="border: 2px solid #fff">
+            <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
+          </v-avatar>
+          <span class="h9_em">{{nft_main.artist}}</span>
+        </div>
+
+        <v-img v-show="!media" :src="nft_main.img" class="header-background" transition="fade-transition">
+        </v-img>
+
+        <!-- if audio -->
+        <v-img v-show="media == 'audio'" :src="nft_main.img" class="header-background" transition="fade-transition">
+          <template #default>
+            <audio ref="track" :src="mediaUrl" type="audio/mpeg" muted></audio>
+          </template>
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
+        
+
+        <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
+        <lite-youtube
+            v-if="media == 'video'"    
+            :videoid="mediaUrl"
+            :playlabel="labelYoutube"
+            style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
+        />
+
+        <!-- if video -->
+        <!-- <video
+          v-show="media == 'video'" ref="track" :src="mediaUrl"
+          @pause="reloadButton = false; reloadButton = true"
+          @play="reloadButton = false; reloadButton = true"
+        ></video>  -->
+
+
+        <div v-show="media == 'audio'" class="header-controls grid">
+          <aside class="center" style="gap: 3em">
+            <button @click="backTrack()">
+              <img src="~/assets/sources/icons/back-track.svg" alt="back 10 seconds" style="--w: 2.5em">
+            </button>
+            
+            <button v-show="reloadButton" @click="playPauseTrack()">
+              <img
+                :src="require(`~/assets/sources/icons/${$refs.track?.paused ? 'play' : 'pause'}-track.svg`)"
+                alt="play / pause" style="--w: 4em"
+              >
+            </button>
+            
+            <button @click="advanceTrack()">
+              <img src="~/assets/sources/icons/advance-track.svg" alt="advance 10 seconds" style="--w: 2.5em">
+            </button>
+          </aside>
+
+          <v-slider
+            v-model="sliderTrack"
+            color="#fff"
+            thumb-color="#000"
+            messages="always"
+            :min="0"
+            :max="$refs.track?.duration"
+            @mousedown="slideTrack('down')"
+            @mouseup="slideTrack('up')"
+          >
+            <template #message>
+              <span class="media-label">{{$refs.track?.currentTime.formatTime()}}</span>
+              <span class="media-label">{{$refs.track?.duration.formatTime()}}</span>
+            </template>
+          </v-slider>
+        </div>
+      </v-sheet>
 
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
@@ -65,7 +143,6 @@
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
-            disabled
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
             @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
         </div>
@@ -178,6 +255,12 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      media: false,
+      mediaUrl: null,
+      reloadButton: true,
+      trackInterval: null,
+      sliderTrackState: false,
+      sliderTrack: 0,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
@@ -224,6 +307,9 @@ export default {
       ],
       currentPage: 1,
       itemsPerPage: 10,
+      ownedTier1: false,
+      ownedTier2: false,
+      labelYoutube: ""
     }
   },
   head() {
@@ -243,9 +329,11 @@ export default {
     this.nft_main = this.nft
     console.log(this.nft)
   },
-  mounted() {
+  async mounted() {
+    this.ownedTier1 = await this.validateTierFn(1)
+    this.ownedTier2 = await this.validateTierFn(2)
     this.nft_main = this.nft
-    // this.getSerie()
+    this.getSerie()
     this.getDataNft()
   },
   methods: {
@@ -304,6 +392,67 @@ export default {
 
       this.getNftsMarket()
     },
+    async getSerie() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          series(where: {id: $serie_id}) {
+            artist_id
+            copies
+            creator_id
+            desc_series
+            description
+            extra
+            fecha
+            id
+            media
+            price
+            price_near
+            reference
+            supply
+            title
+            typetoken_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: String(this.nft_main.type_id)},
+      })
+
+      if (res.data.series[0]) {
+        const data = res.data.series[0]  
+
+        console.log(data.typetoken_id, this.ownedTier2)
+
+        if (data.typetoken_id === '1' && this.ownedTier1) {
+          await this.getMedia('audio')
+          this.media = 'audio'
+        } else if (data.typetoken_id === '2' && this.ownedTier2) {
+          await this.getMedia('video')
+          this.media = 'video'
+        }
+      }
+    },
+    async getMedia(media) {
+      await this.$axios.post(`${this.baseUrl}api/v1/get-media/`, { "media": String(media), "artist": Number(this.nft_main.artist_id) })
+      .then(result => {
+        const data = result.data
+        if (data.media) {
+          if (media === 'audio') {
+            this.mediaUrl = this.baseUrl+data.media
+          } else if (media === 'video') {
+            console.log("SIIIIUUUU")
+            this.mediaUrl = data.media
+          }
+        }
+        console.log(this.mediaUrl)
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
+    },
     async getFloorPrice () {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
@@ -338,6 +487,40 @@ export default {
 
       if (data[0]) {
         return data[0].price_near
+      } else {
+        return false
+      }
+    },
+    async validateTierFn(tierId) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference}
+          ) {
+            artist_id
+            description
+            extra
+            fecha
+            id
+            media
+            owner_id
+            reference
+            serie_id
+            title
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.nft_main.artist_id), owner_id: this.$ramper.getAccountId(), reference: String(tierId)},
+      })
+
+      const data = res.data.nfts
+
+      if (data.length > 0) {
+        return true
       } else {
         return false
       }
@@ -494,6 +677,37 @@ export default {
         }
 
         this.tableItems.push(item)
+      }
+    },
+    backTrack() {
+      this.sliderTrack -= 10;
+      this.$refs.track.currentTime -= 10
+      if (this.sliderTrack < 0) this.sliderTrack = 0
+    },
+    advanceTrack() {
+      this.sliderTrack += 10;
+      this.$refs.track.currentTime += 10
+      if (this.sliderTrack > 100) this.sliderTrack = 100
+    },
+    slideTrack(key) {
+      if (key === 'down') {
+        clearInterval(this.trackInterval)
+      } else if (key === 'up') {
+        this.$refs.track.currentTime = this.sliderTrack;
+        this.playPauseTrack()
+      }
+    },
+    playPauseTrack() {
+      if (this.$refs.track?.paused) {
+        this.$refs.track.play()
+        this.trackInterval = setInterval(() => {
+          const audioTime = Math.round(this.$refs.track.currentTime);
+          this.sliderTrack = audioTime;
+        }, 10)
+      }
+      else {
+        this.$refs.track.pause()
+        clearInterval(this.trackInterval)
       }
     },
   }
