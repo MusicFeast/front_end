@@ -447,10 +447,24 @@ export default {
 
         if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "" && res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
-            this.getNftsMarket()
-            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})   
+            // this.getNftsMarket()
+            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})   
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "Your nft has been successfully unlisted.",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           } else if (res.result[0].status.Failure) {
-            this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "cancel",
+              title: "Error",
+              desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           }
         }
       } else {
@@ -725,9 +739,24 @@ export default {
 
         if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           } else if (res.result[0].status.Failure) {
-            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "cancel",
+              title: "Error",
+              desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           }
         }
       } else {
@@ -763,9 +792,23 @@ export default {
 
         if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           } else if (res.result[0].status.Failure) {
-            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "cancel",
+              title: "Error",
+              desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           }
         }
       } else {
