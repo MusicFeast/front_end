@@ -28,18 +28,27 @@
       </v-card>
     </section>
 
-    <v-btn class="btn align h10_em view-all__btn" style="margin-top:2em">View All</v-btn>
+    <v-btn class="btn align h10_em view-all__btn" style="margin-top:2em" :to="localePath('/artists')">View All</v-btn>
   </div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
+import computeds from '~/mixins/computeds'
+
 export default {
   name: "LastestReleasesSection",
-  props: {
-    dataLastestReleases: {
-      type: Array,
-      default: null,
+  mixins: [computeds],
+  // props: {
+  //   dataLastestReleases: {
+  //     type: Array,
+  //     default: null,
+  //   }
+  // },
+  data() {
+    return {
+      artists: [],
+      dataLastestReleases: []
     }
   },
   mounted() {
@@ -76,11 +85,47 @@ export default {
 
       const data = res.data.series
 
-      for (let i = 0; i < data.length; i++) {
-        console.log(data[i])
-      }
+      const arrayIds = []
 
-      console.log("REALS", data)
+      this.artists = data.slice(0, 12)
+
+      for (let i = 0; i < data.length; i++) {
+        arrayIds.push(data[i].artist_id)
+      }
+      const result = Array.from(new Set(arrayIds));
+      
+      this.getAvatars(result)
+    },
+    async getAvatars(datos) {
+      await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
+      .then(result => {
+        const data = result.data
+        if (data[0]) {
+          const datos = []
+          for (let j = 0; j < this.artists.length; j++) {
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].is_visible) {
+                console.log(data[i].id_collection, this.artists[j].artist_id)
+                if (String(data[i].id_collection) === String(this.artists[j].artist_id)) {
+                  const item = {
+                    img: this.artists[j].media,
+                    title: this.artists[j].title,
+                    desc: this.artists[j].description,
+                    artist: data[i].name,
+                    avatar: this.baseUrl+data[i].image,
+                    state: 'live'
+                  }
+                  datos.push(item)
+                }
+              }
+            }
+          }
+          this.dataLastestReleases = datos
+        }
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
     },
   }
 };

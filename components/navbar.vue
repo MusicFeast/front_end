@@ -138,6 +138,13 @@ export default {
     };
   },
   mounted() {
+    // localStorage.setItem("transaction_data", JSON.stringify({
+    //   state: "cancel",
+    //   title: "Success",
+    //   desc: "Your transaction was successfull",
+    //   hash: "asd1223asd1asd"
+    // }))
+    // this.$router.push(this.localePath('/redirection'))
     const act = this.$ramper.getAccountId()
 
     if (act) {
