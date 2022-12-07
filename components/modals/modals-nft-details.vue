@@ -136,7 +136,7 @@
         <v-window-item :value="1">
           <v-card id="modalOffer" class="nft-dialog--content">
             <h3>place an offer</h3>
-            <v-form ref="formOffer" class="divcol gap2" @submit.prevent="submitOffer()">
+            <v-form v-if="offer" ref="formOffer" class="divcol gap2" @submit.prevent="submitOffer()">
               <p class="p">You are about to bid on "{{offer.token}}".</p>
 
               <v-sheet color="transparent">
