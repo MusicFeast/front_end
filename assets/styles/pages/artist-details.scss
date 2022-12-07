@@ -44,7 +44,7 @@
       }
       @include media(max, 400px) {
         min-height: 10em;
-        h2 {font-size: 1.7em}
+        h2 {font-size: 1.7em !important}
       }
       .v-image, img {
         @include absolute(auto,0,0,0);
@@ -66,6 +66,7 @@
       justify-content: flex-end;
       padding-inline: var(--margin-items);
       padding-block: .8em;
+      min-height: 61.59px;
       z-index: 1;
       @include media(max, small) {
         bottom: calc((var(--h-header-title) / 2 * -1) - var(--h-header-social));

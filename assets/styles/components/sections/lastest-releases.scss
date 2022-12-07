@@ -40,7 +40,7 @@
   }
   .wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19em), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 304px), 1fr));
     gap: 3em;
     .v-card {
       --spacing: .7em;
@@ -54,9 +54,9 @@
         .v-image:not(.v-avatar .v-image) .v-image__image {transform: scale(1.2)}
       }
       @include media(min, small) {&:only-of-type {max-width: 20em}}
-      a {font-size: 1.3em; text-decoration: underline; margin-bottom: .3em}
+      a {font-size: 20px; text-decoration: underline; margin-bottom: .3em}
       p {
-        font-size: 1.1em;
+        font-size: 17px;
         display: -webkit-box;
         -webkit-line-clamp: 11;
         -webkit-box-orient: vertical;
@@ -82,6 +82,7 @@
           place-content: center;
 
           @include btn;
+          --fs: 13px;
           --br: 0;
           --w: 7em;
           --bg: linear-gradient(to right, #EE3938, #000000);

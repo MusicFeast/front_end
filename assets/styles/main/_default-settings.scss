@@ -202,7 +202,7 @@ h2:not(.not_typography, .not) {
   --fw: 600;
 
   font-family: var(--font1);
-  font-size: var(--fs, clamp(2.5em, 4vw, 3.5em));
+  font-size: var(--fs, clamp(2.5em, 4vw, 3.5em)) !important;
   letter-spacing: 0.03em;
 }
 h3:not(.not_typography, .not) {
@@ -312,7 +312,6 @@ img:not(.not_html, .not) {
   height: var(--h);
   max-height: var(--max-h);
   min-height: var(--min-h);
-  aspect-ratio: var(--ar);
   padding: var(--p);
   border: var(--b);
   border-radius: var(--br);

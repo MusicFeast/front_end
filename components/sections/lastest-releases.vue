@@ -23,7 +23,7 @@
               </template>
             </v-img>
           </v-avatar>
-          <span class="h10_em">{{item.artist}}</span>
+          <span style="font-size: 16px">{{item.artist}}</span>
         </div>
       </v-card>
     </section>
