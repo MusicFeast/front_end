@@ -7,11 +7,11 @@
         perferendis doloribus molestias doloremque. Omnis dolorum recusandae unde rem eos quam minima vero nihil.
       </p>
       <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)">
-        <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn>
+        <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
         <v-btn
           class="btn" style="--w: 8.5em"
-          :to="localePath(user.tier < 3 ? '/marketplace' : '/marketplace-vip')"
-          >Marketplace</v-btn>
+          href="https://discord.com/invite/N7agx9n5" target="_blank"
+          >Join</v-btn>
       </div>
     </article>
   </div>
