@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 export default {
   name: "LastestReleasesSection",
   props: {
@@ -41,7 +42,46 @@ export default {
       default: null,
     }
   },
+  mounted() {
+    this.getLastestReleases()
+  },
   methods: {
+    async getLastestReleases() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO {
+          series(where: {typetoken_id: "1"}, orderBy: fecha, orderDirection: desc) {
+            typetoken_id
+            title
+            supply
+            reference
+            price_near
+            price
+            media
+            id
+            fecha
+            extra
+            description
+            desc_series
+            creator_id
+            copies
+            artist_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+      })
+
+      const data = res.data.series
+
+      for (let i = 0; i < data.length; i++) {
+        console.log(data[i])
+      }
+
+      console.log("REALS", data)
+    },
   }
 };
 </script>
