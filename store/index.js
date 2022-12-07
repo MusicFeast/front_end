@@ -207,16 +207,43 @@ export const actions = {
 
 export const getters = {
   pagination: () => ({items, currentPage, itemsPerPage, search, filterA, filterB}) => {
+    let filters = [...items]
+
     // search
-    if (search) items = items.filter(data => data.name.includes(search))
+    if (search) filters = filters.filter(data => data.name.includes(search))
     // filter A (tier)
-    if (filterA) items = items.filter(data => data.tier === filterA)
+    if (filterA) filters = filters.filter(data => data.tier === filterA)
     // filter B (comming)
-    if (filterB === 'comming soon') items = items.filter(data => data.comming)
+    if (filterB === 'comming soon') filters = filters.filter(data => data.comming)
+    else if (filterB === 'lastest releases') filters = filters.sort((a, b) => {
+      const sortA = a.created.toUpperCase();
+      const sortB = b.created.toUpperCase();
+      if (sortA > sortB) {
+        return -1;
+      }
+      if (sortA < sortB) {
+        return 1;
+      }
+      return 0;
+    })
+    else if (filterB === 'oldest') filters = filters.sort((a, b) => {
+      const sortA = a.created.toUpperCase();
+      const sortB = b.created.toUpperCase();
+      if (sortA < sortB) {
+        return -1;
+      }
+      if (sortA > sortB) {
+        return 1;
+      }
+      return 0;
+    })
+
+    // console.log(filters.map(e => e.name), filters.map(e => e.created))   for test filter B
+
     // if mobile
     if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2;
 
-    return items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    return filters.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   }
 };
 
