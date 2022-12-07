@@ -139,7 +139,7 @@ export default {
   },
   mounted() {
     // localStorage.setItem("transaction_data", JSON.stringify({
-    //   state: "cancel",
+    //   state: "success",
     //   title: "Success",
     //   desc: "Your transaction was successfull",
     //   hash: "asd1223asd1asd"

@@ -546,9 +546,23 @@ export default {
 
           if (res && res.result) {
             if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
-              this.$alert("success", {desc: "You have successfully accepted the offer.", hash: res.txHashes[1]})
+              // this.$alert("success", {desc: "You have successfully accepted the offer.", hash: res.txHashes[1]})
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully accepted the offer.",
+                hash: res.txHashes[1]
+              }))
+              this.$router.push(this.localePath('/redirection'))
             } else if (res.result[1].status.Failure) {
-              this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+              // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "cancel",
+                title: "Error",
+                desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+                hash: res.txHashes[1]
+              }))
+              this.$router.push(this.localePath('/redirection'))
             }
           }
       } else {
@@ -586,9 +600,23 @@ export default {
 
           if (res && res.result) {
             if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
-              this.$alert("success", {desc: "You have successfully canceled the offer.", hash: res.txHashes[0]})
+              // this.$alert("success", {desc: "You have successfully canceled the offer.", hash: res.txHashes[0]})
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully canceled the offer.",
+                hash: res.txHashes[0]
+              }))
+              this.$router.push(this.localePath('/redirection'))
             } else if (res.result[0].status.Failure) {
-              this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+              // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "cancel",
+                title: "Error",
+                desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+                hash: res.txHashes[0]
+              }))
+              this.$router.push(this.localePath('/redirection'))
             }
           }
       } else {

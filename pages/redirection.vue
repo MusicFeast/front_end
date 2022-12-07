@@ -10,16 +10,20 @@
       </div>
 
       <div class="space" style="gap: 20px">
-        <v-btn class="btn activeBtn" :ripple="false">
-          Mint NFT
+        <v-btn v-if="transaction_data.state === 'success'" class="btn activeBtn" :ripple="false" @click="$router.push(localePath('/'))">
+          Home
         </v-btn>
 
-        <v-btn class="btn activeBtn" :ripple="false">
-          Storage Settings
+        <v-btn v-if="transaction_data.state === 'success'" class="btn activeBtn" :ripple="false" @click="$router.push(localePath('/profile'))">
+          Profile
+        </v-btn>
+
+        <v-btn v-else class="btn activeBtn" :ripple="false" @click="$router.go(-1)">
+          Go back
         </v-btn>
       </div>
 
-      <a class="center" style="gap: 5px; --c: #b9b9b9">
+      <a class="center" style="gap: 5px; --c: #b9b9b9" :href="'https://explorer.testnet.near.org/transactions/' + transaction_data.hash" target="_blank">
         See Transaction <v-icon size="1.1em">mdi-open-in-new</v-icon>
       </a>
     </template>
@@ -44,20 +48,30 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      transaction_data: null
     }
   },
   head() {
-    const title = this.transaction_data.state === 'success' ? 'success transaction' : 'error transaction';
+    // const title = this.transaction_data.state === 'success' ? 'success transaction' : 'error transaction';
+    const title = 'Result'
     return {
       title,
     }
   },
-  computed: {
-    transaction_data() {
-      return JSON.parse(localStorage.getItem("transaction_data"))
+  // computed: {
+  //   transaction_data() {
+  //     return JSON.parse(localStorage.getItem("transaction_data"))
+  //   }
+  // },
+  created() {
+    this.transaction_data = JSON.parse(localStorage.getItem("transaction_data"))
+    if (!this.transaction_data) {
+      this.$router.push(this.localePath('/'))
     }
+    localStorage.removeItem("transaction_data")
   },
   mounted() {
+    
   },
   methods: {
   }
