@@ -29,8 +29,6 @@
     background-color: var(--secondary);
     border-radius: 0 50px 50px 0;
 
-    padding-inline: 5em;
-
     > div {
       margin-left: 20vw;
       @include media(max, x-small) {margin-left: 10vw}
