@@ -48,7 +48,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["~/assets/styles/main/main.scss"],
+  css: ["node_modules/lite-youtube-embed/src/lite-yt-embed.css", "~/assets/styles/main/main.scss"],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   // components: true,
@@ -70,6 +70,7 @@ export default {
     // services
     '~/services/near-api',
     '~/services/ramper-api',
+    '@/plugins/youtube.client.js',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

@@ -23,6 +23,7 @@
     "core-js": "^3.19.3",
     "graphql-tag": "^2.12.6",
     "html2canvas": "^1.4.1",
+    "lite-youtube-embed": "^0.2.0",
     "moment": "^2.29.4",
     "near-api-js": "^1.1.0",
     "nuxt": "^2.15.8",

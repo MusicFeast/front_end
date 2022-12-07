@@ -45,13 +45,23 @@
             <v-skeleton-loader type="card" />
           </template>
         </v-img>
+        
+
+        <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
+        <lite-youtube
+            v-show="media == 'video'"    
+            :videoid="idVideoYoutube"
+            :playlabel="labelYoutube"
+            style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
+        />
 
         <!-- if video -->
-        <video
+        <!-- <video
           v-show="media == 'video'" ref="track" :src="mediaUrl"
           @pause="reloadButton = false; reloadButton = true"
           @play="reloadButton = false; reloadButton = true"
-        ></video>
+        ></video> 
+
 
         <div v-show="media" class="header-controls grid">
           <aside class="center" style="gap: 3em">
@@ -86,7 +96,7 @@
               <span class="media-label">{{$refs.track?.duration.formatTime()}}</span>
             </template>
           </v-slider>
-        </div>
+        </div> -->
       </v-sheet>
 
       <article class="card divcol" style="gap: 30px">
@@ -364,7 +374,9 @@ export default {
       currentPage: 1,
       itemsPerPage: 10,
       ownedTier1: false,
-      ownedTier2: false
+      ownedTier2: false,
+      idVideoYoutube: "P2DzqLIK-8o",
+      labelYoutube: ""
     }
   },
   head() {
