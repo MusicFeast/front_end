@@ -16,7 +16,11 @@ export default {
       return JSON.parse(localStorage.getItem("event"))
     },
     offer() {
-      return JSON.parse(localStorage.getItem("offer"))
+      const offer = JSON.parse(localStorage.getItem("offer"))
+      if (offer) {
+        return offer
+      }
+      return {token: null}
     },
     nft() {
       return JSON.parse(localStorage.getItem(
