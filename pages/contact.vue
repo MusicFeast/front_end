@@ -2,7 +2,7 @@
   <div id="contact" class="divcol center">
     <img src="~/assets/sources/images/img-parallax.jpg" alt="background">
 
-    <h2>contact us !</h2>
+    <h2>Contact us !</h2>
 
     <aside id="contact-socials-wrapper" class="center">
       <div class="center" style="gap:clamp(1em, 2.5vw, 2.5em)">

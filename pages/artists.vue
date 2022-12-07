@@ -63,7 +63,7 @@
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
           <p class="p">
-            {{item.description}}
+            {{item.description.limitString(30)}}
           </p>
         </div>
       </v-card>
@@ -91,7 +91,7 @@ export default {
       search: "",
       filter: {
         model: "",
-        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
+        list: ["lastest releases", "oldest", "comming soon"],
       },
       currentPage: 1,
       itemsPerPage: 10,
@@ -128,6 +128,9 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    changeFilter(item) {
+      console.log(item)
+    },  
     styles() {
       const page = document.querySelector(`#${pageName}`);
       // height h2
@@ -147,6 +150,7 @@ export default {
             e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           });
           this.dataArtists = result.data
+          console.log("ARISTAS", this.dataArtists)
         }).catch(err => {
           this.$alert("cancel", {desc: err.message})
           console.error(err);

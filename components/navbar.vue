@@ -133,7 +133,7 @@ export default {
         { name: "artists", to: "/artists" },
         { name: "news", to: "/news-details" },
         // { name: "marketplace", to: "" },
-        { name: "contact", to: "" },
+        { name: "contact", to: "/contact" },
       ],
     };
   },
