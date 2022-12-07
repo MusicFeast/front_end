@@ -46,7 +46,7 @@
           </template>
         </v-img>
         
-
+        <!-- if video -->
         <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
         <lite-youtube
             v-show="media == 'video'"    
@@ -55,7 +55,7 @@
             style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
         />
 
-        <!-- if video -->
+        
         <!-- <video
           v-show="media == 'video'" ref="track" :src="mediaUrl"
           @pause="reloadButton = false; reloadButton = true"
