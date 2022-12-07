@@ -72,6 +72,7 @@
       @search="(model) => search = model"
       @filterA="(model) => filterA.model = model"
       @filterB="(model) => filterB.model = model"
+      :hide="[3]"
     />
 
     <section ref="container" class="container-nfts grid">

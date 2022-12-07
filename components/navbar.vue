@@ -16,6 +16,12 @@
       </section>
 
       <section class="center">
+
+        <!-- <v-btn
+          :ripple="false"
+          class="btn activeBtn deletemobile"
+          style="--p: .5em clamp(1em, 3vw, 2.5em);"
+          @click="signIn()">Connect Near</v-btn> -->
         <!-- button connect -->
         <v-btn
           v-if="!isLogged"
@@ -138,6 +144,27 @@ export default {
     };
   },
   mounted() {
+    // const queryString = window.location.search; // tomo mi url
+    // const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+
+    // if (urlParams.get("account_id") !== null && urlParams.get("all_keys") !== null) {
+    //   console.log("ENTROOO")
+    //   console.log(urlParams.get("account_id"))
+    //   console.log(urlParams.get("all_keys"))
+    //   localStorage.setItem("ramper_loggedInUser", JSON.stringify({
+    //     UID: "near_wallet",
+    //     signupSource: "near_wallet",
+    //     wallets: {
+    //       near: {
+    //         blockchain: "near",
+    //         creationDate: "",
+    //         provider: "near_wallet",
+    //         publickKey: urlParams.get("account_id"),
+    //         walletId: urlParams.get("all_keys")
+    //       }
+    //     }
+    //   }))
+    // }
     // localStorage.setItem("transaction_data", JSON.stringify({
     //   state: "success",
     //   title: "Success",
@@ -177,6 +204,11 @@ export default {
   //   else {this.themeButton = false}
   // },
   methods: {
+    signIn(){
+      this.$wallet.requestSignIn(
+        'nft4.musicfeast.testnet'
+      );
+    },
     async getBalance () {
       if (this.$ramper.getUser()) {
         const account = await this.$near.account(this.$ramper.getAccountId());

@@ -32,7 +32,9 @@
               style="--w:75%; --min-h: 30px; --p: .5em"
               :ripple="false"
               v-bind="attrs"
-              v-on="on">{{user.username || account}}</v-btn>
+              v-on="on">{{user.username || account}}
+              <v-icon size="2em">mdi-menu-down</v-icon>
+            </v-btn>
           </template>
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
