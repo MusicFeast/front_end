@@ -1,3 +1,8 @@
+//! moment.js
+
+//! moment.js locale configuration
+
+
 /*!
  * Vue.js v2.7.10
  * (c) 2014-2022 Evan You
@@ -136,8 +141,3 @@ PERFORMANCE OF THIS SOFTWARE.
  * @copyright Chen, Yi-Cyuan 2014-2017
  * @license MIT
  */
-
-
-//! moment.js
-
-//! moment.js locale configuration

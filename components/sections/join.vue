@@ -3,8 +3,7 @@
     <article class="divcol center gap2">
       <h2>Join the community</h2>
       <p class="tcentermobile">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi laborum aliquid aperiam minima nulla voluptatem sequi 
-        perferendis doloribus molestias doloremque. Omnis dolorum recusandae unde rem eos quam minima vero nihil.
+        {{join_data}}
       </p>
       <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)">
         <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
@@ -25,9 +24,27 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      join_data: "",
     }
   },
+  mounted() {
+    this.getDataSocial()
+  },
   methods: {
+    async getDataSocial() {
+      await this.$axios.get(`${this.baseUrl}api/v1/get-info-mf`)
+      .then(result => {
+        const data = result.data
+        if (data[0]) {
+          if (data[0].join_community) {
+            this.join_data = data[0].join_community
+          }
+        }
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
+    },
   }
 };
 </script>

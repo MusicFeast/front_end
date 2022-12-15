@@ -88,36 +88,45 @@ export const mutations = {
     };
   },
   async signIn(state, key) {
-    const login = await window.$nuxt.$ramper.signIn()
-    
-    if (login) {
-      if (login.user) {
-        this.$router.go()
+    const nearWallet = "https://wallet.testnet.near.org"
+    const myNearWallet = "https://testnet.mynearwallet.com"
+    if (key === 'ramper') {
+      const login = await window.$nuxt.$ramper.signIn()
+      if (login) {
+        if (login.user) {
+          this.$router.go()
+        }
       }
     }
- 
-    // const nearWallet = "https://wallet.testnet.near.org"
-    // const myNearWallet = "https://testnet.mynearwallet.com"
-    
-    // if (key === 'near') {
-    //   localStorage.setItem("walletUrl", nearWallet)
-    //   window.$nuxt.$wallet._walletBaseUrl = nearWallet
-    // }
-    // else if (key === 'myNear') {
-    //   localStorage.setItem("walletUrl", myNearWallet)
-    //   window.$nuxt.$wallet._walletBaseUrl = myNearWallet
-    // } else if (key === 'sender') {
-    //   return this.$alert("cancel", {title: "comming soon", desc: "is comming soon for now"})
-    // }
-    
-    // window.$nuxt.$wallet.requestSignIn(
-    //   'contract.musicfeast.testnet'
-    // );
+    else if (key === 'myNear') {
+      localStorage.setItem("walletUrl", myNearWallet)
+      window.$nuxt.$wallet._walletBaseUrl = myNearWallet
+      window.$nuxt.$wallet.requestSignIn(
+        'nft4.musicfeast.testnet'
+      );
+    } else if (key === 'near') {
+      localStorage.setItem("walletUrl", nearWallet)
+      window.$nuxt.$wallet._walletBaseUrl = nearWallet
+      window.$nuxt.$wallet.requestSignIn(
+        'nft4.musicfeast.testnet'
+      );
+    }
   },
   signOut() {
     window.$nuxt.$ramper.signOut();
     setTimeout(() => this.$router.go(0), 100);
     this.$router.push(this.localePath('/'));
+  },
+  priceNEAR(state, key){
+    this.$axios.get("https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT")
+      .then((response) => {
+        if (response.data) {
+          localStorage.priceNear = response.data.lastPrice
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   },
   async sendTransactionRamper() {
     const actions2 = [window.$nuxt.$ramper.functionCall(

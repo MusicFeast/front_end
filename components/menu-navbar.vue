@@ -142,6 +142,7 @@ export default {
   //   this.overlayMethod(theme);
   // },
   mounted() {
+    this.$store.commit('priceNEAR')
     const act = this.$ramper.getAccountId()
 
     if (act) {

@@ -27,12 +27,12 @@
         </div>
       </v-btn>
       
-      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'sender')">
-        <img src="~/assets/sources/logos/sender-icon.svg" alt="near">
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'ramper')">
+        <img src="~/assets/sources/logos/ramper.svg" alt="near">
         
         <div class="divcol astart" style="gap: 5px">
-          <span class="h12_em bold">Sender</span>
-          <span class="h13_em">sender.org</span>
+          <span class="h12_em bold">Ramper</span>
+          <span class="h13_em">ramper.xyz</span>
         </div>
       </v-btn>
     </v-sheet>

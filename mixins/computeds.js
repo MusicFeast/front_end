@@ -15,8 +15,12 @@ export default {
     event() {
       return JSON.parse(localStorage.getItem("event"))
     },
+    priceNear() {
+      return JSON.parse(localStorage.getItem("priceNear"))
+    },
     offer() {
       const offer = JSON.parse(localStorage.getItem("offer"))
+      console.log("offer", offer)
       if (offer) {
         return offer
       }

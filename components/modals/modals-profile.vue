@@ -10,7 +10,7 @@
           <v-card id="modalProfileOffer" class="nft-dialog--content">
             <h3>Decline The offer?</h3>
             <v-form ref="formOffer" class="divcol gap2" @submit.prevent="submitOffer()">
-              <p class="p">You are declining the offer "{{nft.name}}".</p>
+              <p class="p">You are declining the offer "{{nft ? nft.name : ""}}".</p>
 
               <v-sheet color="transparent">
                 <label for="amount">Amount in

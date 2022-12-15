@@ -137,7 +137,7 @@
           <v-card id="modalOffer" class="nft-dialog--content">
             <h3>place an offer</h3>
             <v-form ref="formOffer" class="divcol gap2" @submit.prevent="submitOffer()">
-              <p class="p">You are about to bid on "{{offer.token}}".</p>
+              <p class="p">You are about to bid on "{{offer_main.token}}".</p>
 
               <v-sheet color="transparent">
                 <label for="amount">Amount in
@@ -187,7 +187,7 @@
             <h3>Offer Success</h3>
 
             <section class="divcol" style="gap: 1.5em">
-              <p class="p">Successful bid "{{offer.token}}" for</p>
+              <p class="p">Successful bid "{{offer_main.token}}" for</p>
 
               <v-text-field
                 v-model="form_offer.offerPrice"
@@ -449,6 +449,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      offer_main: {},
       copyBtn: false,
       myStorage: null,
       minimumStorage: null,
@@ -598,13 +599,13 @@ export default {
               '500000000000000000000'
             )
           ]
-          const action3 = [
-            this.$ramper.functionCall(
-              "storage_withdraw",       
-              '30000000000000', 
-              '1'
-            )
-          ]
+          // const action3 = [
+          //   this.$ramper.functionCall(
+          //     "storage_withdraw",       
+          //     '50000000000000', 
+          //     '1'
+          //   )
+          // ]
 
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
@@ -616,10 +617,10 @@ export default {
                 receiverId: 'nft4.musicfeast.testnet',
                 actions: action2,
               },
-              {
-                receiverId: 'market.musicfeast.testnet',
-                actions: action3,
-              },
+              // {
+              //   receiverId: 'market.musicfeast.testnet',
+              //   actions: action3,
+              // },
             ],
             network: 'testnet',
           })
@@ -627,7 +628,10 @@ export default {
 
           this.btnSale = false
 
-          if (res && res.result) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.lenght > 0) {
+            this.hash_sell = res.txHashes[1]
+            this.windowSell++
+          } else if (res && res.result && res.txHashes.lenght > 0) {
             if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
               this.hash_sell = res.txHashes[1]
               this.windowSell++
@@ -643,6 +647,7 @@ export default {
               this.$router.push(this.localePath('/redirection'))
             }
           }
+          
         } else {
           await this.$ramper.signIn()
           location.reload();
@@ -662,6 +667,7 @@ export default {
     clearOffer() {
       Object.keys(this.form_offer).forEach(key => {this.form_offer[key] = null});
       this.modalOffer = false; this.windowOffer = 1;
+      this.offer_main = {}
     },
     async submitOffer() {
       if (this.$refs.formOffer.validate()) {
@@ -671,7 +677,7 @@ export default {
             "add_offer",       
             {
               nft_contract_id: "nft4.musicfeast.testnet", 
-              token_id: this.offer.token,
+              token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))
             }, 
@@ -691,13 +697,16 @@ export default {
 
           this.btnOffer = false
 
-          if (res && res.result) {
-            if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-              // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.lenght > 0 ) {
+            this.hash_offer = res.txHashes[0]
+            this.windowOffer++
+          } else if (res && res.result && res.txHashes.lenght > 0 ) {
+            if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
               this.hash_offer = res.txHashes[0]
               this.windowOffer++
+              // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
             } else if (res.result[0].status.Failure) {
-              // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+              // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "cancel",
                 title: "Error",

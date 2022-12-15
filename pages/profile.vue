@@ -516,13 +516,13 @@ export default {
               '500000000000000000000'
             )
           ]
-          const action3 = [
-            this.$ramper.functionCall(
-              "storage_withdraw",       
-              '30000000000000', 
-              '1'
-            )
-          ]
+          // const action3 = [
+          //   this.$ramper.functionCall(
+          //     "storage_withdraw",       
+          //     '30000000000000', 
+          //     '1'
+          //   )
+          // ]
 
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
@@ -534,10 +534,10 @@ export default {
                 receiverId: 'nft4.musicfeast.testnet',
                 actions: action2,
               },
-              {
-                receiverId: 'market.musicfeast.testnet',
-                actions: action3,
-              },
+              // {
+              //   receiverId: 'market.musicfeast.testnet',
+              //   actions: action3,
+              // },
             ],
             network: 'testnet',
           })
@@ -545,7 +545,15 @@ export default {
 
           this.offerBtn = false
 
-          if (res && res.result) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully unlisted.",
+            hash: res.txHashes[1]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
             if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
               // this.$alert("success", {desc: "You have successfully accepted the offer.", hash: res.txHashes[1]})
               localStorage.setItem("transaction_data", JSON.stringify({
@@ -599,7 +607,15 @@ export default {
 
           this.offerBtn = false
 
-          if (res && res.result) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "Your nft has been successfully unlisted.",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
+          } else if (res && res.result) {
             if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
               // this.$alert("success", {desc: "You have successfully canceled the offer.", hash: res.txHashes[0]})
               localStorage.setItem("transaction_data", JSON.stringify({
@@ -771,6 +787,7 @@ export default {
           desc: data[i].description,
           editions: data[i].copies || "Multi",
           tier: Number(data[i].reference),
+          typetoken_id: data[i].reference,
           type: "nft",
           token_id: data[i].id,
           supply: data[i].supply,
@@ -920,7 +937,7 @@ export default {
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
     dollarConversion(price) {
-      return price / 2
+      return (Number(price) * this.priceNear).toFixed(2)
     },
   }
 };

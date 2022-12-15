@@ -411,6 +411,7 @@ export default {
   methods: {
     makeOffer(item) {
       localStorage.setItem("offer", JSON.stringify(item))
+      this.$refs.modal.offer_main = item
       this.$refs.modal.modalOffer = true
     },
     async unlistNft(item) {
@@ -456,7 +457,15 @@ export default {
 
         this.btnBuy = false
 
-        if (res && res.result) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully unlisted.",
+            hash: res.txHashes[0]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "" && res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
             // this.getNftsMarket()
             // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})   
@@ -753,7 +762,15 @@ export default {
 
         this.btnBuy = false
 
-        if (res && res.result) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully unlisted.",
+            hash: res.txHashes[0]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
             // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
 
@@ -806,7 +823,15 @@ export default {
 
         this.btnBuy = false
 
-        if (res && res.result) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully unlisted.",
+            hash: res.txHashes[0]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
             // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
             localStorage.setItem("transaction_data", JSON.stringify({
@@ -833,7 +858,7 @@ export default {
       }
     },
     dollarConversion(price) {
-      return price / 2
+      return (Number(price) * this.priceNear).toFixed(2)
     },
     backTrack() {
       this.sliderTrack -= 10;

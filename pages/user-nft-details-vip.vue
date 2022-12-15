@@ -237,7 +237,7 @@ export default {
   },
   methods: {
     dollarConversion(price) {
-      return price / 2
+      return (Number(price) * this.priceNear).toFixed(2)
     },
   }
 };

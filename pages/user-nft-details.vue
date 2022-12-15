@@ -143,6 +143,7 @@
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
             @click="$refs.modal.modalSell = true">sell</v-btn>
           <v-btn
+            :disabled="redeemBtn"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
             @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
         </div>
@@ -309,7 +310,8 @@ export default {
       itemsPerPage: 10,
       ownedTier1: false,
       ownedTier2: false,
-      labelYoutube: ""
+      labelYoutube: "",
+      redeemBtn: true,
     }
   },
   head() {
@@ -333,12 +335,15 @@ export default {
     this.ownedTier1 = await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
     this.nft_main = this.nft
+    if (this.nft_main.typetoken_id === '7' || this.nft_main.typetoken_id === '8' || this.nft_main.typetoken_id === '9') {
+      this.redeemBtn = false
+    } 
     this.getSerie()
     this.getDataNft()
   },
   methods: {
     dollarConversion(price) {
-      return price / 2
+      return (Number(price) * this.priceNear).toFixed(2)
     },
     async getDataNft() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -569,12 +574,34 @@ export default {
 
         this.btnBuy = false
 
-        if (res && res.result) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully unlisted.",
+            hash: res.txHashes[0]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "" && res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
             this.getNftsMarket()
-            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})   
+            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})   
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "Your nft has been successfully unlisted.",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           } else if (res.result[0].status.Failure) {
-            this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "cancel",
+              title: "Error",
+              desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           }
         }
       } else {
@@ -608,11 +635,33 @@ export default {
 
         this.btnBuy = false
 
-        if (res && res.result) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully unlisted.",
+            hash: res.txHashes[0]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-            this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           } else if (res.result[0].status.Failure) {
-            this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "cancel",
+              title: "Error",
+              desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
           }
         }
       } else {
