@@ -9,6 +9,14 @@
     </aside>
 
     <v-sheet class="grid" color="transparent">
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'ramper')">
+        <img src="~/assets/sources/logos/ramper.svg" alt="near">
+        
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">Email</span>
+          <span class="h13_em">ramper.xyz</span>
+        </div>
+      </v-btn>
       <v-btn plain @click="$store.commit('signIn', 'near')">
         <img src="~/assets/sources/logos/near-wallet-icon.svg" alt="near">
         
@@ -24,15 +32,6 @@
         <div class="divcol astart" style="gap: 5px">
           <span class="h12_em bold">MyNearWallet</span>
           <span class="h13_em">mynearwallet.com</span>
-        </div>
-      </v-btn>
-      
-      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'ramper')">
-        <img src="~/assets/sources/logos/ramper.svg" alt="near">
-        
-        <div class="divcol astart" style="gap: 5px">
-          <span class="h12_em bold">Ramper</span>
-          <span class="h13_em">ramper.xyz</span>
         </div>
       </v-btn>
     </v-sheet>

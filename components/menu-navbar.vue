@@ -23,7 +23,7 @@
           v-if="!isLogged"
           class="btn activeBtn"
           style="--w:75%; --min-h: 30px; --p: .5em 2em"
-          :ripple="false" @click="$store.commit('signIn')">Connect</v-btn>
+          :ripple="false" @click="$parent.$parent.$parent.$refs.connect.modalConnect = true">Connect</v-btn>
 
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false"> 
           <template #activator="{ on, attrs}">
@@ -143,6 +143,26 @@ export default {
   // },
   mounted() {
     this.$store.commit('priceNEAR')
+    const queryString = window.location.search; // tomo mi url
+    const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+
+    if (urlParams.get("account_id") !== null && urlParams.get("all_keys") !== null) {
+      localStorage.setItem("ramper_loggedInUser", JSON.stringify({
+        UID: "near_wallet",
+        signupSource: "near_wallet",
+        wallets: {
+          near: {
+            blockchain: "near",
+            creationDate: "",
+            provider: "near_wallet",
+            publicKey: urlParams.get("account_id"),
+            walletId: urlParams.get("all_keys")
+          }
+        }
+      }))
+      history.replaceState(null, location.href.split("?")[0], '/');
+      location.reload()
+    }
     const act = this.$ramper.getAccountId()
 
     if (act) {
