@@ -13,7 +13,7 @@
 
     <h2 class="Title tup">core team</h2>
 
-    <section v-for="(item,i) in dataTeam" :key="i" class="container-team mobile" :class="{special: i === 0}">
+    <section v-for="(item,i) in dataTeam" :key="i" class="container-team mobile" :class="{special: i === 1}">
       <template v-if="!isMobile">
         <aside class="container-team--photo">
           <v-sheet color="transparent">
