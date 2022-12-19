@@ -149,9 +149,6 @@ export default {
     const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
 
     if (urlParams.get("account_id") !== null && urlParams.get("all_keys") !== null) {
-      console.log("ENTROOO")
-      console.log(urlParams.get("account_id"))
-      console.log(urlParams.get("all_keys"))
       localStorage.setItem("ramper_loggedInUser", JSON.stringify({
         UID: "near_wallet",
         signupSource: "near_wallet",

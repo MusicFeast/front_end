@@ -3,7 +3,7 @@
     <aside class="space">
       <span class="h9_em">Connect Wallet</span>
       
-      <v-btn icon @click="modalConnect = false">
+      <v-btn icon @click="closeDialog()">
         <v-icon size="1.5em">mdi-close</v-icon>
       </v-btn>
     </aside>
@@ -92,6 +92,12 @@ export default {
   mounted() {
   },
   methods: {
+    closeDialog() {
+      this.modalConnect = false
+      if (JSON.parse(localStorage.getItem('discord_sinc'))) {
+        localStorage.removeItem('discord_sinc')
+      }
+    }
     // async loginRamper() {
     //   const userData = await signIn()
     //   this.user = userData.user || null

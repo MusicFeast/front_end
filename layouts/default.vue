@@ -13,6 +13,7 @@
     }">
     <Alerts ref="alerts"></Alerts>
     <ModalsConnect ref="connect"></ModalsConnect>
+    <ModalsVerifyDiscord ref="verify-discord"></ModalsVerifyDiscord>
     <Navbar ref="navbar" />
     
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
