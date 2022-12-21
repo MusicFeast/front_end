@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="varDialog" content-class="modal-verify divcol relative isolate" persistent>
     <aside class="space" style="gap: 10px">
-      <span class="h9_em">{{
+      <span class="h9_em bold">{{
         resultOperation === 'success' ? 'Synchronization Successful!'
         : resultOperation === 'cancel' ? 'Error Synchronization!'
         : 'Accept Synchronization'}}</span>
@@ -19,7 +19,7 @@
       
       <v-card class="card" style="--bg: hsl(0 0% 60% / .4)">
         <p class="p h11_em center">Hey there {{ user.username || account }}</p>
-        <p class="p h11_em center">ready to verify your Discord?</p>
+        <p class="p h11_em center">Ready to sync with discord?</p>
       </v-card>
       
       <v-btn class="btn activeBtn align" :disabled="connectBtn" plain color="hsl(0 0% 0% / .5)" @click="connectDiscord()">
@@ -63,7 +63,6 @@ export default {
     }
 
     const fragment = new URLSearchParams(window.location.hash.slice(1));
-    console.log("fragmen", fragment)
     const [accessToken] = [fragment.get('access_token'), fragment.get('token_type')];
 
     if (accessToken) {

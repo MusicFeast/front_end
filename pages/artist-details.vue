@@ -362,7 +362,7 @@
 
     <v-expansion-panels class="custome-expansion">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="toLink()">
           <div class="acenter" style="gap:.5em">
             <v-icon size="1.5em">{{item.icon}}</v-icon>
             <span class="tcap">{{item.chat}}</span>
@@ -505,6 +505,9 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    toLink() {
+      window.open("https://discord.gg/9KB3gjJkWJ")
+    },
     getEventsArtist() {
       this.$axios.post(`${this.baseUrl}api/v1/get-events/`, {"artist_id": Number(this.artist.id_collection)})
         .then(response => {
