@@ -1,23 +1,36 @@
 <template>
-  <v-dialog v-model="varDialog" content-class="modal-connect divcol relative isolate" persistent>
-    <aside class="space">
-      <span class="h9_em">Accept Synchronization</span>
+  <v-dialog v-model="varDialog" content-class="modal-verify divcol relative isolate" persistent>
+    <aside class="space" style="gap: 10px">
+      <span class="h9_em">{{
+        resultOperation === 'success' ? 'success operation'
+        : resultOperation === 'cancel' ? 'Error operation'
+        : 'Accept Synchronization'}}</span>
       
       <v-btn icon @click="closeDialog()">
         <v-icon size="1.5em">mdi-close</v-icon>
       </v-btn>
     </aside>
 
-    <v-sheet class="grid" color="transparent">
-      <span class="h12_em bold">Email</span>
-      <img :src="userAvatar" alt="near">
-      <v-btn plain color="hsl(0 0% 0% / .5)" @click="connectDiscord()">
-        <div class="divcol astart" style="gap: 5px">
-          <span class="h12_em bold">Connect</span>
-          <!-- <span class="h13_em">ramper.xyz</span> -->
-        </div>
+    <v-sheet v-if="!resultOperation" color="transparent" class="divcol" style="gap: 15px">
+      <div class="divcol center" style="gap: 5px">
+        <img :src="userAvatar" alt="avatar" class="aspect" style="--w: 6em; --of: cover; --br: 50%; --b: 1.5px solid #fff; --p: .5px">
+        <span class="h11_em bold">Email</span>
+      </div>
+      
+      <v-card class="card" style="--bg: hsl(0 0% 100% / .4)">
+        <p class="p h11_em">message</p>
+      </v-card>
+      
+      <v-btn class="btn activeBtn align" plain color="hsl(0 0% 0% / .5)" @click="connectDiscord()">
+        <span class="h11_em bold">Connect</span>
+        <!-- <span class="h13_em">ramper.xyz</span> -->
       </v-btn>
     </v-sheet>
+
+    <v-icon v-else-if="resultOperation === 'success'" size="7em" style="color: var(--success) !important">
+      mdi-check-circle</v-icon>
+    <v-icon v-else-if="resultOperation === 'cancel'" size="7em" style="color: var(--error) !important">
+      mdi-close-circle</v-icon>
   </v-dialog>
 </template>
 
@@ -28,9 +41,10 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      varDialog: true,
       userDc: {},
-      varDialog: false,
-      userAvatar: null,
+      userAvatar: require("~/assets/sources/avatars/avatar.png"),
+      resultOperation: undefined,
     };
   },
   mounted() {
@@ -86,9 +100,11 @@ export default {
             .then(result => {
               console.log("SUCCESS")
               console.log(result)
+              this.resultOperation = "success"
             }).catch(err => {
-              this.$alert("cancel", {desc: err.message})
               console.error(err);
+              this.resultOperation = "cancel"
+              this.$alert("cancel", {desc: err.message})
             })
         }).catch(err => {
           this.$alert("cancel", {desc: err.message})
@@ -100,15 +116,16 @@ export default {
 </script>
 
 <style lang="scss">
-.modal-connect {
+.modal-verify {
   @include card;
-  --min-w: 330px;
+  // --min-w: 330px;
   --w: max-content;
   --br: 30px;
   --bg: #272727;
   --p: 30px;
   --tt: capitalize;
-  gap: 20px;
+  gap: 10px;
+  overflow-x: hidden;
   
   &::before {
     content: "";
@@ -123,33 +140,5 @@ export default {
   }
 
   i {color: hsl(225 225% 225% / .5) !important}
-
-  .v-sheet.grid {
-    @include media(min, 500px) {--gtc: 1fr 1fr}
-    gap: 20px;
-    .v-btn {
-      --fs: 20px;
-      width: 100%;
-      min-height: 70px;
-      border-radius: 10px;
-      background-color: hsl(0 0% 0% / .2);
-      transition: .2s $ease-return;
-      &:hover {
-        background-color: hsl(0 0% 0% / .4);
-        transform: translateY(-5px) !important;
-      }
-      &__content {
-        justify-content: flex-start;
-        gap: 10px;
-        img {
-          --w: 40px;
-          --of: cover;
-        }
-        span + span {
-          --c: hsl(225 225% 225% / .5);
-        }
-      }
-    }
-  }
 }
 </style>
