@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="varDialog" content-class="modal-connect divcol relative isolate">
+  <v-dialog v-model="varDialog" content-class="modal-connect divcol relative isolate" persistent>
     <aside class="space">
       <span class="h9_em">Accept Synchronization</span>
       
@@ -11,7 +11,7 @@
     <v-sheet class="grid" color="transparent">
       <span class="h12_em bold">Email</span>
       <img :src="userAvatar" alt="near">
-      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'ramper')">
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="connectDiscord()">
         <div class="divcol astart" style="gap: 5px">
           <span class="h12_em bold">Connect</span>
           <!-- <span class="h13_em">ramper.xyz</span> -->
@@ -22,10 +22,13 @@
 </template>
 
 <script>
+import computeds from '~/mixins/computeds'
 export default {
   name: "VerifyModal",
+  mixins: [computeds],
   data() {
     return {
+      userDc: {},
       varDialog: false,
       userAvatar: null,
     };
@@ -58,6 +61,8 @@ export default {
 
           this.userAvatar = avatar
 
+          this.userDc = response
+
           this.varDialog = true
         })
         .catch(console.error);
@@ -72,7 +77,24 @@ export default {
       if (JSON.parse(localStorage.getItem('discord_sinc'))) {
         localStorage.removeItem('discord_sinc')
       }
-    }
+    },
+    connectDiscord () {
+      const accountId = this.$ramper.getAccountId()
+      this.$axios.post(`${this.baseUrl}api/v1/save-user-discord/`, { "wallet": accountId, "discord_id": this.userDc.id })
+        .then(result => {
+          this.$axios.post("http://localhost:8000/music-feast/botdiscord/active-rol", { "wallet": accountId })
+            .then(result => {
+              console.log("SUCCESS")
+              console.log(result)
+            }).catch(err => {
+              this.$alert("cancel", {desc: err.message})
+              console.error(err);
+            })
+        }).catch(err => {
+          this.$alert("cancel", {desc: err.message})
+          console.error(err);
+        })
+    },
   }
 };
 </script>
