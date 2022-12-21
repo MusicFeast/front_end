@@ -2,11 +2,11 @@
   <v-dialog v-model="varDialog" content-class="modal-verify divcol relative isolate" persistent>
     <aside class="space" style="gap: 10px">
       <span class="h9_em">{{
-        resultOperation === 'success' ? 'success operation'
-        : resultOperation === 'cancel' ? 'Error operation'
+        resultOperation === 'success' ? 'Synchronization Successful!'
+        : resultOperation === 'cancel' ? 'Error Synchronization!'
         : 'Accept Synchronization'}}</span>
       
-      <v-btn icon @click="closeDialog()">
+      <v-btn icon :disabled="connectBtn" @click="closeDialog()">
         <v-icon size="1.5em">mdi-close</v-icon>
       </v-btn>
     </aside>
@@ -14,15 +14,21 @@
     <v-sheet v-if="!resultOperation" color="transparent" class="divcol" style="gap: 15px">
       <div class="divcol center" style="gap: 5px">
         <img :src="userAvatar" alt="avatar" class="aspect" style="--w: 6em; --of: cover; --br: 50%; --b: 1.5px solid #fff; --p: .5px">
-        <span class="h11_em bold">Email</span>
+        <span class="h11_em bold">{{ userDc.username }}#{{ userDc.discriminator }}</span>
       </div>
       
-      <v-card class="card" style="--bg: hsl(0 0% 100% / .4)">
-        <p class="p h11_em">message</p>
+      <v-card class="card" style="--bg: hsl(0 0% 60% / .4)">
+        <p class="p h11_em center">Hey there {{ user.username || account }}</p>
+        <p class="p h11_em center">ready to verify your Discord?</p>
       </v-card>
       
-      <v-btn class="btn activeBtn align" plain color="hsl(0 0% 0% / .5)" @click="connectDiscord()">
+      <v-btn class="btn activeBtn align" :disabled="connectBtn" plain color="hsl(0 0% 0% / .5)" @click="connectDiscord()">
         <span class="h11_em bold">Connect</span>
+        <v-progress-circular
+          v-if="connectBtn"
+          :size="21"
+          indeterminate
+        ></v-progress-circular>
         <!-- <span class="h13_em">ramper.xyz</span> -->
       </v-btn>
     </v-sheet>
@@ -41,13 +47,21 @@ export default {
   mixins: [computeds],
   data() {
     return {
-      varDialog: true,
+      connectBtn: false,
+      varDialog: false,
       userDc: {},
       userAvatar: require("~/assets/sources/avatars/avatar.png"),
       resultOperation: undefined,
+      account: null
     };
   },
   mounted() {
+    const act = this.$ramper.getAccountId()
+
+    if (act) {
+      this.account = act.substring(0, 20) + "..."
+    }
+
     const fragment = new URLSearchParams(window.location.hash.slice(1));
     console.log("fragmen", fragment)
     const [accessToken] = [fragment.get('access_token'), fragment.get('token_type')];
@@ -58,6 +72,7 @@ export default {
         token_type: fragment.get('token_type')
       }
       localStorage.setItem('discord_sinc', JSON.stringify(item))
+      history.replaceState(null, location.href.split("#")[0], '/');
     }
 
     if (JSON.parse(localStorage.getItem('discord_sinc'))) {
@@ -93,6 +108,7 @@ export default {
       }
     },
     connectDiscord () {
+      this.connectBtn = true
       const accountId = this.$ramper.getAccountId()
       this.$axios.post(`${this.baseUrl}api/v1/save-user-discord/`, { "wallet": accountId, "discord_id": this.userDc.id })
         .then(result => {
@@ -101,14 +117,20 @@ export default {
               console.log("SUCCESS")
               console.log(result)
               this.resultOperation = "success"
+              this.connectBtn = false
+              localStorage.removeItem('discord_sinc')
             }).catch(err => {
               console.error(err);
               this.resultOperation = "cancel"
-              this.$alert("cancel", {desc: err.message})
+              localStorage.removeItem('discord_sinc')
+              // this.$alert("cancel", {desc: err.message})
+              this.connectBtn = false
             })
         }).catch(err => {
           this.$alert("cancel", {desc: err.message})
           console.error(err);
+          localStorage.removeItem('discord_sinc')
+          this.connectBtn = false
         })
     },
   }
