@@ -157,11 +157,7 @@ export default {
     },
   },
 
-  // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
-  router: {
-    base: development ? '/music-feast/' : '/',
-    // middleware: ['route-validator'],
-  },
+ 
 
   server: {
     host: 'localhost', // default: localhost,
@@ -192,5 +188,17 @@ export default {
         exclude: /(node_modules)/,
       })
     },
+  },
+  serverMiddleware: [
+    '~/serverMiddleware/firstTest', {
+      path: "botdiscord",
+      handler: "~/serverMiddleware/botdiscord"
+    }
+  ],
+  
+  // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
+  router: {
+    base: development ? '/music-feast/' : '/',
+    // middleware: ['route-validator'],
   },
 }
