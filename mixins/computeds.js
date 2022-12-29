@@ -4,7 +4,7 @@ export default {
       return this.$axios.defaults.baseURL
     },
     isLogged() {
-      return this.$ramper.getUser()
+      return process.client ? this.$ramper.getUser() : undefined
     },
     user() {
       return this.$store.state.dataUser

@@ -157,22 +157,24 @@ export const actions = {
     layout.$refs.connect.modalConnect = true
   },
   getData({state, commit}) {
-    try {
-      const user = window.$nuxt.$ramper.getUser()
-      // get data user
-      this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": user ? user.wallets.near.publicKey : "" })
-      .then(result => {
-        // set data profile
-        result.data[0] ? commit("setData", result.data[0]) : commit("setData", user ? user.wallets.near.publicKey : "");
-      // catch error django
-      }).catch(err => {
+    if (process.client) {
+      try {
+        const user = window.$nuxt.$ramper.getUser()
+        // get data user
+        this.$axios.post(`${this.$axios.defaults.baseURL}api/v1/get-perfil-data/`, { "wallet": user ? user.wallets.near.publicKey : "" })
+        .then(result => {
+          // set data profile
+          result.data[0] ? commit("setData", result.data[0]) : commit("setData", user ? user.wallets.near.publicKey : "");
+        // catch error django
+        }).catch(err => {
+          console.error(err);
+          this.$alert("cancel", {desc: err.message})
+        })
+      // catch error near
+      } catch (err) {
         console.error(err);
         this.$alert("cancel", {desc: err.message})
-      })
-    // catch error near
-    } catch (err) {
-      console.error(err);
-      this.$alert("cancel", {desc: err.message})
+      }
     }
   },
   goTo({commit, state}, {key, item, event, buyDirect}) { if (key === 'nft' || key === 'user-nft') {

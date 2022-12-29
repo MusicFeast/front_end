@@ -5,10 +5,10 @@ const development = process.env.NODE_ENV !== 'production'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: true,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -60,17 +60,17 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // plugins
-    '~/plugins/injects.js',
-    '~/plugins/polyfills.js',
-    '~/plugins/directives.js',
-    '~/plugins/axios.js',
-    '~/plugins/apexchart.js',
-    '~/plugins/google-maps.js',
-    '~/plugins/vue-debounce.js',
+    { src: '~/plugins/injects.js', mode: 'client' },
+    { src: '~/plugins/polyfills.js', mode: 'client' },
+    { src: '~/plugins/directives.js', mode: 'client' },
+    { src: '~/plugins/axios.js', mode: 'client' },
+    { src: '~/plugins/apexchart.js', mode: 'client' },
+    { src: '~/plugins/google-maps.js', mode: 'client' },
+    { src: '~/plugins/vue-debounce.js', mode: 'client' },
+    { src: '~/plugins/youtube.client.js', mode: 'client' },
     // services
-    '~/services/near-api',
-    '~/services/ramper-api',
-    '@/plugins/youtube.client.js',
+    { src: '~/services/near-api', mode: 'client' },
+    { src: '~/services/ramper-api', mode: 'client' },
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -157,12 +157,17 @@ export default {
     },
   },
 
- 
-
   server: {
     host: 'localhost', // default: localhost,
     port: '8000', // default: 3000
   },
+
+  serverMiddleware: [
+    '~/serverMiddleware/firstTest', {
+      path: "botdiscord",
+      handler: "~/serverMiddleware/botdiscord"
+    }
+  ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -189,13 +194,7 @@ export default {
       })
     },
   },
-  serverMiddleware: [
-    '~/serverMiddleware/firstTest', {
-      path: "botdiscord",
-      handler: "~/serverMiddleware/botdiscord"
-    }
-  ],
-  
+
   // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
   router: {
     base: development ? '/music-feast/' : '/',

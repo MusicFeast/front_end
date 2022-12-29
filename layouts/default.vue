@@ -40,7 +40,6 @@ export default {
     this.$store.dispatch("getData");
   },
   mounted() {
-    this.scrollX();
     this.footerHeightListener();
     
     // resize listener
@@ -50,22 +49,6 @@ export default {
     window.removeEventListener("resize", this.footerHeightListener);
   },
   methods: {
-    scrollX() {
-      const scrollableDesktop = document.querySelectorAll('.scrollx');
-      const scrollableMobile = document.querySelectorAll('.scrollxmobile');
-      if (scrollableDesktop) {
-        for (const el of scrollableDesktop) {
-          el.addEventListener("wheel", event => { event.preventDefault(); el.scrollLeft += event.deltaY })
-        }
-      }
-      if (scrollableMobile) {
-        for (const el of scrollableMobile) {
-          el.addEventListener("wheel", event => {
-            if (window.innerWidth <= 880) { event.preventDefault(); el.scrollLeft += event.deltaY }
-          })
-        }
-      }
-    },
     footerHeightListener() {
       setTimeout(() => {
         const footer = document.querySelector('#footer');
