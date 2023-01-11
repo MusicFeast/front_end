@@ -538,7 +538,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft4.musicfeast.testnet",
+              nft_contract_id: "nft6.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -564,7 +564,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft4.musicfeast.testnet',
+              receiverId: 'nft6.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -616,7 +616,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft4.musicfeast.testnet", 
+            nft_contract_id: "nft6.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 
