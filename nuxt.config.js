@@ -5,10 +5,10 @@ const development = process.env.NODE_ENV !== 'production'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'server',
+  target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -60,17 +60,17 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // plugins
-    { src: '~/plugins/injects.js', mode: 'client' },
-    { src: '~/plugins/polyfills.js', mode: 'client' },
-    { src: '~/plugins/directives.js', mode: 'client' },
-    { src: '~/plugins/axios.js', mode: 'client' },
-    { src: '~/plugins/apexchart.js', mode: 'client' },
-    { src: '~/plugins/google-maps.js', mode: 'client' },
-    { src: '~/plugins/vue-debounce.js', mode: 'client' },
-    { src: '~/plugins/youtube.client.js', mode: 'client' },
+    '~/plugins/injects.js',
+    '~/plugins/polyfills.js',
+    '~/plugins/directives.js',
+    '~/plugins/axios.js',
+    '~/plugins/apexchart.js',
+    '~/plugins/google-maps.js',
+    '~/plugins/vue-debounce.js',
+    '~/plugins/youtube.client.js',
     // services
-    { src: '~/services/near-api', mode: 'client' },
-    { src: '~/services/ramper-api', mode: 'client' },
+    '~/services/near-api',
+    '~/services/ramper-api',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
