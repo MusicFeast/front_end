@@ -237,12 +237,21 @@
 
       <Filters
         contents
-        :hide="[2]"
+        :hide="[3]"
         :search="search"
-        :filter-b="filter.list"
+        :filter-a="filterA.list"
         @search="(model) => search = model"
-        @filterB="(model) => filter.model = model"
+        @filterA="(model) => filterA.model = model"
       />
+      <!-- <Filters
+        :search="search"
+        :filter-a="filterA.list"
+        :filter-b="filterB.list"
+        @search="(model) => search = model"
+        @filterA="(model) => filterA.model = model"
+        @filterB="(model) => filterB.model = model"
+        :hide="[3]"
+      /> -->
     </h2>
 
     <section class="container-collections grid">
@@ -440,6 +449,14 @@ export default {
       search: "",
       filter: {
         model: "",
+        list: [6, 5, 4, 3, 2, 1],
+      },
+      filterA: {
+        model: "",
+        list: [6, 5, 4, 3, 2],
+      },
+      filterB: {
+        model: "",
         list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataCollections: [
@@ -480,7 +497,7 @@ export default {
     dataCollections_pagination() {
       return this.$store.getters.pagination({
         items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
-        search: this.search
+        search: this.search, filterA: this.filterA.model
       })
     },
     pagination_per_page() {
