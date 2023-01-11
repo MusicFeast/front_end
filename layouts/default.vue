@@ -11,7 +11,7 @@
       bronze: user.tier === 1,
       variant: $route.path === '/artist-details',
     }">
-    <Alerts ref="alerts"></Alerts>
+    <ModalsAlertEmergent ref="alerts"></ModalsAlertEmergent>
     <ModalsConnect ref="connect"></ModalsConnect>
     <ModalsVerifyDiscord ref="verify-discord"></ModalsVerifyDiscord>
     <Navbar ref="navbar" />

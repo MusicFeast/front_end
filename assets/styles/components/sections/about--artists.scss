@@ -16,7 +16,8 @@
     display: flex;
     gap: clamp(2em, 3vw, 3em);
     @include media(max, small) {flex-direction: column}
-    p {font-size: 20.8px; font-weight: 300; line-height: 1.2; margin-left: .5em}
+    h2 {font-size: 3em}
+    p {font-weight: 300; line-height: 1.2; margin-left: .5em}
     a {font-size: 19.2px; font-weight: 500; margin-left: auto; text-decoration: underline}
   }
   .separators {

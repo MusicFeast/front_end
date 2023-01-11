@@ -103,6 +103,7 @@ export default {
     }
   },
   mounted() {
+    
     // get carousel
     this.$axios.get(`${this.baseUrl}api/v1/get-carousel`)
       .then(result => {
