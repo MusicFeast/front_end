@@ -628,10 +628,11 @@ export default {
 
           this.btnSale = false
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.lenght > 0) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+        
             this.hash_sell = res.txHashes[1]
             this.windowSell++
-          } else if (res && res.result && res.txHashes.lenght > 0) {
+          } else if (res && res.result && res.txHashes.length > 0) {
             if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
               this.hash_sell = res.txHashes[1]
               this.windowSell++
@@ -697,10 +698,10 @@ export default {
 
           this.btnOffer = false
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.lenght > 0 ) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0 ) {
             this.hash_offer = res.txHashes[0]
             this.windowOffer++
-          } else if (res && res.result && res.txHashes.lenght > 0 ) {
+          } else if (res && res.result && res.txHashes.length > 0 ) {
             if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
               this.hash_offer = res.txHashes[0]
               this.windowOffer++
