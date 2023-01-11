@@ -23,13 +23,17 @@
               </v-img>
             </v-avatar>
           </button> -->
-          <v-avatar style="border: 2px solid #fff">
-            <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
-              <template #placeholder>
-                <v-skeleton-loader type="avatar" />
-              </template>
-            </v-img>
-          </v-avatar>
+          <button class="center" style="gap: 2px" @click="$router.go(-1)">
+            <v-icon>mdi-chevron-left</v-icon>
+            
+            <v-avatar style="border: 2px solid #fff">
+              <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+          </button>
           <span class="h9_em">{{nft_main.artist.toUpperCase()}}</span>
         </div>
 

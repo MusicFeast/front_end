@@ -161,5 +161,13 @@
     padding-inline: var(--margin-separator);
     margin-bottom: 6em;
     gap: 2em;
+    .v-card.custome {
+      .container-content {
+        display: flex;
+        flex-direction: column;
+        height: 135.25px;
+      }
+      p {margin-bottom: auto}
+    }
   }
 }
