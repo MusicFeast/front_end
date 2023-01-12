@@ -538,7 +538,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft4.musicfeast.testnet",
+              nft_contract_id: "nft6.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -564,7 +564,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft4.musicfeast.testnet',
+              receiverId: 'nft6.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -616,7 +616,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft4.musicfeast.testnet", 
+            nft_contract_id: "nft6.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 
@@ -639,10 +639,15 @@ export default {
           localStorage.setItem("transaction_data", JSON.stringify({
             state: "success",
             title: "Success",
-            desc: "Your nft has been successfully unlisted.",
+            desc: "Your nft has been successfully purchased.",
             hash: res.txHashes[0]
           }))
           this.$router.push(this.localePath('/redirection'))
+          if (this.nft_main.tier === 1) {
+            setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
+          } else if (this.nft_main.tier === 2) {
+            setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+          }
         } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
             // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
@@ -653,6 +658,11 @@ export default {
               hash: res.txHashes[0]
             }))
             this.$router.push(this.localePath('/redirection'))
+            if (this.nft_main.tier === 1) {
+              setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
+            } else if (this.nft_main.tier === 2) {
+              setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+            }
           } else if (res.result[0].status.Failure) {
             // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
             localStorage.setItem("transaction_data", JSON.stringify({

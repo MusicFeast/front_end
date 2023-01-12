@@ -614,7 +614,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft4.musicfeast.testnet',
+                receiverId: 'nft6.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -677,7 +677,7 @@ export default {
           const action = [this.$ramper.functionCall(
             "add_offer",       
             {
-              nft_contract_id: "nft4.musicfeast.testnet", 
+              nft_contract_id: "nft6.musicfeast.testnet", 
               token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))

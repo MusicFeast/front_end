@@ -326,7 +326,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft4.musicfeast.testnet',
+              receiverId: 'nft6.musicfeast.testnet',
               actions: action,
             },
           ],

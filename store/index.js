@@ -102,13 +102,13 @@ export const mutations = {
       localStorage.setItem("walletUrl", myNearWallet)
       window.$nuxt.$wallet._walletBaseUrl = myNearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft4.musicfeast.testnet'
+        'nft6.musicfeast.testnet'
       );
     } else if (key === 'near') {
       localStorage.setItem("walletUrl", nearWallet)
       window.$nuxt.$wallet._walletBaseUrl = nearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft4.musicfeast.testnet'
+        'nft6.musicfeast.testnet'
       );
     }
   },
@@ -141,7 +141,7 @@ export const mutations = {
     const res = await window.$nuxt.$ramper.sendTransaction({
       transactionActions: [
         {
-          receiverId: 'nft4.musicfeast.testnet',
+          receiverId: 'nft6.musicfeast.testnet',
           actions: actions2,
         },
       ],

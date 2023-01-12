@@ -46,7 +46,7 @@ export default {
       const alert = {title, desc, color, icon, model: true}
       this.dataAlerts.push(alert)
       // clear alerts
-      setTimeout(() => this.dataAlerts.shift(), 5000);
+      setTimeout(() => this.dataAlerts.shift(), 7000);
     },
   }
 };
