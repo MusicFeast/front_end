@@ -5,6 +5,14 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // default settings // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url(~/static/fonts/bebas_neue/BebasNeue-Regular.ttf) format('truetype'),
+      url(~/static/fonts/bebas_neue/BebasNeue-Regular.otf) format('opentype'),
+      url(~/static/fonts/bebas_neue/BebasNeue-Regular.eot) format('embeddedopentype'),
+      url(~/static/fonts/bebas_neue/BebasNeue-Regular.woff) format('webopenfonttype'),
+      url(~/static/fonts/bebas_neue/BebasNeue-Regular.woff2) format('webopenfonttype'),
+}
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--h-navbar) + 2em);
