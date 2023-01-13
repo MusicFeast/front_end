@@ -306,7 +306,7 @@
 
     <h2 class="Title tup">chats</h2>
 
-    <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
+    <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="toLink()">
           <div class="acenter" style="gap:.5em" href="https://discord.gg/9KB3gjJkWJ" target="_blank">
@@ -315,7 +315,15 @@
           </div>
         </v-expansion-panel-header>
       </v-expansion-panel>
-    </v-expansion-panels>
+    </v-expansion-panels> -->
+
+    <widgetbot
+      server="1053340402633150485"
+      channel="1053340403086147672"
+      width="1560"
+      height="1000"
+    ></widgetbot>
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
   </div>
 </template>
 
