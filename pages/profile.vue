@@ -118,6 +118,7 @@
             </v-img>
           </v-avatar>
           <a>{{item.name}}</a>
+          <!-- <a>{{item.artista.limitString(27)}}</a> -->
           <p>{{item.desc.limitString(27)}}</p>
 
           <div class="center" style="gap: 6.4px">
@@ -809,7 +810,8 @@ export default {
           token_id: data[i].id,
           supply: data[i].supply,
           state: null,
-          type_id: data[i].serie_id
+          type_id: data[i].serie_id,
+          artista: "-"
         }
 
         if (item.tier === 7) {
@@ -832,6 +834,8 @@ export default {
 
         const serie = await this.getSerie(idArtist, typeToken)
         const floor = await this.getFloorPrice(serie.id)
+
+        console.log(serie)
 
         item.artist_id = serie.artist_id
         item.editions = serie.copies || "Multi"
@@ -901,11 +905,13 @@ export default {
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
       .then(result => {
         const data = result.data
+        console.log("ADTA", data)
         if (data[0]) {
           for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < this.dataNfts.length; j++) {
               if (String(data[i].id_collection) === String(this.dataNfts[j].artist_id)) {
                 this.dataNfts[j].avatar = this.baseUrl+data[i].image
+                this.dataNfts[j].artista = data[i].name
               }
             }
           }

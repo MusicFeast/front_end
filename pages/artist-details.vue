@@ -172,7 +172,7 @@
             item.tier==='platinum' ? 4 :
             item.tier==='diamond' ? 5 :
             item.tier==='uranium' ? 6 : ''
-          }} nft</a>
+          }}</a>
           <ul>
             <li v-show="item.description">{{item.description}}</li>
             <!-- <li v-show="item.tier">Access to special membership perks.</li>
@@ -469,15 +469,6 @@ export default {
         //   state: "live",
         //   type: "nft",
         //   tier: 3,
-        // },
-        // {
-        //   img: require('~/assets/sources/images/img-listed-2.jpg'),
-        //   avatar: require("~/assets/sources/avatars/avatar.png"),
-        //   name: "Artist Name o Collection  n°2",
-        //   desc: "Lorem ipsum dolor sit amet,",
-        //   floor_price: "250.00",
-        //   state: "sold out",
-        //   type: "collection",
         // },
       ],
       currentPage: 1,
@@ -855,11 +846,13 @@ export default {
 
       const data = res.data.series
 
+      console.log("DATA", data)
+
       for (let i = 0; i < data.length; i++) {
         const item = {
           img: data[i].media,
           avatar: this.artist.image,
-          name: data[i].desc_series.toUpperCase(),
+          name: data[i].title.toUpperCase(),
           artist: this.artist.name,
           artist_id: data[i].artist_id,
           desc: this.artist.name,

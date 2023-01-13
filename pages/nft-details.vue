@@ -148,6 +148,10 @@
             :disabled="true"
             :ripple="false" class="btn activeBtn text-decoration-line-through" style="--w: min(100%, 12em); --fs: 14px">Sold Out</v-btn>
         </div>
+
+        <div class="spacea">
+          <h10 style="color: #D57535">Warning: If the window does not open, you must enable pop-up windows in your browser.</h10>
+        </div>
       </article>
     </section>
 
@@ -219,7 +223,7 @@
 
     <v-expansion-panels class="custome-expansion mt-10" :value="0">
       <v-expansion-panel>
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Buy NFT</v-expansion-panel-header>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Buy Resale</v-expansion-panel-header>
 
         <v-expansion-panel-content color="rgb(0, 0, 0, .4)" class="container-table--expansion mt-5">
           <v-data-table

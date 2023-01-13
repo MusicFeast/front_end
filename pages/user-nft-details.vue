@@ -441,6 +441,7 @@ export default {
       }
     },
     async getMedia(media) {
+      console.log("MEDIA", media, "ARTIST", this.nft_main.artist_id)
       await this.$axios.post(`${this.baseUrl}api/v1/get-media/`, { "media": String(media), "artist": Number(this.nft_main.artist_id) })
       .then(result => {
         const data = result.data
