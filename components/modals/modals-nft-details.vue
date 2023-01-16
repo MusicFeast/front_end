@@ -245,8 +245,8 @@
                     style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
                   >"{{nft.name}}"</span>
 
-                  <label for="amount">Amount to Redeem</label>
-                  <v-text-field
+                  <label for="amount">ID</label>
+                  <!-- <v-text-field
                     id="amount"
                     v-model="form_redemption.redeemPrice"
                     filled dense
@@ -254,8 +254,13 @@
                     :rules="[v => !!v || 'required field']"
                     background-color="rgba(0,0,0,.4)"
                     style="flex-grow: 0"
-                  ></v-text-field>
-                  <span class="mb-3">Quantity Available: 3</span>
+                  ></v-text-field> -->
+
+                  <span
+                    class="btn center tcenter bold mb-3"
+                    style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
+                  >"{{nft.token_id}}"</span>
+                  <span class="mb-3">Quantity Available: {{ quantityNfts }}</span>
 
                   <label for="country">Country</label>
                   <v-select
@@ -283,7 +288,7 @@
               <section class="bold">
                 <h6 class="space gap2">
                   <span>number of items</span>
-                  <span>2</span>
+                  <span>1</span>
                 </h6>
                 <h6 class="space gap2">
                   <span>shipping</span>
@@ -326,9 +331,11 @@
 
               <section class="divcol">
                 <v-checkbox
+                  v-model="check"
                   label="Use profile address"
                   class="align" dense
                   off-icon="mdi-checkbox-blank"
+                  @change="changeCheck()"
                 ></v-checkbox>
                 
                 <label for="street">Street Address</label>
@@ -402,7 +409,7 @@
                 @click="clearRedemption()">Cancel</v-btn>
               <v-btn
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
-                @click="nextRedemption($refs.formRedemptionAddress)">Confirm</v-btn>
+                @click="burnNft($refs.formRedemptionAddress)">Confirm</v-btn>
             </div>
           </v-card>
         </v-window-item>
@@ -449,6 +456,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      check: false,
+      disabledAddress: true,
+      addressUser: {},
       offer_main: {},
       copyBtn: false,
       myStorage: null,
@@ -458,6 +468,7 @@ export default {
       valueNft: null,
       dataNfts: [],
       modalSell: false,
+      quantityNfts: 0,
       modalBuy: false,
       modalOffer: false,
       modalRedemption: false,
@@ -490,8 +501,134 @@ export default {
     this.getDataNfts()
     this.storageMini()
     this.mystorage()
+
+    this.nft_main = this.nft
+
+    this.dataRedeem()
+    this.getDataNft()
+    this.getAddress()
   },
   methods: {
+    async burnNft (ref) {
+      if (ref.validate()) {
+        
+        if (this.$ramper.getUser()) {
+          const action = [
+            this.$ramper.functionCall(
+              "nft_burn",       
+              {
+                token_id: this.nft.token_id,
+              }, 
+              '300000000000000', 
+              '1'
+            )
+          ]
+
+          const res = await this.$ramper.sendTransaction({
+            transactionActions: [
+              {
+                receiverId: 'nft6.musicfeast.testnet',
+                actions: action,
+              }
+            ],
+            network: 'testnet',
+          })
+          console.log("Transaction Result: ", res)
+
+          this.windowRedemption++
+
+          // if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+        
+          //   this.hash_sell = res.txHashes[1]
+          //   this.windowSell++
+          // } else if (res && res.result && res.txHashes.length > 0) {
+          //   if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
+          //     this.hash_sell = res.txHashes[1]
+          //     this.windowSell++
+          //     // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
+          //   } else if (res.result[1].status.Failure) {
+          //     // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+          //     localStorage.setItem("transaction_data", JSON.stringify({
+          //       state: "cancel",
+          //       title: "Error",
+          //       desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+          //       hash: res.txHashes[1]
+          //     }))
+          //     this.$router.push(this.localePath('/redirection'))
+          //   }
+          // }
+        }
+      }
+    },
+    changeCheck() {
+      if (this.check) {
+        // this.form_redemption.country = this.addressUser.address.country
+        this.form_redemption.address.street = this.addressUser.address.street_address
+        this.form_redemption.address.postal = this.addressUser.address.postal
+        this.form_redemption.address.state = this.addressUser.address.state
+        this.form_redemption.address.city = this.addressUser.address.city
+        this.form_redemption.address.apartment = this.addressUser.address.street_address2
+      } else {
+        this.form_redemption.address = {
+          street: null,
+          apartment: null,
+          city: null,
+          state: null,
+          postal: null,
+        }
+      }
+    },
+    async getAddress() {
+      const accountId = this.$ramper.getAccountId()
+      // get data user
+      await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+      .then(result => {
+        if (result.data[0]) {
+          if (result.data[0].address.city) {
+            this.addressUser = result.data[0]
+            this.disabledAddress = false
+          } else {
+            this.addressUser = {}
+            this.disabledAddress = true
+          }
+        }
+        console.log("ADDRESS", this.addressUser)
+      }).catch(err => {
+        this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
+    },
+    async getDataNft() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner_id: String, $serie_id: String) {
+          nfts(where: {owner_id: $owner_id, serie_id: $serie_id}) {
+            title
+            serie_id
+            reference
+            owner_id
+            media
+            id
+            fecha
+            extra
+            description
+            artist_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {owner_id: this.$ramper.getAccountId(), serie_id: String(this.nft_main.type_id)},
+      })
+
+      const data = res.data.nfts
+
+      this.quantityNfts = data.length
+    },
+    dataRedeem() {
+      this.form_redemption.redeemPrice = this.nft_main.token_id
+    },
     copyHash(item) {
       this.copyBtn = true
       navigator.clipboard.writeText(item)
@@ -735,7 +872,9 @@ export default {
       this.modalRedemption = false; this.windowRedemption = 1;
     },
     nextRedemption(ref) {
-      if (ref.validate()) {this.windowRedemption++}
+      if (ref.validate()) {
+        this.windowRedemption++
+      }
     },
   }
 };

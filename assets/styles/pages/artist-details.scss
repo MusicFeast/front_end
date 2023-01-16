@@ -46,11 +46,18 @@
         min-height: 10em;
         h2 {font-size: 1.7em !important}
       }
+      // .responsive__content {
+      //   width: calc(100% + 25px) !important;
+      //   max-width: calc(100% + 25px) !important;
+      // }
       .v-image, img {
         @include absolute(auto,0,0,0);
-        --h: calc(100% + 25px);
+        height: calc(100% + 25px) !important;
+        width: 270px !important;
+        // width: 100px !important;
+        // max-width: 100px !important;
+        // aspect-ratio:  1 / 1 !important;
         --b: 25px solid #000;
-        aspect-ratio: 1 / 1;
         border-radius: 50%;
         @include media(max, small) {
           border-width: 10px;

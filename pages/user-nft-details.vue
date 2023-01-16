@@ -48,7 +48,7 @@
         <!-- if audio -->
         <v-img v-show="media == 'audio'" :src="nft_main.img" class="header-background" transition="fade-transition">
           <template #default>
-            <audio ref="track" :src="mediaUrl" type="audio/mpeg" muted></audio>
+            <audio ref="track" :src="mediaUrl" type="audio/mpeg"></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
@@ -145,7 +145,7 @@
           <v-btn
             :disabled="redeemBtn"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="$refs.modal.modalRedemption = true">Redeem</v-btn>
+            @click="redeemFn()">Redeem</v-btn>
         </div>
       </article>
     </section>
@@ -329,19 +329,24 @@ export default {
     if (!this.nft) {this.$router.push(this.localePath('/profile'))}
     if (this.user.tier >= 3) {this.$router.push(this.localePath("/user-nft-details-vip"))}
     this.nft_main = this.nft
-    console.log(this.nft)
   },
   async mounted() {
     this.ownedTier1 = await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
     this.nft_main = this.nft
-    if (this.nft_main.typetoken_id === '7' || this.nft_main.typetoken_id === '8' || this.nft_main.typetoken_id === '9') {
+    if (this.nft_main.typetoken_id === '7' || this.nft_main.typetoken_id === '8' || this.nft_main.typetoken_id === '9' || this.nft_main.typetoken_id === '3') {
       this.redeemBtn = false
     } 
     this.getSerie()
     this.getDataNft()
+
+    console.log("NFT", this.nft_main)
   },
   methods: {
+    redeemFn() {
+      localStorage.setItem("nft", JSON.stringify(this.nft_main))
+      this.$refs.modal.modalRedemption = true
+    },
     dollarConversion(price) {
       return (Number(price) * this.priceNear).toFixed(2)
     },

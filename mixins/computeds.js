@@ -3,6 +3,9 @@ export default {
     baseUrl() {
       return this.$axios.defaults.baseURL
     },
+    baseUrlSlash() {
+      return "https://testnet.musicfeast.io/musicfeast"
+    },
     isLogged() {
       return this.$ramper.getUser()
     },

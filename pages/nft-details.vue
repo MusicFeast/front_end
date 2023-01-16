@@ -43,7 +43,7 @@
         <!-- if audio -->
         <v-img v-show="media == 'audio'" :src="nft_main.img" class="header-background" transition="fade-transition">
           <template #default>
-            <audio ref="track" :src="mediaUrl" type="audio/mpeg" muted></audio>
+            <audio ref="track" :src="mediaUrl" type="audio/mpeg"></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
@@ -587,11 +587,11 @@ export default {
         const data = result.data
         if (data.media) {
           if (media === 'audio') {
-            this.mediaUrl = this.baseUrl+data.media
+            this.mediaUrl = this.baseUrlSlash+data.media
           } else if (media === 'video') {
-            console.log("SIIIIUUUU")
             this.mediaUrl = data.media
           }
+          console.log("MEDIA1", this.mediaUrl)
         }
         console.log(this.mediaUrl)
       }).catch(err => {
