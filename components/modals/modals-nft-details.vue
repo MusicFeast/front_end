@@ -428,12 +428,17 @@
               <p class="tcenter">Your redemption has been completed successfully. Soon you will have your order</p>
 
               <v-sheet class="card bold">
-                <v-btn icon class="close" width="max-content" height="max-content">
+                <v-btn v-if="!copyBtn" @click="copyHash(hash_redemption)" icon class="close" width="max-content" height="max-content">
                   <v-icon color="var(--accent)" size="1.2em">mdi-content-copy</v-icon>
                 </v-btn>
 
+                <v-btn v-else disabled icon class="close" width="max-content" height="max-content">
+                  <v-icon color="var(--accent)" size="1.2em">mdi-check-circle</v-icon>
+                </v-btn>
+
                 <span style="--c: var(--accent)">Transaction Hash</span>
-                <span>{{hash_redemption}}</span>
+                <!-- <span>{{hash_redemption}}</span> -->
+                <a :href="'https://explorer.testnet.near.org/transactions/' + hash_redemption" target="_blank">{{hash_redemption.limitString(50)}}</a>
               </v-sheet>
             </section>
 
@@ -493,7 +498,7 @@ export default {
           postal: null,
         }
       },
-      hash_redemption: "5xfi6WGSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT5GSb6XTnjjd7686vIJP98ypPL988Nnmjiklh65GT4",
+      hash_redemption: "",
       dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
     };
   },
@@ -535,28 +540,26 @@ export default {
           })
           console.log("Transaction Result: ", res)
 
-          this.windowRedemption++
-
-          // if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
         
-          //   this.hash_sell = res.txHashes[1]
-          //   this.windowSell++
-          // } else if (res && res.result && res.txHashes.length > 0) {
-          //   if (res.result[1].status.SuccessValue || res.result[1].status.SuccessValue === "") {
-          //     this.hash_sell = res.txHashes[1]
-          //     this.windowSell++
-          //     // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
-          //   } else if (res.result[1].status.Failure) {
-          //     // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
-          //     localStorage.setItem("transaction_data", JSON.stringify({
-          //       state: "cancel",
-          //       title: "Error",
-          //       desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
-          //       hash: res.txHashes[1]
-          //     }))
-          //     this.$router.push(this.localePath('/redirection'))
-          //   }
-          // }
+            this.hash_redemption = res.txHashes[0]
+            this.windowRedemption++
+          } else if (res && res.result && res.txHashes.length > 0) {
+            if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
+              this.hash_redemption = res.txHashes[0]
+              this.windowRedemption++
+              // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
+            } else if (res.result[0].status.Failure) {
+              // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "cancel",
+                title: "Error",
+                desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+                hash: res.txHashes[0]
+              }))
+              this.$router.push(this.localePath('/redirection'))
+            }
+          }
         }
       }
     },
