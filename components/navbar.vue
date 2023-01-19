@@ -206,7 +206,7 @@ export default {
   methods: {
     signIn(){
       this.$wallet.requestSignIn(
-        'nft6.musicfeast.testnet'
+        'nft7.musicfeast.testnet'
       );
     },
     async getBalance () {

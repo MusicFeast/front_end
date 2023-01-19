@@ -557,7 +557,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft6.musicfeast.testnet',
+                receiverId: 'nft7.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -612,7 +612,7 @@ export default {
             this.$ramper.functionCall(
               "delete_offer",       
               {
-                nft_contract_id: "nft6.musicfeast.testnet", 
+                nft_contract_id: "nft7.musicfeast.testnet", 
                 token_id: item.token_id
               }, 
               '200000000000000', 
