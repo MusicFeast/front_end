@@ -347,9 +347,12 @@ export default {
       })
     },
     goBack() {
-      setTimeout(() => this.$router.go(0), 100);
+      this.$alert({title: "Success!", desc: "Your data has been saved successfully."})
+      setTimeout(() => this.$router.go(0), 400);
       this.$router.go(-1)
-      this.$alert('success')
+      
+      // this.$alert("success", {desc: "Your data has been saved successfully."})   
+      // setTimeout(() => this.$alert({title: "Success!", desc: "Your data has been saved successfully."}), 500);
     },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},

@@ -12,7 +12,7 @@
       :style="`--color-snackbar: ${item.color}`"
     >
       <!-- <v-icon :color="item.color" size="3.5em">{{ item.icon }}</v-icon> -->
-      <img :src="require(`~/assets/sources/icons/${item.icon}.svg`)" :alt="`${item.icon} Icon`">
+      <!-- <img :src="require(`~/assets/sources/icons/${item.icon}.svg`)" :alt="`${item.icon} Icon`"> -->
       <div class="divcol">
         <h3 class="font1">{{item.title === item.key ? $t(item.title) : item.title}}</h3>
         <p class="font2 p">{{item.desc === `text${item.key.replace(/^\w/, (c) => c.toUpperCase())}` ? $t(item.desc) : item.desc}}</p>

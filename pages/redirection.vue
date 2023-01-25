@@ -7,6 +7,7 @@
         </v-icon>
         <h3>{{transaction_data.title}}</h3>
         <p class="p">{{transaction_data.desc}}</p>
+        <p v-if="transaction_data.desc2" class="p">{{transaction_data.desc2}}</p>
       </div>
 
       <div class="space" style="gap: 20px">
@@ -16,6 +17,10 @@
 
         <v-btn v-if="transaction_data.state === 'success'" class="btn activeBtn" :ripple="false" @click="$router.push(localePath('/profile'))">
           Profile
+        </v-btn>
+
+        <v-btn v-if="transaction_data.state === 'success'" class="btn activeBtn" :ripple="false" @click="$router.push(localePath('/artist-details'))">
+          Artist Page
         </v-btn>
 
         <v-btn v-else class="btn activeBtn" :ripple="false" @click="$router.go(-1)">

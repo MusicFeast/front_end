@@ -402,7 +402,7 @@ export default {
     this.nft_main = this.nft
   },
   async mounted() {
-    this.ownedTier1 = await this.validateTierFn(1)
+    this.ownedTier1 = true // await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
 
     if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
@@ -465,7 +465,7 @@ export default {
 
         this.btnBuy = false
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
           localStorage.setItem("transaction_data", JSON.stringify({
             state: "success",
             title: "Success",
@@ -496,8 +496,7 @@ export default {
           }
         }
       } else {
-        await this.$ramper.signIn()
-        location.reload();
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
       }
     },
     async validateTierFn(tierId) {
@@ -770,35 +769,103 @@ export default {
 
         this.btnBuy = false
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
-          localStorage.setItem("transaction_data", JSON.stringify({
-            state: "success",
-            title: "Success",
-            desc: "Your nft has been successfully unlisted.",
-            hash: res.txHashes[0]
-          }))
-          this.$router.push(this.localePath('/redirection'))
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
           if (this.nft_main.tier === 1) {
-            setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900)
-          } else if (this.nft_main.tier === 2) {
-            setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+            if (this.nft_main.tier === 1) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your community access pass.  Community chat can be found on the artist page.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 2) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 3) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 4) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 5) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully purchased a portion of the songs traditional revenue. You can now request payouts on a quarterly basis.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 6) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your auction pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            }
           }
+          
+          this.$router.push(this.localePath('/redirection'))
+
         } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
-
-            localStorage.setItem("transaction_data", JSON.stringify({
-              state: "success",
-              title: "Success",
-              desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
-              hash: res.txHashes[0]
-            }))
-            this.$router.push(this.localePath('/redirection'))
             if (this.nft_main.tier === 1) {
-              setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your community access pass.  Community chat can be found on the artist page.",
+                hash: res.txHashes[0]
+              }))
             } else if (this.nft_main.tier === 2) {
-              setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 3) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 4) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 5) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully purchased a portion of the songs traditional revenue. You can now request payouts on a quarterly basis.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 6) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your auction pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
             }
+    
+            this.$router.push(this.localePath('/redirection'))
+      
           } else if (res.result[0].status.Failure) {
             // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
             localStorage.setItem("transaction_data", JSON.stringify({
@@ -811,8 +878,7 @@ export default {
           }
         }
       } else {
-        await this.$ramper.signIn()
-        location.reload();
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
       }
     },
     async buyMarketRamper(item) {
@@ -841,34 +907,107 @@ export default {
 
         this.btnBuy = false
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
-          localStorage.setItem("transaction_data", JSON.stringify({
-            state: "success",
-            title: "Success",
-            desc: "Your nft has been successfully purchased.",
-            hash: res.txHashes[0]
-          }))
-          this.$router.push(this.localePath('/redirection'))
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
           if (this.nft_main.tier === 1) {
-            setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
-          } else if (this.nft_main.tier === 2) {
-            setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
-          }
-        } else if (res && res.result) {
-          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
+              desc: "You have successfully acquired your community access pass.  Community chat can be found on the artist page.",
               hash: res.txHashes[0]
             }))
-            this.$router.push(this.localePath('/redirection'))
+          } else if (this.nft_main.tier === 2) {
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased.",
+              hash: res.txHashes[0]
+            }))
+          } else if (this.nft_main.tier === 3) {
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+              hash: res.txHashes[0]
+            }))
+          } else if (this.nft_main.tier === 4) {
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+              hash: res.txHashes[0]
+            }))
+          } else if (this.nft_main.tier === 5) {
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "You have successfully purchased a portion of the songs traditional revenue. You can now request payouts on a quarterly basis.",
+              hash: res.txHashes[0]
+            }))
+          } else if (this.nft_main.tier === 6) {
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "You have successfully acquired your auction pass. Your order can be placed by using the redeem function where the pass was purchased.",
+              hash: res.txHashes[0]
+            }))
+          }
+          this.$router.push(this.localePath('/redirection'))
+          // if (this.nft_main.tier === 1) {
+          //   setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
+          // } else if (this.nft_main.tier === 2) {
+          //   setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+          // }
+        } else if (res && res.result) {
+          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
             if (this.nft_main.tier === 1) {
-              setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your community access pass.  Community chat can be found on the artist page.",
+                hash: res.txHashes[0]
+              }))
             } else if (this.nft_main.tier === 2) {
-              setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 3) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 4) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 5) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully purchased a portion of the songs traditional revenue. You can now request payouts on a quarterly basis.",
+                hash: res.txHashes[0]
+              }))
+            } else if (this.nft_main.tier === 6) {
+              localStorage.setItem("transaction_data", JSON.stringify({
+                state: "success",
+                title: "Success",
+                desc: "You have successfully acquired your auction pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                hash: res.txHashes[0]
+              }))
             }
+            this.$router.push(this.localePath('/redirection'))
+            // if (this.nft_main.tier === 1) {
+            //   setTimeout(() => this.$alert({title: "Successfully acquired your membership pass!", desc: "Access the discord community on the artist homepage."}), 900);
+            // } else if (this.nft_main.tier === 2) {
+            //   setTimeout(() => this.$alert({title: "Successfully acquired your exclusive video access pass!", desc: "Enter the pass page to see the exclusive video."}), 900)
+            // }
           } else if (res.result[0].status.Failure) {
             // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
             localStorage.setItem("transaction_data", JSON.stringify({
@@ -881,8 +1020,7 @@ export default {
           }
         }
       } else {
-        await this.$ramper.signIn()
-        location.reload();
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
       }
     },
     dollarConversion(price) {
