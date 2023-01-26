@@ -162,7 +162,7 @@ export default {
           }
         }
       }))
-      history.replaceState(null, location.href.split("?")[0], '/');
+      history.replaceState(null, location.href.split("?")[0], window.location.pathname);
       location.reload()
     }
     // localStorage.setItem("transaction_data", JSON.stringify({

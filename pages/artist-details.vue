@@ -187,12 +187,12 @@
             v-if="!item.state" 
             :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Buy</v-btn>
+            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Go to Buy Page</v-btn>
             <v-btn
             v-else
             :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Buy</v-btn>
+            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Go to Buy Page</v-btn>
         </div>
       </v-sheet>
     </v-slide-item>

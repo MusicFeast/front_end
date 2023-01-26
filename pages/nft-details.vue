@@ -405,10 +405,10 @@ export default {
     this.ownedTier1 = true // await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
 
-    if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
-      setTimeout(this.buyNftRamper, 400)
-      localStorage.removeItem('buyDirect')
-    }
+    // if (localStorage.getItem("buyDirect") === true || localStorage.getItem("buyDirect") === "true") {
+    //   setTimeout(this.buyNftRamper, 400)
+    //   localStorage.removeItem('buyDirect')
+    // }
 
     this.nft_main = this.nft
     this.getSerie()
@@ -769,6 +769,8 @@ export default {
 
         this.btnBuy = false
 
+        console.log(JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID)
+
         if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
           if (this.nft_main.tier === 1) {
             if (this.nft_main.tier === 1) {
@@ -816,7 +818,7 @@ export default {
             }
           }
           
-          this.$router.push(this.localePath('/redirection'))
+          // this.$router.push(this.localePath('/redirection'))
 
         } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
