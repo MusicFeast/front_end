@@ -1,9 +1,10 @@
 <template>
   <div id="artists" class="divcol">
+    <!-- original height 720px -->
     <v-carousel
       id="custome-carousel"
       v-model="modelCarousel"
-      height="720px"
+      height="calc(var(--height) + 90px)"
       hide-delimiter-background
       :show-arrows="false"
     >
