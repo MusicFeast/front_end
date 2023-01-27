@@ -6,13 +6,15 @@
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   #custome-carousel {
-    max-height: 750px;
+    --height-desktop: 918.72px; // 750px original
+    --height-mobile: 179.89px; // 450px original
+    max-height: var(--height-desktop);
     .v-skeleton-loader {
-      height: 750px;
-      @include media(max, 880px) {height: 450px}
+      height: var(--height-desktop);
+      @include media(max, 880px) {height: var(--height-mobile)}
     }
     .v-responsive__content {
-      @include media(max, 880px) {min-height: 450px}
+      @include media(max, 880px) {min-height: var(--height-mobile)}
     }
     .v-image__image {
       background-size: 100% !important;
@@ -20,11 +22,21 @@
     }
     .v-window__prev, .v-window__next {
       // max height referencial
-      top: calc(clamp(30em, 46vw, 46.875em) / 2); // <-- just temporary
-      // top: 50%; <-- if all images are same size
+      top: 40%; // <-- if all images are same size
+      button {
+        --size: clamp(27px, 2vw, 36px);
+        width: var(--size);
+        height: var(--size);
+        i {
+          font-size: clamp(30px, 2vw, 48px) !important;
+        }
+      }
     }
     .v-carousel__controls {
       button {
+        --size: clamp(20px, 2vw, 28px);
+        width: var(--size);
+        height: var(--size);
         background-color: #fff;
         border-radius: 0;
         i {display: none}
