@@ -911,6 +911,12 @@ export default {
       }
     },
     async buyMarketRamper(item) {
+      const balance = await this.getBalance()
+      if (balance > Number(this.nft_main.floor_price) + 0.3) {
+        this.$alert("cancel", {title: "Now", desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile."})  
+        return
+      }
+      
       this.btnBuy = true
       if (this.$ramper.getUser()) {
         const price = Number(item.price)
