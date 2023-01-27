@@ -565,7 +565,7 @@ export default {
             // this.$router.push(this.localePath("/artists"))
           }
         }).catch(err => {
-          //this.$alert("cancel", {desc: err.message})
+          // this.$alert("cancel", {desc: err.message})
           console.error(err);
         })
     },
