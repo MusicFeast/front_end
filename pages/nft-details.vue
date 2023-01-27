@@ -757,7 +757,7 @@ export default {
     async buyNftRamper() {
       const balance = await this.getBalance()
       if (balance > Number(this.nft_main.floor_price) + 0.3) {
-        this.$alert("cancel", {title: "Now", desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile."})  
+        this.$alert({key: "alert",title: "WARNING!", desc: "Insufficient Balance."})  
         return
       }
 
@@ -913,7 +913,7 @@ export default {
     async buyMarketRamper(item) {
       const balance = await this.getBalance()
       if (balance > Number(this.nft_main.floor_price) + 0.3) {
-        this.$alert("cancel", {title: "Now", desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile."})  
+        this.$alert({key: "alert",title: "WARNING!", desc: "Insufficient Balance."})  
         return
       }
       
