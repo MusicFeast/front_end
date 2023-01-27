@@ -334,7 +334,7 @@ export default {
         })
         console.log("Transaction Result: ", res)
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet') {
           localStorage.setItem("transaction_data", JSON.stringify({
             state: "success",
             title: "Success",
@@ -380,7 +380,7 @@ export default {
             this.getTicketsSeries(seriesArray)
           }
          }).catch(err => {
-          this.$alert("cancel", {desc: err.message})
+          //this.$alert("cancel", {desc: err.message})
           console.error(err);
         })
     },

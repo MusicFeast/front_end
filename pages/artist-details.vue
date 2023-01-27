@@ -187,12 +187,12 @@
             v-if="!item.state" 
             :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Buy</v-btn>
+            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Go to Buy Page</v-btn>
             <v-btn
             v-else
             :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Buy</v-btn>
+            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Go to Buy Page</v-btn>
         </div>
       </v-sheet>
     </v-slide-item>
@@ -561,11 +561,11 @@ export default {
             this.getTiers()
             this.getEventsArtist()
           } else {
-            this.$alert("cancel", {desc: "The artist does not exist"})
+            // this.$alert("cancel", {desc: "The artist does not exist"})
             // this.$router.push(this.localePath("/artists"))
           }
         }).catch(err => {
-          this.$alert("cancel", {desc: err.message})
+          //this.$alert("cancel", {desc: err.message})
           console.error(err);
         })
     },

@@ -116,7 +116,7 @@ export default {
         }
         console.log(data)
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err);
       })
     },

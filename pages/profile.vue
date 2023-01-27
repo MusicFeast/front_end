@@ -500,7 +500,7 @@ export default {
     async storageMini(){
       const account = await this.$near.account(this.$ramper.getAccountId());
 
-      const contract = new this.$contract(account, "market.musicfeast.testnet", {
+      const contract = new this.$contract(account, "market2.musicfeast.testnet", {
         viewMethods: ["storage_minimum_balance"],
         sender: account,
       })
@@ -535,7 +535,7 @@ export default {
               "nft_approve",       
               {
                 token_id: item.token_id, 
-                account_id: "market.musicfeast.testnet",
+                account_id: "market2.musicfeast.testnet",
                 msg: JSON.stringify(msgs)
               }, 
               '200000000000000', 
@@ -553,7 +553,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market.musicfeast.testnet',
+                receiverId: 'market2.musicfeast.testnet',
                 actions: action1,
               },
               {
@@ -561,7 +561,7 @@ export default {
                 actions: action2,
               },
               // {
-              //   receiverId: 'market.musicfeast.testnet',
+              //   receiverId: 'market2.musicfeast.testnet',
               //   actions: action3,
               // },
             ],
@@ -571,7 +571,7 @@ export default {
 
           this.offerBtn = false
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet') {
           localStorage.setItem("transaction_data", JSON.stringify({
             state: "success",
             title: "Success",
@@ -623,7 +623,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market.musicfeast.testnet',
+                receiverId: 'market2.musicfeast.testnet',
                 actions: action,
               },
             ],
@@ -633,7 +633,7 @@ export default {
 
           this.offerBtn = false
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet') {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet') {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
@@ -925,7 +925,7 @@ export default {
           }
         }
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err);
       })
     },

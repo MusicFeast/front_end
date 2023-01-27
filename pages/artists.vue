@@ -152,7 +152,7 @@ export default {
           this.dataArtists = result.data
           console.log("ARISTAS", this.dataArtists)
         }).catch(err => {
-          this.$alert("cancel", {desc: err.message})
+          // this.$alert("cancel", {desc: err.message})
           console.error(err);
         }
       );

@@ -28,7 +28,7 @@
           :ripple="false"
           class="btn activeBtn deletemobile"
           style="--p: .5em clamp(1em, 3vw, 2.5em);"
-          @click="$parent.$parent.$refs.connect.modalConnect = true">Connect</v-btn>
+          @click="$parent.$parent.$refs.connect.modalConnect = true">Log In</v-btn>
         
         <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false">
           <template #activator="{ on, attrs }">
@@ -162,7 +162,7 @@ export default {
           }
         }
       }))
-      history.replaceState(null, location.href.split("?")[0], '/');
+      history.replaceState(null, location.href.split("?")[0], window.location.pathname);
       location.reload()
     }
     // localStorage.setItem("transaction_data", JSON.stringify({

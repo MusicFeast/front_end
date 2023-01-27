@@ -94,7 +94,8 @@ export const mutations = {
       const login = await window.$nuxt.$ramper.signIn()
       if (login) {
         if (login.user) {
-          this.$router.go()
+          // this.$router.go()
+          location.reload()
         }
       }
     }
@@ -102,13 +103,19 @@ export const mutations = {
       localStorage.setItem("walletUrl", myNearWallet)
       window.$nuxt.$wallet._walletBaseUrl = myNearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft7.musicfeast.testnet'
+        'nft7.musicfeast.testnet',
+        location.href,
+        location.href,
+        location.href,
       );
     } else if (key === 'near') {
       localStorage.setItem("walletUrl", nearWallet)
       window.$nuxt.$wallet._walletBaseUrl = nearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft7.musicfeast.testnet'
+        'nft7.musicfeast.testnet',
+        location.href,
+        location.href,
+        location.href,
       );
     }
   },
@@ -167,12 +174,12 @@ export const actions = {
       // catch error django
       }).catch(err => {
         console.error(err);
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
       })
     // catch error near
     } catch (err) {
       console.error(err);
-      this.$alert("cancel", {desc: err.message})
+      //this.$alert("cancel", {desc: err.message})
     }
   },
   goTo({commit, state}, {key, item, event, buyDirect}) { if (key === 'nft' || key === 'user-nft') {
@@ -197,7 +204,7 @@ export const actions = {
           )
         );
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        // this.$alert("cancel", {desc: err.message})
         this.$loadCursor(false)
         console.error(err);
       })
@@ -219,7 +226,7 @@ export const getters = {
     let filters = [...items]
 
     // search
-    if (search) filters = filters.filter(data => data.name.includes(search))
+    if (search) filters = filters.filter(data => (data.name.toLowerCase()).includes(search.toLowerCase()))
     // filter A (tier)
     if (filterA) filters = filters.filter(data => data.tier === filterA)
     // filter B (comming)

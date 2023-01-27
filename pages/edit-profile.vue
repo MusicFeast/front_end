@@ -330,7 +330,7 @@ export default {
         if (this.userExist) {
           this.$axios.put(`${this.baseUrl}api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
           .then(() => this.goBack()).catch(err => {
-            this.$alert("cancel", {desc: err.message})
+            //this.$alert("cancel", {desc: err.message})
             console.error(err);
           })
         } else {
@@ -342,14 +342,17 @@ export default {
         }
       // catch error repeated values consult
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err)
       })
     },
     goBack() {
-      setTimeout(() => this.$router.go(0), 100);
+      this.$alert({title: "Success!", desc: "Your data has been saved successfully."})
+      setTimeout(() => this.$router.go(0), 400);
       this.$router.go(-1)
-      this.$alert('success')
+      
+      // this.$alert("success", {desc: "Your data has been saved successfully."})   
+      // setTimeout(() => this.$alert({title: "Success!", desc: "Your data has been saved successfully."}), 500);
     },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
