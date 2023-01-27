@@ -174,12 +174,12 @@ export const actions = {
       // catch error django
       }).catch(err => {
         console.error(err);
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
       })
     // catch error near
     } catch (err) {
       console.error(err);
-      this.$alert("cancel", {desc: err.message})
+      //this.$alert("cancel", {desc: err.message})
     }
   },
   goTo({commit, state}, {key, item, event, buyDirect}) { if (key === 'nft' || key === 'user-nft') {
@@ -204,7 +204,7 @@ export const actions = {
           )
         );
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        // this.$alert("cancel", {desc: err.message})
         this.$loadCursor(false)
         console.error(err);
       })

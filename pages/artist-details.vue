@@ -561,11 +561,11 @@ export default {
             this.getTiers()
             this.getEventsArtist()
           } else {
-            this.$alert("cancel", {desc: "The artist does not exist"})
+            // this.$alert("cancel", {desc: "The artist does not exist"})
             // this.$router.push(this.localePath("/artists"))
           }
         }).catch(err => {
-          this.$alert("cancel", {desc: err.message})
+          //this.$alert("cancel", {desc: err.message})
           console.error(err);
         })
     },

@@ -330,7 +330,7 @@ export default {
         if (this.userExist) {
           this.$axios.put(`${this.baseUrl}api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
           .then(() => this.goBack()).catch(err => {
-            this.$alert("cancel", {desc: err.message})
+            //this.$alert("cancel", {desc: err.message})
             console.error(err);
           })
         } else {
@@ -342,7 +342,7 @@ export default {
         }
       // catch error repeated values consult
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err)
       })
     },

@@ -113,7 +113,7 @@ export default {
         });
         this.dataHero = result.data
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err);
       }
     );
@@ -134,7 +134,7 @@ export default {
         });
         this.dataArtists = result.data
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err);
       }
     );
@@ -145,7 +145,7 @@ export default {
         result.data.forEach(e => {e.image = this.baseUrl+e.image});
         this.dataNews = result.data
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err);
       }
     );

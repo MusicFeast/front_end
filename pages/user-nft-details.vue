@@ -375,16 +375,19 @@ export default {
         })
         console.log("Transaction Result: ", res)
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
-          this.$router.push(this.localePath('/profile'))
-          setTimeout(() => this.$alert({title: "Success!", desc: "Your nft has been successfully burned."}), 800);
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
+          // this.$router.push(this.localePath('/profile'))
+          // setTimeout(() => this.$alert({title: "Success!", desc: "Your nft has been successfully burned."}), 800);
           // this.$alert({title: "Success!", desc: "Your data has been saved successfully."})
-          // localStorage.setItem("transaction_data", JSON.stringify({
-          //   state: "success",
-          //   title: "Success",
-          //   desc: "Your nft has been successfully burned.",
-          //   hash: res.txHashes[0]
-          // }))
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "Your nft has been successfully burned.",
+            hash: res.txHashes[0],
+            burn: true
+          }))
+
+          this.$router.push(this.localePath('/redirection'))
           
         } else if (res && res.result && res.txHashes.length > 0) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
@@ -392,7 +395,8 @@ export default {
               state: "success",
               title: "Success",
               desc: "Your nft has been successfully burned.",
-              hash: res.txHashes[0]
+              hash: res.txHashes[0],
+              burn: true
             }))
             this.$router.push(this.localePath('/redirection'))
           } else if (res.result[0].status.Failure) {
@@ -400,7 +404,8 @@ export default {
               state: "cancel",
               title: "Error",
               desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
-              hash: res.txHashes[0]
+              hash: res.txHashes[0],
+              burn: true
             }))
             this.$router.push(this.localePath('/redirection'))
           }
@@ -524,7 +529,7 @@ export default {
         }
         console.log(this.mediaUrl)
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        //this.$alert("cancel", {desc: err.message})
         console.error(err);
       })
     },
@@ -620,7 +625,7 @@ export default {
             "nft_revoke",       
             {
               token_id: item.token, 
-              account_id: "market.musicfeast.testnet",
+              account_id: "market2.musicfeast.testnet",
             }, 
             '100000000000000', 
             '1'
@@ -630,7 +635,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'market.musicfeast.testnet',
+              receiverId: 'market2.musicfeast.testnet',
               actions: action1,
             },
             {
@@ -644,7 +649,7 @@ export default {
 
         this.btnBuy = false
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
           localStorage.setItem("transaction_data", JSON.stringify({
             state: "success",
             title: "Success",
@@ -695,7 +700,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'market.musicfeast.testnet',
+              receiverId: 'market2.musicfeast.testnet',
               actions: action,
             },
           ],
@@ -705,47 +710,47 @@ export default {
 
         this.btnBuy = false
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
           if (this.nft_main.tier === 1) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "You have successfully acquired your community access pass.  Community chat can be found on the artist page.",
+              desc: "You have successfully acquired your community access pass. Community chat can be found on the artist page. ",
               hash: res.txHashes[0]
             }))
           } else if (this.nft_main.tier === 2) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased.",
+              desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased..",
               hash: res.txHashes[0]
             }))
           } else if (this.nft_main.tier === 3) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+              desc: "You have successfully acquired your physical merchandise pass. Your order can be placed under the collections section of the artists main page.",
               hash: res.txHashes[0]
             }))
           } else if (this.nft_main.tier === 4) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+              desc: "You have successfully acquired your physical merchandise pass. Your order can be placed under the collections section of the artists main page.",
               hash: res.txHashes[0]
             }))
           } else if (this.nft_main.tier === 5) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "You have successfully purchased a portion of the songs traditional revenue. You can now request payouts on a quarterly basis.",
+              desc: "You have successfully purchased a portion of the songs traditional revenue.  You can now request payouts on a quarterly basis.",
               hash: res.txHashes[0]
             }))
           } else if (this.nft_main.tier === 6) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "You have successfully acquired your auction pass. Your order can be placed by using the redeem function where the pass was purchased.",
+              desc: "You have successfully acquired your auction pass.  Your order can be placed under the collections section of the artists main page.",
               hash: res.txHashes[0]
             }))
           }
@@ -761,42 +766,42 @@ export default {
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "success",
                 title: "Success",
-                desc: "You have successfully acquired your community access pass.  Community chat can be found on the artist page.",
+                desc: "You have successfully acquired your community access pass. Community chat can be found on the artist page. ",
                 hash: res.txHashes[0]
               }))
             } else if (this.nft_main.tier === 2) {
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "success",
                 title: "Success",
-                desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased.",
+                desc: "You have successfully acquired your exclusive video pass. Video can be accessed on the page where pass was purchased..",
                 hash: res.txHashes[0]
               }))
             } else if (this.nft_main.tier === 3) {
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "success",
                 title: "Success",
-                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed under the collections section of the artists main page.",
                 hash: res.txHashes[0]
               }))
             } else if (this.nft_main.tier === 4) {
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "success",
                 title: "Success",
-                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                desc: "You have successfully acquired your physical merchandise pass. Your order can be placed under the collections section of the artists main page.",
                 hash: res.txHashes[0]
               }))
             } else if (this.nft_main.tier === 5) {
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "success",
                 title: "Success",
-                desc: "You have successfully purchased a portion of the songs traditional revenue. You can now request payouts on a quarterly basis.",
+                desc: "You have successfully purchased a portion of the songs traditional revenue.  You can now request payouts on a quarterly basis.",
                 hash: res.txHashes[0]
               }))
             } else if (this.nft_main.tier === 6) {
               localStorage.setItem("transaction_data", JSON.stringify({
                 state: "success",
                 title: "Success",
-                desc: "You have successfully acquired your auction pass. Your order can be placed by using the redeem function where the pass was purchased.",
+                desc: "You have successfully acquired your auction pass.  Your order can be placed under the collections section of the artists main page.",
                 hash: res.txHashes[0]
               }))
             }

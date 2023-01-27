@@ -541,7 +541,7 @@ export default {
           })
           console.log("Transaction Result: ", res)
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
         
             this.hash_redemption = res.txHashes[0]
             this.windowRedemption++
@@ -641,7 +641,7 @@ export default {
     async storageMini(){
       const account = await this.$near.account(this.$ramper.getAccountId());
 
-      const contract = new this.$contract(account, "market.musicfeast.testnet", {
+      const contract = new this.$contract(account, "market2.musicfeast.testnet", {
         viewMethods: ["storage_minimum_balance"],
         sender: account,
       })
@@ -655,7 +655,7 @@ export default {
     async mystorage(){
       const account = await this.$near.account(this.$ramper.getAccountId());
 
-      const contract = new this.$contract(account, "market.musicfeast.testnet", {
+      const contract = new this.$contract(account, "market2.musicfeast.testnet", {
         viewMethods: ["storage_balance_of"],
         sender: account,
       })
@@ -733,7 +733,7 @@ export default {
               "nft_approve",       
               {
                 token_id: this.valueNft, 
-                account_id: "market.musicfeast.testnet",
+                account_id: "market2.musicfeast.testnet",
                 msg: JSON.stringify(msgs)
               }, 
               '200000000000000', 
@@ -751,7 +751,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market.musicfeast.testnet',
+                receiverId: 'market2.musicfeast.testnet',
                 actions: action1,
               },
               {
@@ -759,7 +759,7 @@ export default {
                 actions: action2,
               },
               // {
-              //   receiverId: 'market.musicfeast.testnet',
+              //   receiverId: 'market2.musicfeast.testnet',
               //   actions: action3,
               // },
             ],
@@ -769,7 +769,7 @@ export default {
 
           this.btnSale = false
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
         
             this.hash_sell = res.txHashes[1]
             this.windowSell++
@@ -829,7 +829,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market.musicfeast.testnet',
+                receiverId: 'market2.musicfeast.testnet',
                 actions: action,
               },
             ],
@@ -839,7 +839,7 @@ export default {
 
           this.btnOffer = false
 
-          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).UID === 'near_wallet' && res.txHashes.length > 0 ) {
+          if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0 ) {
             this.hash_offer = res.txHashes[0]
             this.windowOffer++
           } else if (res && res.result && res.txHashes.length > 0 ) {
