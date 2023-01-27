@@ -39,8 +39,8 @@ export default {
     GenerateAlert(
       title = "title",
       desc = "message",
+      icon = 'mdi-check-circle',
       color = '#A4FDDF',
-      icon = 'mdi-check-circle'
     ) {
       // // create alert
       const alert = {title, desc, color, icon, model: true}
