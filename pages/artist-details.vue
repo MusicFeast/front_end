@@ -371,8 +371,8 @@
     <widgetbot
       server="1053340402633150485"
       channel="1053340403086147672"
-      width="1560"
-      height="1000"
+      width="100%"
+      height="62.5em"
     ></widgetbot>
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
 
@@ -510,7 +510,6 @@ export default {
     await this.getCurrentArtist()
     
     this.styles();
-    
 
     // resize listener
     window.addEventListener('resize', this.styles);

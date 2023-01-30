@@ -13,7 +13,8 @@
   @include media(max, x-small) {font-size: 14px !important}
   .row {
     letter-spacing: 0.03em;
-    max-width: 80%;
+    max-width: var(--parent);
+    padding-inline: var(--margin-global) !important;
     @include media(max, 1078px) {max-width: 100% !important}
     @include media(max, small) {padding-inline: 1em !important}
     & > *:first-child {

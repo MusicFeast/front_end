@@ -1,18 +1,20 @@
 <template>
   <div id="join" class="center">
-    <article class="divcol center gap2">
-      <h2>Join the community</h2>
-      <p class="tcentermobile">
-        {{join_data}}
-      </p>
-      <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)">
-        <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
-        <v-btn
-          class="btn" style="--w: 8.5em"
-          href="https://discord.com/invite/N7agx9n5" target="_blank"
-          >Join</v-btn>
-      </div>
-    </article>
+    <div id="join-wrapper">
+      <article class="divcol center gap2">
+        <h2>Join the community</h2>
+        <p class="tcentermobile">
+          {{join_data}}
+        </p>
+        <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)">
+          <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
+          <v-btn
+            class="btn" style="--w: 8.5em"
+            href="https://discord.com/invite/N7agx9n5" target="_blank"
+            >Join</v-btn>
+        </div>
+      </article>
+    </div>
   </div>
 </template>
 

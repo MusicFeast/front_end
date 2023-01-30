@@ -1,7 +1,9 @@
 <template>
   <div id="about" class="divcol">
     <div id="about--header" class="center">
-      <h2 class="Title tup fill_w">about</h2>
+      <div id="about--header-wrapper" class="center">
+        <h2 class="Title tup fill_w">about</h2>
+      </div>
     </div>
 
     <section class="divcol" style="margin-block: 2.5em; padding-inline: var(--margin-separator); gap: 3em">

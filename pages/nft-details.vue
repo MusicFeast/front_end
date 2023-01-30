@@ -400,6 +400,12 @@ export default {
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/artists'))}
     this.nft_main = this.nft
+
+    // scroll in firefox
+    const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+
+    // eslint-disable-next-line nuxt/no-globals-in-created
+    if (isFirefox) setTimeout(() => window.scrollTo(0, 1), 0);
   },
   async mounted() {
     this.ownedTier1 = true // await this.validateTierFn(1)

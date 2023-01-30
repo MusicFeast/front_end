@@ -49,11 +49,13 @@
       min-width: 100vw;
       margin-inline: calc(50% - 50vw);
       @include media(min, small) {
-        min-width: calc(100vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)));
         margin-inline: calc(50% - 50vw);
-        @include media(min, 1700px) {min-width: calc(95vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
-        @include media(min, 1900px) {min-width: calc(90vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
-        @include media(min, 2100px) {min-width: calc(85vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
+        // min-width: calc(100vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em))); // <-- original with 1800px --parent
+        // start with 100vw and to 80vw 5 by 5 <-- original
+        min-width: calc(97vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)));
+        @include media(min, 1700px) {min-width: calc(92vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
+        @include media(min, 1900px) {min-width: calc(87vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
+        @include media(min, 2100px) {min-width: calc(82vw - (var(--margin-global) + 88px + clamp(2em, 3vw, 3em)))}
       }
       .v-slide-group {
         &__next--disabled i,

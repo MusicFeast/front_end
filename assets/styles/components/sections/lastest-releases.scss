@@ -14,7 +14,7 @@
       content: "";
       @include absolute(0,auto,0,0);
       height: 1px;
-      width: 100%;
+      width: calc(100% - (var(--margin-global) * 2));
       background-color: var(--primary);
       border-radius: 50% / 3vmax;
     }

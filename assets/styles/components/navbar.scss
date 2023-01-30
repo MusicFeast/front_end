@@ -23,8 +23,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-inline: 2em;
+    padding-inline: var(--margin-global);
+    margin-inline: auto;
     height: var(--h-navbar) !important;
+    max-width: var(--parent) !important;
     // overflow: hidden;
     #logoApp {
       width: min(70%, 7.5em);
