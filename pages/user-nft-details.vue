@@ -686,11 +686,11 @@ export default {
     },
     async buyMarketRamper(item) {
       const balance = await this.getBalance()
-      if (balance > Number(this.nft_main.floor_price) + 0.3) {
-        this.$alert({key: "alert",title: "WARNING!", desc: "Insufficient Balance."})  
+      if (balance < Number(this.nft_main.floor_price) + 0.3) {
+        this.$alert({title: "WARNING!", desc: "Insufficient Balance.", icon: "alert"})  
         return
       }
-      
+
       this.btnBuy = true
       if (this.$ramper.getUser()) {
         const price = Number(item.price)
