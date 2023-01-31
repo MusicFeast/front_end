@@ -557,7 +557,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft7.musicfeast.testnet',
+                receiverId: 'nft8.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -612,7 +612,7 @@ export default {
             this.$ramper.functionCall(
               "delete_offer",       
               {
-                nft_contract_id: "nft7.musicfeast.testnet", 
+                nft_contract_id: "nft8.musicfeast.testnet", 
                 token_id: item.token_id
               }, 
               '200000000000000', 
@@ -804,6 +804,8 @@ export default {
 
       let maxPrice = 0
 
+      console.log("DATAAAAAAAA", data)
+
       for (let i = 0; i < data.length; i++) {
         const item = {
           floor_price: null,
@@ -822,18 +824,14 @@ export default {
           artista: "-"
         }
 
+        if (item.typetoken_id === "8" || item.typetoken_id === 8) {
+          item.state = "redeemable"
+        }
+
         if (item.tier === 7) {
           item.tier = 3
         } else if (item.tier === 8) {
           item.tier = 4
-        } else if (item.tier === 9) {
-          item.tier = 5
-        } else if (item.tier === 10) {
-          item.tier = 2
-        } else if (item.tier === 11) {
-          item.tier = 2
-        } else if (item.tier === 12) {
-          item.tier = 5
         }
 
         const varSplit = item.token_id.split("|")
@@ -842,8 +840,6 @@ export default {
 
         const serie = await this.getSerie(idArtist, typeToken)
         const floor = await this.getFloorPrice(serie.id)
-
-        console.log(serie)
 
         item.artist_id = serie.artist_id
         item.editions = serie.copies || "Multi"

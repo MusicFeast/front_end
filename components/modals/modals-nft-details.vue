@@ -533,7 +533,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'nft7.musicfeast.testnet',
+                receiverId: 'nft8.musicfeast.testnet',
                 actions: action,
               }
             ],
@@ -755,7 +755,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft7.musicfeast.testnet',
+                receiverId: 'nft8.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -818,7 +818,7 @@ export default {
           const action = [this.$ramper.functionCall(
             "add_offer",       
             {
-              nft_contract_id: "nft7.musicfeast.testnet", 
+              nft_contract_id: "nft8.musicfeast.testnet", 
               token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))

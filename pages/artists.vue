@@ -151,7 +151,6 @@ export default {
             e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           });
           this.dataArtists = result.data
-          console.log("ARISTAS", this.dataArtists)
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})
           console.error(err);
