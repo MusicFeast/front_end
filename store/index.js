@@ -103,7 +103,7 @@ export const mutations = {
       localStorage.setItem("walletUrl", myNearWallet)
       window.$nuxt.$wallet._walletBaseUrl = myNearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft7.musicfeast.testnet',
+        'nft8.musicfeast.testnet',
         location.href,
         location.href,
         location.href,
@@ -112,7 +112,7 @@ export const mutations = {
       localStorage.setItem("walletUrl", nearWallet)
       window.$nuxt.$wallet._walletBaseUrl = nearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft7.musicfeast.testnet',
+        'nft8.musicfeast.testnet',
         location.href,
         location.href,
         location.href,
@@ -148,7 +148,7 @@ export const mutations = {
     const res = await window.$nuxt.$ramper.sendTransaction({
       transactionActions: [
         {
-          receiverId: 'nft7.musicfeast.testnet',
+          receiverId: 'nft8.musicfeast.testnet',
           actions: actions2,
         },
       ],

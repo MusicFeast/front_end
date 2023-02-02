@@ -435,7 +435,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft7.musicfeast.testnet",
+              nft_contract_id: "nft8.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -461,7 +461,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft7.musicfeast.testnet',
+              receiverId: 'nft8.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -762,14 +762,14 @@ export default {
     },
     async buyNftRamper() {
       const balance = await this.getBalance()
-      if (balance > Number(this.nft_main.floor_price) + 0.3) {
-        this.$alert({key: "alert",title: "WARNING!", desc: "Insufficient Balance."})  
+      if (balance < Number(this.nft_main.floor_price) + 0.5) {
+        this.$alert({title: "WARNING!", desc: "Insufficient Balance.", icon: "mdi-alert"})  
         return
       }
 
       this.btnBuy = true
       if (this.$ramper.getUser()) {
-        const price = Number(this.nft_main.floor_price) + 0.3
+        const price = Number(this.nft_main.floor_price) + 0.5
         const action = [this.$ramper.functionCall(
           "nft_buy",       
           {
@@ -782,7 +782,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft7.musicfeast.testnet',
+              receiverId: 'nft8.musicfeast.testnet',
               actions: action,
             },
           ],
@@ -918,7 +918,7 @@ export default {
     },
     async buyMarketRamper(item) {
       const balance = await this.getBalance()
-      if (balance > Number(this.nft_main.floor_price) + 0.3) {
+      if (balance < Number(this.nft_main.floor_price)) {
         this.$alert({key: "alert",title: "WARNING!", desc: "Insufficient Balance."})  
         return
       }
@@ -929,7 +929,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft7.musicfeast.testnet", 
+            nft_contract_id: "nft8.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 
