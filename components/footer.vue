@@ -16,9 +16,9 @@
 
         <aside class="right">
           <v-card v-for="(item,i) in dataFooter" :key="i" color="transparent">
-            <label class="h11_em">{{ item.title }}</label>
+            <label class="h10_em">{{ item.title }}</label>
 
-            <a v-for="(item2, i2) in item.links" :key="i2" class="h11_em hover_line" @click="$scrollTo(item2.to)">
+            <a v-for="(item2, i2) in item.links" :key="i2" class="h10_em hover_line" @click="$scrollTo(item2.to)">
               {{ item2.link }}
             </a>
           </v-card>
@@ -26,11 +26,11 @@
       </section>
 
       <section id="container-copyright" class="fill_w space tcenter divcol_invmobile gap2">
-        <span class="h11_em">&copy; 2022 Everyone Eats Entertainment LP.</span>
-        <span class="h11_em">Cookie statement <span class="pointer semibold" @click="$router.push(localePath('/terms-and-conditions'))">Terms &amp; Conditions</span> Privacy Policy</span>
+        <span class="h10_em">&copy; 2022 Everyone Eats Entertainment LP.</span>
+        <span class="h10_em">Cookie statement <span class="pointer semibold" @click="$router.push(localePath('/terms-and-conditions'))">Terms &amp; Conditions</span> Privacy Policy</span>
       </section>
 
-      <a class="h11_em alignr mt-3 pr-8" href="https://www.dvconsultores.com/#/" target="_blank">Powered by GlobalDv</a>
+      <a class="h10_em alignr mt-3 pr-8" href="https://www.dvconsultores.com/#/" target="_blank">Powered by GlobalDv</a>
     </v-row>
   </v-footer>
 </template>

@@ -33,6 +33,9 @@
       min-width: 5em;
       @include media(max, small) {width: min(70%, 5em)}
     }
+    a.tcap {
+      font-size: 20px;
+    }
   }
 }
 

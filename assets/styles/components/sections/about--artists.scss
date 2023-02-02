@@ -73,20 +73,20 @@
           padding-block: 16px 40px;
           padding-inline: 70px;
           .v-image {
-            --width: 401.56px; // 20em original
-            // -- modifyier
-            --height: 802.86px;
-            @include media(max, small) {
-              --width: 135.51px;
-              --height: 270.94px;
-            }
-            // -- modifyier
+            --width: 20em; // 20em original // 401.56px alejandria
+            // -- modifyier // alejanfria
+            // --height: 802.86px;
+            // @include media(max, small) {
+            //   --width: 135.51px;
+            //   --height: 270.94px;
+            // }
+            // -- modifyier // alejanfria
             cursor: pointer;
             box-shadow: 8px 14px 5px 2px rgb(0, 0, 0, .4) !important;
             max-width: var(--width);
             width: var(--width);
             height: var(--height);
-            // aspect-ratio: 1 / 2.3; // original
+            aspect-ratio: 1 / 2.3; // original
             white-space: initial;
             border-radius: .2vmax;
             transform: skew(-7deg);

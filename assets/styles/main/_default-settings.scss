@@ -186,7 +186,10 @@ body {background: var(--bg-ap)}
 }
 * {font-family: var(--font1)}
 img:not(.not_typography, .not) {font-family: var(--font2)}
-a:not(.not_typography, .not) {text-decoration: none}
+a:not(.not_typography, .not) {
+  font-size: 17px;
+  text-decoration: none;
+}
 button:not(.not_typography, .not) {
   &::first-letter, & ::first-letter {
   text-transform: var(--tt-first, uppercase)}
@@ -237,7 +240,7 @@ h6:not(.not_typography, .not) {
 p:not(.not_typography, .not) {
   --fw: 400;
 
-  font-size: var(--fs, 16px);
+  font-size: var(--fs, 20px);
   line-height: 1.25;
 }
 
