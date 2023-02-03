@@ -166,7 +166,9 @@
   }
 
   .container-collections {
-    --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    --pi: center;
+    --gtc: repeat(4, minmax(min(100%, 260px), 1fr));
+    @include media(max, 1920px) {--gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr))}
     padding-inline: var(--margin-separator);
     margin-bottom: 6em;
     gap: 2em;

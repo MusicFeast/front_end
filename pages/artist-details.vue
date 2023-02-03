@@ -255,9 +255,9 @@
     </h2>
 
     <section class="container-collections grid">
-      <div v-for="(item,i) in dataCollections_pagination" :key="i">
+      <template v-for="(item,i) in dataCollections_pagination">
         <v-card
-          v-if="!item.state"
+          v-if="!item.state" :key="i"
           class="card divcol custome"
           :class="{
             uranium: item.tier===6,
@@ -308,7 +308,7 @@
           </div>
         </v-card>
         <v-card
-          v-else
+          v-else :key="i"
           class="card divcol custome"
           :class="{
             uranium: item.tier===6,
@@ -358,7 +358,7 @@
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
         </v-card>
-      </div>
+      </template>
     </section>
 
     <Pagination
