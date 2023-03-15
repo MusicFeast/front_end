@@ -18,10 +18,11 @@
                   id="country"
                   v-model="valueNft"
                   :items="dataNfts" 
-                  item-text="id"
+                  item-text="title"
+                  item-value="id"
                   solo
                   :rules="[v => !!v || 'required field']"
-                  placeholder="Select the id token to sell"
+                  placeholder="Select one of your available token"
                   style="--fs-place: 16px; flex-grow: 0"
                 ></v-select>
                 <label for="amount">Amount in
@@ -533,7 +534,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'nft12.musicfeast.testnet',
+                receiverId: 'nft14.musicfeast.testnet',
                 actions: action,
               }
             ],
@@ -737,8 +738,8 @@ export default {
                 account_id: "market2.musicfeast.testnet",
                 msg: JSON.stringify(msgs)
               }, 
-              '200000000000000', 
-              '500000000000000000000'
+              '250000000000000', 
+              '50000000000000000000'
             )
           ]
           // const action3 = [
@@ -756,7 +757,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft12.musicfeast.testnet',
+                receiverId: 'nft14.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -819,7 +820,7 @@ export default {
           const action = [this.$ramper.functionCall(
             "add_offer",       
             {
-              nft_contract_id: "nft12.musicfeast.testnet", 
+              nft_contract_id: "nft14.musicfeast.testnet", 
               token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))

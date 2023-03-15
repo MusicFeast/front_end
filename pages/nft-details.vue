@@ -142,7 +142,7 @@
             v-if="!soldBtn"
             :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="buyNftRamper()">Buy</v-btn>
+            @click="buyNftRamper()">{{ this.isVip? "just mint" : "buy" }}</v-btn>
             <v-btn
             v-if="soldBtn"
             :disabled="true"
@@ -311,6 +311,7 @@
 import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
+
 export default {
   name: "CollectionDetailsPage",
   mixins: [computeds],
@@ -383,7 +384,8 @@ export default {
       itemsPerPage: 10,
       ownedTier1: false,
       ownedTier2: false,
-      labelYoutube: ""
+      labelYoutube: "",
+      isVip: false
     }
   },
   head() {
@@ -415,8 +417,21 @@ export default {
     //   setTimeout(this.buyNftRamper, 400)
     //   localStorage.removeItem('buyDirect')
     // }
+    
 
     this.nft_main = this.nft
+    if (this.$ramper.getUser() && this.nft_main.tier === 1) {
+      const contract = new this.$contract(
+      await this.$near.account(this.$ramper.getAccountId()), // the account object that is connecting
+      "nft14.musicfeast.testnet",
+      {
+        // name of contract you're connecting to
+        viewMethods: ["is_vip"], // view methods do not change state but usually return a value
+      }
+    );
+
+    this.isVip = (await contract.is_vip({account_id: this.$ramper.getAccountId()}))
+    }
     this.getSerie()
     this.getDataNft()
 
@@ -435,7 +450,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft12.musicfeast.testnet",
+              nft_contract_id: "nft14.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -461,7 +476,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft12.musicfeast.testnet',
+              receiverId: 'nft14.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -769,7 +784,13 @@ export default {
 
       this.btnBuy = true
       if (this.$ramper.getUser()) {
-        const price = Number(this.nft_main.floor_price) + 0.5
+        let price
+        if (this.isVip) {
+          price = 0.5
+        } else {
+          price = Number(this.nft_main.floor_price) + 0.5
+        }
+        
         const action = [this.$ramper.functionCall(
           "nft_buy",       
           {
@@ -782,7 +803,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft12.musicfeast.testnet',
+              receiverId: 'nft14.musicfeast.testnet',
               actions: action,
             },
           ],
@@ -929,7 +950,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft12.musicfeast.testnet", 
+            nft_contract_id: "nft14.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 
