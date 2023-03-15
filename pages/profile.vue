@@ -318,10 +318,10 @@
     </v-expansion-panels> -->
 
     <widgetbot
-      server="1053340402633150485"
-      channel="1053340403086147672"
-      width="1560"
-      height="1000"
+      server="929550878048911391"
+      channel="1070358694702895185"
+      width="1100"
+      height="900"
     ></widgetbot>
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
   </div>
@@ -557,7 +557,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft8.musicfeast.testnet',
+                receiverId: 'nft12.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -612,7 +612,7 @@ export default {
             this.$ramper.functionCall(
               "delete_offer",       
               {
-                nft_contract_id: "nft8.musicfeast.testnet", 
+                nft_contract_id: "nft12.musicfeast.testnet", 
                 token_id: item.token_id
               }, 
               '200000000000000', 
@@ -787,6 +787,8 @@ export default {
             reference
             serie_id
             title
+            typetoken_id
+            is_objects
           }
         }
       `;
@@ -814,24 +816,19 @@ export default {
           name: data[i].title,
           desc: data[i].description,
           editions: data[i].copies || "Multi",
-          tier: Number(data[i].reference),
+          tier: Number(data[i].typetoken_id),
           typetoken_id: data[i].reference,
           type: "nft",
           token_id: data[i].id,
           supply: data[i].supply,
           state: null,
           type_id: data[i].serie_id,
-          artista: "-"
+          artista: "-",
+          is_objects: data[i].is_objects
         }
 
-        if (item.typetoken_id === "8" || item.typetoken_id === 8) {
+        if (item.is_objects) {
           item.state = "redeemable"
-        }
-
-        if (item.tier === 7) {
-          item.tier = 3
-        } else if (item.tier === 8) {
-          item.tier = 4
         }
 
         const varSplit = item.token_id.split("|")

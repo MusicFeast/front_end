@@ -42,7 +42,7 @@
 
         <p class="p" v-html="event.description" />
 
-        <v-btn :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 12.8px">Buy</v-btn>
+        <v-btn @click="buyNftEvent()" :disabled="btnBuy" :ripple="false" class="btn activeBtn align" style="--w: min(100%, 10em); --fs: 12.8px">Buy</v-btn>
 
         <div class="center showmobile" style="gap: .2em">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.link">
@@ -95,25 +95,18 @@
             transition="fade-transition"
             width="100%"
             height="100%"
-            src="https://maps.google.com/maps?
-              q=2880%20Broadway,%20New%20York
-              &t=
-              &z=13
-              &ie=UTF8
-              &iwloc=
-              &output=embed
-            "
+            src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=40.68924937933445,-74.04452185923861&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
             frameborder="0"
             scrolling="no"
             marginheight="0"
             marginwidth="0"
           ></iframe>
-          <v-btn
+          <!-- <v-btn
             :ripple="false"
             class="btn bold activeBtn"
-            href="https://maps.google.com/maps?ll=40.6892494,-74.0445004&amp;z=13&amp;t=m&amp;hl=es-ES&amp;gl=US&amp;mapclient=embed&amp;q=2880%20Broadway%20New%20York%2C%20NY%2010025%20EE.%20UU."
+            href="https://www.google.com/maps/@48.85839978192783, 2.2945691072576078,11.16z?hl=es-ES"
             target="_blank"
-          >open maps</v-btn>
+          >open maps</v-btn> -->
         </template>
         <template #placeholder>
           <v-skeleton-loader type="card" />
@@ -121,7 +114,7 @@
       </v-img>
     </section>
 
-    <h2 class="Title tup">tickets available</h2>
+    <h2 class="Title tup">click to buy</h2>
 
     <v-carousel
       id="custome-carousel"
@@ -212,6 +205,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      srcMap: null,
+      btnBuy: false,
+      itemEvent: null,
       dataSocial: [
         // { icon: "mdi-instagram", link: null },
         // { icon: "mdi-twitter", link: null },
@@ -299,18 +295,120 @@ export default {
   created() {
     if (!this.event) {this.$router.push(this.localePath('/'))}
   },
-  mounted() {
+  async mounted() {
+    await this.getEvent()
     this.getSocials()
     this.getEventTickets()
     this.styles();
     
     // resize listener
     window.addEventListener('resize', this.styles);
+
+    console.log(document.getElementById("gmap_canvas").src )
+
+    document.getElementById("gmap_canvas").src = "https://maps.google.com/maps?width=100%25&height=600&hl=es&q=" + this.event.coordinates +"&t=&z=14&ie=UTF8&iwloc=B&output=embed"
+    console.log(document.getElementById("gmap_canvas").src )
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    async getEvent() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          serie(id: $serie_id) {
+            artist_id
+            copies
+            creator_id
+            desc_series
+            description
+            extra
+            fecha
+            id
+            media
+            price
+            price_near
+            reference
+            supply
+            title
+            typetoken_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {serie_id: this.event.serie_ticket},
+      })
+
+      const data = res.data.serie
+
+      this.itemEvent = data
+    },
+    async buyNftEvent() {
+      if (this.$ramper.getUser()) {
+        this.btnBuy = true
+        const price = Number(this.itemEvent.price_near) + 0.3
+        const action = [this.$ramper.functionCall(
+          "nft_buy",       
+          {
+            token_series_id: this.event.serie_ticket, 
+            receiver_id: this.$ramper.getAccountId(),
+          }, 
+          '300000000000000', 
+          this.$utils.format.parseNearAmount(String(price))
+        )]
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: 'nft12.musicfeast.testnet',
+              actions: action,
+            },
+          ],
+          network: 'testnet',
+        })
+        console.log("Transaction Result: ", res)
+
+        this.btnBuy = false
+
+        if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
+          localStorage.setItem("transaction_data", JSON.stringify({
+            state: "success",
+            title: "Success",
+            desc: "You have successfully acquired your token.",
+            hash: res.txHashes[0]
+          }))
+          this.$router.push(this.localePath('/redirection'))
+
+        } else if (res && res.result) {
+          if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
+         
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "success",
+              title: "Success",
+              desc: "You have successfully acquired your token.",
+              hash: res.txHashes[0]
+            }))
+           
+    
+            this.$router.push(this.localePath('/redirection'))
+      
+          } else if (res.result[0].status.Failure) {
+            // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem("transaction_data", JSON.stringify({
+              state: "cancel",
+              title: "Error",
+              desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".",
+              hash: res.txHashes[0]
+            }))
+            this.$router.push(this.localePath('/redirection'))
+          }
+        }
+      } else {
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
+      }
+    },
     async buyNftRamper(item) {
       if (this.$ramper.getUser()) {
         const price = Number(item.floor_price) + 0.3
@@ -326,7 +424,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft8.musicfeast.testnet',
+              receiverId: 'nft12.musicfeast.testnet',
               actions: action,
             },
           ],
@@ -334,24 +432,28 @@ export default {
         })
         console.log("Transaction Result: ", res)
 
-        if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet') {
+        if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
           localStorage.setItem("transaction_data", JSON.stringify({
             state: "success",
             title: "Success",
-            desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
+            desc: "You have successfully acquired your token.",
             hash: res.txHashes[0]
           }))
           this.$router.push(this.localePath('/redirection'))
+
         } else if (res && res.result) {
           if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === '') {
-            // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[0]})
+         
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
               title: "Success",
-              desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.",
+              desc: "You have successfully acquired your token.",
               hash: res.txHashes[0]
             }))
+           
+    
             this.$router.push(this.localePath('/redirection'))
+      
           } else if (res.result[0].status.Failure) {
             // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
             localStorage.setItem("transaction_data", JSON.stringify({
@@ -364,8 +466,7 @@ export default {
           }
         }
       } else {
-        await this.$ramper.signIn()
-        location.reload();
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
       }
     },
     getEventTickets() {

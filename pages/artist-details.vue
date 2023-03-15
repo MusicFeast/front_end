@@ -233,7 +233,7 @@
     </v-expansion-panels>
 
     <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
-      <span class="tup" style="--fb: max-content">nft &amp; collections</span>
+      <span class="tup" style="--fb: max-content">lastest collections</span>
 
       <Filters
         contents
@@ -369,8 +369,8 @@
 
     <h2 class="Title tup">chats</h2>
     <widgetbot
-      server="1053340402633150485"
-      channel="1053340403086147672"
+      server="929550878048911391"
+      channel="1070358694702895185"
       width="100%"
       height="62.5em"
     ></widgetbot>
@@ -668,35 +668,41 @@ export default {
     async getDataNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $typetoken: [String]) {
-          series(where: {artist_id: $artist_id, typetoken_id_in: $typetoken}) {
-            id
-            media
-            price
-            reference
+        query QUERY_APOLLO($artist_id: String, $typetoken: [String], $collection: String) {
+          series(
+            where: {artist_id: $artist_id, typetoken_id_in: $typetoken, is_objects_not: true, collection_lt: $collection} orderBy: collection orderDirection: asc
+          ) {
             title
             typetoken_id
+            supply
+            reference
+            price_near
+            price
+            media
+            is_objects
+            id
             fecha
             extra
             description
-            creator_id
-            artist_id
-            price_near
-            supply
-            copies
             desc_series
+            creator_id
+            copies
+            collection
+            artist_id
           }
         }
       `;
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection), typetoken: ['7', '8', '9', '10', '11']},
+        variables: {artist_id: String(this.artist.id_collection), typetoken: ['2', '3', '4', '5', '6'], collection: this.collectionNow},
       })
+
+      console.log(this.artist.id_collection, this.collectionNow)
 
       const data = res.data.series
 
-      console.log("DATANFTS", data)
+      console.log("DATANFTS2222222", data)
 
 
       this.dataCollections = []
@@ -721,6 +727,7 @@ export default {
           type: "nft",
           tier: Number(data[i].typetoken_id),
           type_id: data[i].id,
+          validate: this.validateTier
         }
 
         if (item.tier === 7) {
@@ -735,27 +742,31 @@ export default {
           item.tier = 2
         }
 
-        if (item.tier === 2) {
-          if (this.tiers[1].validate === false) {
-            item.state = "locked"
-            item.activate = true
-          }
-        } else if (item.tier === 3) {
-          if (this.tiers[2].validate === false) {
-            item.state = "locked"
-            item.activate = true
-          }
-        } else if (item.tier === 4) {
-          if (this.tiers[3].validate === false) {
-            item.state = "locked"
-            item.activate = true
-          }
-        } else if (item.tier === 5) {
-          if (this.tiers[4].validate === false) {
-            item.state = "locked"
-            item.activate = true
-          }
+        if (item.validate && item.tier !== 1) {
+          item.state = "locked"
         }
+
+        // if (item.tier === 2) {
+        //   if (this.tiers[1].validate === false) {
+        //     item.state = "locked"
+        //     item.activate = true
+        //   }
+        // } else if (item.tier === 3) {
+        //   if (this.tiers[2].validate === false) {
+        //     item.state = "locked"
+        //     item.activate = true
+        //   }
+        // } else if (item.tier === 4) {
+        //   if (this.tiers[3].validate === false) {
+        //     item.state = "locked"
+        //     item.activate = true
+        //   }
+        // } else if (item.tier === 5) {
+        //   if (this.tiers[4].validate === false) {
+        //     item.state = "locked"
+        //     item.activate = true
+        //   }
+        // }
 
         this.dataCollections.push(item)
       }
@@ -822,7 +833,7 @@ export default {
 
       this.dataProfits.nfts = data.total_nft
       this.dataProfits.owners = "---"
-      this.dataProfits.collections = data.total_collection
+      this.dataProfits.collections = data.collection
       this.dataProfits.high = "---"
 
       // this.dataProfits = {
@@ -837,7 +848,7 @@ export default {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String) {
-          series(where: {artist_id: $artist_id, reference: "1", collection: "1"}) {
+          series(where: {artist_id: $artist_id, typetoken_id: "1", collection: "1", is_objects: false}) {
             id
             collection
             media
@@ -916,7 +927,7 @@ export default {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $collection: String) {
-          series(where: {artist_id: $artist_id, typetoken_id_in: ["2", "3", "4", "5"], collection: $collection}) {
+          series(where: {artist_id: $artist_id, typetoken_id_in: ["2", "3", "4", "5", "6"], collection: $collection, is_objects: false}) {
             id
             collection
             media
@@ -933,9 +944,12 @@ export default {
             supply
             copies
             desc_series
+            is_objects
           }
         }
       `;
+
+      console.log("COLEEc", this.collectionNow)
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,

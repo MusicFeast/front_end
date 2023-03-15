@@ -10,7 +10,7 @@
           <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
           <v-btn
             class="btn" style="--w: 8.5em"
-            href="https://discord.com/invite/N7agx9n5" target="_blank"
+            href="https://discord.gg/fAzamufz2J" target="_blank"
             >Join</v-btn>
         </div>
       </article>

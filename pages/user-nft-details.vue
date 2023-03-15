@@ -341,7 +341,7 @@ export default {
     this.ownedTier1 = true // await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
     this.nft_main = this.nft
-    if (this.nft_main.typetoken_id === '8') {
+    if (this.nft_main.is_objects === true || this.nft_main.is_objects === 'true') {
       this.redeemBtn = false
     } 
     this.getSerie()
@@ -365,7 +365,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft8.musicfeast.testnet',
+              receiverId: 'nft12.musicfeast.testnet',
               actions: action,
             }
           ],
@@ -611,7 +611,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft8.musicfeast.testnet",
+              nft_contract_id: "nft12.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -637,7 +637,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft8.musicfeast.testnet',
+              receiverId: 'nft12.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -695,7 +695,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft8.musicfeast.testnet", 
+            nft_contract_id: "nft12.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 

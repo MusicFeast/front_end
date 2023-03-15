@@ -82,7 +82,7 @@ app.post('/active-rol', async function(req, res) {
                 
                 if(valid_rol_id != rol_id) {
                     await lib.discord.guilds['@0.1.0'].members.roles.update({
-                        guild_id: '1053340402633150485',
+                        guild_id: '929550878048911391',
                         user_id: user_discrod,
                         role_id: rol_id,
                       });
@@ -91,13 +91,13 @@ app.post('/active-rol', async function(req, res) {
             }
             /*
             {
-                    guild_id: '1053340402633150485',
+                    guild_id: '929550878048911391',
                     user_id: user_discrod,
                     role_id: resultados.rows[i].role_id.toString(),
                 }
             */
             /*await lib.discord.guilds['@0.1.0'].members.roles.update({
-                guild_id: '1053340402633150485',
+                guild_id: '929550878048911391',
                 user_id: user_discrod.toString(),
                 role_id: '1053401086242857049',
             });*/

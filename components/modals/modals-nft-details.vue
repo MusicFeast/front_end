@@ -533,7 +533,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'nft8.musicfeast.testnet',
+                receiverId: 'nft12.musicfeast.testnet',
                 actions: action,
               }
             ],
@@ -565,7 +565,7 @@ export default {
       }
     },
     changeCheck() {
-      if (this.check) {
+      if (this.check && this.addressUser.address) {
         // this.form_redemption.country = this.addressUser.address.country
         this.form_redemption.address.street = this.addressUser.address.street_address
         this.form_redemption.address.postal = this.addressUser.address.postal
@@ -587,6 +587,7 @@ export default {
       // get data user
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(result => {
+        console.log("USER", result.data)
         if (result.data[0]) {
           if (result.data[0].address.city) {
             this.addressUser = result.data[0]
@@ -755,7 +756,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft8.musicfeast.testnet',
+                receiverId: 'nft12.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -818,7 +819,7 @@ export default {
           const action = [this.$ramper.functionCall(
             "add_offer",       
             {
-              nft_contract_id: "nft8.musicfeast.testnet", 
+              nft_contract_id: "nft12.musicfeast.testnet", 
               token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))
