@@ -158,15 +158,23 @@ export default {
       );
     },
     columnsCarousel() {
-      if (window.innerWidth >= 1600) {
+      if (window.innerWidth >= 1800) {
         return 7
-      } else if (window.innerWidth >= 1345) {
+      } else if (window.innerWidth >= 1545) {
         return 6
-      } else if (window.innerWidth >= 1000) {
+      } else if (window.innerWidth >= 1300) {
         return 5
-      } else if (window.innerWidth >= 800) {
+      } else if (window.innerWidth >= 1000) {
         return 4
+      } else if (window.innerWidth >= 880) {
+        return 3
+      } else if (window.innerWidth >= 820) {
+        return 6
+      } else if (window.innerWidth >= 700) {
+        return 5
       } else if (window.innerWidth >= 550) {
+        return 4
+      } else if (window.innerWidth >= 390) {
         return 3
       } else if (window.innerWidth >= 370) {
         return 2
