@@ -189,6 +189,11 @@
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
             @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Go to Buy Page</v-btn>
             <v-btn
+            v-else-if="item.state === 'coming soon'" 
+            disabled
+            :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
+            >Go to Buy Pagee</v-btn>
+            <v-btn
             v-else
             :disabled="item.validate"
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
@@ -485,6 +490,14 @@ export default {
       dataChats: [
         { icon: "discord", chat: "discord" },
       ],
+      tiersComing: {
+        tierOne: false,
+        tierTwo: false,
+        tierThree: false,
+        tierFour: false,
+        tierFive: false,
+        tierSix: false
+      }
     }
   },
   head() {
@@ -521,6 +534,15 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    getTiersComing() {
+      this.$axios.post(`${this.baseUrl}api/v1/get-tiers-coming/`, {"id": Number(this.artistId)})
+        .then(response => {
+          this.tiersComing = response.data
+        }).catch(err => {
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err);
+        })
+    },
     toLink() {
       window.open("https://discord.gg/9KB3gjJkWJ")
     },
@@ -557,11 +579,12 @@ export default {
 
             await this.getDataArtist()
             await this.validateTiers()
-
+            await this.getTiersComing()
             this.getOwners()
             
             this.dataSocials()
             await this.getTierOne()
+            
             this.getTiers()
             this.getEventsArtist()
           } else {
@@ -901,6 +924,11 @@ export default {
           validate: this.validateTier
         }
 
+        if (this.tiersComing.tierOne) {
+            item.state = "coming soon"
+            item.validate = true
+          }
+
         if (item.validate && item.tier !== 1) {
           item.state = "locked"
         }
@@ -988,26 +1016,46 @@ export default {
         }
 
         if (item.tier === 2) {
+          if (this.tiersComing.tierTwo) {
+            item.state = "coming soon"
+            item.validate = true
+          }
           if (this.tiers[1].validate === true) {
             item.state = "owned"
             item.activate = false
           }
         } else if (item.tier === 3) {
+          if (this.tiersComing.tierThree) {
+            item.state = "coming soon"
+            item.validate = true
+          }
           if (this.tiers[2].validate === true) {
             item.state = "owned"
             item.activate = false
           }
         } else if (item.tier === 4) {
+          if (this.tiersComing.tierFour) {
+            item.state = "coming soon"
+            item.validate = true
+          }
           if (this.tiers[3].validate === true) {
             item.state = "owned"
             item.activate = false
           }
         } else if (item.tier === 5) {
+          if (this.tiersComing.tierFive) {
+            item.state = "coming soon"
+            item.validate = true
+          }
           if (this.tiers[4].validate === true) {
             item.state = "owned"
             item.activate = false
           }
         } else if (item.tier === 6) {
+          if (this.tiersComing.tierSix) {
+            item.state = "coming soon"
+            item.validate = true
+          }
           if (this.tiers[5].validate === true) {
             item.state = "owned"
             item.activate = false
