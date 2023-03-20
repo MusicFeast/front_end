@@ -20,9 +20,7 @@
                   <v-sheet>
                     <div class="divcol">
                       <h3>{{dataArtists_carousel[+index + i].name}}</h3>
-                      <p>
-                        {{dataArtists_carousel[+index + i].description}}
-                      </p>
+                      <p v-html="dataArtists_carousel[+index + i].description"></p>
                     </div>
                   </v-sheet>
                 </template>
@@ -63,8 +61,7 @@
         
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
-          <p class="p">
-            {{item.description.limitString(30)}}
+          <p class="p" v-html="item.description.limitString(30)">
           </p>
         </div>
       </v-card>
