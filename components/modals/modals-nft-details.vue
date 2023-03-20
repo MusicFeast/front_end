@@ -119,7 +119,7 @@
       <v-window v-model="windowBuy" touchless>
         <v-window-item :value="1">
           <v-card id="modalBuy" class="nft-dialog--content">
-            <h3>comming soon</h3>
+            <h3>coming soon</h3>
           </v-card>
         </v-window-item>
       </v-window>
@@ -534,7 +534,7 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'nft14.musicfeast.testnet',
+                receiverId: 'nft15.musicfeast.testnet',
                 actions: action,
               }
             ],
@@ -757,7 +757,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft14.musicfeast.testnet',
+                receiverId: 'nft15.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -820,7 +820,7 @@ export default {
           const action = [this.$ramper.functionCall(
             "add_offer",       
             {
-              nft_contract_id: "nft14.musicfeast.testnet", 
+              nft_contract_id: "nft15.musicfeast.testnet", 
               token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))

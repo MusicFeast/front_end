@@ -54,7 +54,7 @@
         v-for="(item,i) in dataArtists_pagination" :key="i" class="card divcol custome" :class="{comming: item.comming}"
         @click="$store.dispatch('goTo', {key: 'artist', item})">
         <v-img
-          :src="item.image" :alt="`${item.name} image`" :style="item.comming ? `--tag-state: 'Comming soon` : ''"
+          :src="item.image" :alt="`${item.name} image`" :style="item.comming ? `--tag-state: 'Coming soon` : ''"
           transition="fade-transition">
           <template #placeholder>
             <v-skeleton-loader type="card" />
@@ -92,7 +92,7 @@ export default {
       search: "",
       filter: {
         model: "",
-        list: ["lastest releases", "oldest", "comming soon"],
+        list: ["lastest releases", "oldest", "coming soon"],
       },
       currentPage: 1,
       itemsPerPage: 10,

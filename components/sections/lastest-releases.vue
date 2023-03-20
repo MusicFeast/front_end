@@ -12,7 +12,7 @@
         
         <div class="container-content tcenter">
           <a>{{item.title}}</a>
-          <p class="p">{{item.desc}}</p>
+          <p class="p" v-html="item.desc"></p>
         </div>
 
         <div class="center gap1 alignl" style="margin-top: 1em !important">

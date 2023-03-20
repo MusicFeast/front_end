@@ -14,7 +14,7 @@
           </div>
         </aside>
 
-        <aside class="right">
+        <!-- <aside class="right">
           <v-card v-for="(item,i) in dataFooter" :key="i" color="transparent">
             <label class="h10_em">{{ item.title }}</label>
 
@@ -22,7 +22,7 @@
               {{ item2.link }}
             </a>
           </v-card>
-        </aside>
+        </aside> -->
       </section>
 
       <section id="container-copyright" class="fill_w space tcenter divcol_invmobile gap2">

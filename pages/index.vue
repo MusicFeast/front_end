@@ -131,6 +131,7 @@ export default {
         result.data.forEach(e => {
           e.banner = this.baseUrl+e.banner;
           e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
+          e.state = "soong"
         });
         this.dataArtists = result.data
       }).catch(err => {

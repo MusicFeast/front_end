@@ -210,7 +210,7 @@ export default {
           desc: "Lorem ipsum dolor sit amet,",
           floor_price: "250.00",
           type: "collection",
-          state: "comming soon",
+          state: "coming soon",
         },
         {
           img: require('~/assets/sources/images/img-listed-4.jpg'),
@@ -272,7 +272,7 @@ export default {
       },
       filterB: {
         model: "",
-        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
+        list: ["lastest releases", "newest", "oldest", "coming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataListed: [
         {

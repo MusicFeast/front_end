@@ -130,10 +130,10 @@ export default {
       drawer: false,
       menuProfile: false,
       dataSocial: [
-        { icon:"mdi-instagram", url:"#" },
-        { icon:"mdi-twitter", url:"#" },
-        { icon:"mdi-facebook", url:"#" },
-        { icon:"discord", url:"#" }
+        // { icon:"mdi-instagram", url:"#" },
+        // { icon:"mdi-twitter", url:"#" },
+        // { icon:"mdi-facebook", url:"#" },
+        // { icon:"discord", url:"#" }
       ],
     };
   },
@@ -168,13 +168,51 @@ export default {
     if (act) {
       this.account = act.substring(0, 20) + "..."
     }
-
+    this.getDataSocial()
     this.getBalance()
     // this.isScrollTop();
     // window.onscroll = () => this.isScrollTop();
     // set route push to marketplace
   },
   methods: {
+    async getDataSocial() {
+      await this.$axios.get(`${this.baseUrl}api/v1/get-info-mf`)
+      .then(result => {
+        const data = result.data
+        if (data[0]) {
+          const datos = []
+          if (data[0].instagram_icon && data[0].instagram_link) {
+            datos.push({ 
+                icon: data[0].instagram_icon, 
+                to: data[0].instagram_link,
+            })
+          }
+          if (data[0].twitter_icon && data[0].twitter_link) {
+            datos.push({ 
+                icon: data[0].twitter_icon, 
+                to: data[0].twitter_link,
+            })
+          }
+          if (data[0].facebook_icon && data[0].facebook_link) {
+            datos.push({ 
+                icon: data[0].facebook_icon, 
+                to: data[0].facebook_link,
+            })
+          }
+          if (data[0].discord_icon && data[0].discord_link) {
+            datos.push({ 
+                icon: data[0].discord_icon, 
+                to: data[0].discord_link,
+            })
+          }
+          this.dataSocial = datos
+        }
+        console.log(data)
+      }).catch(err => {
+        // this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
+    },
     async getBalance () {
       if (this.$ramper.getUser()) {
         const account = await this.$near.account(this.$ramper.getAccountId());

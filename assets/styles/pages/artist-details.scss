@@ -123,7 +123,7 @@
           .tier-desc {
             --gap: .5em;
             gap: var(--gap);
-            font-size: 13px;
+            *{font-size: 15px};
             ul, a {padding-inline: 24px}
             a {
               line-height: 1.2;

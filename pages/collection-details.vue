@@ -190,7 +190,7 @@ export default {
       },
       filterB: {
         model: "",
-        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
+        list: ["lastest releases", "newest", "oldest", "coming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataNfts: [
         {

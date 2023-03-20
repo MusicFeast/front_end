@@ -174,7 +174,7 @@
             item.tier==='uranium' ? 6 : ''
           }}</a>
           <ul>
-            <li v-show="item.description">{{item.description}}</li>
+            <li v-show="item.description" v-html="item.description"></li>
             <!-- <li v-show="item.tier">Access to special membership perks.</li>
             <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
           </ul>
@@ -471,7 +471,7 @@ export default {
       },
       filterB: {
         model: "",
-        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
+        list: ["lastest releases", "newest", "oldest", "coming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataCollections: [
         // {

@@ -25,12 +25,13 @@
         <v-slide-item v-for="(item,i) in dataArtists" :key="i">
           <v-img
             :src="item.image" :alt="`${item.name} image`" transition="fade-transition"
-            @click="$store.dispatch('goTo', {key: 'artist', item})">
+            @click="item.comming? undefined : $store.dispatch('goTo', {key: 'artist', item})">
             <template #default>
               <v-sheet>
                 <div class="divcol">
                   <h3>{{item.name}}</h3>
-                  <p>{{item.description}}</p>
+                  <p v-if="item.comming">{{"COMING SOON!"}}</p>
+                  <p v-else v-html="item.description"></p>
                 </div>
               </v-sheet>
             </template>

@@ -351,7 +351,7 @@ export default {
       },
       filterB: {
         model: "",
-        list: ["lastest releases", "newest", "oldest", "comming soon", "lorem ipsum", "lorem ipsum"],
+        list: ["lastest releases", "newest", "oldest", "coming soon", "lorem ipsum", "lorem ipsum"],
       },
       dataNfts: [
         // {
@@ -557,7 +557,7 @@ export default {
                 actions: action1,
               },
               {
-                receiverId: 'nft14.musicfeast.testnet',
+                receiverId: 'nft15.musicfeast.testnet',
                 actions: action2,
               },
               // {
@@ -612,7 +612,7 @@ export default {
             this.$ramper.functionCall(
               "delete_offer",       
               {
-                nft_contract_id: "nft14.musicfeast.testnet", 
+                nft_contract_id: "nft15.musicfeast.testnet", 
                 token_id: item.token_id
               }, 
               '200000000000000', 
