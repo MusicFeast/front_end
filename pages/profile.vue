@@ -119,7 +119,7 @@
           </v-avatar>
           <a>{{item.name}}</a>
           <!-- <a>{{item.artista.limitString(27)}}</a> -->
-          <p>{{item.desc.limitString(27)}}</p>
+          <p v-html="item.desc.limitString(27)"></p>
 
           <div class="center" style="gap: 6.4px">
             <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
@@ -814,6 +814,7 @@ export default {
           img: data[i].media,
           avatar: require("~/assets/sources/avatars/avatar.png"),
           name: data[i].title,
+          name_sell: data[i].title.split("#").shift(),
           desc: data[i].description,
           editions: data[i].copies || "Multi",
           tier: Number(data[i].typetoken_id),

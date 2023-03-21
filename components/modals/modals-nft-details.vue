@@ -11,7 +11,7 @@
           <v-card id="modalSell" class="nft-dialog--content">
             <h3>sell</h3>
             <v-form ref="formSell" class="divcol gap2" @submit.prevent="putSale()">
-              <p class="p">You are about to sell "{{nft.name}}".</p>
+              <p class="p">You are about to sell "{{nft.name_sell || nft.name}}".</p>
 
               <v-sheet color="transparent">
                 <v-select

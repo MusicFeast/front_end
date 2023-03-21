@@ -147,7 +147,17 @@ export default {
             e.banner = this.baseUrl+e.banner;
             e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           });
+          result.data.sort((a, b) => {
+            if (a.comming === b.comming) {
+              return 0;
+            } else if (a.comming) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
           this.dataArtists = result.data
+          console.log(this.dataArtists)
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})
           console.error(err);

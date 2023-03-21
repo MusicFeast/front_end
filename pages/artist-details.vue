@@ -1,6 +1,6 @@
 <template>
   <div id="artist-details" class="divcol">
-    <v-img :src="artist.banner" class="header" transition="fade-transition">
+    <v-img :src="isMobile ? artist.banner_mobile : artist.banner" class="header" transition="fade-transition">
       <template #default>
         <aside class="header-title">
           <h2>{{artist.name}}</h2>
@@ -397,11 +397,12 @@
 <script>
 import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
+import isMobile from '~/mixins/isMobile'
 const pageName = 'artist-details';
 
 export default {
   name: "CollectionDetailsPage",
-  mixins: [computeds],
+  mixins: [computeds, isMobile],
   data() {
     return {
       collectionNow: null,
@@ -575,6 +576,7 @@ export default {
           if (data) {
             this.artist = data
             this.artist.banner = this.baseUrl+this.artist.banner;
+            this.artist.banner_mobile = this.baseUrl+this.artist.banner_mobile;
             this.artist.image = this.artist.image ? this.baseUrl+this.artist.image : require('~/assets/sources/avatars/avatar.png');
 
             await this.getDataArtist()
@@ -737,6 +739,7 @@ export default {
           img: data[i].media,
           avatar: this.artist.image,
           name: data[i].title,
+          name_sell: data[i].title,
           desc: data[i].description,
           floor_price: data[i].price_near,
           price: data[i].price,

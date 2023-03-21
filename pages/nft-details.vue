@@ -129,6 +129,7 @@
               <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .75em">
             </span>
             <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft_main.floor_price)}}</span>
+            <span style="--c:var(--accent)">Storage Deposit: {{ amountDeposit }} <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .75em"></span>
           </div>
         </div>
 
@@ -325,6 +326,7 @@ export default {
       soldBtn: false,
       ownedNft: true,
       btnBuy: false,
+      amountDeposit: 0.5,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
@@ -776,7 +778,7 @@ export default {
     },
     async buyNftRamper() {
       const balance = await this.getBalance()
-      if (balance < Number(this.nft_main.floor_price) + 0.5) {
+      if (balance < Number(this.nft_main.floor_price) + this.amountDeposit) {
         this.$alert({title: "WARNING!", desc: "Insufficient Balance.", icon: "mdi-alert"})  
         return
       }
@@ -785,9 +787,9 @@ export default {
       if (this.$ramper.getUser()) {
         let price
         if (this.isVip) {
-          price = 0.5
+          price = this.amountDeposit
         } else {
-          price = Number(this.nft_main.floor_price) + 0.5
+          price = Number(this.nft_main.floor_price) + this.amountDeposit
         }
         
         const action = [this.$ramper.functionCall(
