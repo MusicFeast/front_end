@@ -181,7 +181,7 @@
       </v-sheet> -->
     </section>
 
-    <h2 id="buy">Buy NFT</h2>
+    <h2 id="buy">Buy Resale</h2>
 
     <v-data-table
       :headers="tableHeaders"
@@ -870,10 +870,11 @@ export default {
       this.tableItems = []
 
       for (let i = 0; i < data.length; i++) {
+        const nftAux = await this.getSingleNft(data[i].token_id)
         const edition = data[i].token_id.split(":")
         const item = {
           number: "#" + edition[1],
-          token: data[i].token_id,
+          token: nftAux.title,
           seller: data[i].owner_id,
           seller_avatar: require("~/assets/sources/avatars/avatar.png"),
           price: data[i].price_near,
@@ -886,6 +887,43 @@ export default {
         }
 
         this.tableItems.push(item)
+      }
+    },
+    async getSingleNft (id) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($id: String) {
+          nft(id: $id) {
+            id
+            typetoken_id
+            title
+            serie_id
+            reference
+            owner_id
+            media
+            is_objects
+            fecha
+            extra
+            description
+            collection
+            artist_id
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {id},
+      })
+
+      const data = res.data.nft
+
+      console.log(data)
+
+      if (data) {
+        return data
+      } else {
+        return false
       }
     },
     backTrack() {
