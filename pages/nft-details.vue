@@ -119,8 +119,7 @@
 
         <span>{{nft_main.desc}}</span>
 
-        <p class="p">
-          {{nft_main.description}}
+        <p class="p" v-html="nft_main.description">
         </p>
 
         <div class="spacea">

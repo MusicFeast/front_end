@@ -128,9 +128,7 @@
 
         <!-- <span>Name of the artist</span> -->
 
-        <p class="p">
-          {{nft_main.desc}}
-        </p>
+        <p class="p" v-html="nft_main.desc"></p>
 
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
