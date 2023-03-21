@@ -127,7 +127,7 @@
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
             <span class="bold" style="--c: var(--accent)">{{nft_main.floor_price}}
-              <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .9em">
+              <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .75em">
             </span>
             <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft_main.floor_price)}}</span>
           </div>

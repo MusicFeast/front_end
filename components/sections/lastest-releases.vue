@@ -15,7 +15,7 @@
           <p class="p" v-html="item.desc"></p>
         </div>
 
-        <div class="center gap1 alignl" style="margin-top: 1em !important">
+        <div class="center gap1 alignl" style="margin-block: auto .5em !important">
           <v-avatar style="border: 2px solid #fff">
             <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
               <template #placeholder>

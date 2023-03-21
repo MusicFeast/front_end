@@ -69,6 +69,7 @@
         --h: 337px;
         --br: 5px;
         min-height: var(--h);
+        max-height: var(--h);
         height: var(--h);
         .v-image__image {transition: .5s $ease}
         // tag
