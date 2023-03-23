@@ -114,7 +114,7 @@ export const mutations = {
       localStorage.setItem('walletUrl', myNearWallet)
       window.$nuxt.$wallet._walletBaseUrl = myNearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft15.musicfeast.testnet',
+        'nft16.musicfeast.testnet',
         location.href,
         location.href,
         location.href
@@ -123,7 +123,7 @@ export const mutations = {
       localStorage.setItem('walletUrl', nearWallet)
       window.$nuxt.$wallet._walletBaseUrl = nearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft15.musicfeast.testnet',
+        'nft16.musicfeast.testnet',
         location.href,
         location.href,
         location.href
@@ -134,18 +134,6 @@ export const mutations = {
     window.$nuxt.$ramper.signOut()
     setTimeout(() => this.$router.go(0), 100)
     this.$router.push(this.localePath('/'))
-  },
-  priceNEAR(state, key) {
-    this.$axios
-      .get('https://api.binance.com/api/v3/ticker/24hr?symbol=NEARUSDT')
-      .then((response) => {
-        if (response.data) {
-          localStorage.priceNear = response.data.lastPrice
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-      })
   },
   async sendTransactionRamper() {
     const actions2 = [
@@ -163,7 +151,7 @@ export const mutations = {
     const res = await window.$nuxt.$ramper.sendTransaction({
       transactionActions: [
         {
-          receiverId: 'nft15.musicfeast.testnet',
+          receiverId: 'nft16.musicfeast.testnet',
           actions: actions2,
         },
       ],

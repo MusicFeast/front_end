@@ -363,7 +363,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft15.musicfeast.testnet',
+              receiverId: 'nft16.musicfeast.testnet',
               actions: action,
             }
           ],
@@ -609,7 +609,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft15.musicfeast.testnet",
+              nft_contract_id: "nft16.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -635,7 +635,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft15.musicfeast.testnet',
+              receiverId: 'nft16.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -693,7 +693,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft15.musicfeast.testnet", 
+            nft_contract_id: "nft16.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 

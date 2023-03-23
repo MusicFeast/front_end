@@ -118,7 +118,9 @@
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
+const { Contract } = nearAPI
 
 export default {
   name: "NavbarMenuComponent",
@@ -141,8 +143,9 @@ export default {
   //   const theme = localStorage.getItem("theme");
   //   this.overlayMethod(theme);
   // },
-  mounted() {
-    this.$store.commit('priceNEAR')
+  async mounted() {
+    // this.$store.commit('priceNEAR')
+    await this.getPriceNear()
     const queryString = window.location.search; // tomo mi url
     const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
 
@@ -175,6 +178,18 @@ export default {
     // set route push to marketplace
   },
   methods: {
+    async getPriceNear () {
+      const account = await this.$near.account(this.$ramper.getAccountId());
+      const contract = new Contract(account, "nft16.musicfeast.testnet", {
+      viewMethods: ["get_tasa"],
+      sender: account,
+    })
+
+    const price = await contract.get_tasa()
+
+    localStorage.setItem("priceNear", price)
+    
+    },
     async getDataSocial() {
       await this.$axios.get(`${this.baseUrl}api/v1/get-info-mf`)
       .then(result => {

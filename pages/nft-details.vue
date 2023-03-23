@@ -424,7 +424,7 @@ export default {
     if (this.$ramper.getUser() && this.nft_main.tier === 1) {
       const contract = new this.$contract(
       await this.$near.account(this.$ramper.getAccountId()), // the account object that is connecting
-      "nft15.musicfeast.testnet",
+      "nft16.musicfeast.testnet",
       {
         // name of contract you're connecting to
         viewMethods: ["is_vip"], // view methods do not change state but usually return a value
@@ -451,7 +451,7 @@ export default {
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft15.musicfeast.testnet",
+              nft_contract_id: "nft16.musicfeast.testnet",
               token_id: item.token
             }, 
             '100000000000000', 
@@ -477,7 +477,7 @@ export default {
               actions: action1,
             },
             {
-              receiverId: 'nft15.musicfeast.testnet',
+              receiverId: 'nft16.musicfeast.testnet',
               actions: action2,
             },
           ],
@@ -844,7 +844,7 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft15.musicfeast.testnet',
+              receiverId: 'nft16.musicfeast.testnet',
               actions: action,
             },
           ],
@@ -991,7 +991,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft15.musicfeast.testnet", 
+            nft_contract_id: "nft16.musicfeast.testnet", 
             token_id: item.token,
           }, 
           '300000000000000', 
