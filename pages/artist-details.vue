@@ -110,8 +110,8 @@
             <p>{{item.desc}}</p>
 
             <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
-              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
+              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
@@ -157,8 +157,8 @@
             <p>{{item.desc}}</p>
 
             <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
-              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
+              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
@@ -306,8 +306,8 @@
             <p>{{item.desc}}</p>
 
             <div class="center bold" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
-              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
+              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
@@ -357,8 +357,8 @@
             <p>{{item.desc}}</p>
 
             <div class="center bold" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.floor_price}}</span>
-              <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px">
+              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
           </div>
@@ -741,7 +741,7 @@ export default {
           name: data[i].title,
           name_sell: data[i].title,
           desc: data[i].description,
-          floor_price: data[i].price_near,
+          floor_price: data[i].price,
           price: data[i].price,
           copies: data[i].copies || 0,
           editions: data[i].copies || "Multi",

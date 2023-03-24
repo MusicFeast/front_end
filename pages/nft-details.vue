@@ -125,11 +125,10 @@
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">{{nft_main.floor_price}}
-              <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .75em">
+            <span class="bold" style="--c: var(--accent)">{{nft_main.price}} $
             </span>
-            <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft_main.floor_price)}}</span>
-            <span style="--c:var(--accent)">Storage Deposit: {{ amountDeposit }} <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .75em"></span>
+            <span style="font-size: calc(var(--font-text) / 1.2)">{{nft_main.price_near}} <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"></span>
+            <span style="font-size: calc(var(--font-text) / 1.2)">Storage Deposit: {{ amountDeposit }} <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"></span>
           </div>
         </div>
 
@@ -167,8 +166,8 @@
       <v-sheet color="transparent" class="divcol center">
         <span>Floor Price</span>
         <div class="acenter" style="gap: .5em">
-          <span>{{dataProfits.price}}</span>
-          <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em">
+          <span>{{dataProfits.price}} $</span>
+          <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em"> -->
         </div>
       </v-sheet>
       <!-- <v-sheet color="transparent" class="divcol center">
@@ -256,7 +255,7 @@
             <template #[`item.price`]="{ item }">
               <center v-if="item.price" class="divcol" style="gap: 5px">
                 <span>{{item.price}} N</span>
-                <span class="normal">$ {{dollarConversion(item.price)}}</span>
+                <span class="normal">$ {{nft_main.price_near}}</span>
               </center>
 
               <center v-else class="divcol" style="gap: 5px">
@@ -411,6 +410,9 @@ export default {
     if (isFirefox) setTimeout(() => window.scrollTo(0, 1), 0);
   },
   async mounted() {
+    this.nft_main = this.nft
+    this.nft_main.price_near = this.dollarConversion(this.nft_main.price)
+
     this.ownedTier1 = true // await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
 
@@ -419,8 +421,6 @@ export default {
     //   localStorage.removeItem('buyDirect')
     // }
     
-
-    this.nft_main = this.nft
     if (this.$ramper.getUser() && this.nft_main.tier === 1) {
       const contract = new this.$contract(
       await this.$near.account(this.$ramper.getAccountId()), // the account object that is connecting
@@ -661,13 +661,13 @@ export default {
       const floor = await this.getFloorPrice()
       
       if (floor) {
-        if (Number(floor) < Number(this.nft_main.floor_price)) {
+        if (Number(floor) < Number(this.nft_main.price)) {
           this.dataProfits.price = floor
         } else {
-          this.dataProfits.price = this.nft_main.floor_price
+          this.dataProfits.price = this.nft_main.price
         }
       } else {
-        this.dataProfits.price = this.nft_main.floor_price
+        this.dataProfits.price = this.nft_main.price
       }
 
       this.getNftsMarket()
@@ -705,7 +705,7 @@ export default {
       const data = res.data.markets
 
       if (data[0]) {
-        return data[0].price_near
+        return data[0].price
       } else {
         return false
       }
@@ -818,7 +818,7 @@ export default {
     },
     async buyNftRamper() {
       const balance = await this.getBalance()
-      if (balance < Number(this.nft_main.floor_price) + this.amountDeposit) {
+      if (balance < Number(this.nft_main.price_near) + this.amountDeposit) {
         this.$alert({title: "WARNING!", desc: "Insufficient Balance.", icon: "mdi-alert"})  
         return
       }
@@ -829,7 +829,7 @@ export default {
         if (this.isVip) {
           price = this.amountDeposit
         } else {
-          price = Number(this.nft_main.floor_price) + this.amountDeposit
+          price = Number(this.nft_main.price_near) + this.amountDeposit
         }
         
         const action = [this.$ramper.functionCall(
@@ -980,7 +980,7 @@ export default {
     },
     async buyMarketRamper(item) {
       const balance = await this.getBalance()
-      if (balance < Number(this.nft_main.floor_price)) {
+      if (balance < Number(this.nft_main.price_near)) {
         this.$alert({key: "alert",title: "WARNING!", desc: "Insufficient Balance."})  
         return
       }
@@ -1127,7 +1127,7 @@ export default {
       }
     },
     dollarConversion(price) {
-      return (Number(price) * this.priceNear).toFixed(2)
+      return (Number(price) / this.priceNear).toFixed(2)
     },
     backTrack() {
       this.sliderTrack -= 10;

@@ -55,7 +55,7 @@
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>All Time High</span>
-          <span>{{dataProfits.high}} Near</span>
+          <span>{{dataProfits.high}} $</span>
           
         </v-sheet>
       </section>
@@ -122,8 +122,8 @@
           <p v-html="item.desc.limitString(27)"></p>
 
           <div class="center" style="gap: 6.4px">
-            <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}}</span>
-            <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em">
+            <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}} $</span>
+            <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
           </div>
           <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
         </div>
@@ -847,10 +847,10 @@ export default {
           if (Number(floor) < Number(serie.price_near)) {
             item.floor_price = floor
           } else {
-            item.floor_price = serie.price_near
+            item.floor_price = serie.price
           }
         } else {
-          item.floor_price = serie.price_near
+          item.floor_price = serie.price
         }
         
         if (maxPrice < item.floor_price) {
@@ -898,7 +898,7 @@ export default {
       const data = res.data.markets
 
       if (data[0]) {
-        return data[0].price_near
+        return data[0].price
       } else {
         return false
       }

@@ -413,7 +413,7 @@ export default {
       this.$refs.modal.modalRedemption = true
     },
     dollarConversion(price) {
-      return (Number(price) * this.priceNear).toFixed(2)
+      return (Number(price) / this.priceNear).toFixed(2)
     },
     async getDataNft() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
