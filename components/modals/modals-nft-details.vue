@@ -108,26 +108,6 @@
       </v-window>
     </v-dialog>
 
-
-
-    <!-- modal buy -->
-    <v-dialog v-model="modalBuy" max-width="500px" content-class="nft-dialog" persistent>
-      <v-btn icon class="close" @click="clearBuy()">
-        <v-icon large>mdi-close</v-icon>
-      </v-btn>
-
-      <v-window v-model="windowBuy" touchless>
-        <v-window-item :value="1">
-          <v-card id="modalBuy" class="nft-dialog--content">
-            <v-btn class="btn" style="--bg: #fff; --c: var(--primary)">Pay with NEAR</v-btn>
-            <v-btn class="btn">Pay with Fiat</v-btn>
-          </v-card>
-        </v-window-item>
-      </v-window>
-    </v-dialog>
-
-
-
     <!-- modal offer -->
     <v-dialog v-model="modalOffer" max-width="500px" content-class="nft-dialog" persistent>
       <v-btn icon class="close" @click="clearOffer()">
