@@ -44,7 +44,7 @@
       <v-sheet color="transparent" class="divcol center">
         <span>All Time High</span>
         <span v-if="dataProfits.high === '---'">{{dataProfits.high}}</span>
-        <span v-else>$ {{dataProfits.high}}K</span>
+        <span v-else>$ {{dataProfits.high}}</span>
       </v-sheet>
     </section>
 
@@ -110,7 +110,7 @@
             <p>{{item.desc}}</p>
 
             <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <span class="floor" style="--c: var(--accent)">Price: $ {{item.price}}</span>
               <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
@@ -192,7 +192,7 @@
             v-else-if="item.state === 'coming soon'" 
             disabled
             :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            >Go to Buy Pagee</v-btn>
+            >Go to Buy page</v-btn>
             <v-btn
             v-else
             :disabled="item.validate"
@@ -550,7 +550,7 @@ export default {
     getEventsArtist() {
       this.$axios.post(`${this.baseUrl}api/v1/get-events/`, {"artist_id": Number(this.artist.id_collection)})
         .then(response => {
-          console.log("EVENTS",response.data)
+          // console.log("EVENTS",response.data)
           // this.dataEvents = response.data.reverse()
           
           if (response.data[0]) {
@@ -723,11 +723,11 @@ export default {
         variables: {artist_id: String(this.artist.id_collection), typetoken: ['2', '3', '4', '5', '6'], collection: this.collectionNow},
       })
 
-      console.log(this.artist.id_collection, this.collectionNow)
+      // console.log(this.artist.id_collection, this.collectionNow)
 
       const data = res.data.series
 
-      console.log("DATANFTS2222222", data)
+      // console.log("DATANFTS2222222", data)
 
 
       this.dataCollections = []
@@ -902,7 +902,7 @@ export default {
 
       const data = res.data.series
 
-      console.log("DATA", data)
+      // console.log("DATA", data)
 
       for (let i = 0; i < data.length; i++) {
         const item = {
@@ -951,7 +951,7 @@ export default {
         }
         this.dataSliderPreview.push(item)
 
-        console.log("DATASLIDER",this.dataSliderPreview)
+        // console.log("DATASLIDER",this.dataSliderPreview)
       }
     },
     async getTiers() {
@@ -980,7 +980,7 @@ export default {
         }
       `;
 
-      console.log("COLEEc", this.collectionNow)
+      // console.log("COLEEc", this.collectionNow)
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
@@ -989,7 +989,7 @@ export default {
 
       const data = res.data.series
 
-      console.log("DATANEW", data)
+      // console.log("DATANEW", data)
 
       for (let i = 0; i < data.length; i++) {
         const item = {

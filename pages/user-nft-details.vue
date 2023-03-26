@@ -133,10 +133,9 @@
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">{{nft_main.floor_price}}
-              <img src="~/assets/sources/logos/near-orange.svg" alt="near" style="--w: .9em">
+            <span class="bold" style="--c: var(--accent)">$ {{nft_main.price}}
             </span>
-            <span style="font-size: calc(var(--font-text) / 1.2)">$ {{dollarConversion(nft_main.floor_price)}}</span>
+            <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em">{{nft_main.price_near}}</span>
           </div>
         </div>
 
@@ -167,8 +166,7 @@
       <v-sheet color="transparent" class="divcol center">
         <span>Price</span>
         <div class="acenter" style="gap: .5em">
-          <span>{{dataProfits.price}}</span>
-          <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em">
+          <span>$ {{dataProfits.price}}</span>
         </div>
       </v-sheet>
       <!-- <v-sheet color="transparent" class="divcol center">
@@ -211,7 +209,7 @@
       
       <template #[`item.price`]="{ item }">
         <center v-if="item.price" class="divcol" style="gap: 5px">
-          <span>{{item.price}} N</span>
+          <span>N {{item.price}}</span>
           <span class="normal">$ {{dollarConversion(item.price)}}</span>
         </center>
 
@@ -363,13 +361,13 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft16.musicfeast.testnet',
+              receiverId: process.env.CONTRACT_NFT,
               actions: action,
             }
           ],
-          network: 'testnet',
+          network: process.env.NETWORK,
         })
-        console.log("Transaction Result: ", res)
+        // console.log("Transaction Result: ", res)
 
         if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
           // this.$router.push(this.localePath('/profile'))
@@ -456,13 +454,13 @@ export default {
       const floor = await this.getFloorPrice()
       
       if (floor) {
-        if (Number(floor) < Number(this.nft_main.floor_price)) {
+        if (Number(floor) < Number(this.nft_main.price)) {
           this.dataProfits.price = floor
         } else {
-          this.dataProfits.price = this.nft_main.floor_price
+          this.dataProfits.price = this.nft_main.price
         }
       } else {
-        this.dataProfits.price = this.nft_main.floor_price
+        this.dataProfits.price = this.nft_main.price
       }
 
       this.getNftsMarket()
@@ -499,7 +497,7 @@ export default {
       if (res.data.series[0]) {
         const data = res.data.series[0]  
 
-        console.log(data.typetoken_id, this.ownedTier2)
+        // console.log(data.typetoken_id, this.ownedTier2)
 
         if (data.typetoken_id === '1' && this.ownedTier1) {
           await this.getMedia('audio')
@@ -511,7 +509,7 @@ export default {
       }
     },
     async getMedia(media) {
-      console.log("MEDIA", media, "ARTIST", this.nft_main.artist_id)
+      // console.log("MEDIA", media, "ARTIST", this.nft_main.artist_id)
       await this.$axios.post(`${this.baseUrl}api/v1/get-media/`, { "media": String(media), "artist": Number(this.nft_main.artist_id) })
       .then(result => {
         const data = result.data
@@ -519,11 +517,11 @@ export default {
           if (media === 'audio') {
             this.mediaUrl = this.baseUrl+data.media
           } else if (media === 'video') {
-            console.log("SIIIIUUUU")
+            // console.log("SIIIIUUUU")
             this.mediaUrl = data.media
           }
         }
-        console.log(this.mediaUrl)
+        // console.log(this.mediaUrl)
       }).catch(err => {
         // this.$alert("cancel", {desc: err.message})
         console.error(err);
@@ -562,7 +560,7 @@ export default {
       const data = res.data.markets
 
       if (data[0]) {
-        return data[0].price_near
+        return data[0].price
       } else {
         return false
       }
@@ -602,14 +600,14 @@ export default {
       }
     },
     async unlistNft(item) {
-      console.log(item)
+      // console.log(item)
       this.btnBuy = true
       if (this.$ramper.getUser()) {
         const action1 = [
           this.$ramper.functionCall(
             "delete_market_data",       
             {
-              nft_contract_id: "nft16.musicfeast.testnet",
+              nft_contract_id: process.env.CONTRACT_NFT,
               token_id: item.token
             }, 
             '100000000000000', 
@@ -621,7 +619,7 @@ export default {
             "nft_revoke",       
             {
               token_id: item.token, 
-              account_id: "market2.musicfeast.testnet",
+              account_id: process.env.CONTRACT_MARKET,
             }, 
             '100000000000000', 
             '1'
@@ -631,17 +629,17 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'market2.musicfeast.testnet',
+              receiverId: process.env.CONTRACT_MARKET,
               actions: action1,
             },
             {
-              receiverId: 'nft16.musicfeast.testnet',
+              receiverId: process.env.CONTRACT_NFT,
               actions: action2,
             },
           ],
-          network: 'testnet',
+          network: process.env.NETWORK,
         })
-        console.log("Transaction Result: ", res)
+        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -682,7 +680,7 @@ export default {
     },
     async buyMarketRamper(item) {
       const balance = await this.getBalance()
-      if (balance < Number(this.nft_main.floor_price) + 0.3) {
+      if (balance < Number(this.nft_main.price) + 0.3) {
         this.$alert({title: "WARNING!", desc: "Insufficient Balance.", icon: "alert"})  
         return
       }
@@ -693,7 +691,7 @@ export default {
         const action = [this.$ramper.functionCall(
           "buy",       
           {
-            nft_contract_id: "nft16.musicfeast.testnet", 
+            nft_contract_id: process.env.CONTRACT_NFT, 
             token_id: item.token,
           }, 
           '300000000000000', 
@@ -702,13 +700,13 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'market2.musicfeast.testnet',
+              receiverId: process.env.CONTRACT_MARKET,
               actions: action,
             },
           ],
-          network: 'testnet',
+          network: process.env.NETWORK,
         })
-        console.log("Transaction Result: ", res)
+        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -918,7 +916,7 @@ export default {
 
       const data = res.data.nft
 
-      console.log(data)
+      // console.log(data)
 
       if (data) {
         return data

@@ -100,8 +100,16 @@ export const mutations = {
     }
   },
   async signIn(state, key) {
-    const nearWallet = 'https://wallet.testnet.near.org'
-    const myNearWallet = 'https://testnet.mynearwallet.com'
+    let nearWallet
+    let myNearWallet
+    if (process.env.NETWORK === 'mainnet') {
+      nearWallet = 'https://wallet.near.org'
+      myNearWallet = 'https://app.mynearwallet.com/'
+    } else {
+      nearWallet = 'https://wallet.testnet.near.org'
+      myNearWallet = 'https://testnet.mynearwallet.com'
+    }
+    
     if (key === 'ramper') {
       const login = await window.$nuxt.$ramper.signIn()
       if (login) {
@@ -114,7 +122,7 @@ export const mutations = {
       localStorage.setItem('walletUrl', myNearWallet)
       window.$nuxt.$wallet._walletBaseUrl = myNearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft16.musicfeast.testnet',
+        process.env.CONTRACT_NFT,
         location.href,
         location.href,
         location.href
@@ -123,7 +131,7 @@ export const mutations = {
       localStorage.setItem('walletUrl', nearWallet)
       window.$nuxt.$wallet._walletBaseUrl = nearWallet
       window.$nuxt.$wallet.requestSignIn(
-        'nft16.musicfeast.testnet',
+        process.env.CONTRACT_NFT,
         location.href,
         location.href,
         location.href
@@ -148,16 +156,16 @@ export const mutations = {
         '1500000000000000000000000'
       ),
     ]
-    const res = await window.$nuxt.$ramper.sendTransaction({
+    await window.$nuxt.$ramper.sendTransaction({
       transactionActions: [
         {
-          receiverId: 'nft16.musicfeast.testnet',
+          receiverId: process.env.CONTRACT_NFT,
           actions: actions2,
         },
       ],
-      network: 'testnet',
+      network: process.env.NETWORK,
     })
-    console.log('Transaction Result: ', res)
+    // console.log('Transaction Result: ', res)
   },
 }
 
@@ -224,15 +232,12 @@ export const actions = {
           this.$loadCursor(false)
           console.error(err)
         })
+    } else if (key === 'artist'){
+      localStorage.setItem(key, JSON.stringify(item.id))
+      this.$router.push(this.localePath(`/${key}-details`))
     } else {
-      console.log(item)
-      if (key === 'artist') {
-        localStorage.setItem(key, JSON.stringify(item.id))
-        this.$router.push(this.localePath(`/${key}-details`))
-      } else {
-        localStorage.setItem(key, JSON.stringify(item))
-        this.$router.push(this.localePath(`/${key}-details`))
-      }
+      localStorage.setItem(key, JSON.stringify(item))
+      this.$router.push(this.localePath(`/${key}-details`))
     }
   },
 }

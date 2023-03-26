@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     changeFilter(item) {
-      console.log(item)
+      // console.log(item)
     },  
     styles() {
       const page = document.querySelector(`#${pageName}`);
@@ -157,7 +157,7 @@ export default {
             }
           });
           this.dataArtists = result.data
-          console.log(this.dataArtists)
+          // console.log(this.dataArtists)
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})
           console.error(err);

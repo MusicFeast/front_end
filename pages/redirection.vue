@@ -73,7 +73,7 @@ export default {
   },
   mounted() {
     this.transaction_data = JSON.parse(localStorage.getItem("transaction_data"))
-    console.log("REDI",this.transaction_data)
+    // console.log("REDI",this.transaction_data)
     if (!this.transaction_data) {
       this.$router.push(this.localePath('/'))
     }

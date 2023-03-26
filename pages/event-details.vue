@@ -304,10 +304,10 @@ export default {
     // resize listener
     window.addEventListener('resize', this.styles);
 
-    console.log(document.getElementById("gmap_canvas").src )
+    // console.log(document.getElementById("gmap_canvas").src )
 
     document.getElementById("gmap_canvas").src = "https://maps.google.com/maps?width=100%25&height=600&hl=es&q=" + this.event.coordinates +"&t=&z=14&ie=UTF8&iwloc=B&output=embed"
-    console.log(document.getElementById("gmap_canvas").src )
+    // console.log(document.getElementById("gmap_canvas").src )
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
@@ -362,13 +362,13 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft16.musicfeast.testnet',
+              receiverId: process.env.CONTRACT_NFT,
               actions: action,
             },
           ],
-          network: 'testnet',
+          network: process.env.NETWORK,
         })
-        console.log("Transaction Result: ", res)
+        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -424,13 +424,13 @@ export default {
         const res = await this.$ramper.sendTransaction({
           transactionActions: [
             {
-              receiverId: 'nft16.musicfeast.testnet',
+              receiverId: process.env.CONTRACT_NFT,
               actions: action,
             },
           ],
-          network: 'testnet',
+          network: process.env.NETWORK,
         })
-        console.log("Transaction Result: ", res)
+        // console.log("Transaction Result: ", res)
 
         if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
           localStorage.setItem("transaction_data", JSON.stringify({
@@ -472,7 +472,7 @@ export default {
     getEventTickets() {
       this.$axios.post(`${this.baseUrl}api/v1/get-event-tickets/`, {"event_id": Number(this.event.id)})
         .then(response => {
-          console.log("Tickets",response.data)
+          // console.log("Tickets",response.data)
           if (response.data[0]) {
             const seriesArray = []
             for (let i = 0; i < response.data.length; i++) {

@@ -4,7 +4,7 @@ export default {
       return this.$axios.defaults.baseURL
     },
     baseUrlSlash() {
-      return "https://testnet.musicfeast.io/musicfeast"
+      return process.env.DJANGO_URL
     },
     isLogged() {
       return this.$ramper.getUser()
@@ -23,7 +23,7 @@ export default {
     },
     offer() {
       const offer = JSON.parse(localStorage.getItem("offer"))
-      console.log("offer", offer)
+      // console.log("offer", offer)
       if (offer) {
         return offer
       }

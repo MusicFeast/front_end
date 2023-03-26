@@ -84,7 +84,7 @@ export default {
         })
         .then(result => result.json())
         .then(response => {
-          console.log(response)
+          // console.log(response)
           const avatar = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.png`
 
           this.userAvatar = avatar
@@ -113,8 +113,8 @@ export default {
         .then(result => {
           this.$axios.post("https://www.musicfeast.io:3070/api/v1/active-rol", { "wallet": accountId })
             .then(result => {
-              console.log("SUCCESS")
-              console.log(result)
+              // console.log("SUCCESS")
+              // console.log(result)
               this.resultOperation = "success"
               this.connectBtn = false
               localStorage.removeItem('discord_sinc')

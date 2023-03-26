@@ -114,7 +114,7 @@ export default {
           }
           this.dataRedes = datos
         }
-        console.log(data)
+        // console.log(data)
       }).catch(err => {
         // this.$alert("cancel", {desc: err.message})
         console.error(err);

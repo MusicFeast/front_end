@@ -8,7 +8,7 @@ export default function RamperApi() {
     chainName: CHAIN.NEAR,
     walletProviders: [WALLET_PROVIDER.NEAR_WALLET],
     theme: THEME.DARK,
-    network: 'testnet',
+    network: process.env.NETWORK,
     logoURI: "https://testnet.musicfeast.io/img/logo.fb7d246.svg",
     authProviders: [
       AUTH_PROVIDER.GOOGLE,

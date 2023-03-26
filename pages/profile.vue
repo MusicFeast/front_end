@@ -55,7 +55,7 @@
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>All Time High</span>
-          <span>{{dataProfits.high}} $</span>
+          <span>$ {{dataProfits.high}}</span>
           
         </v-sheet>
       </section>
@@ -122,7 +122,7 @@
           <p v-html="item.desc.limitString(27)"></p>
 
           <div class="center" style="gap: 6.4px">
-            <span class="floor" style="--c: var(--accent)">Floor Price: {{item.floor_price}} $</span>
+            <span class="floor" style="--c: var(--accent)">Floor Price: $ {{item.floor_price}}</span>
             <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
           </div>
           <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
@@ -168,8 +168,8 @@
 
             <template #[`item.price_near`]="{ item }">
               <center v-if="item.price_near" class="divcol" style="gap: 5px">
-                <span>{{item.price_near}} N</span>
-                <span class="normal">$ {{dollarConversion(item.price_near)}}</span>
+                <span>N{{item.price_near}}</span>
+                <span class="normal">$ {{dollarConversion(item.price)}}</span>
               </center>
 
               <center v-else class="divcol" style="gap: 5px">
@@ -251,7 +251,7 @@
             <template #[`item.price_near`]="{ item }">
               <center v-if="item.price_near" class="divcol" style="gap: 5px">
                 <span>{{item.price_near}} N</span>
-                <span class="normal">$ {{dollarConversion(item.price_near)}}</span>
+                <span class="normal">$ {{dollarConversion(item.price)}}</span>
               </center>
 
               <center v-else class="divcol" style="gap: 5px">
@@ -500,7 +500,7 @@ export default {
     async storageMini(){
       const account = await this.$near.account(this.$ramper.getAccountId());
 
-      const contract = new this.$contract(account, "market2.musicfeast.testnet", {
+      const contract = new this.$contract(account, process.env.CONTRACT_MARKET, {
         viewMethods: ["storage_minimum_balance"],
         sender: account,
       })
@@ -535,7 +535,7 @@ export default {
               "nft_approve",       
               {
                 token_id: item.token_id, 
-                account_id: "market2.musicfeast.testnet",
+                account_id: process.env.CONTRACT_MARKET,
                 msg: JSON.stringify(msgs)
               }, 
               '200000000000000', 
@@ -553,21 +553,21 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market2.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_MARKET,
                 actions: action1,
               },
               {
-                receiverId: 'nft16.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_NFT,
                 actions: action2,
               },
               // {
-              //   receiverId: 'market2.musicfeast.testnet',
+              //   receiverId: process.env.CONTRACT_MARKET,
               //   actions: action3,
               // },
             ],
-            network: 'testnet',
+            network: process.env.NETWORK,
           })
-          console.log("Transaction Result: ", res)
+          // console.log("Transaction Result: ", res)
 
           this.offerBtn = false
 
@@ -612,7 +612,7 @@ export default {
             this.$ramper.functionCall(
               "delete_offer",       
               {
-                nft_contract_id: "nft16.musicfeast.testnet", 
+                nft_contract_id: process.env.CONTRACT_NFT, 
                 token_id: item.token_id
               }, 
               '200000000000000', 
@@ -623,13 +623,13 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market2.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_MARKET,
                 actions: action,
               },
             ],
-            network: 'testnet',
+            network: process.env.NETWORK,
           })
-          console.log("Transaction Result: ", res)
+          // console.log("Transaction Result: ", res)
 
           this.offerBtn = false
 
@@ -712,7 +712,7 @@ export default {
         this.tableItemsOffers.push(item)
       }
 
-      console.log("MYOFERST", this.tableItemsOffers)
+      // console.log("MYOFERST", this.tableItemsOffers)
 
       // {
       //     name: "Name of NFT",
@@ -768,7 +768,7 @@ export default {
         this.tableItemsOffersRe.push(item)
       }
 
-      console.log("FERST", this.tableItemsOffersRe)
+      // console.log("FERST", this.tableItemsOffersRe)
     },
     async getMyNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -806,7 +806,7 @@ export default {
 
       let maxPrice = 0
 
-      console.log("DATAAAAAAAA", data)
+      // console.log("DATAAAAAAAA", data)
 
       for (let i = 0; i < data.length; i++) {
         const item = {
@@ -907,7 +907,7 @@ export default {
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
       .then(result => {
         const data = result.data
-        console.log("ADTA", data)
+        // console.log("ADTA", data)
         if (data[0]) {
           for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < this.dataNfts.length; j++) {

@@ -180,7 +180,7 @@ export default {
   methods: {
     async getPriceNear () {
       const account = await this.$near.account(this.$ramper.getAccountId());
-      const contract = new Contract(account, "nft16.musicfeast.testnet", {
+      const contract = new Contract(account, process.env.CONTRACT_NFT, {
       viewMethods: ["get_tasa"],
       sender: account,
     })
@@ -222,22 +222,27 @@ export default {
           }
           this.dataSocial = datos
         }
-        console.log(data)
+        // console.log(data)
       }).catch(err => {
         // this.$alert("cancel", {desc: err.message})
         console.error(err);
       })
     },
     async getBalance () {
-      if (this.$ramper.getUser()) {
-        const account = await this.$near.account(this.$ramper.getAccountId());
-        const response = await account.state();
-        const valueStorage = Math.pow(10, 19)
-        const valueYocto = Math.pow(10, 24)
+      try {
+        if (this.$ramper.getUser()) {
+          const account = await this.$near.account(this.$ramper.getAccountId());
+          const response = await account.state();
+          const valueStorage = Math.pow(10, 19)
+          const valueYocto = Math.pow(10, 24)
 
-        const storage = (response.storage_usage * valueStorage) / valueYocto 
-        this.balanceNear = ((response.amount / valueYocto) - storage).toFixed(2)
+          const storage = (response.storage_usage * valueStorage) / valueYocto 
+          this.balanceNear = ((response.amount / valueYocto) - storage).toFixed(2)
+        }
+      } catch (error) {
+        return "0"
       }
+      
     },
     // isScrollTop() {
     //   if (this.$route.path === this.localePath('/') {

@@ -73,7 +73,7 @@
 //   chainName: CHAIN.NEAR,
 //   walletProviders: [WALLET_PROVIDER.NEAR_WALLET],
 //   theme: THEME.LIGHT,
-//   network: 'testnet',
+//   network: process.env.NETWORK,
 //   authProviders: [
 //     AUTH_PROVIDER.GOOGLE,
 //     AUTH_PROVIDER.FACEBOOK,
@@ -126,9 +126,9 @@ export default {
     //         actions: actions2,
     //       },
     //     ],
-    //     network: 'testnet',
+    //     network: process.env.NETWORK,
     //   })
-    //   console.log("Transaction Result: ", res)
+    //   // console.log("Transaction Result: ", res)
     // }
   }
 };

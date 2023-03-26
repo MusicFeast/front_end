@@ -1,3 +1,4 @@
+import "dotenv/config";
 import webpack from 'webpack'
 import colors from 'vuetify/es5/util/colors'
 
@@ -86,7 +87,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://api.thegraph.com/subgraphs/name/hrpalencia/musicfeast',
+        httpEndpoint: process.env.GRAPH_URL,
       }
     }
   },
@@ -94,6 +95,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     '@nuxtjs/i18n',
   ],
@@ -101,7 +103,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: development ? 'https://testnet.musicfeast.io/musicfeast/' : 'https://testnet.musicfeast.io/musicfeast/',
+    baseURL: process.env.DJANGO_URL + "/",
   },
 
   // nuxt i18n documentation: https://i18n.nuxtjs.org

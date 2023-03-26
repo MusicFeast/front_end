@@ -534,13 +534,13 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'nft16.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_NFT,
                 actions: action,
               }
             ],
-            network: 'testnet',
+            network: process.env.NETWORK,
           })
-          console.log("Transaction Result: ", res)
+          // console.log("Transaction Result: ", res)
 
           if (res && JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
         
@@ -588,7 +588,7 @@ export default {
       // get data user
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(result => {
-        console.log("USER", result.data)
+        // console.log("USER", result.data)
         if (result.data[0]) {
           if (result.data[0].address.city) {
             this.addressUser = result.data[0]
@@ -598,7 +598,7 @@ export default {
             this.disabledAddress = true
           }
         }
-        console.log("ADDRESS", this.addressUser)
+        // console.log("ADDRESS", this.addressUser)
       }).catch(err => {
         this.$alert("cancel", {desc: err.message})
         console.error(err);
@@ -643,7 +643,7 @@ export default {
     async storageMini(){
       const account = await this.$near.account(this.$ramper.getAccountId());
 
-      const contract = new this.$contract(account, "market2.musicfeast.testnet", {
+      const contract = new this.$contract(account, process.env.CONTRACT_MARKET, {
         viewMethods: ["storage_minimum_balance"],
         sender: account,
       })
@@ -657,7 +657,7 @@ export default {
     async mystorage(){
       const account = await this.$near.account(this.$ramper.getAccountId());
 
-      const contract = new this.$contract(account, "market2.musicfeast.testnet", {
+      const contract = new this.$contract(account, process.env.CONTRACT_MARKET, {
         viewMethods: ["storage_balance_of"],
         sender: account,
       })
@@ -735,7 +735,7 @@ export default {
               "nft_approve",       
               {
                 token_id: this.valueNft, 
-                account_id: "market2.musicfeast.testnet",
+                account_id: process.env.CONTRACT_MARKET,
                 msg: JSON.stringify(msgs)
               }, 
               '250000000000000', 
@@ -753,21 +753,21 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market2.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_MARKET,
                 actions: action1,
               },
               {
-                receiverId: 'nft16.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_NFT,
                 actions: action2,
               },
               // {
-              //   receiverId: 'market2.musicfeast.testnet',
+              //   receiverId: process.env.CONTRACT_MARKET,
               //   actions: action3,
               // },
             ],
-            network: 'testnet',
+            network: process.env.NETWORK,
           })
-          console.log("Transaction Result: ", res)
+          // console.log("Transaction Result: ", res)
 
           this.btnSale = false
 
@@ -820,7 +820,7 @@ export default {
           const action = [this.$ramper.functionCall(
             "add_offer",       
             {
-              nft_contract_id: "nft16.musicfeast.testnet", 
+              nft_contract_id: process.env.CONTRACT_NFT, 
               token_id: this.offer_main.token,
               ft_token_id: "near",
               price: this.$utils.format.parseNearAmount(String(this.form_offer.offerPrice))
@@ -831,13 +831,13 @@ export default {
           const res = await this.$ramper.sendTransaction({
             transactionActions: [
               {
-                receiverId: 'market2.musicfeast.testnet',
+                receiverId: process.env.CONTRACT_MARKET,
                 actions: action,
               },
             ],
-            network: 'testnet',
+            network: process.env.NETWORK,
           })
-          console.log("Transaction Result: ", res)
+          // console.log("Transaction Result: ", res)
 
           this.btnOffer = false
 

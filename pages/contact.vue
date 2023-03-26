@@ -88,9 +88,9 @@ export default {
           })
           this.dataSocial = datos
 
-          console.log("qaqw",this.dataSocial)
+          // console.log("qaqw",this.dataSocial)
         }
-        console.log(data)
+        // console.log(data)
       }).catch(err => {
         // this.$alert("cancel", {desc: err.message})
         console.error(err);

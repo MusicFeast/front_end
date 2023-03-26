@@ -16,7 +16,7 @@ const client = new ApolloClient({
 //async function colsutaGraphql (query, variables) {
 const colsutaGraphql = async (query, variables) => {
     try {
-        console.log(process.env.GRAPH_URL)
+        // console.log(process.env.GRAPH_URL)
         if(!variables) {
             const result = await client.query({
                 query
@@ -31,10 +31,10 @@ const colsutaGraphql = async (query, variables) => {
             return result.data
         }
     } catch(error) {
-        console.log('----------------------------------------------------------------------------------------')
-        console.log(process.env.GRAPH_URL)
-        console.log(error)
-        console.log('----------------------------------------------------------------------------------------')
+        // console.log('----------------------------------------------------------------------------------------')
+        // console.log(process.env.GRAPH_URL)
+        // console.log(error)
+        // console.log('----------------------------------------------------------------------------------------')
         return []
     }
 }

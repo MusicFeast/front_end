@@ -1,4 +1,4 @@
 export default function(req, res, next) {
-    console.log("hellow word jajajajaja")
+    // console.log("hellow word jajajajaja")
     next()
 }
