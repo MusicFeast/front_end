@@ -277,6 +277,10 @@
             --f: grayscale(100%);
             --t: skewX(13deg);
             translate: -12px 0;
+            &[alt*="Blake Harden"] {
+              --of: contain !important;
+              --t: translate(-17px, 10px) skewX(13deg) scale(1.6) !important;
+            }
           }
         }
         h3 {

@@ -141,7 +141,7 @@
             v-if="!soldBtn"
             :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="buyNftRamper()">{{ this.isVip? "just mint" : "buy" }}</v-btn>
+            @click="$refs.modal.modalBuy = true">{{ this.isVip? "just mint" : "buy" }}</v-btn>
             <v-btn
             v-if="soldBtn"
             :disabled="true"
