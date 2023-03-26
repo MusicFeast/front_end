@@ -141,7 +141,7 @@
             v-if="!soldBtn"
             :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="$refs.modal.modalBuy = true">{{ this.isVip? "just mint" : "buy" }}</v-btn>
+            @click="modalBuy = true">{{ this.isVip? "just mint" : "buy" }}</v-btn>
             <v-btn
             v-if="soldBtn"
             :disabled="true"
@@ -153,6 +153,22 @@
         </div>
       </article>
     </section>
+
+    <!-- modal buy -->
+    <v-dialog v-model="modalBuy" max-width="500px" content-class="nft-dialog" persistent>
+      <v-btn icon class="close" @click="clearBuy()">
+        <v-icon large>mdi-close</v-icon>
+      </v-btn>
+
+      <v-window v-model="windowBuy" touchless>
+        <v-window-item :value="1">
+          <v-card id="modalBuy" class="nft-dialog--content">
+            <v-btn class="btn" @click="buyNftRamper()" style="--bg: #fff; --c: var(--primary)">Pay with NEAR</v-btn>
+            <v-btn class="btn" @click="buyNftFiat()">Pay with Fiat</v-btn>
+          </v-card>
+        </v-window-item>
+      </v-window>
+    </v-dialog>
 
     <section class="container-profit bold fwrap">
       <v-sheet color="transparent" class="divcol center">
@@ -316,6 +332,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      form_buy: {},
+      windowBuy: 1,
+      modalBuy: false,
       media: false,
       reloadButton: true,
       trackInterval: null,
@@ -439,10 +458,20 @@ export default {
     this.ownedNft = await this.validateTierFn(this.nft_main.tier)
   },
   methods: {
+    clearBuy() {
+      Object.keys(this.form_buy).forEach(key => {this.form_buy[key] = null});
+      this.modalBuy = false; this.windowBuy = 1;
+    },
+    nextBuy() {
+      if (this.$refs.formBuy.validate()) {this.windowBuy++}
+    },
     makeOffer(item) {
       localStorage.setItem("offer", JSON.stringify(item))
       this.$refs.modal.offer_main = item
       this.$refs.modal.modalOffer = true
+    },
+    buyNftFiat() {
+      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=mainnet&redirect_url=https://musicfeast.io&token_series_id=" + this.nft_main.token_id)
     },
     async unlistNft(item) {
       this.btnBuy = true
