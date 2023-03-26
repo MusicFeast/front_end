@@ -128,7 +128,11 @@
             <span class="bold" style="--c: var(--accent)">$ {{nft_main.price}}
             </span>
             <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{nft_main.price_near}}</span>
+<<<<<<< HEAD
             <span style="font-size: calc(var(--font-text) / 1.2)">Storage Deposit: <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{ amountDeposit }}</span>
+=======
+            <span style="font-size: calc(var(--font-text) / 1.2)">Storage Deposit:  <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{ amountDeposit }}</span>
+>>>>>>> 8909c176216502ddfda673f182f42fdf6e97130f
           </div>
         </div>
 
@@ -141,7 +145,7 @@
             v-if="!soldBtn"
             :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="buyNftRamper()">{{ this.isVip? "just mint" : "buy" }}</v-btn>
+            @click="$refs.modal.modalBuy = true">{{ this.isVip? "just mint" : "buy" }}</v-btn>
             <v-btn
             v-if="soldBtn"
             :disabled="true"
@@ -325,7 +329,7 @@ export default {
       soldBtn: false,
       ownedNft: true,
       btnBuy: false,
-      amountDeposit: 0.5,
+      amountDeposit: 0.1,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },

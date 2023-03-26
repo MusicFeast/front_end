@@ -119,7 +119,8 @@
       <v-window v-model="windowBuy" touchless>
         <v-window-item :value="1">
           <v-card id="modalBuy" class="nft-dialog--content">
-            <h3>coming soon</h3>
+            <v-btn class="btn" style="--bg: #fff; --c: var(--primary)">Pay with NEAR</v-btn>
+            <v-btn class="btn">Pay with Fiat</v-btn>
           </v-card>
         </v-window-item>
       </v-window>
