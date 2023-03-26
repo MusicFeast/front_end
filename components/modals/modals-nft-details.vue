@@ -120,7 +120,7 @@
         <v-window-item :value="1">
           <v-card id="modalBuy" class="nft-dialog--content">
             <v-btn class="btn" style="--bg: #fff; --c: var(--primary)">Pay with NEAR</v-btn>
-            <v-btn class="btn">Pay with Fiat</v-btn>
+            <v-btn class="btn">Pay with USD</v-btn>
           </v-card>
         </v-window-item>
       </v-window>
