@@ -471,7 +471,7 @@ export default {
       this.$refs.modal.modalOffer = true
     },
     buyNftFiat() {
-      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=" + process.env.NETWORK + "&redirect_url=https://musicfeast.io&token_series_id=" + this.nft_main.token_id)
+      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=" + process.env.NETWORK + "&redirect_url=https://musicfeast.io&user_wallet_address=" + this.$ramper.getAccountId() + "&token_series_id=" + this.nft_main.token_id)
     },
     async unlistNft(item) {
       this.btnBuy = true
