@@ -83,3 +83,14 @@
     --fs: 1.25em;
   }
 }
+
+#modalCommunityChat {
+  @include media(max, small) {padding-block: 20px;}
+  .v-btn {
+    flex-basis: 150px;
+    span {
+      width: min-content;
+      white-space: initial !important;
+    }
+  }
+}
