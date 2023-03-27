@@ -318,6 +318,7 @@
     </v-expansion-panels> -->
 
     <widgetbot
+      display="flex"
       server="929550878048911391"
       channel="1070358694702895185"
       width="1100"
