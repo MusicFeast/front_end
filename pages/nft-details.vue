@@ -164,7 +164,7 @@
         <v-window-item :value="1">
           <v-card id="modalBuy" class="nft-dialog--content">
             <v-btn class="btn" @click="buyNftRamper()" style="--bg: #fff; --c: var(--primary)">Pay with NEAR</v-btn>
-            <v-btn class="btn" @click="buyNftFiat()">Pay with Fiat</v-btn>
+            <v-btn class="btn" @click="buyNftFiat()">Pay with USD</v-btn>
           </v-card>
         </v-window-item>
       </v-window>
@@ -471,7 +471,7 @@ export default {
       this.$refs.modal.modalOffer = true
     },
     buyNftFiat() {
-      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=mainnet&redirect_url=https://musicfeast.io&token_series_id=" + this.nft_main.token_id)
+      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=" + process.env.NETWORK + "&redirect_url=https://musicfeast.io&token_series_id=" + this.nft_main.token_id)
     },
     async unlistNft(item) {
       this.btnBuy = true
