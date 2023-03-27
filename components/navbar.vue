@@ -139,7 +139,7 @@ export default {
         { name: "home", to: "/" },
         { name: "about", to: "/about" },
         { name: "artists", to: "/artists" },
-        { name: "form", to: "/form-mf" },
+        { name: "artists summissions", to: "/form-mf" },
         { name: "news", to: "/news-details" },
         // { name: "marketplace", to: "" },
         { name: "contact", to: "/contact" },

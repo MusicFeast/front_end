@@ -372,8 +372,9 @@
       @pagechanged="(page) => currentPage = page"
     />
 
-    <h2 class="Title tup">chats</h2>
+    <h2 data-widgetbot class="Title tup">chats</h2>
     <widgetbot
+      data-widgetbot
       server="929550878048911391"
       channel="1070358694702895185"
       width="100%"

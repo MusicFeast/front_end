@@ -23,6 +23,11 @@
 
 
 // container-table--expansion
+[data-widgetbot] {
+  @include media(max, small) {display: none !important}
+}
+
+// container-table--expansion
 .container-table--expansion {
   .v-expansion-panel-content__wrap {
     display: flex;
