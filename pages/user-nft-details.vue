@@ -135,7 +135,7 @@
           <div class="divcol aend" style="gap: .5em">
             <span class="bold" style="--c: var(--accent)">$ {{nft_main.price}}
             </span>
-            <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em">{{nft_main.price_near}}</span>
+            <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{nft_main.price_near}}</span>
           </div>
         </div>
 
