@@ -384,7 +384,6 @@
         xl="12"
       >
     <widgetbot
-      data-widgetbot
       server="929550878048911391"
       channel="1070358694702895185"
       width="100%"

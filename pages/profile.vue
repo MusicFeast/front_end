@@ -304,7 +304,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <h2 data-widgetbot class="Title tup">chats</h2>
+    <h2 class="Title tup">chats</h2>
 
     <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
@@ -318,7 +318,6 @@
     </v-expansion-panels> -->
 
     <widgetbot
-      data-widgetbot
       server="929550878048911391"
       channel="1070358694702895185"
       width="1100"
