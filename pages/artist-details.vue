@@ -373,13 +373,25 @@
     />
 
     <h2 class="Title tup">chats</h2>
+    <v-container>
+    <v-row no-gutters>
+      <v-col
+        cols="12"
+        sm="12"
+        xs="4"
+        md="12"
+        lg="12"
+        xl="12"
+      >
     <widgetbot
-      display="flex"
       server="929550878048911391"
       channel="1070358694702895185"
       width="100%"
       height="62.5em"
     ></widgetbot>
+    </v-col>
+    </v-row>
+    </v-container>
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
 
     <!-- <v-expansion-panels class="custome-expansion">
