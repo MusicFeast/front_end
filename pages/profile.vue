@@ -1,6 +1,7 @@
 <template>
   <div id="profile" class="divcol">
     <ModalsProfile ref="modal"></ModalsProfile>
+    <ModalsCommunityChat ref="modal"></ModalsCommunityChat>
 
     <v-img
       :src="user.banner" transition="fade-transition" class="header"
@@ -316,7 +317,7 @@
         </v-expansion-panel-header>
       </v-expansion-panel>
     </v-expansion-panels> -->
-   <v-container>
+   <v-container v-if="server_dc">
     <v-row no-gutters>
       <v-col
         cols="12"
@@ -327,11 +328,11 @@
         xl="12"
       >
       <widgetbot
-        server="929550878048911391"
-        channel="1070358694702895185"
-        width="100%"
-        height="62.5em"
-      ></widgetbot>
+      :server="server_dc"
+      :channel="channel_dc"
+      width="100%"
+      height="62.5em"
+    ></widgetbot>
    </v-col>
     </v-row>
     </v-container>
@@ -349,6 +350,8 @@ export default {
   mixins: [computeds, styles],
   data() {
     return {
+      server_dc: null,
+      channel_dc: null,
       offerBtn: false,
       pageName: 'profile',
       dataProfits: {
@@ -487,6 +490,18 @@ export default {
     }
   },
   mounted() {
+    this.server_dc = process.env.SERVER_DC
+    this.channel_dc = process.env.CHANNEL_DC
+    const queryString = window.location.search; // tomo mi url
+    const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+
+    if (urlParams.get("buy_ramper") !== null) {
+      if (urlParams.get("buy_ramper") === "success") {
+        this.$refs.modal.modalCommunityChat = true
+        history.replaceState(null, location.href.split("?")[0], window.location.pathname);
+      }
+    }
+
     this.getMyNfts()
     this.getOffers()
     this.getOffersReceived()
@@ -872,7 +887,7 @@ export default {
         arrayIds.push(idArtist)
         this.dataNfts.push(item)
       }
-      this.dataProfits.high = maxPrice
+      this.dataProfits.high = Number(maxPrice).toFixed(2)
       const result = Array.from(new Set(arrayIds));
       
       this.getAvatars(result)
