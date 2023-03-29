@@ -888,7 +888,7 @@ export default {
 
         this.btnBuy = false
 
-        if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
+        if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes?.length > 0) {
           if (this.nft_main.tier === 1) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",
