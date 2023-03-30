@@ -85,7 +85,12 @@ export default {
         .then(result => result.json())
         .then(response => {
           // console.log(response)
-          const avatar = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.png`
+          let avatar
+          if (response.avatar) {
+            avatar = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.png`
+          } else {
+            avatar = require("~/assets/sources/avatars/avatar.png")
+          }
 
           this.userAvatar = avatar
 
