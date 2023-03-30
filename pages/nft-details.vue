@@ -52,12 +52,14 @@
         
         <!-- if video -->
         <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
-        <lite-youtube
+        <!-- <lite-youtube
             v-if="media == 'video'"    
             :videoid="mediaUrl"
             :playlabel="labelYoutube"
             style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
-        />
+        /> -->
+
+        <iframe v-if="media == 'video'" src="https://player.vimeo.com/video/813048327?h=6c38ca89b1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
         
         <!-- <video
@@ -888,7 +890,7 @@ export default {
 
         this.btnBuy = false
 
-        if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes.length > 0) {
+        if (JSON.parse(localStorage.getItem('ramper_loggedInUser')).signupSource === 'near_wallet' && res.txHashes?.length > 0) {
           if (this.nft_main.tier === 1) {
             localStorage.setItem("transaction_data", JSON.stringify({
               state: "success",

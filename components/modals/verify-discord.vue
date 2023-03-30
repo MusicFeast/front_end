@@ -85,7 +85,12 @@ export default {
         .then(result => result.json())
         .then(response => {
           // console.log(response)
-          const avatar = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.png`
+          let avatar
+          if (response.avatar) {
+            avatar = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.png`
+          } else {
+            avatar = require("~/assets/sources/avatars/avatar.png")
+          }
 
           this.userAvatar = avatar
 
@@ -111,7 +116,7 @@ export default {
       const accountId = this.$ramper.getAccountId()
       this.$axios.post(`${this.baseUrl}api/v1/save-user-discord/`, { "wallet": accountId, "discord_id": this.userDc.id })
         .then(result => {
-          this.$axios.post("https://www.musicfeast.io:3070/api/v1/active-rol", { "wallet": accountId })
+          this.$axios.post(process.env.BOTDISCORD_URL + "/api/v1/active-rol", { "wallet": accountId })
             .then(result => {
               // console.log("SUCCESS")
               // console.log(result)

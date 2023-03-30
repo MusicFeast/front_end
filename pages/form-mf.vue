@@ -27,36 +27,43 @@
       </h2>
 
       <section class="card">
-        <label for="name">Name:</label>
+        <label for="name">Name</label>
         <v-text-field
           id="name"
-          v-model="form.name"
+          v-model="form.full_name"
           placeholder="Mario Perez"
           :rules="rules.required"
         ></v-text-field>
         
-        <label for="artistOrBandName">Artist or Band Name:</label>
+        <label for="artistOrBandName">Artist or Band Name</label>
         <v-text-field
           id="artistOrBandName"
-          v-model="form.artistOrBandName"
+          v-model="form.name_artist"
           placeholder="artist or band name"
           :rules="rules.required"
         ></v-text-field>
         
-        <label for="email">Genre:</label>
+        <label for="email">Genre</label>
         <v-text-field
           id="genre"
-          v-model="form.genre"
+          v-model="form.genere"
           placeholder="genre"
           :rules="rules.required"
         ></v-text-field>
+
+        <label for="email">Email</label>
+        <v-text-field
+          id="email"
+          v-model="form.email"
+          placeholder="email"
+          :rules="rules.required"
+        ></v-text-field>
         
-        <label for="email">Website::</label>
+        <label for="email">Website</label>
         <v-text-field
           id="website"
           v-model="form.website"
           placeholder="website"
-          :rules="rules.required"
         ></v-text-field>
         
         <label for="twitter">Twitter Account</label>
@@ -70,14 +77,14 @@
         <v-text-field
           id="instagram"
           v-model="form.instagram"
-          placeholder="@username#321"
+          placeholder="@username"
         ></v-text-field>
         
         <label for="facebook">Facebook Account</label>
         <v-text-field
           id="facebook"
           v-model="form.facebook"
-          placeholder="username45"
+          placeholder="facebook"
         ></v-text-field>
       </section>
 
@@ -94,7 +101,7 @@
 
       <div class="center fill_w wrap fwrapmobile bold" style="gap:2em; --fb: 200px">
         <v-btn :ripple="false" class="btn activeBtn" @click="$router.go(-1)">Cancel</v-btn>
-        <v-btn :ripple="false" class="btn activeBtn" @click="saveForm()">Save</v-btn>
+        <v-btn :ripple="false" class="btn activeBtn" @click="saveForm()">Submit</v-btn>
       </div>
     </v-form>
   </div>
@@ -110,15 +117,14 @@ export default {
     return {
       userExist: undefined,
       form: {
-        name: null,
-        artistOrBandName: null,
-        genre: null,
+        full_name: null,
+        name_artist: null,
+        genere: null,
         website: null,
         twitter: null,
         instagram: null,
         facebook: null,
-        emailAddress: null,
-        phoneNumber: null,
+        email: null
       },
       djangoExistenceList: {
         username: undefined,
@@ -202,50 +208,35 @@ export default {
       })
     },
     saveForm() {
-      // verification ⭐
-      const consult = {
-        username: this.form.username,
-        email: this.form.email,
-        twitter: this.form.twitter,
-        discord: this.form.discord,
-        instagram: this.form.instagram,
-        telegram: this.form.telegram,
-        wallet: this.form.wallet,
-      }
-      // checkout no repeated info
-      this.$axios.post(`${this.baseUrl}api/v1/validate-perfil/`, consult).then(result => {
-        this.djangoExistenceList = result.data
-        
-        if (!this.$refs.form.validate()) return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
-        
-        // save form ✔️
-        if (this.userExist) {
-          this.$axios.put(`${this.baseUrl}api/v1/perfil/${this.form.id}/`, this.$formData(this.form))
-          .then(() => this.goBack()).catch(err => {
-            // this.$alert("cancel", {desc: err.message})
-            console.error(err);
-          })
-        } else {
-          this.$axios.post(`${this.baseUrl}api/v1/perfil/`, this.$formData(this.form))
-          .then(() => this.goBack()).catch(err => {
-            this.$alert("cancel", {desc: err.message})
-            console.error(err);
-          })
+      console.log(this.form)
+      if (!this.$refs.form.validate()) return console.log("validate failed")
+
+      this.$axios.post(`${this.baseUrl}api/v1/artist-submission/`, this.form)
+      .then(result => {
+        this.$alert({title: "Success!", desc: "Your data has been saved successfully."})
+        this.form = {
+          full_name: "",
+          name_artist: "",
+          genere: "",
+          website: null,
+          twitter: null,
+          instagram: null,
+          facebook: null,
+          email: ""
         }
-      // catch error repeated values consult
-      }).catch(err => {
-        // this.$alert("cancel", {desc: err.message})
-        console.error(err)
+      })
+      .catch(err => {
+        this.$alert({title: 'Error!', desc: `Data save failed. ${err.message}`, icon: "mdi-close-circle", color: "#CE3D3D"})
       })
     },
-    goBack() {
-      this.$alert({title: "Success!", desc: "Your data has been saved successfully."})
-      setTimeout(() => this.$router.go(0), 400);
-      this.$router.go(-1)
+    // goBack() {
+    //   this.$alert({title: "Success!", desc: 'Your data has been saved successfully.'})
+    //   setTimeout(() => this.$router.go(0), 400);
+    //   this.$router.go(-1)
       
-      // this.$alert("success", {desc: "Your data has been saved successfully."})   
-      // setTimeout(() => this.$alert({title: "Success!", desc: "Your data has been saved successfully."}), 500);
-    },
+    //   // this.$alert("success", {desc: "Your data has been saved successfully."})   
+    //   // setTimeout(() => this.$alert({title: "Success!", desc: "Your data has been saved successfully."}), 500);
+    // },
     showTag() {document.querySelector(".header").classList.add("hover")},
     hideTag() {document.querySelector(".header").classList.remove("hover")},
     previewFile(key, file) {

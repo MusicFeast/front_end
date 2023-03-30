@@ -12,10 +12,10 @@
             <p class="p">Return to the <span style="text-decoration: underline" @click="$router.push(localePath('/artists'))">artist</span> page to find the community chat.</p>
 
             <div class="fwrap gap2 bold" style="margin-top: 2em">
-              <v-btn
+              <v-btn :href="verify_url" target="_blank"
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px; --bg: #fff; --c: var(--primary)"
               >Click to verify your membership pass</v-btn>
-              <v-btn
+              <v-btn href="https://discord.com/" target="_blank"
                 :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
               >Create Discord account to interact with the platform</v-btn>
             </div>
@@ -30,14 +30,16 @@
 import computeds from '~/mixins/computeds'
 
 export default {
-  name: "ProifleModals",
+  name: "ProfileModals",
   mixins: [computeds],
   data() {
     return {
       modalCommunityChat: false,
+      verify_url:""
     };
   },
   mounted() {
+    this.verify_url = process.env.VERIFY_URL
   },
   methods: {
   }

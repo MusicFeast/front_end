@@ -373,19 +373,19 @@
     />
 
     <h2 class="Title tup">chats</h2>
-    <v-container>
+    <v-container v-if="server_dc">
     <v-row no-gutters>
       <v-col
         cols="12"
-        sm="4"
+        sm="12"
         xs="4"
         md="12"
         lg="12"
         xl="12"
       >
     <widgetbot
-      server="929550878048911391"
-      channel="1070358694702895185"
+      :server="server_dc"
+      :channel="channel_dc"
       width="100%"
       height="62.5em"
     ></widgetbot>
@@ -418,6 +418,8 @@ export default {
   mixins: [computeds, isMobile],
   data() {
     return {
+      server_dc: null,
+      channel_dc: null,
       collectionNow: null,
       artistId: null,
       dia: false,
@@ -535,6 +537,8 @@ export default {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   async mounted() {
+    this.server_dc = process.env.SERVER_DC
+    this.channel_dc = process.env.CHANNEL_DC
     this.artistId = JSON.parse(localStorage.getItem("artist"))
     await this.getCurrentArtist()
     
