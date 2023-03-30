@@ -22,7 +22,7 @@
       justify-content: space-evenly;
       > * {flex-basis: 260px}
       gap: 1em;
-      // padding-inline: 48px;
+      padding-inline: 48px;
       padding-block: 20px calc(50px + 40px);
       @include media(max, 370px) {padding-top: 0}
       .v-image {

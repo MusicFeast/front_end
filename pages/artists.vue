@@ -166,22 +166,22 @@ export default {
     },
     columnsCarousel() {
       if (window.innerWidth >= 1800) {
-        return 7
+        return 6
       } else if (window.innerWidth >= 1545) {
-        return 6
+        return 5
       } else if (window.innerWidth >= 1300) {
-        return 5
+        return 4
       } else if (window.innerWidth >= 1000) {
-        return 4
-      } else if (window.innerWidth >= 880) {
         return 3
-      } else if (window.innerWidth >= 820) {
+      } else if (window.innerWidth >= 880) {
+        return 2
+      } else if (window.innerWidth >= 850) {
         return 6
-      } else if (window.innerWidth >= 700) {
+      } else if (window.innerWidth >= 730) {
         return 5
-      } else if (window.innerWidth >= 550) {
+      } else if (window.innerWidth >= 580) {
         return 4
-      } else if (window.innerWidth >= 390) {
+      } else if (window.innerWidth >= 430) {
         return 3
       } else if (window.innerWidth >= 370) {
         return 2
