@@ -111,7 +111,7 @@ export default {
       const accountId = this.$ramper.getAccountId()
       this.$axios.post(`${this.baseUrl}api/v1/save-user-discord/`, { "wallet": accountId, "discord_id": this.userDc.id })
         .then(result => {
-          this.$axios.post(proccess.env.BOTDISCORD_URL + "/api/v1/active-rol", { "wallet": accountId })
+          this.$axios.post(process.env.BOTDISCORD_URL + "/api/v1/active-rol", { "wallet": accountId })
             .then(result => {
               // console.log("SUCCESS")
               // console.log(result)
