@@ -61,7 +61,7 @@
         
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
-          <p class="p" v-html="item.description.limitString(30)">
+          <p class="p" v-html="item.description.limitString(50)">
           </p>
         </div>
       </v-card>

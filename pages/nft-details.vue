@@ -59,7 +59,7 @@
             style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
         /> -->
 
-        <iframe v-if="media == 'video'" src="https://player.vimeo.com/video/813048327?h=6c38ca89b1" width="640" height="564" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe v-if="media == 'video'" src="https://player.vimeo.com/video/813048327?h=6c38ca89b1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
         
         <!-- <video
