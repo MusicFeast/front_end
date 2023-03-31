@@ -820,11 +820,12 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      const res = await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {owner_id: this.$ramper.getAccountId()},
-      })
-
+        pollInterval: 3000
+      }).subscribe();
+      console.log("RES", res)
       const data = res.data.nfts
 
       this.dataProfits.nfts = data.length
