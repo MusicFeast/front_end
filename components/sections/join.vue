@@ -6,11 +6,11 @@
         <p class="tcentermobile">
           {{join_data}}
         </p>
-        <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)">
+        <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)" v-if="linkDiscord">
           <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
           <v-btn
             class="btn" style="--w: 8.5em"
-            href="https://discord.gg/fAzamufz2J" target="_blank"
+            :href="linkDiscord" target="_blank"
             >Join</v-btn>
         </div>
       </article>
@@ -26,10 +26,12 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      linkDiscord: null,
       join_data: "",
     }
   },
   mounted() {
+    this.linkDiscord = process.env.LINK_DISCORD
     this.getDataSocial()
   },
   methods: {

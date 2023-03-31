@@ -147,6 +147,8 @@ export default {
             e.banner = this.baseUrl+e.banner;
             e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           });
+          console.log("ARTISTAS", result.data)
+          result.data.sort((p1, p2) => (p1.order_list > p2.order_list) ? 1 : (p1.order_list < p2.order_list) ? -1 : 0);
           result.data.sort((a, b) => {
             if (a.comming === b.comming) {
               return 0;
@@ -156,6 +158,7 @@ export default {
               return -1;
             }
           });
+
           this.dataArtists = result.data
           // console.log(this.dataArtists)
         }).catch(err => {
