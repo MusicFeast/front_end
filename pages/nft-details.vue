@@ -77,7 +77,7 @@
             
             <button v-show="reloadButton" @click="playPauseTrack()">
               <img
-                :src="require(`~/assets/sources/icons/${$refs.track?.paused ? 'play' : 'pause'}-track.svg`)"
+                :src="require(`~/assets/sources/icons/${trackIspaused ? 'play' : 'pause'}-track.svg`)"
                 alt="play / pause" style="--w: 4em"
               >
             </button>
@@ -379,6 +379,7 @@ export default {
         // { value: "unlist", align: "center", sortable: false },
       ],
       mediaUrl: null,
+      trackIspaused: true,
       tableItems: [
         // {
         //   number: "#1",
@@ -1186,6 +1187,7 @@ export default {
     playPauseTrack() {
       if (this.$refs.track?.paused) {
         this.$refs.track.play()
+        this.trackIspaused = false
         this.trackInterval = setInterval(() => {
           const audioTime = Math.round(this.$refs.track.currentTime);
           this.sliderTrack = audioTime;
@@ -1193,6 +1195,7 @@ export default {
       }
       else {
         this.$refs.track.pause()
+        this.trackIspaused = true
         clearInterval(this.trackInterval)
       }
     },
