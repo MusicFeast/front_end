@@ -599,12 +599,11 @@ export default {
             await this.getDataArtist()
             await this.validateTiers()
             await this.getTiersComing()
-            this.getOwners()
+            await this.getOwners()
             
             this.dataSocials()
             await this.getTierOne()
-            
-            this.getTiers()
+        
             this.getEventsArtist()
           } else {
             // this.$alert("cancel", {desc: "The artist does not exist"})
@@ -634,22 +633,23 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {artist_id: String(this.artist.id_collection)},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        const data = res.data.nfts
+
+        const ownersArray = []
+
+        for (let i = 0; i < data.length; i++) {
+          ownersArray.push(data[i].owner_id)
+        }
+
+        const owners = Array.from(new Set(ownersArray));
+
+        this.dataProfits.owners = owners.length
       })
-
-      const data = res.data.nfts
-
-      const ownersArray = []
-
-      for (let i = 0; i < data.length; i++) {
-        ownersArray.push(data[i].owner_id)
-      }
-
-      const owners = Array.from(new Set(ownersArray));
-
-      this.dataProfits.owners = owners.length
     },
     async validateTierOne() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -672,18 +672,19 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {artist_id: String(this.artist.id_collection), owner_id: this.$ramper.getAccountId()},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        const data = res.data.nfts
+
+        if (data.length > 0) {
+          this.validateTier = false
+        } else {
+          this.validateTier = true
+        }
       })
-
-      const data = res.data.nfts
-
-      if (data.length > 0) {
-        this.validateTier = false
-      } else {
-        this.validateTier = true
-      }
     },
     async validateTiers() {
       for (let i = 0; i < this.tiers.length; i++) {
@@ -735,85 +736,85 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {artist_id: String(this.artist.id_collection), typetoken: ['2', '3', '4', '5', '6'], collection: this.collectionNow},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        // console.log(this.artist.id_collection, this.collectionNow)
+
+        const data = res.data.series
+
+        // console.log("DATANFTS2222222", data)
+
+
+        this.dataCollections = []
+
+        for (let i = 0; i < data.length; i++) {
+          const item = {
+            token_id: data[i].id,
+            artist: this.artist.name,
+            img: data[i].media,
+            avatar: this.artist.image,
+            name: data[i].title,
+            name_sell: data[i].title,
+            desc: data[i].description,
+            floor_price: data[i].price,
+            price: data[i].price,
+            copies: data[i].copies || 0,
+            editions: data[i].copies || "Multi",
+            supply: data[i].supply,
+            artist_id: data[i].artist_id,
+            // state: "live",
+            state: null,
+            activate: false,
+            type: "nft",
+            tier: Number(data[i].typetoken_id),
+            type_id: data[i].id,
+            validate: this.validateTier
+          }
+
+          if (item.tier === 7) {
+            item.tier = 3
+          } else if (item.tier === 8) {
+            item.tier = 4
+          } else if (item.tier === 9) {
+            item.tier = 5
+          } else if (item.tier === 10) {
+            item.tier = 2
+          } else if (item.tier === 11) {
+            item.tier = 2
+          }
+
+          if (item.validate && item.tier !== 1) {
+            item.state = "locked"
+          }
+
+          // if (item.tier === 2) {
+          //   if (this.tiers[1].validate === false) {
+          //     item.state = "locked"
+          //     item.activate = true
+          //   }
+          // } else if (item.tier === 3) {
+          //   if (this.tiers[2].validate === false) {
+          //     item.state = "locked"
+          //     item.activate = true
+          //   }
+          // } else if (item.tier === 4) {
+          //   if (this.tiers[3].validate === false) {
+          //     item.state = "locked"
+          //     item.activate = true
+          //   }
+          // } else if (item.tier === 5) {
+          //   if (this.tiers[4].validate === false) {
+          //     item.state = "locked"
+          //     item.activate = true
+          //   }
+          // }
+
+          this.dataCollections.push(item)
+        }
       })
-
-      // console.log(this.artist.id_collection, this.collectionNow)
-
-      const data = res.data.series
-
-      // console.log("DATANFTS2222222", data)
-
-
-      this.dataCollections = []
-
-      for (let i = 0; i < data.length; i++) {
-        const item = {
-          token_id: data[i].id,
-          artist: this.artist.name,
-          img: data[i].media,
-          avatar: this.artist.image,
-          name: data[i].title,
-          name_sell: data[i].title,
-          desc: data[i].description,
-          floor_price: data[i].price,
-          price: data[i].price,
-          copies: data[i].copies || 0,
-          editions: data[i].copies || "Multi",
-          supply: data[i].supply,
-          artist_id: data[i].artist_id,
-          // state: "live",
-          state: null,
-          activate: false,
-          type: "nft",
-          tier: Number(data[i].typetoken_id),
-          type_id: data[i].id,
-          validate: this.validateTier
-        }
-
-        if (item.tier === 7) {
-          item.tier = 3
-        } else if (item.tier === 8) {
-          item.tier = 4
-        } else if (item.tier === 9) {
-          item.tier = 5
-        } else if (item.tier === 10) {
-          item.tier = 2
-        } else if (item.tier === 11) {
-          item.tier = 2
-        }
-
-        if (item.validate && item.tier !== 1) {
-          item.state = "locked"
-        }
-
-        // if (item.tier === 2) {
-        //   if (this.tiers[1].validate === false) {
-        //     item.state = "locked"
-        //     item.activate = true
-        //   }
-        // } else if (item.tier === 3) {
-        //   if (this.tiers[2].validate === false) {
-        //     item.state = "locked"
-        //     item.activate = true
-        //   }
-        // } else if (item.tier === 4) {
-        //   if (this.tiers[3].validate === false) {
-        //     item.state = "locked"
-        //     item.activate = true
-        //   }
-        // } else if (item.tier === 5) {
-        //   if (this.tiers[4].validate === false) {
-        //     item.state = "locked"
-        //     item.activate = true
-        //   }
-        // }
-
-        this.dataCollections.push(item)
-      }
-    
     },
     async validateTierFn(tierId, collectionNow) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -865,27 +866,21 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection)},
-      })
-
-      const data = res.data.artist
-
-      this.collectionNow = data.collection
-
-      this.dataProfits.nfts = data.total_nft
       this.dataProfits.owners = "---"
-      this.dataProfits.collections = data.collection
       this.dataProfits.high = "---"
 
-      // this.dataProfits = {
-      //   nfts: data.total_nft,
-      //   owners: "---",
-      //   events: data.total_event,
-      //   collections: data.total_collection,
-      //   high: "---",
-      // }
+      await clientApollo.watchQuery({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.artist.id_collection)},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        const data = res.data.artist
+
+        this.collectionNow = data.collection
+
+        this.dataProfits.nfts = data.total_nft
+        this.dataProfits.collections = data.collection
+      })
     },
     async getTierOne() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -912,64 +907,68 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {artist_id: String(this.artist.id_collection)},
+        pollInterval: 3000
+      }).subscribe(async (res) => {
+        this.dataSliderPreview = []
+        const data = res.data.series
+
+        // console.log("DATA", data)
+
+        for (let i = 0; i < data.length; i++) {
+          const item = {
+            collection: data[i].collection,
+            img: data[i].media,
+            avatar: this.artist.image,
+            name: data[i].title.toUpperCase(),
+            artist: this.artist.name,
+            artist_id: data[i].artist_id,
+            desc: this.artist.name,
+            description: data[i].description,
+            floor_price: data[i].price_near,
+            price: data[i].price,
+            editions: data[i].copies || "Multi",
+            tier: Number(data[i].reference),
+            type_id: data[i].id,
+            type: "nft",
+            token_id: data[i].id,
+            supply: data[i].supply,
+            copies: data[i].copies || 0,
+            state: null,
+            validate: this.validateTier
+          }
+
+          if (this.tiersComing.tierOne) {
+              item.state = "coming soon"
+              item.validate = true
+            }
+
+          if (item.validate && item.tier !== 1) {
+            item.state = "locked"
+          }
+
+          if (item.tier === 1) {
+            item.validate = false
+          }
+
+          if (item.tier === 1) {
+            if (this.tiers[0].validate === true) {
+              item.state = "owned"
+              item.activate = false
+            }
+          }
+          if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
+            item.state = "sold out"
+          }
+          this.dataSliderPreview.push(item)
+
+          await this.getTiers()
+
+          // console.log("DATASLIDER",this.dataSliderPreview)
+        }
       })
-
-      const data = res.data.series
-
-      // console.log("DATA", data)
-
-      for (let i = 0; i < data.length; i++) {
-        const item = {
-          collection: data[i].collection,
-          img: data[i].media,
-          avatar: this.artist.image,
-          name: data[i].title.toUpperCase(),
-          artist: this.artist.name,
-          artist_id: data[i].artist_id,
-          desc: this.artist.name,
-          description: data[i].description,
-          floor_price: data[i].price_near,
-          price: data[i].price,
-          editions: data[i].copies || "Multi",
-          tier: Number(data[i].reference),
-          type_id: data[i].id,
-          type: "nft",
-          token_id: data[i].id,
-          supply: data[i].supply,
-          copies: data[i].copies || 0,
-          state: null,
-          validate: this.validateTier
-        }
-
-        if (this.tiersComing.tierOne) {
-            item.state = "coming soon"
-            item.validate = true
-          }
-
-        if (item.validate && item.tier !== 1) {
-          item.state = "locked"
-        }
-
-        if (item.tier === 1) {
-          item.validate = false
-        }
-
-        if (item.tier === 1) {
-          if (this.tiers[0].validate === true) {
-            item.state = "owned"
-            item.activate = false
-          }
-        }
-        if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
-          item.state = "sold out"
-        }
-        this.dataSliderPreview.push(item)
-
-        // console.log("DATASLIDER",this.dataSliderPreview)
-      }
     },
     async getTiers() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -999,94 +998,96 @@ export default {
 
       // console.log("COLEEc", this.collectionNow)
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {artist_id: String(this.artist.id_collection), collection: String(this.collectionNow)},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        const data = res.data.series
+
+        // console.log("DATANEW", data)
+        this.dataSlider = []
+
+        for (let i = 0; i < data.length; i++) {
+          const item = {
+            collection: data[i].collection,
+            img: data[i].media,
+            avatar: this.artist.image,
+            name: data[i].title.toUpperCase(),
+            artist: this.artist.name,
+            artist_id: data[i].artist_id,
+            desc: this.artist.name,
+            description: data[i].description,
+            floor_price: data[i].price_near,
+            price: data[i].price,
+            editions: data[i].copies || "Multi",
+            tier: Number(data[i].reference),
+            type_id: data[i].id,
+            type: "nft",
+            token_id: data[i].id,
+            supply: data[i].supply,
+            copies: data[i].copies || 0,
+            state: null,
+            validate: this.validateTier
+          }
+
+          if (item.validate && item.tier !== 1) {
+            item.state = "locked"
+          }
+
+          if (item.tier === 2) {
+            if (this.tiersComing.tierTwo) {
+              item.state = "coming soon"
+              item.validate = true
+            }
+            if (this.tiers[1].validate === true) {
+              item.state = "owned"
+              item.activate = false
+            }
+          } else if (item.tier === 3) {
+            if (this.tiersComing.tierThree) {
+              item.state = "coming soon"
+              item.validate = true
+            }
+            if (this.tiers[2].validate === true) {
+              item.state = "owned"
+              item.activate = false
+            }
+          } else if (item.tier === 4) {
+            if (this.tiersComing.tierFour) {
+              item.state = "coming soon"
+              item.validate = true
+            }
+            if (this.tiers[3].validate === true) {
+              item.state = "owned"
+              item.activate = false
+            }
+          } else if (item.tier === 5) {
+            if (this.tiersComing.tierFive) {
+              item.state = "coming soon"
+              item.validate = true
+            }
+            if (this.tiers[4].validate === true) {
+              item.state = "owned"
+              item.activate = false
+            }
+          } else if (item.tier === 6) {
+            if (this.tiersComing.tierSix) {
+              item.state = "coming soon"
+              item.validate = true
+            }
+            if (this.tiers[5].validate === true) {
+              item.state = "owned"
+              item.activate = false
+            }
+          }
+          if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
+            item.state = "sold out"
+          }
+          this.dataSliderPreview.push(item)
+        }
+        this.dataSlider = this.dataSliderPreview
       })
-
-      const data = res.data.series
-
-      // console.log("DATANEW", data)
-
-      for (let i = 0; i < data.length; i++) {
-        const item = {
-          collection: data[i].collection,
-          img: data[i].media,
-          avatar: this.artist.image,
-          name: data[i].title.toUpperCase(),
-          artist: this.artist.name,
-          artist_id: data[i].artist_id,
-          desc: this.artist.name,
-          description: data[i].description,
-          floor_price: data[i].price_near,
-          price: data[i].price,
-          editions: data[i].copies || "Multi",
-          tier: Number(data[i].reference),
-          type_id: data[i].id,
-          type: "nft",
-          token_id: data[i].id,
-          supply: data[i].supply,
-          copies: data[i].copies || 0,
-          state: null,
-          validate: this.validateTier
-        }
-
-        if (item.validate && item.tier !== 1) {
-          item.state = "locked"
-        }
-
-        if (item.tier === 2) {
-          if (this.tiersComing.tierTwo) {
-            item.state = "coming soon"
-            item.validate = true
-          }
-          if (this.tiers[1].validate === true) {
-            item.state = "owned"
-            item.activate = false
-          }
-        } else if (item.tier === 3) {
-          if (this.tiersComing.tierThree) {
-            item.state = "coming soon"
-            item.validate = true
-          }
-          if (this.tiers[2].validate === true) {
-            item.state = "owned"
-            item.activate = false
-          }
-        } else if (item.tier === 4) {
-          if (this.tiersComing.tierFour) {
-            item.state = "coming soon"
-            item.validate = true
-          }
-          if (this.tiers[3].validate === true) {
-            item.state = "owned"
-            item.activate = false
-          }
-        } else if (item.tier === 5) {
-          if (this.tiersComing.tierFive) {
-            item.state = "coming soon"
-            item.validate = true
-          }
-          if (this.tiers[4].validate === true) {
-            item.state = "owned"
-            item.activate = false
-          }
-        } else if (item.tier === 6) {
-          if (this.tiersComing.tierSix) {
-            item.state = "coming soon"
-            item.validate = true
-          }
-          if (this.tiers[5].validate === true) {
-            item.state = "owned"
-            item.activate = false
-          }
-        }
-        if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
-          item.state = "sold out"
-        }
-        this.dataSliderPreview.push(item)
-      }
-      this.dataSlider = this.dataSliderPreview
     },
     dataSocials() {
       const social = []

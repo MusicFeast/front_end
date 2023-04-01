@@ -856,36 +856,37 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {serie_id: String(this.nft_main.type_id)},
+        pollInterval: 3000
+      }).subscribe(async (res) => {
+        const data = res.data.markets
+
+        const accountId = this.$ramper.getAccountId()
+
+        this.tableItems = []
+
+        for (let i = 0; i < data.length; i++) {
+          const nftAux = await this.getSingleNft(data[i].token_id)
+          const edition = data[i].token_id.split(":")
+          const item = {
+            number: "#" + edition[1],
+            token: nftAux.title,
+            seller: data[i].owner_id,
+            seller_avatar: require("~/assets/sources/avatars/avatar.png"),
+            price: data[i].price_near,
+            price_yocto: data[i].price,
+            owned: false
+          }
+
+          if (accountId === item.seller) {
+            item.owned = true
+          }
+
+          this.tableItems.push(item)
+        }
       })
-
-      const data = res.data.markets
-
-      const accountId = this.$ramper.getAccountId()
-
-      this.tableItems = []
-
-      for (let i = 0; i < data.length; i++) {
-        const nftAux = await this.getSingleNft(data[i].token_id)
-        const edition = data[i].token_id.split(":")
-        const item = {
-          number: "#" + edition[1],
-          token: nftAux.title,
-          seller: data[i].owner_id,
-          seller_avatar: require("~/assets/sources/avatars/avatar.png"),
-          price: data[i].price_near,
-          price_yocto: data[i].price,
-          owned: false
-        }
-
-        if (accountId === item.seller) {
-          item.owned = true
-        }
-
-        this.tableItems.push(item)
-      }
     },
     async getSingleNft (id) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
