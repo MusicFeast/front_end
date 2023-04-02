@@ -127,7 +127,7 @@
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">$ {{nft_main.price}}
+            <span class="bold" style="--c: var(--accent)">$ {{Number(nft_main.price)?.toFixed(2)}}
             </span>
             <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{nft_main.price_near}}</span>
             <span style="font-size: calc(var(--font-text) / 1.2)">Storage Deposit:  <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{ amountDeposit }}</span>
@@ -184,7 +184,7 @@
       <v-sheet color="transparent" class="divcol center">
         <span>Floor Price</span>
         <div class="acenter" style="gap: .5em">
-          <span>$ {{dataProfits.price}}</span>
+          <span>$ {{Number(dataProfits.price)?.toFixed(2)}}</span>
           <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em"> -->
         </div>
       </v-sheet>
@@ -272,7 +272,7 @@
             
             <template #[`item.price`]="{ item }">
               <center v-if="item.price" class="divcol" style="gap: 5px">
-                <span>N{{item.price}}</span>
+                <span>N {{item.price}}</span>
                 <span class="normal">$ {{nft_main.price_near}}</span>
               </center>
 

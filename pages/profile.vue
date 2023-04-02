@@ -123,7 +123,7 @@
           <p v-html="item.desc.limitString(27)"></p>
 
           <div class="center" style="gap: 6.4px">
-            <span class="floor" style="--c: var(--accent)">Floor Price: $ {{item.floor_price}}</span>
+            <span class="floor" style="--c: var(--accent)">Floor Price: $ {{Number(item.floor_price)?.toFixed(2)}}</span>
             <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
           </div>
           <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>

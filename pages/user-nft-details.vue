@@ -133,9 +133,10 @@
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">$ {{nft_main.price}}
+            <span class="bold" style="--c: var(--accent)">$ {{Number(nft_main.floor_price)?.toFixed(2)}}
             </span>
             <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{nft_main.price_near}}</span>
+            <!-- <span style="font-size: calc(var(--font-text) / 1.2)">Storage Deposit:  <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{ amountDeposit }}</span> -->
           </div>
         </div>
 
@@ -210,7 +211,7 @@
       <template #[`item.price`]="{ item }">
         <center v-if="item.price" class="divcol" style="gap: 5px">
           <span>N {{item.price}}</span>
-          <span class="normal">$ {{dollarConversion(item.price)}}</span>
+          <span class="normal">$ {{(item.price)}}</span>
         </center>
 
         <center v-else class="divcol" style="gap: 5px">
@@ -331,9 +332,10 @@ export default {
   created() {
     if (!this.nft) {this.$router.push(this.localePath('/profile'))}
     if (this.user.tier >= 3) {this.$router.push(this.localePath("/user-nft-details-vip"))}
-    this.nft_main = this.nft
   },
   async mounted() {
+    this.nft_main = this.nft
+    this.nft_main.price_near = this.dollarConversion(this.nft_main.floor_price)
     this.ownedTier1 = true // await this.validateTierFn(1)
     this.ownedTier2 = await this.validateTierFn(2)
     this.nft_main = this.nft

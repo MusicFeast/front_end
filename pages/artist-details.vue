@@ -110,7 +110,7 @@
             <p>{{item.desc}}</p>
 
             <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: $ {{item.price}}</span>
+              <span class="floor" style="--c: var(--accent)">Price: $ {{Number(item.price)?.toFixed(2)}}</span>
               <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
             </div>
             <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
