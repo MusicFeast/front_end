@@ -326,7 +326,9 @@
 
 <script>
 import gql from 'graphql-tag'
+import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
+const { Contract } = nearAPI
 
 
 export default {
@@ -346,7 +348,8 @@ export default {
       soldBtn: false,
       ownedNft: true,
       btnBuy: false,
-      amountDeposit: 0.23,
+      amountDeposit: 0.20,
+      amountDepositMain: 0.05,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
@@ -853,6 +856,17 @@ export default {
       }
       
     },
+    async getSeriesPrice (seriesId) {
+      const account = await this.$near.account(this.$ramper.getAccountId());
+      const contract = new Contract(account, process.env.CONTRACT_NFT, {
+      viewMethods: ["nft_get_series_price"],
+      sender: account,
+    })
+
+    const price = await contract.nft_get_series_price({token_series_id: seriesId})
+
+    return this.$utils.format.formatNearAmount(price)
+    },
     async buyNftRamper() {
       const balance = await this.getBalance()
       if (balance < Number(this.nft_main.price_near) + this.amountDeposit) {
@@ -862,11 +876,13 @@ export default {
 
       this.btnBuy = true
       if (this.$ramper.getUser()) {
-        let price
+        let price = await this.getSeriesPrice(this.nft_main.token_id)
+
+        console.log("PRICE", price)
         if (this.isVip) {
           price = this.amountDeposit
         } else {
-          price = Number(this.nft_main.price_near) + this.amountDeposit
+          price = Number(price) + this.amountDepositMain
         }
         
         const action = [this.$ramper.functionCall(
