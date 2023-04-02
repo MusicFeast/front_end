@@ -93,5 +93,3 @@ sw.*
 # personal notes files
 .notes
 
-# Enviroment
-.env
