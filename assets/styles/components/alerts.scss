@@ -3,7 +3,7 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #alerts {
   .v-snack__wrapper {
-    min-width: min-content !important;
+    min-width: 280px !important;
     background: var(--clr-card);
     border: 2px solid var(--color-snackbar) !important;
     box-shadow: 7px 8px 12px rgba(0, 0, 0, 0.25) !important;
@@ -14,6 +14,7 @@
       @include media(max, 330px) {font-size: 13px}
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 1em;
       img {
         width: clamp(5em, 5.7vw, 5.75em);

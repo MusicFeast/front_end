@@ -96,6 +96,9 @@
 }
 
 #qr-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   h2 {
     font-size: 3em !important;
     @include media(max, x-small) {font-size: 2em !important}
@@ -104,5 +107,8 @@
   }
   img {
     width: 100%;
+  }
+  .v-btn {
+    --fs: 20px !important;
   }
 }

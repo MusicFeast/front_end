@@ -68,14 +68,13 @@
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
           <p class="p" v-html="item.description.limitString(50)"></p>
-          <div class="center" style="gap: 20px">
+          <div class="end" style="gap: 15px">
             <v-btn
               class="btn"
-              style="--fs: 16px"
               @click.stop="showQr(item)"
             >Show qr</v-btn>
             <v-btn
-              class="btn" style="--bg: #FFF; --c: var(--primary); --fs: 16px"
+              class="btn" style="--bg: #FFF; --c: var(--primary)"
               @click.stop="copyArtistUrl(item)"
             >Copy url</v-btn>
           </div>
