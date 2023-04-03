@@ -148,9 +148,10 @@
             v-if="!redeemBtn"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
             @click="redeemFn()">Redeem</v-btn>
+            <!--
             <v-btn
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="burnNft()">Burn</v-btn>
+            @click="burnNft()">Burn</v-btn>-->
         </div>
       </article>
     </section>
