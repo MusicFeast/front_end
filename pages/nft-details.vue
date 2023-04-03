@@ -127,7 +127,7 @@
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
-            <span class="bold" style="--c: var(--accent)">$ {{nft_main.price}}
+            <span class="bold" style="--c: var(--accent)">$ {{Number(nft_main.price)?.toFixed(2)}}
             </span>
             <span style="font-size: calc(var(--font-text) / 1.2)"><img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{nft_main.price_near}}</span>
             <span style="font-size: calc(var(--font-text) / 1.2)">Storage Deposit:  <img src="~/assets/sources/logos/near.svg" alt="near" style="--w: .75em"> {{ amountDeposit }}</span>
@@ -184,7 +184,7 @@
       <v-sheet color="transparent" class="divcol center">
         <span>Floor Price</span>
         <div class="acenter" style="gap: .5em">
-          <span>$ {{dataProfits.price}}</span>
+          <span>$ {{Number(dataProfits.price)?.toFixed(2)}}</span>
           <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w: 1.833125em"> -->
         </div>
       </v-sheet>
@@ -272,7 +272,7 @@
             
             <template #[`item.price`]="{ item }">
               <center v-if="item.price" class="divcol" style="gap: 5px">
-                <span>N{{item.price}}</span>
+                <span>N {{item.price}}</span>
                 <span class="normal">$ {{nft_main.price_near}}</span>
               </center>
 
@@ -326,7 +326,9 @@
 
 <script>
 import gql from 'graphql-tag'
+import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
+const { Contract } = nearAPI
 
 
 export default {
@@ -346,7 +348,8 @@ export default {
       soldBtn: false,
       ownedNft: true,
       btnBuy: false,
-      amountDeposit: 0.1,
+      amountDeposit: 0.21,
+      amountDepositMain: 0.01,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
@@ -853,6 +856,17 @@ export default {
       }
       
     },
+    async getSeriesPrice (seriesId) {
+      const account = await this.$near.account(this.$ramper.getAccountId());
+      const contract = new Contract(account, process.env.CONTRACT_NFT, {
+      viewMethods: ["nft_get_series_price"],
+      sender: account,
+    })
+
+    const price = await contract.nft_get_series_price({token_series_id: seriesId})
+
+    return this.$utils.format.formatNearAmount(price)
+    },
     async buyNftRamper() {
       const balance = await this.getBalance()
       if (balance < Number(this.nft_main.price_near) + this.amountDeposit) {
@@ -862,11 +876,13 @@ export default {
 
       this.btnBuy = true
       if (this.$ramper.getUser()) {
-        let price
+        let price = await this.getSeriesPrice(this.nft_main.token_id)
+
+        console.log("PRICE", price)
         if (this.isVip) {
           price = this.amountDeposit
         } else {
-          price = Number(this.nft_main.price_near) + this.amountDeposit
+          price = Number(price) + this.amountDepositMain
         }
         
         const action = [this.$ramper.functionCall(

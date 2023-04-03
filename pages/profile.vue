@@ -123,7 +123,7 @@
           <p v-html="item.desc.limitString(27)"></p>
 
           <div class="center" style="gap: 6.4px">
-            <span class="floor" style="--c: var(--accent)">Floor Price: $ {{item.floor_price}}</span>
+            <span class="floor" style="--c: var(--accent)">Floor Price: $ {{Number(item.floor_price)?.toFixed(2)}}</span>
             <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
           </div>
           <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
@@ -725,30 +725,22 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
-        variables: {owner: this.$ramper.getAccountId()}
+        variables: {owner: this.$ramper.getAccountId()},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        const data = res.data.offers
+
+        this.tableItemsOffers = []
+
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i]
+          item.nft_title = item.data_nft.title
+          item.nft_media = item.data_nft.media
+          this.tableItemsOffers.push(item)
+        }
       })
-
-      const data = res.data.offers
-
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i]
-        item.nft_title = item.data_nft.title
-        item.nft_media = item.data_nft.media
-        this.tableItemsOffers.push(item)
-      }
-
-      // console.log("MYOFERST", this.tableItemsOffers)
-
-      // {
-      //     name: "Name of NFT",
-      //     vault: true,
-      //     buyer: "tonystart.near",
-      //     buyer_img: require("~/assets/sources/avatars/avatar.png"),
-      //     price: 174
-      //   },
-
     },
     async getOffersReceived () {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -781,21 +773,22 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
-        variables: {owner: this.$ramper.getAccountId()}
+        variables: {owner: this.$ramper.getAccountId()},
+        pollInterval: 3000
+      }).subscribe((res) => {
+        const data = res.data.offers
+
+        this.tableItemsOffersRe = []
+
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i]
+          item.nft_title = item.data_nft.title
+          item.nft_media = item.data_nft.media
+          this.tableItemsOffersRe.push(item)
+        }
       })
-
-      const data = res.data.offers
-
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i]
-        item.nft_title = item.data_nft.title
-        item.nft_media = item.data_nft.media
-        this.tableItemsOffersRe.push(item)
-      }
-
-      // console.log("FERST", this.tableItemsOffersRe)
     },
     async getMyNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -820,77 +813,80 @@ export default {
         }
       `;
 
-      const res = await clientApollo.query({
+      await clientApollo.watchQuery({
         query: QUERY_APOLLO,
         variables: {owner_id: this.$ramper.getAccountId()},
-      })
+        pollInterval: 3000
+      }).subscribe(async (res) => {
+        const data = res.data.nfts
 
-      const data = res.data.nfts
+        this.dataNfts = []
 
-      this.dataProfits.nfts = data.length
+        this.dataProfits.nfts = data.length
 
-      const arrayIds = []
+        const arrayIds = []
 
-      let maxPrice = 0
+        let maxPrice = 0
 
-      // console.log("DATAAAAAAAA", data)
+        // console.log("DATAAAAAAAA", data)
 
-      for (let i = 0; i < data.length; i++) {
-        const item = {
-          floor_price: null,
-          img: data[i].media,
-          avatar: require("~/assets/sources/avatars/avatar.png"),
-          name: data[i].title,
-          name_sell: data[i].title.split("#").shift(),
-          desc: data[i].description,
-          editions: data[i].copies || "Multi",
-          tier: Number(data[i].typetoken_id),
-          typetoken_id: data[i].reference,
-          type: "nft",
-          token_id: data[i].id,
-          supply: data[i].supply,
-          state: null,
-          type_id: data[i].serie_id,
-          artista: "-",
-          is_objects: data[i].is_objects
-        }
+        for (let i = 0; i < data.length; i++) {
+          const item = {
+            floor_price: null,
+            img: data[i].media,
+            avatar: require("~/assets/sources/avatars/avatar.png"),
+            name: data[i].title,
+            name_sell: data[i].title.split("#").shift(),
+            desc: data[i].description,
+            editions: data[i].copies || "Multi",
+            tier: Number(data[i].typetoken_id),
+            typetoken_id: data[i].reference,
+            type: "nft",
+            token_id: data[i].id,
+            supply: data[i].supply,
+            state: null,
+            type_id: data[i].serie_id,
+            artista: "-",
+            is_objects: data[i].is_objects
+          }
 
-        if (item.is_objects) {
-          item.state = "redeemable"
-        }
+          if (item.is_objects) {
+            item.state = "redeemable"
+          }
 
-        const varSplit = item.token_id.split("|")
-        const idArtist = varSplit[0]
-        const typeToken = varSplit[1].split(":").shift()
+          const varSplit = item.token_id.split("|")
+          const idArtist = varSplit[0]
+          const typeToken = varSplit[1].split(":").shift()
 
-        const serie = await this.getSerie(idArtist, typeToken)
-        const floor = await this.getFloorPrice(serie.id)
+          const serie = await this.getSerie(idArtist, typeToken)
+          const floor = await this.getFloorPrice(serie.id)
 
-        item.artist_id = serie.artist_id
-        item.editions = serie.copies || "Multi"
-        item.id_artist = idArtist
+          item.artist_id = serie.artist_id
+          item.editions = serie.copies || "Multi"
+          item.id_artist = idArtist
 
-        if (floor) {
-          if (Number(floor) < Number(serie.price_near)) {
-            item.floor_price = floor
+          if (floor) {
+            if (Number(floor) < Number(serie.price_near)) {
+              item.floor_price = floor
+            } else {
+              item.floor_price = serie.price
+            }
           } else {
             item.floor_price = serie.price
           }
-        } else {
-          item.floor_price = serie.price
-        }
-        
-        if (maxPrice < item.floor_price) {
-          maxPrice = item.floor_price
-        }
+          
+          if (maxPrice < item.floor_price) {
+            maxPrice = item.floor_price
+          }
 
-        arrayIds.push(idArtist)
-        this.dataNfts.push(item)
-      }
-      this.dataProfits.high = Number(maxPrice).toFixed(2)
-      const result = Array.from(new Set(arrayIds));
-      
-      this.getAvatars(result)
+          arrayIds.push(idArtist)
+          this.dataNfts.push(item)
+        }
+        this.dataProfits.high = Number(maxPrice).toFixed(2)
+        const result = Array.from(new Set(arrayIds));
+        
+        this.getAvatars(result)
+      });
     },
     async getFloorPrice (serieId) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
