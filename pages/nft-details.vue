@@ -348,8 +348,8 @@ export default {
       soldBtn: false,
       ownedNft: true,
       btnBuy: false,
-      amountDeposit: 0.20,
-      amountDepositMain: 0.05,
+      amountDeposit: 0.21,
+      amountDepositMain: 0.01,
       nft_main: {},
       dataSocial: [
         { icon: "mdi-instagram", link: "#" },
