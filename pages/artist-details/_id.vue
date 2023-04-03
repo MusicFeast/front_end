@@ -534,7 +534,6 @@ export default {
     }
   },
   created() {
-    localStorage.setItem("artist", this.$router.currentRoute.path.split(':')[1].split("=")[1])
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   async mounted() {
@@ -542,6 +541,7 @@ export default {
     this.channel_dc = process.env.CHANNEL_DC
     this.artistId = JSON.parse(localStorage.getItem("artist"))
     await this.getCurrentArtist()
+    console.log(this.$router.currentRoute.path.split('?')[1], "id");
     
     this.styles();
 

@@ -1,5 +1,11 @@
 <template>
   <div id="artists" class="divcol">
+    <Alerts ref="alert"></Alerts>
+    <ModalsQr
+      ref="modalQr"
+      :url="`${ioBaseUrl}/artist-details/:artist=${artistIdClicked}`"
+    ></ModalsQr>
+
     <!-- original height 720px -->
     <v-carousel
       id="custome-carousel"
@@ -61,8 +67,18 @@
         
         <div class="container-content tcenter">
           <h5>{{item.name}}</h5>
-          <p class="p" v-html="item.description.limitString(50)">
-          </p>
+          <p class="p" v-html="item.description.limitString(50)"></p>
+          <div class="center" style="gap: 20px">
+            <v-btn
+              class="btn"
+              style="--fs: 16px"
+              @click.stop="showQr(item)"
+            >Show qr</v-btn>
+            <v-btn
+              class="btn" style="--bg: #FFF; --c: var(--primary); --fs: 16px"
+              @click.stop="copyArtistUrl(item)"
+            >Copy url</v-btn>
+          </div>
         </div>
       </v-card>
     </section>
@@ -76,11 +92,13 @@
 </template>
 
 <script>
+import modalsQr from '~/components/modals/modals-qr.vue';
 import computeds from '~/mixins/computeds'
 const pageName = 'artists';
 
 export default {
   name: "CollectionsPage",
+  components: { modalsQr },
   mixins: [computeds],
   data() {
     return {
@@ -93,6 +111,7 @@ export default {
       },
       currentPage: 1,
       itemsPerPage: 10,
+      artistIdClicked: undefined,
     }
   },
   head() {
@@ -192,6 +211,14 @@ export default {
         return 1
       }
     },
+    showQr(item) {
+      this.artistIdClicked = item.id
+      this.$refs.modalQr.qrModals = true
+    },
+    copyArtistUrl(item) {
+      `${this.ioBaseUrl}/artist-details/:artist=${item.id}`.copyToClipboard()
+      this.$refs.alert.GenerateAlert("success", "copied", "you have copied to clipboard")
+    }
   }
 };
 </script>

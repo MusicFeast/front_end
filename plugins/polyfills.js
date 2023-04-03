@@ -74,4 +74,13 @@ export default () => {
     }
   }
   // formatTime() <-- example
+
+
+  // copy to clipboard =========================================================================================================//
+  if (!String.prototype.copyToClipboard) {
+    String.prototype.copyToClipboard = async function() {
+      await navigator.clipboard.writeText(this)
+    }
+  }
+  // copyToClipboard() <-- example
 }

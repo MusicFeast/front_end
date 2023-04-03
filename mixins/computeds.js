@@ -6,6 +6,9 @@ export default {
     baseUrlSlash() {
       return process.env.DJANGO_URL
     },
+    ioBaseUrl() {
+      return "https://www.musicfeast.io"
+    },
     isLogged() {
       return this.$ramper.getUser()
     },

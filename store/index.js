@@ -234,7 +234,7 @@ export const actions = {
         })
     } else if (key === 'artist'){
       localStorage.setItem(key, JSON.stringify(item.id))
-      this.$router.push(this.localePath(`/${key}-details`))
+      this.$router.push(this.localePath(`/${key}-details/:artist=${item.id}`))
     } else {
       localStorage.setItem(key, JSON.stringify(item))
       this.$router.push(this.localePath(`/${key}-details`))

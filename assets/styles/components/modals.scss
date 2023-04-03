@@ -94,3 +94,15 @@
     }
   }
 }
+
+#qr-modal {
+  h2 {
+    font-size: 3em !important;
+    @include media(max, x-small) {font-size: 2em !important}
+    text-align: center;
+    text-decoration: underline;
+  }
+  img {
+    width: 100%;
+  }
+}
