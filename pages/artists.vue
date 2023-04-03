@@ -3,7 +3,7 @@
     <Alerts ref="alert"></Alerts>
     <ModalsQr
       ref="modalQr"
-      :url="`${ioBaseUrl}/artist-details/:artist=${artistIdClicked}`"
+      :url="`${ioBaseUrl}/artist-details/?artist=${artistIdClicked}`"
     ></ModalsQr>
 
     <!-- original height 720px -->
@@ -72,11 +72,11 @@
             <v-btn
               class="btn"
               @click.stop="showQr(item)"
-            >Show qr</v-btn>
+            > Show qr  </v-btn>
             <v-btn
               class="btn" style="--bg: #FFF; --c: var(--primary)"
               @click.stop="copyArtistUrl(item)"
-            >Copy url</v-btn>
+            > Copy url </v-btn>
           </div>
         </div>
       </v-card>
@@ -215,7 +215,7 @@ export default {
       this.$refs.modalQr.qrModals = true
     },
     copyArtistUrl(item) {
-      `${this.ioBaseUrl}/artist-details/:artist=${item.id}`.copyToClipboard()
+      `${this.ioBaseUrl}/artist-details?artist=${item.id}`.copyToClipboard()
       this.$refs.alert.GenerateAlert("success", "copied", "you have copied to clipboard")
     }
   }
