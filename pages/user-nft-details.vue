@@ -61,12 +61,15 @@
         
 
         <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
-        <lite-youtube
+        <!-- <lite-youtube
             v-if="media == 'video'"    
             :videoid="mediaUrl"
             :playlabel="labelYoutube"
             style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
-        />
+        /> -->
+
+        <iframe v-if="(media == 'video') && (mediaUrl)" :src="mediaUrl" height="100%" width="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+
 
         <!-- if video -->
         <!-- <video
@@ -518,7 +521,7 @@ export default {
         const data = result.data
         if (data.media) {
           if (media === 'audio') {
-            this.mediaUrl = this.baseUrl+data.media
+            this.mediaUrl = this.baseUrlSlash+data.media
           } else if (media === 'video') {
             // console.log("SIIIIUUUU")
             this.mediaUrl = data.media

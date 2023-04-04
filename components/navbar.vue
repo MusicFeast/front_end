@@ -210,13 +210,13 @@ export default {
     async getPriceNear () {
       const account = await this.$near.account(this.$ramper.getAccountId());
       const contract = new Contract(account, process.env.CONTRACT_NFT, {
-      viewMethods: ["get_tasa"],
-      sender: account,
-    })
+        viewMethods: ["get_tasa"],
+        sender: account,
+      })
 
-    const price = await contract.get_tasa()
+      const price = await contract.get_tasa()
 
-    localStorage.setItem("priceNear", price)
+      localStorage.setItem("priceNear", price)
     
     },
     signIn(){
