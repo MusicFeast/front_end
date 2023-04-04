@@ -6,7 +6,7 @@ export default function RamperApi() {
   init({
     appName: 'Music Feast',
     chainName: CHAIN.NEAR,
-    walletProviders: [WALLET_PROVIDER.NEAR_WALLET],
+    walletProviders: [],
     theme: THEME.DARK,
     network: process.env.NETWORK,
     logoURI: "https://testnet.musicfeast.io/img/logo.fb7d246.svg",
