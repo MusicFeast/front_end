@@ -13,7 +13,9 @@ export default function RamperApi() {
     authProviders: [
       AUTH_PROVIDER.GOOGLE,
       AUTH_PROVIDER.FACEBOOK,
-      AUTH_PROVIDER.EMAIL
+      AUTH_PROVIDER.EMAIL,
+      AUTH_PROVIDER.TWITTER,
+      AUTH_PROVIDER.APPLE,
     ]
   })
 
