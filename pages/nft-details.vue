@@ -145,16 +145,15 @@
             :ripple="false" class="btn activeBtn text-decoration-line-through" style="--w: min(100%, 12em); --fs: 14px">Sold Out</v-btn>
         </div>
 
+        <div class="spacea">
+          <h10 style="color: #D57535">Warning: If the window does not open, you must enable pop-up windows in your browser.</h10>
+        </div>
+
         <span>{{nft_main.desc}}</span>
 
         <p class="p" v-html="nft_main.description">
         </p>
 
-        
-
-        <div class="spacea">
-          <h10 style="color: #D57535">Warning: If the window does not open, you must enable pop-up windows in your browser.</h10>
-        </div>
       </article>
     </section>
 
