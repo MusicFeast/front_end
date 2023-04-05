@@ -85,7 +85,7 @@
     <Pagination
       :total-pages="pagination_per_page"
       :current-page="currentPage"
-      @pagechanged="(page) => currentPage = page"
+      @pagechanged="handlePageChange"
     />
   </div>
 </template>
@@ -108,7 +108,7 @@ export default {
         model: "",
         list: ["lastest releases", "oldest", "coming soon"],
       },
-      currentPage: 1,
+      currentPage: localStorage.getItem('paginationPage') || 1,
       itemsPerPage: 10,
       artistIdClicked: undefined,
     }
@@ -139,11 +139,20 @@ export default {
 
     // resize listener
     window.addEventListener('resize', this.styles);
+
+    const storedPage = localStorage.getItem('paginationPage')
+    if (storedPage) {
+      this.currentPage = storedPage
+    }
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    handlePageChange(page) {
+      this.currentPage = page
+      localStorage.setItem('paginationPage', page)
+    },
     changeFilter(item) {
       // console.log(item)
     },  

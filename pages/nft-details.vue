@@ -119,11 +119,6 @@
           <h2 class="p tup">{{nft_main.name}}</h2>
         </div>
 
-        <span>{{nft_main.desc}}</span>
-
-        <p class="p" v-html="nft_main.description">
-        </p>
-
         <div class="spacea">
           <span class="bold" style="--c:var(--accent)">Price</span>
           <div class="divcol aend" style="gap: .5em">
@@ -150,6 +145,13 @@
             :ripple="false" class="btn activeBtn text-decoration-line-through" style="--w: min(100%, 12em); --fs: 14px">Sold Out</v-btn>
         </div>
 
+        <span>{{nft_main.desc}}</span>
+
+        <p class="p" v-html="nft_main.description">
+        </p>
+
+        
+
         <div class="spacea">
           <h10 style="color: #D57535">Warning: If the window does not open, you must enable pop-up windows in your browser.</h10>
         </div>
@@ -165,7 +167,7 @@
       <v-window v-model="windowBuy" touchless>
         <v-window-item :value="1">
           <v-card id="modalBuy" class="nft-dialog--content">
-            <v-btn class="btn" @click="buyNftRamper()" style="--bg: #fff; --c: var(--primary)">Pay with NEAR</v-btn>
+            <v-btn class="btn" style="--bg: #fff; --c: var(--primary)" @click="buyNftRamper()">Pay with NEAR</v-btn>
             <v-btn class="btn" @click="buyNftFiat()">Pay with USD</v-btn>
           </v-card>
         </v-window-item>
