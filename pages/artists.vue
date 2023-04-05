@@ -144,6 +144,12 @@ export default {
     if (storedPage) {
       this.currentPage = storedPage
     }
+
+    window.addEventListener('beforeunload', this.clearLocalStorage);
+  },
+  beforeUnmount() {
+    // Eliminar el evento beforeunload
+    window.removeEventListener('beforeunload', this.clearLocalStorage);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
@@ -152,6 +158,9 @@ export default {
     handlePageChange(page) {
       this.currentPage = page
       localStorage.setItem('paginationPage', page)
+    },
+    clearLocalStorage() {
+      localStorage.removeItem('paginationPage')
     },
     changeFilter(item) {
       // console.log(item)
