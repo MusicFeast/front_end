@@ -133,12 +133,12 @@
           <v-btn
             :disabled="!ownedNft"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px; --bg: #fff; --c: var(--primary)"
-            @click="$refs.modal.modalSell = true">sell</v-btn>
+            @click="openSellModal">sell</v-btn>
           <v-btn
             v-if="!soldBtn"
             :disabled="btnBuy"
             :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 14px"
-            @click="modalBuy = true">{{ this.isVip? "just mint" : "buy" }}</v-btn>
+            @click="openBuyModal">{{ this.isVip? "just mint" : "buy" }}</v-btn>
             <v-btn
             v-if="soldBtn"
             :disabled="true"
@@ -331,7 +331,6 @@ import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
 const { Contract } = nearAPI
 
-
 export default {
   name: "CollectionDetailsPage",
   mixins: [computeds],
@@ -465,6 +464,20 @@ export default {
     this.ownedNft = await this.validateTierFn(this.nft_main.tier)
   },
   methods: {
+    openBuyModal(){
+      if(this.$ramper.getAccountId() === null) {
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true;
+      } else {
+        this.modalBuy = true;
+      }
+    },
+    openSellModal(){
+      if(this.$ramper.getAccountId() === null) {
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true;
+      } else {
+        this.$refs.modal.modalSell = true;
+      }
+    },
     clearBuy() {
       Object.keys(this.form_buy).forEach(key => {this.form_buy[key] = null});
       this.modalBuy = false; this.windowBuy = 1;
@@ -478,7 +491,7 @@ export default {
       this.$refs.modal.modalOffer = true
     },
     buyNftFiat() {
-      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=" + process.env.NETWORK + "&redirect_url= " + process.env.REDIRECT_URL + "&user_wallet_address=" + this.$ramper.getAccountId() + "&token_series_id=" + this.nft_main.token_id)
+      window.open("https://checkout.ramper.xyz/buy?contract_address=" + process.env.CONTRACT_NFT + "&network=" + process.env.NETWORK + "&redirect_url= " + process.env.REDIRECT_URL + "&user_wallet_address=" + (this.$ramper.getAccountId() === null ? "" : this.$ramper.getAccountId()) + "&token_series_id=" + this.nft_main.token_id)
     },
     async unlistNft(item) {
       this.btnBuy = true
