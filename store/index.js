@@ -286,7 +286,7 @@ export const getters = {
       // console.log(filters.map(e => e.name), filters.map(e => e.created))   for test filter B
 
       // if mobile
-      if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2
+      // if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2
 
       return filters.slice(
         (currentPage - 1) * itemsPerPage,
