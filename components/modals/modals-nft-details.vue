@@ -740,7 +740,7 @@ export default {
                 msg: JSON.stringify(msgs)
               }, 
               '250000000000000', 
-              '500000000000000000000'
+              '15800000000000000000000'
             )
           ]
           // const action3 = [
