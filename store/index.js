@@ -234,7 +234,7 @@ export const actions = {
         })
     } else if (key === 'artist'){
       localStorage.setItem(key, JSON.stringify(item.id))
-      this.$router.push(this.localePath(`/${key}-details/:artist=${item.id}`))
+      this.$router.push(this.localePath(`/${key}-details/?artist=${item.id}`))
     } else {
       localStorage.setItem(key, JSON.stringify(item))
       this.$router.push(this.localePath(`/${key}-details`))
@@ -286,7 +286,7 @@ export const getters = {
       // console.log(filters.map(e => e.name), filters.map(e => e.created))   for test filter B
 
       // if mobile
-      if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2
+      // if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2
 
       return filters.slice(
         (currentPage - 1) * itemsPerPage,

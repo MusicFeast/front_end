@@ -113,6 +113,7 @@ export default {
                 // console.log(data[i].id_collection, this.artists[j].artist_id)
                 if (String(data[i].id_collection) === String(this.artists[j].artist_id)) {
                   const item = {
+                    id: this.artists[j].artist_id,
                     img: this.artists[j].media,
                     title: this.artists[j].title,
                     desc: this.artists[j].description,

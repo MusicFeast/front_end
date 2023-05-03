@@ -534,7 +534,8 @@ export default {
     }
   },
   created() {
-    localStorage.setItem("artist", this.$router.currentRoute.path.split(':')[1].split("=")[1])
+    // console.log("--------", this.$route.query.artist);
+    localStorage.setItem("artist", this.$route.query.artist)
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   async mounted() {

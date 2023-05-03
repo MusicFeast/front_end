@@ -3,7 +3,7 @@
     <Alerts ref="alert"></Alerts>
     <ModalsQr
       ref="modalQr"
-      :url="`${ioBaseUrl}/artist-details/:artist=${artistIdClicked}`"
+      :url="`${ioBaseUrl}/artist-details/?artist=${artistIdClicked}`"
     ></ModalsQr>
 
     <!-- original height 720px -->
@@ -72,11 +72,11 @@
             <v-btn
               class="btn"
               @click.stop="showQr(item)"
-            >Show qr</v-btn>
+            > Show qr  </v-btn>
             <v-btn
               class="btn" style="--bg: #FFF; --c: var(--primary)"
               @click.stop="copyArtistUrl(item)"
-            >Copy url</v-btn>
+            > Copy url </v-btn>
           </div>
         </div>
       </v-card>
@@ -85,7 +85,7 @@
     <Pagination
       :total-pages="pagination_per_page > 50 ? 50 : pagination_per_page"
       :current-page="currentPage"
-      @pagechanged="(page) => currentPage = page"
+      @pagechanged="handlePageChange"
     />
   </div>
 </template>
@@ -108,7 +108,7 @@ export default {
         model: "",
         list: ["lastest releases", "oldest", "coming soon"],
       },
-      currentPage: 1,
+      currentPage: localStorage.getItem('paginationPage') || 1,
       itemsPerPage: 10,
       artistIdClicked: undefined,
     }
@@ -144,11 +144,29 @@ export default {
 
     // resize listener
     window.addEventListener('resize', this.styles);
+
+    const storedPage = localStorage.getItem('paginationPage')
+    if (storedPage) {
+      this.currentPage = storedPage
+    }
+
+    window.addEventListener('beforeunload', this.clearLocalStorage);
+  },
+  beforeUnmount() {
+    // Eliminar el evento beforeunload
+    window.removeEventListener('beforeunload', this.clearLocalStorage);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    handlePageChange(page) {
+      this.currentPage = page
+      localStorage.setItem('paginationPage', page)
+    },
+    clearLocalStorage() {
+      localStorage.removeItem('paginationPage')
+    },
     changeFilter(item) {
       // console.log(item)
     },  
@@ -220,7 +238,7 @@ export default {
       this.$refs.modalQr.qrModals = true
     },
     copyArtistUrl(item) {
-      `${this.ioBaseUrl}/artist-details/:artist=${item.id}`.copyToClipboard()
+      `${this.ioBaseUrl}/artist-details?artist=${item.id}`.copyToClipboard()
       this.$refs.alert.GenerateAlert("success", "copied", "you have copied to clipboard")
     }
   }
