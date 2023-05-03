@@ -4,7 +4,7 @@
     <section class="wrapper">
       <v-card
         v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
-        <v-img :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`">
+        <v-img @click="goToStore(item)" :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`">
           <template #placeholder>
             <v-skeleton-loader type="card" />
           </template>
@@ -55,6 +55,9 @@ export default {
     this.getLastestReleases()
   },
   methods: {
+    goToStore(item) {
+      this.$store.dispatch('goTo', {key: 'artist', item})
+    },
     async getLastestReleases() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
@@ -108,6 +111,7 @@ export default {
                 // console.log(data[i].id_collection, this.artists[j].artist_id)
                 if (String(data[i].id_collection) === String(this.artists[j].artist_id)) {
                   const item = {
+                    id: this.artists[j].artist_id,
                     img: this.artists[j].media,
                     title: this.artists[j].title,
                     desc: this.artists[j].description,
