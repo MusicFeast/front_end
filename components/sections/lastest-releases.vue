@@ -107,6 +107,7 @@ export default {
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
       .then(result => {
         const data = result.data
+        console.log("LOG AVATARS", data)
         if (data[0]) {
           const datos = []
           for (let j = 0; j < this.artists.length; j++) {

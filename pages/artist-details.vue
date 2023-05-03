@@ -589,6 +589,7 @@ export default {
         })
     },
     getCurrentArtist() {
+      console.log(this.artistId)
       this.$axios.post(`${this.baseUrl}api/v1/get-artist/`, {"id": Number(this.artistId)})
         .then(async response => {
           const data = response.data[0]
