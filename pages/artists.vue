@@ -83,7 +83,7 @@
     </section>
 
     <Pagination
-      :total-pages="pagination_per_page"
+      :total-pages="pagination_per_page > 50 ? 50 : pagination_per_page"
       :current-page="currentPage"
       @pagechanged="(page) => currentPage = page"
     />
@@ -131,6 +131,11 @@ export default {
     },
     pagination_per_page() {
       return Math.ceil(this.dataArtists.length / this.itemsPerPage)
+    },
+  },
+  watch: {
+    dataArtists_carousel(curr, old) {
+      curr.length = curr.length > 50 ? 50 : curr.length
     },
   },
   mounted() {

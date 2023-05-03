@@ -4,14 +4,19 @@
     <section class="wrapper">
       <v-card
         v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
-        <v-img :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`">
+        <v-img
+          :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`"
+          @click="$store.dispatch('goTo', {key: 'artist', item})"
+        >
           <template #placeholder>
             <v-skeleton-loader type="card" />
           </template>
         </v-img>
         
         <div class="container-content tcenter">
-          <a>{{item.title}}</a>
+          <a @click="$store.dispatch('goTo', {key: 'artist', item})">
+            {{item.title}}
+          </a>
           <p class="p" v-html="item.desc"></p>
         </div>
 

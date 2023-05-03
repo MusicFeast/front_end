@@ -453,6 +453,7 @@ img:not(.not_html, .not) {
   transform: var(--t);
   filter: var(--f);
   & :is(span, img, i) {
+    font-size: var(--fs-text, 16px);
     text-transform: var(--tt, initial);
     letter-spacing: var(--ls);
     line-height: var(--lh);
