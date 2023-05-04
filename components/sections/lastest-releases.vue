@@ -6,7 +6,7 @@
         v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
         <v-img
           :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`"
-          @click="$store.dispatch('goTo', {key: 'artist', item})"
+          class="pointer" @click="$store.dispatch('goTo', {key: 'artist', item})"
         >
           <template #placeholder>
             <v-skeleton-loader type="card" />

@@ -544,6 +544,7 @@ export default {
     this.artistId = JSON.parse(localStorage.getItem("artist"))
     await this.getCurrentArtist()
     
+    this.$scrollTo("top")
     this.styles();
 
     // resize listener
