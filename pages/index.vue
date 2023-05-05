@@ -130,6 +130,7 @@ export default {
       .then(result => {
         result.data.forEach(e => {
           e.banner = this.baseUrl+e.banner;
+          e.id = e.id_collection
           e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           e.state = "soong"
         });
