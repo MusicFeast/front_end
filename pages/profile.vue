@@ -297,7 +297,7 @@
           </v-data-table>
 
           <Pagination
-            :total-pages="pagination_per_page_offers"
+            :total-pages="pagination_per_page_offers > 50 ? 50 : pagination_per_page_offers"
             :current-page="currentPageOffers"
             @pagechanged="(page) => currentPageOffers = page"
           />
