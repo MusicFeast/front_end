@@ -19,7 +19,7 @@
           Profile
         </v-btn>
 
-        <v-btn v-if="transaction_data.state === 'success' && transaction_data.burn !== true" class="btn activeBtn" :ripple="false" @click="$router.push(localePath('/artist-details'))">
+        <v-btn v-if="transaction_data.state === 'success' && transaction_data.burn !== true" class="btn activeBtn" :ripple="false" @click="$router.push(localePath('/artist-details?artist=' + artistId))">
           Artist Page
         </v-btn>
 
@@ -61,6 +61,7 @@ export default {
     const title = 'Result'
     return {
       title,
+      artistId: null
     }
   },
   // computed: {
@@ -72,6 +73,7 @@ export default {
     
   },
   mounted() {
+    this.artistId = localStorage.getItem("artist")
     this.transaction_data = JSON.parse(localStorage.getItem("transaction_data"))
     // console.log("REDI",this.transaction_data)
     if (!this.transaction_data) {

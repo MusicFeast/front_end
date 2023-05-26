@@ -816,6 +816,8 @@ export default {
           //   }
           // }
 
+          console.log("ITEM", item)
+
           this.dataCollections.push(item)
         }
       })
