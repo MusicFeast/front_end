@@ -174,7 +174,7 @@
             item.tier==='uranium' ? 6 : ''
           }}</a>
           <ul>
-            <li v-show="item.description" v-html="item.description"></li>
+            <li v-show="item.description" v-html="item.description.limitString(110)"></li>
             <!-- <li v-show="item.tier">Access to special membership perks.</li>
             <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
           </ul>
@@ -879,6 +879,8 @@ export default {
         pollInterval: 3000
       }).subscribe((res) => {
         const data = res.data.artist
+
+        console.log("DATAAA", data, this.artist.id_collection)
 
         this.collectionNow = data.collection
 
