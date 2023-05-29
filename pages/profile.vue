@@ -831,7 +831,7 @@ export default {
       }).subscribe(async (res) => {
         const data = res.data.nfts
 
-        console.log(data)
+        console.log("BRRR",data)
 
         this.dataNfts = []
 
