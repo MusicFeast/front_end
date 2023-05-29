@@ -610,16 +610,22 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($owner_id: String, $serie_id: String) {
           nfts(where: {owner_id: $owner_id, serie_id: $serie_id}) {
-            title
+            typetoken_id
             serie_id
-            reference
             owner_id
-            media
+            is_objects
             id
             fecha
-            extra
-            description
+            collection
             artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -678,16 +684,22 @@ export default {
           nfts(
             where: {owner_id: $owner_id, artist_id: $artist_id, serie_id: $serie_id}
           ) {
-            artist_id
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -699,6 +711,14 @@ export default {
       })
 
       const data = res.data.nfts
+
+      for (let i = 0; i < data.length; i++) {
+        data[i].extra = data[i].metadata.extra
+        data[i].media = data[i].metadata.media
+        data[i].reference = data[i].metadata.reference
+        data[i].description = data[i].metadata.description
+        data[i].title = data[i].metadata.title
+      }
 
       this.dataNfts = data
 

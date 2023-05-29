@@ -711,15 +711,18 @@ export default {
             id
             data_nft {
               owner_id
-              title
               serie_id
-              reference
-              media
               id
               fecha
-              extra
-              description
               artist_id
+              metadata {
+                extra
+                id
+                media
+                title
+                reference
+                description
+              }
             }
           }
         }
@@ -736,8 +739,8 @@ export default {
 
         for (let i = 0; i < data.length; i++) {
           const item = data[i]
-          item.nft_title = item.data_nft.title
-          item.nft_media = item.data_nft.media
+          item.nft_title = item.data_nft.metadata.title
+          item.nft_media = item.data_nft.metadata.media
           this.tableItemsOffers.push(item)
         }
       })
@@ -759,15 +762,18 @@ export default {
             id
             data_nft {
               owner_id
-              title
               serie_id
-              reference
-              media
               id
               fecha
-              extra
-              description
               artist_id
+              metadata {
+                extra
+                id
+                media
+                title
+                reference
+                description
+              }
             }
           }
         }
@@ -784,8 +790,8 @@ export default {
 
         for (let i = 0; i < data.length; i++) {
           const item = data[i]
-          item.nft_title = item.data_nft.title
-          item.nft_media = item.data_nft.media
+          item.nft_title = item.data_nft.metadata.title
+          item.nft_media = item.data_nft.metadata.media
           this.tableItemsOffersRe.push(item)
         }
       })
@@ -798,17 +804,22 @@ export default {
           nfts(
             where: {owner_id: $owner_id}
           ) {
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
-            serie_id
-            title
             typetoken_id
+            serie_id
+            owner_id
             is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -819,6 +830,8 @@ export default {
         pollInterval: 3000
       }).subscribe(async (res) => {
         const data = res.data.nfts
+
+        console.log(data)
 
         this.dataNfts = []
 
@@ -833,15 +846,16 @@ export default {
         for (let i = 0; i < data.length; i++) {
           const item = {
             floor_price: null,
-            img: data[i].media,
+            img: data[i].metadata.media,
             avatar: require("~/assets/sources/avatars/avatar.png"),
-            name: data[i].title,
-            name_sell: data[i].title.split("#").shift(),
-            desc: data[i].description,
+            name: data[i].metadata.title,
+            name_sell: data[i].metadata.title.split("#").shift(),
+            desc: data[i].metadata.description || "",
             editions: data[i].copies || "Multi",
             tier: Number(data[i].typetoken_id),
-            typetoken_id: data[i].reference,
+            typetoken_id: data[i].metadata.reference,
             type: "nft",
+            extra: data[i].metadata.extra,
             token_id: data[i].id,
             supply: data[i].supply,
             state: null,

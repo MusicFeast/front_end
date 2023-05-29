@@ -742,19 +742,25 @@ export default {
             where: {
               owner_id: $owner_id
               artist_id: $artist_id
-              reference: $reference
+              metadata_: {reference: $reference}
             }
           ) {
-            artist_id
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `
@@ -855,16 +861,22 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($serie_id: String) {
           nfts(where: { serie_id: $serie_id }) {
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
             artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `

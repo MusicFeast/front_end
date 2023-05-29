@@ -623,16 +623,22 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String) {
           nfts(where: {artist_id: $artist_id}) {
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
             artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -660,18 +666,24 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $owner_id: String) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, reference: "1"}
+            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: "1"}}
           ) {
-            artist_id
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -789,6 +801,7 @@ export default {
           } else if (item.tier === 11) {
             item.tier = 2
           }
+          
 
           if (item.validate && item.tier !== 1) {
             item.state = "locked"
@@ -827,18 +840,24 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String, $collection: String) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference, collection: $collection}
+            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}, collection: $collection}
           ) {
-            artist_id
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -1015,6 +1034,8 @@ export default {
 
         // console.log("DATANEW", data)
         this.dataSlider = []
+
+        console.log("SKU",data)
 
         for (let i = 0; i < data.length; i++) {
           const item = {

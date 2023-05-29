@@ -171,7 +171,7 @@
       <v-sheet color="transparent" class="divcol center">
         <span>Price</span>
         <div class="acenter" style="gap: .5em">
-          <span>$ {{dataProfits.price}}</span>
+          <span>$ {{Number(nft_main.floor_price)?.toFixed(2)}}</span>
         </div>
       </v-sheet>
       <!-- <v-sheet color="transparent" class="divcol center">
@@ -424,16 +424,22 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($serie_id: String) {
           nfts(where: {serie_id: $serie_id}) {
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
             artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -444,6 +450,8 @@ export default {
       })
 
       const data = res.data.nfts
+
+      console.log(data)
 
       const ownersArray = []
 
@@ -576,18 +584,24 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, reference: $reference}
+            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}}
           ) {
-            artist_id
-            description
-            extra
-            fecha
-            id
-            media
-            owner_id
-            reference
+            typetoken_id
             serie_id
-            title
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
@@ -878,7 +892,7 @@ export default {
           const edition = data[i].token_id.split(":")
           const item = {
             number: "#" + edition[1],
-            token: nftAux.title,
+            token: nftAux.metadata.title,
             seller: data[i].owner_id,
             seller_avatar: require("~/assets/sources/avatars/avatar.png"),
             price: data[i].price_near,
@@ -899,19 +913,22 @@ export default {
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($id: String) {
           nft(id: $id) {
-            id
             typetoken_id
-            title
             serie_id
-            reference
             owner_id
-            media
             is_objects
+            id
             fecha
-            extra
-            description
             collection
             artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
           }
         }
       `;
