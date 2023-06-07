@@ -263,16 +263,6 @@
                     style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
                   >"{{nft.token_id}}"</span>
                   <span class="mb-3">Quantity Available: {{ quantityNfts }}</span>
-
-                  <label for="country">Country</label>
-                  <v-select
-                    id="country"
-                    v-model="form_redemption.country"
-                    :items="dataCountries" solo
-                    :rules="[v => !!v || 'required field']"
-                    placeholder="Select The Country"
-                    style="--fs-place: 16px; flex-grow: 0"
-                  ></v-select>
                 </div>
               </section>
 
@@ -389,7 +379,28 @@
                   placeholder="Lorem ipsum"
                   :rules="[v => !!v || 'required field']"
                 ></v-text-field>
-              </section>
+
+                <label for="postal">Phone Number</label>
+                <v-text-field
+                  id="phone"
+                  v-model="form_redemption.phone_number"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+
+
+                <label for="country">Country</label>
+                <v-select
+                  id="country"
+                  v-model="form_redemption.country"
+                  :items="dataCountries" solo
+                  :rules="[v => !!v || 'required field']"
+                  placeholder="Select The Country"
+                  style="--fs-place: 16px; flex-grow: 0"
+                ></v-select>
+            </section>
 
               <section class="divcol">
                 <p class="tcenter p">
@@ -492,6 +503,7 @@ export default {
       form_redemption: {
         redeemPrice: null,
         country: null,
+        phone_number: null,
         address: {
           street: null,
           apartment: null,
@@ -501,7 +513,7 @@ export default {
         }
       },
       hash_redemption: "",
-      dataCountries: [ "Canada", "EEUU", "United Kingdom", "Spain", "Lorem ipsum", "Lorem ipsum" ],
+      dataCountries: [ "CANADA", "EEUU", "UNITED KINGDOM", "SPAIN" ],
     };
   },
   mounted() {
@@ -516,6 +528,33 @@ export default {
     this.getAddress()
   },
   methods: {
+    saveOrderRedeem(tokenId, hashBurn) {
+      const item = {
+        wallet_burn: this.$ramper.getAccountId(),
+        token_id: tokenId,
+        hash_burn: hashBurn,
+        phone_number: this.form_redemption.phone_number,
+        country: this.form_redemption.country,
+        street_address: this.form_redemption.address.street,
+        street_address2: this.form_redemption.address.apartment,
+        city: this.form_redemption.address.city,
+        state: this.form_redemption.address.state,
+        postal: this.form_redemption.address.postal
+      }
+      // checkout no repeated info
+      const resp = this.$axios.post(`${this.baseUrl}api/v1/order-redeem/`, item)
+        .then(result => {
+          console.log(result)
+          return true
+        // catch error repeated values consult
+        }).catch(err => {
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+          return false
+        })
+      return resp
+    },
+
     async burnNft (ref) {
       if (ref.validate()) {
         
@@ -550,7 +589,12 @@ export default {
           } else if (res && res.result && res.txHashes.length > 0) {
             if (res.result[0].status.SuccessValue || res.result[0].status.SuccessValue === "") {
               this.hash_redemption = res.txHashes[0]
-              this.windowRedemption++
+              if (await this.saveOrderRedeem(this.nft.token_id, this.hash_redemption)) {
+                this.windowRedemption++
+              } else {
+                console.log("ERROR! ALGO PASO!")
+              }
+              
               // this.$alert("success", {desc: "Your nft has been successfully purchased, in a few minutes you will be able to see it on your profile.", hash: res.txHashes[1]})
             } else if (res.result[0].status.Failure) {
               // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
@@ -568,7 +612,9 @@ export default {
     },
     changeCheck() {
       if (this.check && this.addressUser.address) {
-        // this.form_redemption.country = this.addressUser.address.country
+        console.log(this.addressUser.address)
+        this.form_redemption.country = this.addressUser.address.country.toUpperCase()
+        this.form_redemption.phone_number = this.addressUser.address.phone_number
         this.form_redemption.address.street = this.addressUser.address.street_address
         this.form_redemption.address.postal = this.addressUser.address.postal
         this.form_redemption.address.state = this.addressUser.address.state
@@ -580,8 +626,10 @@ export default {
           apartment: null,
           city: null,
           state: null,
-          postal: null,
+          postal: null
         }
+        this.form_redemption.phone_number = null
+        this.form_redemption.country = null
       }
     },
     async getAddress() {

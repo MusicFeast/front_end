@@ -556,8 +556,10 @@ export default {
   },
   methods: {
     getTiersComing() {
+      console.log(this.artistId)
       this.$axios.post(`${this.baseUrl}api/v1/get-tiers-coming/`, {"id": Number(this.artistId)})
         .then(response => {
+          console.log(response.data)
           this.tiersComing = response.data
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})

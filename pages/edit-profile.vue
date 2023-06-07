@@ -183,6 +183,14 @@
           placeholder="Lorem ipsum"
           :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
+
+        <label for="postal">Phone Number</label>
+        <v-text-field
+          id="postal"
+          v-model="form.address.phone_number"
+          placeholder="Lorem ipsum"
+          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
+        ></v-text-field>
       </section>
 
       <div class="center fill_w wrap fwrapmobile bold" style="gap:2em; --fb: 200px">
@@ -219,6 +227,7 @@ export default {
         telegram: null,
         bio: null,
         address: {
+          phone_number: null,
           country: null,
           street_address: null,
           street_address2: null,
@@ -281,6 +290,7 @@ export default {
       await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
       .then(result => {
         const data = result.data[0]
+        console.log(data)
         if (result.data[0]) {
           this.$equalData(this.form, data)
           this.form.id = data.id
