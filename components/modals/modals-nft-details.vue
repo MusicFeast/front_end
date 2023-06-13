@@ -263,6 +263,18 @@
                     style="--bs: none; --br: 2px; --bg: rgba(0,0,0,.4); --p: .7em 1em; font-size: calc(var(--font-size) / 3);"
                   >"{{nft.token_id}}"</span>
                   <span class="mb-3">Quantity Available: {{ quantityNfts }}</span>
+
+                  <label for="country">SIZE</label>
+                  <v-select
+                    id="country"
+                    v-model="form_redemption.sku"
+                    :items="dataSizes" solo
+                    item-text="Size"
+                    item-value="SKU"
+                    :rules="[v => !!v || 'required field']"
+                    placeholder="Select The Country"
+                    style="--fs-place: 16px; flex-grow: 0"
+                  ></v-select>
                 </div>
               </section>
 
@@ -380,17 +392,6 @@
                   :rules="[v => !!v || 'required field']"
                 ></v-text-field>
 
-                <label for="postal">Phone Number</label>
-                <v-text-field
-                  id="phone"
-                  v-model="form_redemption.phone_number"
-                  filled dense
-                  background-color="transparent"
-                  placeholder="Lorem ipsum"
-                  :rules="[v => !!v || 'required field']"
-                ></v-text-field>
-
-
                 <label for="country">Country</label>
                 <v-select
                   id="country"
@@ -400,6 +401,30 @@
                   placeholder="Select The Country"
                   style="--fs-place: 16px; flex-grow: 0"
                 ></v-select>
+            </section>
+
+            <h3>contact information</h3>
+              <section class="divcol">
+            
+                <label for="postal">Email</label>
+                <v-text-field
+                  id="phone"
+                  v-model="form_redemption.email"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
+
+                <label for="postal">Phone Number</label>
+                <v-text-field
+                  id="phone"
+                  v-model="form_redemption.phone_number"
+                  filled dense
+                  background-color="transparent"
+                  placeholder="Lorem ipsum"
+                  :rules="[v => !!v || 'required field']"
+                ></v-text-field>
             </section>
 
               <section class="divcol">
@@ -425,6 +450,7 @@
                 @click="burnNft($refs.formRedemptionAddress)">Confirm</v-btn>
             </div>
           </v-card>
+          
         </v-window-item>
 
 
@@ -503,7 +529,9 @@ export default {
       form_redemption: {
         redeemPrice: null,
         country: null,
+        sku: null,
         phone_number: null,
+        email: null,
         address: {
           street: null,
           apartment: null,
@@ -514,6 +542,7 @@ export default {
       },
       hash_redemption: "",
       dataCountries: [ "CANADA", "EEUU", "UNITED KINGDOM", "SPAIN" ],
+      dataSizes: []
     };
   },
   mounted() {
@@ -522,6 +551,10 @@ export default {
     this.mystorage()
 
     this.nft_main = this.nft
+
+    if (this.nft_main.extra) {
+      this.dataSizes = JSON.parse(this.nft_main.extra).Size
+    }
 
     this.dataRedeem()
     this.getDataNft()
@@ -534,6 +567,8 @@ export default {
         token_id: tokenId,
         hash_burn: hashBurn,
         phone_number: this.form_redemption.phone_number,
+        sku: this.form_redemption.sku,
+        email: this.form_redemption.email,
         country: this.form_redemption.country,
         street_address: this.form_redemption.address.street,
         street_address2: this.form_redemption.address.apartment,
@@ -541,6 +576,10 @@ export default {
         state: this.form_redemption.address.state,
         postal: this.form_redemption.address.postal
       }
+      console.log(item)
+      console.log(item)
+      console.log(item)
+      console.log(item)
       // checkout no repeated info
       const resp = this.$axios.post(`${this.baseUrl}api/v1/order-redeem/`, item)
         .then(result => {
@@ -612,9 +651,10 @@ export default {
     },
     changeCheck() {
       if (this.check && this.addressUser.address) {
-        console.log(this.addressUser.address)
+        // console.log(this.addressUser)
         this.form_redemption.country = this.addressUser.address.country.toUpperCase()
         this.form_redemption.phone_number = this.addressUser.address.phone_number
+        this.form_redemption.email = this.addressUser.email
         this.form_redemption.address.street = this.addressUser.address.street_address
         this.form_redemption.address.postal = this.addressUser.address.postal
         this.form_redemption.address.state = this.addressUser.address.state
@@ -630,6 +670,7 @@ export default {
         }
         this.form_redemption.phone_number = null
         this.form_redemption.country = null
+        this.form_redemption.email = null
       }
     },
     async getAddress() {
