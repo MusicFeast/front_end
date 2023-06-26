@@ -7,7 +7,7 @@
     <aside id="contact-socials-wrapper" class="center">
       <div class="center" style="gap:clamp(1em, 2.5vw, 2.5em)">
           <span>
-            <v-btn icon to="/drops_confirm" >
+            <v-btn icon @click="goTo()" >
               <v-icon size="clamp(4em, 3vw, 3em)"  target="_blank">mdi-cloud-sync</v-icon>
             </v-btn>
           </span>
@@ -42,6 +42,13 @@ export default {
 
   },
   methods: {
+    goTo(){
+      if (this.$ramper.getAccountId()) {
+        this.$router.push(this.localePath('/drops_confirm'))
+      } else {
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
+      }
+    },
     goToMail() {
       window.location.href = "mailto:musicfeast.io@gmail.com";
     },

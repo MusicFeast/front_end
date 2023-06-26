@@ -7,7 +7,7 @@
     <aside id="contact-socials-wrapper" class="center">
       <div class="center" style="gap:clamp(1em, 2.5vw, 2.5em)">
           <span>
-            <v-btn icon href="https://drive.google.com/drive/folders/1x8Pw4XwpFqHJ_EVVjLtX6yQGI2ThSsLH?usp=drive_link" target="_blank" >
+            <v-btn icon href="https://drive.google.com/drive/u/0/folders/1XVcnzQL6Y2p_Mg3tq4FoI4woN8xAmtO7" target="_blank" >
               <v-icon size="clamp(4em, 3vw, 3em)"  target="_blank">mdi-folder-google-drive</v-icon>
             </v-btn>
           </span>

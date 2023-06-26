@@ -18,11 +18,6 @@
  */
 
 
-//! moment.js
-
-//! moment.js locale configuration
-
-
 /*!
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
    * http://github.com/janl/mustache.js
@@ -143,6 +138,11 @@ PERFORMANCE OF THIS SOFTWARE.
  * @copyright Chen, Yi-Cyuan 2014-2017
  * @license MIT
  */
+
+
+//! moment.js
+
+//! moment.js locale configuration
 
 
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
