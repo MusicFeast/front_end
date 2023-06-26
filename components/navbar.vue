@@ -186,6 +186,7 @@ export default {
         { name: 'news', to: '/news-details' },
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },
+        { name: 'Drops', to: '/drops' },
       ],
     }
   },
