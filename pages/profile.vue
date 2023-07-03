@@ -1006,26 +1006,3 @@ export default {
 </script>
 
 <style src="~/assets/styles/pages/profile.scss" lang="scss" />
-
-
-{
-  "typetoken_id": "3",
-  "serie_id": "15|3|1|O1",
-  "owner_id": "049df53399cc4c22e077cf9460e13b18ba5cfa501e56fec37f481e50abe32734",
-  "is_objects": true,
-  "id": "15|3|1|O1:20",
-  "fecha": "1688407855049098731",
-  "collection": "1",
-  "artist_id": "15",
-  "metadata": {
-      "extra": "{\"CatalogProductId\":\"T200\",\"CatalogProductName\":\"Sport-TekColorblockRaglanJersey\",\"Color\":\"White/Red\",\"Size\":[{\"Size\":\"S\",\"SKU\":\"4363068066\"},{\"Size\":\"M\",\"SKU\":\"3599838706\"},{\"Size\":\"L\",\"SKU\":\"8315596904\"},{\"Size\":\"XL\",\"SKU\":\"9734006245\"},{\"Size\":\"2XL\",\"SKU\":\"7523968800\"},{\"Size\":\"3XL\",\"SKU\":\"3228292013\"}],\"ArtWork\":\"https://globaldv.mypinata.cloud/ipfs/QmQvNM56xnMY6y6kQZw8jZwnvJu26ktTGdYmYadhh3HEN2\",\"physicalPlacement\":{\"horizontalPlacementFromCenterInInches\":2.5,\"verticalPlacementInInches\":1.5},\"physicalSize\":{\"widthInches\":3,\"heightInches\":2.5}}",
-      "id": "15|3|1|O1",
-      "media": "https://globaldv.mypinata.cloud/ipfs/QmUhEiRAv8NoFqfhKvg8EursRf3no2ymXBne1QTPeTYeVH",
-      "title": "Soup",
-      "reference": "15|3|1",
-      "description": null,
-      "__typename": "Serie"
-  },
-  "__typename": "Nft"
-}
-
