@@ -138,6 +138,8 @@
           id="country"
           v-model="form.address.country"
           :items="dataCountries" solo
+          item-text="name"
+          item-value="name"
           :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
           placeholder="Select The Country"
           style="--fs-place: 16px"
@@ -203,6 +205,7 @@
 
 <script>
 import computeds from '~/mixins/computeds'
+const { getAllCountries } = require('countries-and-timezones');
 
 export default {
   name: "EditProfilePage",
@@ -236,7 +239,7 @@ export default {
           postal: null,
         }
       },
-      dataCountries: [ "canada", "EEUU", "united kingdom", "spain", "lorem ipsum", "lorem ipsum" ],
+      dataCountries: [],
       djangoExistenceList: {
         username: undefined,
         email: undefined,
@@ -281,6 +284,8 @@ export default {
     this.getData();
   },
   mounted() {
+    const countries = getAllCountries();
+    this.dataCountries = Object.values(countries)
     this.EnterKeyboardListener();
   },
   methods: {

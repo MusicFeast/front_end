@@ -272,13 +272,13 @@
                     item-text="Size"
                     item-value="SKU"
                     :rules="[v => !!v || 'required field']"
-                    placeholder="Select The Country"
+                    placeholder="Select The Size"
                     style="--fs-place: 16px; flex-grow: 0"
                   ></v-select>
                 </div>
               </section>
 
-              <section>
+              <!-- <section>
                 <h6 class="space gap2">
                   <span class="bold">estimated ship date</span>
                   <span>december / 2022</span>
@@ -309,7 +309,7 @@
                   <span class="tup">estimated total</span>
                   <span>$ 30</span>
                 </span>
-              </section>
+              </section> -->
             </v-form>
 
             <div class="fwrap gap2 bold" style="margin-top: 4em">
@@ -397,6 +397,8 @@
                   id="country"
                   v-model="form_redemption.country"
                   :items="dataCountries" solo
+                  item-text="name"
+                  item-value="name"
                   :rules="[v => !!v || 'required field']"
                   placeholder="Select The Country"
                   style="--fs-place: 16px; flex-grow: 0"
@@ -494,6 +496,7 @@
 <script>
 import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
+const { getAllCountries } = require('countries-and-timezones');
 
 export default {
   name: "NftDetailsModals",
@@ -541,11 +544,13 @@ export default {
         }
       },
       hash_redemption: "",
-      dataCountries: [ "CANADA", "EEUU", "UNITED KINGDOM", "SPAIN" ],
+      dataCountries: [],
       dataSizes: []
     };
   },
   mounted() {
+    const countries = getAllCountries();
+    this.dataCountries = Object.values(countries)
     this.getDataNfts()
     this.storageMini()
     this.mystorage()

@@ -555,6 +555,7 @@ export default {
   },
   async mounted() {
     this.nft_main = this.nft
+    console.log("BRRRRRR",this.nft_main)
     this.nft_main.price_near = this.dollarConversion(this.nft_main.price)
 
     this.ownedTier1 = true // await this.validateTierFn(1)
