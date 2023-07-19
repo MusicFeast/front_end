@@ -202,6 +202,7 @@ export default {
           });
 
           this.dataArtists = result.data
+          this.itemsPerPage = Math.min(10, this.dataArtists.length);
           // console.log(this.dataArtists)
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})
@@ -209,6 +210,7 @@ export default {
         }
       );
     },
+
     columnsCarousel() {
       if (window.innerWidth >= 1800) {
         return 6

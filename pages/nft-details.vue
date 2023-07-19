@@ -2,14 +2,6 @@
   <div
     id="nft-details"
     class="divcol"
-    :class="{
-      uranium: nft_main.tier === 6,
-      diamond: nft_main.tier === 5,
-      platinum: nft_main.tier === 4,
-      gold: nft_main.tier === 3,
-      silver: nft_main.tier === 2,
-      bronze: nft_main.tier === 1,
-    }"
   >
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
@@ -146,7 +138,7 @@
 
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
-          <v-btn class="tag btn" style="--fs: 1.05em">{{
+          <!-- <v-btn class="tag btn" style="--fs: 1.05em">{{
             nft_main.tier === 1
               ? 'bronze'
               : nft_main.tier === 2
@@ -160,9 +152,14 @@
               : nft_main.tier === 6
               ? 'uranium'
               : 'user'
-          }}</v-btn>
+          }}</v-btn> -->
 
           <h2 class="p tup">{{ nft_main.name }}</h2>
+
+          <span>Music Feast merchandise works differently than normal merchandise manufacturers. 
+            We allow users to purchase limited-edition merch. 
+            <span style="text-decoration: underline; cursor: pointer;" @click="dialogHelp = true">Quick Tip Help</span>
+          </span>
         </div>
 
         <div class="spacea">
@@ -439,6 +436,23 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+
+    <!-- Dialog Quick Help -->
+    <v-dialog v-model="dialogHelp" max-width="500px" content-class="nft-dialog" persistent>
+      <v-btn icon class="close" @click="dialogHelp = false">
+        <v-icon large>mdi-close</v-icon>
+      </v-btn>
+
+      <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
+        <h2 class="p center" style="--fs: 1.8em;">
+          Quick Tip Help
+        </h2>
+        <a @click="$router.push('about')">Purchase - Why Purchase and Where</a>
+        <a @click="$router.push('about')">Redeem - What Is This</a>
+        <a @click="$router.push('about')">Hold NFT - How Does This Work</a>
+        <a @click="$router.push('about')">Transfer - How Does This Work</a>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -453,6 +467,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      dialogHelp: false,
       form_buy: {},
       windowBuy: 1,
       modalBuy: false,

@@ -211,3 +211,19 @@
     }
   }
 }
+
+
+.quick-help-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: max-content;
+  padding: 15px;
+
+  a{
+    text-decoration: underline!important;
+    font-size: 1.2em!important;
+  }
+}

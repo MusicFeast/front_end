@@ -73,26 +73,12 @@
           v-if="!item.validate"
           class="card divcol custome"
           :class="{
-            uranium: item.tier===6,
-            diamond: item.tier===5,
-            platinum: item.tier===4,
-            gold: item.tier===3,
-            silver: item.tier===2,
-            bronze: item.tier===1,
             active: active
           }"
           @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
           <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`--tag-tier: '${
-              item.tier===1 ? 'bronze' :
-              item.tier===2 ? 'silver' :
-              item.tier===3 ? 'gold' :
-              item.tier===4 ? 'platinum' :
-              item.tier===5 ? 'diamond' :
-              item.tier===6 ? 'uranium' : 'user'
-            }';
-            ${item.state ? `--tag-state: '${item.state}'` : ''}`">
+            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
@@ -121,25 +107,11 @@
           v-else
           class="card divcol custome"
           :class="{
-            uranium: item.tier===6,
-            diamond: item.tier===5,
-            platinum: item.tier===4,
-            gold: item.tier===3,
-            silver: item.tier===2,
-            bronze: item.tier===1,
             active: active
           }">
           <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`--tag-tier: '${
-              item.tier===1 ? 'bronze' :
-              item.tier===2 ? 'silver' :
-              item.tier===3 ? 'gold' :
-              item.tier===4 ? 'platinum' :
-              item.tier===5 ? 'diamond' :
-              item.tier===6 ? 'uranium' : 'user'
-            }';
-            ${item.state ? `--tag-state: '${item.state}'` : ''}`">
+            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
@@ -165,14 +137,7 @@
         </v-card>
 
         <div class="tier-desc divcol">
-          <a class="tup bold" style="cursor:default">{{item.name}} {{
-            item.tier==='bronze' ? 1 :
-            item.tier==='silver' ? 2 :
-            item.tier==='gold' ? 3 :
-            item.tier==='platinum' ? 4 :
-            item.tier==='diamond' ? 5 :
-            item.tier==='uranium' ? 6 : ''
-          }}</a>
+          <a class="tup bold" style="cursor:default">{{item.name}}</a>
           <ul>
             <li v-show="item.description" v-html="item.description.limitString(110)"></li>
             <!-- <li v-show="item.tier">Access to special membership perks.</li>
@@ -275,19 +240,7 @@
           @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
           <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`
-              ${
-                item.tier ? `--tag-tier: '${
-                  item.tier===1 ? 'bronze' :
-                  item.tier===2 ? 'silver' :
-                  item.tier===3 ? 'gold' :
-                  item.tier===4 ? 'platinum' :
-                  item.tier===5 ? 'diamond' :
-                  item.tier===6 ? 'uranium' : 'user'
-                }'
-                `: ''
-              };
-              ${item.state ? `--tag-state: '${item.state}'` : ''}`
+            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`
             ">
             <template #placeholder>
               <v-skeleton-loader type="card" />
@@ -315,30 +268,10 @@
         <v-card
           v-else :key="i"
           class="card divcol custome"
-          :class="{
-            uranium: item.tier===6,
-            diamond: item.tier===5,
-            platinum: item.tier===4,
-            gold: item.tier===3,
-            silver: item.tier===2,
-            bronze: item.tier===1,
-          }"
           >
           <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`
-              ${
-                item.tier ? `--tag-tier: '${
-                  item.tier===1 ? 'bronze' :
-                  item.tier===2 ? 'silver' :
-                  item.tier===3 ? 'gold' :
-                  item.tier===4 ? 'platinum' :
-                  item.tier===5 ? 'diamond' :
-                  item.tier===6 ? 'uranium' : 'user'
-                }'
-                `: ''
-              };
-              ${item.state ? `--tag-state: '${item.state}'` : ''}`
+            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`
             ">
             <template #placeholder>
               <v-skeleton-loader type="card" />

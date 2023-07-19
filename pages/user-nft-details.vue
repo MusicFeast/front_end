@@ -1,14 +1,7 @@
 <template>
   <div
     id="nft-details" class="divcol"
-    :class="{
-      uranium: nft_main.tier===6,
-      diamond: nft_main.tier===5,
-      platinum: nft_main.tier===4,
-      gold: nft_main.tier===3,
-      silver: nft_main.tier===2,
-      bronze: nft_main.tier===1,
-    }">
+    >
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
@@ -117,14 +110,14 @@
 
       <article class="card divcol" style="gap: 30px">
         <div class="divcol gap1">
-          <v-btn class="tag btn" style="--fs: 1.05em">{{
+          <!-- <v-btn class="tag btn" style="--fs: 1.05em">{{
             nft_main.tier===1 ? 'bronze' :
             nft_main.tier===2 ? 'silver' :
             nft_main.tier===3 ? 'gold' :
             nft_main.tier===4 ? 'platinum' :
             nft_main.tier===5 ? 'diamond' :
             nft_main.tier===6 ? 'uranium' : 'user'
-          }}</v-btn>
+          }}</v-btn> -->
 
           <h2 class="p tup">{{nft_main.name}}</h2>
         </div>

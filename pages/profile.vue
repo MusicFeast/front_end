@@ -5,16 +5,7 @@
 
     <v-img
       :src="user.banner" transition="fade-transition" class="header"
-      :style="`
-        --tag-tier: '${
-          user.tier===1 ? 'bronze' :
-          user.tier===2 ? 'silver' :
-          user.tier===3 ? 'gold' :
-          user.tier===4 ? 'platinum' :
-          user.tier===5 ? 'diamond' :
-          user.tier===6 ? 'uranium' : 'user'
-        }'
-      `">
+      >
       <template #default>
         <v-avatar
           width="var(--size)" height="var(--size)" style="--size: 13.954375em"
@@ -80,29 +71,10 @@
       <v-card
         v-for="(item,i) in dataNfts_pagination" :key="i"
         class="card divcol custome"
-        :class="{
-          uranium: item.tier===6,
-          diamond: item.tier===5,
-          platinum: item.tier===4,
-          gold: item.tier===3,
-          silver: item.tier===2,
-          bronze: item.tier===1,
-        }"
         @click="$store.dispatch('goTo', {key: 'user-nft', item, event: $event})">
         <v-img
           :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
           :style="`
-            ${
-              item.tier ? `--tag-tier: '${
-                item.tier===1 ? 'bronze' :
-                item.tier===2 ? 'silver' :
-                item.tier===3 ? 'gold' :
-                item.tier===4 ? 'platinum' :
-                item.tier===5 ? 'diamond' :
-                item.tier===6 ? 'uranium' : 'user'
-              }'
-              `: ''
-            };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           ">
           <template #placeholder>
