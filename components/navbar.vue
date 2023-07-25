@@ -180,6 +180,7 @@ export default {
       ],
       dataNavbar: [
         { name: 'home', to: '/' },
+        { name: 'events', to: '/events' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
         { name: 'artist SUBMISSION', to: '/form-mf' },

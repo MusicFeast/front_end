@@ -1,5 +1,5 @@
 <template>
-  <div id="event" class="divcol">
+  <div id="event-details" class="divcol">
     <section class="header grid">
       <v-img
         :src="event.img"
@@ -273,10 +273,10 @@
 import moment from 'moment'
 import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
-const pageName = 'event'
+const pageName = 'event-details'
 
 export default {
-  name: 'EventPage',
+  name: 'EventDetailsPage',
   mixins: [computeds],
   data() {
     return {

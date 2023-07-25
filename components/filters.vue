@@ -5,7 +5,7 @@
       v-model="search_model"
       hide-details solo
       append-icon="mdi-magnify"
-      label="Search for NFTs Name, Artist, Event &amp; Collections"
+      :label="searchLabel"
       style="--p: 0 1em 0 2em"
       class="search"
       @keyup="$emit('search', search_model)"
@@ -79,6 +79,10 @@ export default {
     filterA: {
       type: Array,
       default: undefined
+    },
+    searchLabel: {
+      type: String,
+      default: "Search for NFTs Name, Artist, Event &amp; Collections"
     },
     filterB: {
       type: Array,
