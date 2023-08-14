@@ -32,6 +32,10 @@
   h2 {font-size: 3em}
   p {line-height: 1.2}
 
+  .container-team:last-of-type{
+    margin-top: 60px!important;
+  }
+
   .container-team {
     --h-container: clamp(30em, 40vw, 34.375em);
     display: flex;

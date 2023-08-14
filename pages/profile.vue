@@ -55,7 +55,7 @@
       <p v-show="user.bio" class="p tcenter">{{user.bio}}</p>
     </section>
 
-    <h2 class="Title tup">my nfts</h2>
+    <h2 class="Title tlow tfirst">my nfts</h2>
 
     <Filters
       :search="search"
@@ -109,7 +109,7 @@
       @pagechanged="(page) => currentPage = page"
     />
 
-    <h2 class="Title tup">Offers</h2>
+    <h2 class="Title tlow tfirst">Offers</h2>
     
     <v-expansion-panels class="custome-expansion not_padding">
       <v-expansion-panel>
@@ -277,7 +277,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <h2 class="Title tup">chats</h2>
+    <h2 class="Title tlow tfirst">chats</h2>
 
     <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">

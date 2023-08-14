@@ -1,0 +1,93 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/* // // news-details // // */ 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#form {
+  --padding-header: clamp(1em, 4vw, 4em);
+  position: relative;
+  padding-inline: var(--margin-global);
+  padding-bottom: 4em;
+
+  h2 {
+    font-size: 3em
+  }
+
+  h2::after {
+    content: "";
+    position: absolute!important;
+    width: 100%!important;
+    height: calc(var(--h-title))!important;
+    right: 0!important;
+    bottom: calc(var(--h-title) * -1)!important;
+    border-right: 1px solid hsl(0, 84%, 58%)!important;
+    border-right: 1px solid var(--primary)!important;
+  }
+
+  .input-file{
+    background-color: #fff;
+    min-height: 100%;
+  }
+
+  .btn-input-file{
+    position: absolute;
+    bottom: -150px;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    max-width: 150px!important;
+    max-height: 40px!important;
+  }
+
+  section.card {
+    --bg: rgba(0, 0, 0, .4);
+    padding-inline: 30px;
+    padding-block: 40px;
+
+    .span-badge{
+      font-weight: bold;
+      font-size: 1.7em;
+      text-transform: capitalize;
+      color: #fff;
+    }
+
+    .v-badge:not(.not_vuetify):not(.not) .v-badge__badge{
+      background: #fff!important;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 1.3em;
+      text-transform: capitalize;
+    }
+
+    .select{
+      background-color: rgba(0, 0, 0, .4);
+      padding-top: 15px!important;
+      padding-left: 15px!important;
+
+      .v-input__slot::before {
+        background-color: transparent!important;
+        border-color: transparent!important;
+      }
+    }
+
+    .v-input {
+      overflow: hidden;
+      padding-top: 0;
+      * {text-transform: lowercase}
+      &__slot::before {
+        background-color: hsl(0, 84%, 58%);
+        border-color: hsl(0, 84%, 58%);
+      }
+    }
+  }
+
+  .btn-plus-minus{
+    background-color: var(--primary)!important;
+    min-width: 1px!important;
+    min-height: 1px!important;
+    width: 20px!important;
+    height: 20px!important;
+    padding: 0px!important;
+  }
+}

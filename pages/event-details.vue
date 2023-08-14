@@ -47,7 +47,7 @@
             </div>
           </div>
 
-          <h2 class="p tup">{{ event.name }}</h2>
+          <h2 class="p tlow tfirst">{{ event.name }}</h2>
         </div>
 
         <span>{{ event.artist_data.name }}</span>
@@ -110,13 +110,13 @@
       </v-sheet> -->
     </section>
 
-    <h2 id="title">
+    <h2 id="title tlow tfirst">
       {{ convertDate(event.date_event) }} - {{ event.location_event }}
     </h2>
 
     <section class="container-desc grid">
       <article class="card">
-        <h3 class="tup">{{ event.location_name }}</h3>
+        <h3 class="tlow tfirst">{{ event.location_name }}</h3>
         <!-- <p class="p">
           {{event.location_desc}}
         </p> -->
@@ -148,7 +148,7 @@
       </v-img>
     </section>
 
-    <h2 class="Title tup">click to buy</h2>
+    <h2 class="Title tlow tfirst">click to buy</h2>
 
     <v-carousel
       id="custome-carousel"

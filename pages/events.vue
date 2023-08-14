@@ -38,7 +38,7 @@
     </v-carousel>
 
     <h2 class="Title fwrap" style="--fb: 200px; gap: .3em clamp(1em, 2vw, 2em)">
-      <span class="tup">events</span>
+      <span class="tlow tfirst">events</span>
 
       <Filters
         contents

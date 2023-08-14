@@ -183,7 +183,7 @@ export default {
         { name: 'events', to: '/events' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
-        { name: 'artist SUBMISSION', to: '/form-mf' },
+        { name: 'artist submission', to: '/form-mf' },
         { name: 'news', to: '/news-details' },
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },

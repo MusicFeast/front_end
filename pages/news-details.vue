@@ -1,6 +1,6 @@
 <template>
   <div id="news-details">
-    <h2 class="Title tup">press &amp; news</h2>
+    <h2 class="Title tlow tfirst">press &amp; news</h2>
 
     <section class="container-press-and-news grid">
       <v-img :src="dataNews.image" class="container-press-and-news--background" transition="fade-transition">
@@ -33,7 +33,7 @@
       <p v-html="dataNews.desc_long" />
     </blockquote>
 
-    <h2 class="Title tup">other news</h2>
+    <h2 class="Title tlow tfirst">other news</h2>
 
     <v-slide-group
       v-model="slider"

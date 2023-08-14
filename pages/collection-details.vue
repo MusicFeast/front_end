@@ -2,24 +2,7 @@
   <div id="collection-details" class="divcol">
     <v-img
       :src="profileBanner" transition="fade-transition" class="header"
-      :class="{
-        uranium: collection.tier===6,
-        diamond: collection.tier===5,
-        platinum: collection.tier===4,
-        gold: collection.tier===3,
-        silver: collection.tier===2,
-        bronze: collection.tier===1,
-      }"
-      :style="`
-        --tag-tier: '${
-          collection.tier===1 ? 'bronze' :
-          collection.tier===2 ? 'silver' :
-          collection.tier===3 ? 'gold' :
-          collection.tier===4 ? 'platinum' :
-          collection.tier===5 ? 'diamond' :
-          collection.tier===6 ? 'uranium' : 'user'
-        }'
-      `">
+     >
       <template #default>
         <v-avatar
           width="var(--size)" height="var(--size)" style="--size: 13.954375em"
@@ -91,29 +74,10 @@
       <v-card
         v-for="(item,i) in dataNfts_pagination" :key="i"
         class="card divcol custome"
-        :class="{
-          uranium: item.tier===6,
-          diamond: item.tier===5,
-          platinum: item.tier===4,
-          gold: item.tier===3,
-          silver: item.tier===2,
-          bronze: item.tier===1,
-        }"
         @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
         <v-img
           :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
           :style="`
-            ${
-              item.tier ? `--tag-tier: '${
-                item.tier===1 ? 'bronze' :
-                item.tier===2 ? 'silver' :
-                item.tier===3 ? 'gold' :
-                item.tier===4 ? 'platinum' :
-                item.tier===5 ? 'diamond' :
-                item.tier===6 ? 'uranium' : 'user'
-              }'
-              `: ''
-            };
             ${item.state ? `--tag-state: '${item.state}'` : ''}`
           ">
           <template #placeholder>
@@ -147,7 +111,7 @@
       @pagechanged="(page) => currentPage = page"
     />
 
-    <h2 class="Title tup">chat</h2>
+    <h2 class="Title tlow tfirst">chat</h2>
 
     <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">

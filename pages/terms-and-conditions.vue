@@ -1,6 +1,6 @@
 <template>
   <div id="terms-and-conditions" class="divcol">
-    <h2 class="Title tup">Terms and Conditions</h2>
+    <h2 class="Title tlow tfirst">Terms and Conditions</h2>
 
     <section v-for="(item,i) in dataTerms" id="terms-and-conditions--content" :key="i">
       <h3>{{item.update}}</h3>

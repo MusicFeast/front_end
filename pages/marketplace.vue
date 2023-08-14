@@ -1,6 +1,6 @@
 <template>
   <div id="marketplace" class="divcol">
-    <h2 class="Title tup">collections</h2>
+    <h2 class="Title tlow tfirst">collections</h2>
     <v-carousel
       id="custome-carousel"
       v-model="modelCarousel"
@@ -116,30 +116,10 @@
     <section class="container-listed grid">
       <v-card
         v-for="(item,i) in dataListed_pagination" :key="i" class="card divcol custome"
-        :class="{
-          uranium: item.tier===6,
-          diamond: item.tier===5,
-          platinum: item.tier===4,
-          gold: item.tier===3,
-          silver: item.tier===2,
-          bronze: item.tier===1,
-        }"
         @click="$store.dispatch('goTo', {key: 'collection', item})">
         <v-img
           :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-          :style="`
-            ${
-              item.tier ? `--tag-tier: '${
-                item.tier===1 ? 'bronze' :
-                item.tier===2 ? 'silver' :
-                item.tier===3 ? 'gold' :
-                item.tier===4 ? 'platinum' :
-                item.tier===5 ? 'diamond' :
-                item.tier===6 ? 'uranium' : 'user'
-              }'
-              `: ''
-            };
-            ${item.state ? `--tag-state: '${item.state}'` : ''}`
+          :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`
           ">
           <template #placeholder>
             <v-skeleton-loader type="card" />

@@ -154,11 +154,11 @@
               : 'user'
           }}</v-btn> -->
 
-          <h2 class="p tup">{{ nft_main.name }}</h2>
+          <h2 class="p tlow tfirst">{{ nft_main.name }}</h2>
 
           <span>Music Feast merchandise works differently than normal merchandise manufacturers. 
             We allow users to purchase limited-edition merch. 
-            <span style="text-decoration: underline; cursor: pointer;" @click="dialogHelp = true">Quick Tip Help</span>
+            <span style="font-size: 20px!important;text-decoration: underline; cursor: pointer;" @click="dialogHelp = true">Quick Tip Help</span>
           </span>
         </div>
 

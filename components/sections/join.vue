@@ -2,14 +2,14 @@
   <div id="join" class="center">
     <div id="join-wrapper">
       <article class="divcol center gap2">
-        <h2>Join the community</h2>
+        <h2 class="tnone">Join the community</h2>
         <p class="tcentermobile">
           {{join_data}}
         </p>
         <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)" v-if="linkDiscord">
           <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
           <v-btn
-            class="btn" style="--w: 8.5em"
+            class="btn tlow tfirst" style="--w: 8.5em;"
             :href="linkDiscord" target="_blank"
             >Join</v-btn>
         </div>

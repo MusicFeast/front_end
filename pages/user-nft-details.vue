@@ -119,7 +119,7 @@
             nft_main.tier===6 ? 'uranium' : 'user'
           }}</v-btn> -->
 
-          <h2 class="p tup">{{nft_main.name}}</h2>
+          <h2 class="p tlow tfirst">{{nft_main.name}}</h2>
         </div>
 
         <!-- <span>Name of the artist</span> -->
@@ -177,7 +177,7 @@
       </v-sheet> -->
     </section>
 
-    <h2 id="buy">Buy Resale</h2>
+    <h2 id="buy" class="tlow tfirst">Buy Resale</h2>
 
     <v-data-table
       :headers="tableHeaders"
