@@ -5,7 +5,7 @@
          <h2 class="delete-mobile" style="color: var(--primary); line-height: 60px;">Music <br> Production <br> Contest</h2>
          <h2 class="show-mobile p" style="color: var(--primary);">Music Production Contest</h2>
          <span style="font-size: 16px!important;">We are giving away Thousands of dollars in prizes</span>
-         <v-btn class="btn" style="--w: 180px;">Contest Form</v-btn>
+         <v-btn class="btn" style="--w: 180px;" @click="goForm()">Contest Form</v-btn>
        </div>
        <div class="divrow center margin-mobile-left" style="gap: 30px; min-width: 70%!important;">
          <div v-for="(item,index) in dataImg" :key="index" class="container-img">
@@ -86,7 +86,7 @@
         </v-col>
       </div>
 
-      <div class="form-div" style="margin-top: 40px;">
+      <div class="form-div" style="margin-top: 40px;"  id="contest-form">
         <div class="max1770">
           <h2 style="--fw: 500;">CONTEST FORM</h2>
           <v-form ref="form-contest">
@@ -238,9 +238,18 @@ export default {
       title,
       }
   },
-  methods() {
-    
-  }
+
+  methods: {
+    goForm() {
+      const seccionFormularioConcurso = document.getElementById('contest-form')
+      if (seccionFormularioConcurso) {
+        seccionFormularioConcurso.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    }
+  },
 };
 </script>
 
