@@ -1,0 +1,258 @@
+#contest{
+  --padding-header: clamp(1em, 4vw, 4em);
+  position: relative;
+  padding-inline: var(--margin-global);
+  padding-bottom: 4em;
+  margin-top: 40px;
+
+  .mobile-span{
+    font-size: 14px!important;
+    --fs: 14px!important;
+  }
+
+  .mobile-align{
+    @include media(max, 960px){
+      justify-content: center;
+      align-items: center;
+      gap: 20px!important;
+    }
+
+    .delete-mobile{
+      @include media(max, 960px){
+        display: none;
+      }
+    }
+
+    .show-mobile{
+      display: none;
+      @include media(max, 960px){
+        display: inline;
+      }
+    }
+  }
+
+  .mobile-height{
+    @include media(max, 960px){
+      height: max-content!important;
+      justify-content: center;
+      align-items: center;
+      gap: 15px!important;
+      margin-bottom: -20px;
+    }
+  }
+
+  .margin-mobile-left{
+    @include media(max, 1280px){
+      margin-left: 40px;
+    }
+
+    @include media(max, 960px){
+      display: none;
+    }
+  }
+
+  .container-img{
+  width: 250px; 
+  height: 100%; 
+  overflow: hidden;
+  position: relative;
+  transform: skewX(-10deg);
+  transform-origin: top left;
+
+  @include media(max, 1450px){width: 200px;}
+  @include media(max, 1070px){width: 150px;}
+
+
+    img{
+       width: 100%; 
+       height: 100%; 
+       object-fit: cover;    
+    }
+  }
+
+  .container-img:nth-child(2){
+    margin-top: 50px;
+  }
+
+  .container-img:nth-child(3){
+    margin-top: 100px;
+  }
+
+  .lowlines{
+    width: 100%;
+    height: 80px;
+    border-left: 1px solid var(--primary);
+    border-bottom: 1px solid var(--primary);
+  }
+
+  .rightline{
+    border-right: 1px solid var(--primary)!important;
+    width: 100%;
+    height: 60px;
+  }
+
+  .container-img-no-margin{
+    margin-top: 40px;
+    margin-inline: calc(50% - 50vw) !important;
+    margin-bottom: 40px;
+    height: 500px;
+    background-color: #000;
+    display: flex;
+    flex-direction: row;
+
+    @include media(max, 1700px){
+      height: 600px;
+    }
+
+    @include media(max, 1400px){
+      height: 700px;
+    }
+
+    @include media(max, 1025px){
+      height: 800px;
+    }
+
+    @include media(max, 960px){
+      height: max-content;
+    }
+
+    
+    .delete-mobile{
+      @include media(max, 960px){
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .img-text-container{
+        height: 100%;
+        position: relative;
+        // background-color: transparent;
+        background-image: url(../../sources/images/desktop.svg);
+        background-size: cover;
+        background-position: center;
+        width: 50%;
+        overflow: hidden;
+
+        .img-desktop{
+          width: 100%;
+
+          @include media(max, 1700px){
+            height: 100%!important;
+            min-height: 100%!important;
+          }
+        }
+
+        .absolute-div{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            height: max-content;
+            padding-block: 40px;
+            padding-left: 100px;
+            min-width: 100%;
+            background-color: #791D1C;
+        }
+    }
+
+    .container-text{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        padding: 40px 20px 30px 80px;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px;
+
+        @include media(max, 960px){
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+          padding: 40px 20px 40px 20px;
+
+          span{
+            text-align: center!important;
+          }
+        }
+    }
+  }
+
+  .card-icons{
+    background-color: rgba(0, 0, 0, .4)!important;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding-block: 20px!important;
+
+    .v-btn{
+      background-color: transparent!important;
+      box-shadow: none!important;
+    }
+  }
+
+  .form-div{
+    margin-inline: calc(50% - 50vw) !important;
+    margin-bottom: 40px;
+    height: max-content;
+    padding-block: 30px;
+    padding-bottom: 60px;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .max1770{
+      max-width: 1770px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-inline: var(--margin-global);
+
+      .no-icon .v-input__icon {
+        display: none;
+      }
+
+      label {
+        font-weight: bold;
+        font-size: 1.3em;
+        text-transform: capitalize;
+      }
+  
+      .select{
+        background-color: var(--primary);
+        padding-left: 15px!important;
+        @include media(max, 560px){
+          height: 42px;
+        }
+  
+        .v-input__slot::before {
+          background-color: transparent!important;
+          border-color: transparent!important;
+        }
+        .v-input__slot{
+          background-color: var(--primary)!important;
+          border-color: none!important;
+          --b: none!important; 
+        }
+
+        ::placeholder{
+          color: #fff!important;
+        }
+      }
+  
+      .v-input {
+        overflow: hidden;
+        padding-top: 0;
+        &__slot::before {
+          background-color: hsl(0, 84%, 58%);
+          border-color: hsl(0, 84%, 58%);
+        }
+      }
+    }
+  }
+}
