@@ -24,7 +24,7 @@
 
   .input-file{
     background-color: #fff;
-    min-height: 100%;
+    min-height: 250px;
   }
 
   .btn-input-file{
@@ -90,4 +90,62 @@
     height: 20px!important;
     padding: 0px!important;
   }
+
+  .container-card-merchandise{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+
+    .v-card{
+      background-color: rgba(0, 0, 0, .4)!important;
+
+      .div-card-hover{
+        display: none;
+      }
+
+      &:hover{
+        cursor: pointer;
+
+        .div-card-hover{
+          display: flex;
+          position: absolute;
+          flex-direction: column;
+          gap: 30px;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+          justify-content: center;
+          align-items: center;
+          padding-block: 20px;
+          padding-inline: 20px;
+          background-color: rgba(0, 0, 0, .4);
+        }
+      }
+    }
+
+    @include media(max, 800px){
+      justify-content: center;
+    }
+  }
+}
+
+
+
+
+/////////////////dialog/////////////////////////////
+
+
+.quick-help-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  height: max-content;
+  padding: 15px;
+  padding-block: 40px;
 }
