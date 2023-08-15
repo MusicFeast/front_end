@@ -6,8 +6,10 @@
   margin-top: 40px;
 
   .mobile-span{
-    font-size: 14px!important;
-    --fs: 14px!important;
+    @include media(max, 960px){
+      font-size: 14px!important;
+      --fs: 14px!important;
+    }
   }
 
   .mobile-align{
