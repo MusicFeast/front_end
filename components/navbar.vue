@@ -180,14 +180,14 @@ export default {
       ],
       dataNavbar: [
         { name: 'home', to: '/' },
-        { name: 'events', to: '/events' },
+        // { name: 'events', to: '/events' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
-        { name: 'artist submission', to: '/form-mf' },
+        { name: 'Upload NFT', to: '/form-mf' },
         { name: 'news', to: '/news-details' },
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },
-        { name: 'Drops', to: '/drops' },
+        // { name: 'Drops', to: '/drops' },
       ],
     }
   },

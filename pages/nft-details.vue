@@ -447,10 +447,10 @@
         <h2 class="p center" style="--fs: 1.8em;">
           Quick Tip Help
         </h2>
-        <a @click="$router.push('about')">Purchase - Why Purchase and Where</a>
-        <a @click="$router.push('about')">Redeem - What Is This</a>
-        <a @click="$router.push('about')">Hold NFT - How Does This Work</a>
-        <a @click="$router.push('about')">Transfer - How Does This Work</a>
+        <a @click="$router.push('quick-tip-help')">Purchase - Why Purchase and Where</a>
+        <a @click="$router.push('quick-tip-help')">Redeem - What Is This</a>
+        <a @click="$router.push('quick-tip-help')">Hold NFT - How Does This Work</a>
+        <a @click="$router.push('quick-tip-help')">Transfer - How Does This Work</a>
       </v-card>
     </v-dialog>
   </div>
