@@ -22,7 +22,7 @@
         <a
           v-for="(item, i) in dataNavbar"
           :key="i"
-          class="tcap"
+          class="tup"
           @click="goTo(item.to)"
           >{{ item.name }}</a
         >
@@ -85,6 +85,12 @@
             <v-list-item :ripple="false" @click="$ramper.openWallet()">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Open Wallet
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item :ripple="false" @click="$router.push('form-nft')">
+              <v-list-item-title class="tcap" :class="{ not_transform: false }">
+                Upload My NFT
               </v-list-item-title>
             </v-list-item>
 
@@ -183,7 +189,7 @@ export default {
         // { name: 'events', to: '/events' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
-        { name: 'artist submission', to: '/form-mf' },
+        // { name: 'artist submission', to: '/form-mf' },
         { name: 'news', to: '/news-details' },
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },

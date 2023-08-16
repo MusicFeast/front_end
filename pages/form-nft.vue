@@ -1,6 +1,6 @@
 <template>
     <div id="form">
-      <h2 class="Title tnone tlow tfirst lines">FORM <span style="text-transform: uppercase!important;">NFT</span></h2>  
+      <h2 class="Title tup lines">FORM NFT</h2>  
       
       <v-row style="margin-top: 40px;">
         <v-col xl="2" lg="3" md="3" sm="4" cols="12" style="position: relative!important;">
@@ -144,7 +144,7 @@
         </v-row>
       </section>
 
-      <h2 class="Title tnone tlow tfirst lines">Physical <span style="text-transform: capitalize!important;">M</span>erchandise</h2>  
+      <h2 class="Title tup lines">Physical Merchandise</h2>  
 
       <section class="card" style="margin-top: 40px;">
         <v-badge

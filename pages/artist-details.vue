@@ -190,7 +190,7 @@
   </v-slide-group>
 
 
-    <h2 class="Title tlow tfirst">events</h2>
+    <h2 class="Title tup">events</h2>
 
     <v-expansion-panels class="custome-expansion">
       <v-expansion-panel v-for="(item,i) in dataEvents" :key="i">
@@ -203,7 +203,7 @@
     </v-expansion-panels>
 
     <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
-      <span class="tlow tfirst" style="--fb: max-content">lastest collections</span>
+      <span class="tup" style="--fb: max-content">lastest collections</span>
 
       <Filters
         contents
@@ -305,7 +305,16 @@
       @pagechanged="(page) => currentPage = page"
     />
 
-    <h2 class="Title tlow tfirst">chats</h2>
+    <h2 class="Title tup">chats</h2>
+    <span style="font-size: 20px;" class="tcenter mb-1 mt-4 less-font-size">
+      Currently, we use Discord to allow users to gain access to Artist Communities. Now that you have purchased your
+       Community Access Pass, you will need to click the link below, create or log in to your Discord account, 
+       and follow the instructional steps to gain access. Learn More About Community Access:
+    </span>
+
+    <span style="font-size: 20px; cursor: pointer; text-decoration: underline;" class="tcenter mb-5 mt-1 less-font-size" @click="$router.push('quick-tip-help')">
+      Quick Tip Help
+    </span>
     <v-container v-if="server_dc">
     <v-row no-gutters>
       <v-col

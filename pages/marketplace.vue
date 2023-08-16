@@ -1,6 +1,6 @@
 <template>
   <div id="marketplace" class="divcol">
-    <h2 class="Title tlow tfirst">collections</h2>
+    <h2 class="Title tup">collections</h2>
     <v-carousel
       id="custome-carousel"
       v-model="modelCarousel"

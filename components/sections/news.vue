@@ -1,6 +1,6 @@
 <template>
   <div id="news">
-    <h2 class="p tcenter">Press &amp; News</h2>
+    <h2 class="p tcenter tup">Press &amp; News</h2>
 
     <v-slide-group
       id="slider-news"

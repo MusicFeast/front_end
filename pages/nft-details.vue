@@ -154,7 +154,7 @@
               : 'user'
           }}</v-btn> -->
 
-          <h2 class="p tlow tfirst">{{ nft_main.name }}</h2>
+          <h2 class="p tup">{{ nft_main.name }}</h2>
 
           <span>Music Feast merchandise works differently than normal merchandise manufacturers. 
             We allow users to purchase limited-edition merch. 
@@ -1152,7 +1152,8 @@ export default {
               JSON.stringify({
                 state: 'success',
                 title: 'Success',
-                desc: 'You have successfully acquired your community access pass. Community chat can be found on the artist page. ',
+                tier: 'tier1',
+                desc: "You Have Now Successfully Acquired Your Community Access Pass. A Community Access Pass Allows You To Gain Entrance Into The Artist's Exclusive Community. This Is Where You Will Be Able To Hear New Music, Chat With The Artist, and Get Exclusive Access For Subscribers Only. The Community Chat Can Now Be Found On The Artist Page. ",
                 hash: res.txHashes[0],
               })
             )
@@ -1229,8 +1230,9 @@ export default {
                 'transaction_data',
                 JSON.stringify({
                   state: 'success',
-                  title: 'Success',
-                  desc: 'You have successfully acquired your community access pass. Community chat can be found on the artist page. ',
+                  title: 'Success', 
+                  tier: 'tier1',
+                  desc: "You Have Now Successfully Acquired Your Community Access Pass. A Community Access Pass Allows You To Gain Entrance Into The Artist's Exclusive Community. This Is Where You Will Be Able To Hear New Music, Chat With The Artist, and Get Exclusive Access For Subscribers Only. The Community Chat Can Now Be Found On The Artist Page. ",
                   hash: res.txHashes[0],
                 })
               )

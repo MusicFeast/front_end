@@ -1,7 +1,7 @@
 <template>
   <div id="form-mf" class="divcol">
     <v-form ref="form" class="grid" @submit.prevent="saveForm()">
-      <h2 class="tlow tfirst p">Artist Submission</h2>
+      <h2 class="tup p">Artist Submission</h2>
 
       <section>
         <p>
@@ -13,7 +13,7 @@
         </p>
       </section>
 
-      <h2 class="tlow tfirst p">Artist Submission Form
+      <h2 class="tup p">Artist Submission Form
         <!-- <sup class="relative" style="top: calc(clamp(15px, 2vw, 30px) * -1)">
           <v-tooltip
             right color="rgba(0, 0, 0, .4)" transition="slide-x-transition"

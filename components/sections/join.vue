@@ -2,7 +2,7 @@
   <div id="join" class="center">
     <div id="join-wrapper">
       <article class="divcol center gap2">
-        <h2 class="tnone">Join the community</h2>
+        <h2 class="tup">Join the community</h2>
         <p class="tcentermobile">
           {{join_data}}
         </p>

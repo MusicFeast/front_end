@@ -1,10 +1,10 @@
 <template>
   <div id="about--artists" class="divcol center">
     <section id="about--home">
-      <h1 class="tlow tfirst">ABOUT</h1>
+      <h1>ABOUT</h1>
       <v-sheet color="transparent" class="content divcol gap1 gap2mobile">
         <div v-for="(item,i) in dataAbout" :key="i" class="content-top divcol">
-          <h2 class="tlow tfirst">{{item.title}}</h2>
+          <h2>{{item.title}}</h2>
           <!-- <p class="p">{{item.description}}</p> -->
           <p class="p" v-html="item.description" />
           <a class="deletemobile" @click="$router.push(localePath('/about'))">More</a>
@@ -63,7 +63,7 @@
         </template>
       </v-slide-group>
 
-      <h1 class="tlow tfirst">ARTISTS</h1>
+      <h1>ARTISTS</h1>
     </section>
 
     <v-btn class="btn h10_em view-all__btn" :to="localePath('/artists')">View All</v-btn>

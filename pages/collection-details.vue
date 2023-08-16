@@ -111,7 +111,7 @@
       @pagechanged="(page) => currentPage = page"
     />
 
-    <h2 class="Title tlow tfirst">chat</h2>
+    <h2 class="Title tup">chat</h2>
 
     <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">

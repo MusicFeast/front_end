@@ -2,9 +2,9 @@
     <div id="contest">
       <div class="divrow mobile-height" style="height: 600px;">
         <div class="divcol astart mobile-align" style="gap: 35px; min-width: 30%!important;">
-         <h2 class="delete-mobile" style="color: var(--primary); line-height: 60px;">Music <br> Production <br> Contest</h2>
-         <h2 class="show-mobile p" style="color: var(--primary);">Music Production Contest</h2>
-         <span style="font-size: 16px!important;">We are giving away Thousands of dollars in prizes</span>
+         <h2 class="delete-mobile tup" style="color: var(--primary); line-height: 60px;">Music <br> Production <br> Contest</h2>
+         <h2 class="show-mobile p tup tcenter" style="color: var(--primary);">Music Production Contest</h2>
+         <span style="font-size: 16px!important;">We are Giving Away Thousands of Dollars in Prizes</span>
          <v-btn class="btn" style="--w: 180px;" @click="goForm()">Contest Form</v-btn>
        </div>
        <div class="divrow center margin-mobile-left" style="gap: 30px; min-width: 70%!important;">
@@ -16,7 +16,7 @@
 
       <div class="divcol" style="margin-top: 100px;">
         <h2 class="tcenter mb-16">WELCOME TO THE MUSIC FEAST MUSIC PRODUCTION CONTEST 2023!</h2>
-        <p class="p mb-6 mobile-span" style="margin-inline: 40px;">
+        <p class="p mb-6 mobile-span tcenter" style="margin-inline: 40px;">
             We are hosting a worldwide music production contest to find some of the dopest producers in the game! <br>
             <br>We are giving away Thousands of dollars in prizes, including a Grand Prize of $1000, a mix session with Grammy Award-winning engineer Blake Blizzy - whose credits include Kendrick Lamar, and Travis Scott - and a track produced by Nailz - whose credits include Eminem, Dr. Dre - and much more!<br>
             <br>From September 1st - September 30th, just fill out the SUBMIT FORM below and follow the prompts to sign up and enter the contest!<br>
@@ -70,12 +70,12 @@
       <div class="lowlines"></div>
       <div class="rightline"></div>
 
-      <div class="divcol jstart astart" style="gap: 25px;">
+      <div class="divcol jstart center" style="gap: 25px;">
         <h2 style="--fw: 500;">HOW TO ENTER</h2>
-        <span class="mobile-span">
+        <p class="mobile-span tcenter">
           • Submit your music track demo on or before the deadline date of September 30th via the SUBMIT FORM below. <br>
           <br>• You will receive a confirmation email of your music submission. From this confirmation email, you will share this page and follow our socials. Make a social post about this contest and tag us.
-        </span>
+        </p>
 
         <v-col cols="12">
           <section class="card card-icons">
@@ -86,10 +86,28 @@
         </v-col>
       </div>
 
-      <div class="form-div" style="margin-top: 40px;"  id="contest-form">
+      <div id="contest-form" class="form-div" style="margin-top: 40px;">
         <div class="max1770">
           <h2 style="--fw: 500;">CONTEST FORM</h2>
           <v-form ref="form-contest">
+            <v-row class="aend jend" style="margin-bottom: 20px;">
+              <v-col lg="10" sm="9">
+                <label for="photo">Upload Photo</label>
+                <v-file-input
+                  id="photo"
+                  placeholder=".JPG or .PNG"
+                  hide-details
+                  accept=".jpg,.png"
+                  class="no-icon"
+                  style="margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
+                ></v-file-input>
+              </v-col>
+
+              <v-col lg="2" sm="3">
+                <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
+              </v-col>
+            </v-row>
+
             <label for="full-name">Full Name</label>
             <v-text-field
               id="full-name"
@@ -141,10 +159,12 @@
                 <label for="track-demo">Track Demo</label>
                 <v-file-input
                   id="track-demo"
-                  placeholder="Audio"
+                  placeholder=".WAV or .AIFF"
                   hide-details
+                  :rules="fileRules"
+                  accept=".wav,.aiff"
                   class="no-icon"
-                  style="margin-left: -8px;"
+                  style="margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
                 ></v-file-input>
               </v-col>
 
@@ -227,6 +247,16 @@ export default {
         () => !(this.djangoExistenceList.telegram) || "Telegram account is already used"
       ],
     },
+
+    fileRules: [
+      value => !!value || 'File is required',
+      value => {
+        if (!value) return true;
+        const allowedFormats = ['.wav', '.aiff'];
+        const fileExtension = value.name.substring(value.name.lastIndexOf('.'));
+        return allowedFormats.includes(fileExtension.toLowerCase()) || 'Invalid file format';
+      },
+    ],
 
     coming: false,
     visible: false,

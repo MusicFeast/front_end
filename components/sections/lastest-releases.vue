@@ -1,6 +1,6 @@
 <template>
   <div id="lastest-releases" class="divcol">
-    <h2>Lastest Releases</h2>
+    <h2 class="tup">Lastest Releases</h2>
     <section class="wrapper">
       <v-card
         v-for="(item,i) in dataLastestReleases" :key="i" color="#000">

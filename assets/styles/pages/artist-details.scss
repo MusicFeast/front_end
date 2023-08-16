@@ -179,4 +179,10 @@
       p {margin-bottom: auto}
     }
   }
+
+  .less-font-size{
+    @include media(max, 960px){
+      font-size: 15px!important;
+    }
+  }
 }

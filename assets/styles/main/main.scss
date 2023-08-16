@@ -185,6 +185,10 @@
   &.bronze .v-image::after {--bg-tier: linear-gradient(to right, #7D3716, #D57535, #5E170B)}
 }
 
+h2{
+  text-transform: uppercase!important;
+}
+
 // h2 titles
 h2.Title {
   font-size: 3em;
