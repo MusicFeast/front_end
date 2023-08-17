@@ -1,109 +1,91 @@
 <template>
-  <div id="about" class="divcol">
-    <div id="about--header" class="center">
-      <div id="about--header-wrapper" class="center">
-        <h2 class="Title tlow tfirst fill_w">Music Feast Merchandise Quick Tip Help Guide</h2>
-      </div>
+  <div id="quick-tip-help" class="divcol">
+    <h2 class="tup tcenter" style="color: var(--primary);">Music feast merchandise quick tip help guide</h2>
+
+    <div class="divrow center delete-in-mobile" style="gap: 20px; margin-block: 100px;">
+      <img src="~/assets/sources/images/person-cap.png" alt="cap" class="animated-img-up">
+      <img src="~/assets/sources/images/shirt.png" alt="cap" class="animated-img-down">
+      <img src="~/assets/sources/images/5-shirts.png" alt="cap" class="static-img">
+      <img src="~/assets/sources/images/cup.png" alt="cap" class="animated-img-down">
+      <img src="~/assets/sources/images/cap.png" alt="cap" class="animated-img-up">
     </div>
 
-    <section class="divcol" style="margin-block: 2.5em; padding-inline: var(--margin-separator); gap: 3em">
-      <!-- <div v-for="(item,i) in dataAbout" :key="i">
-        <h2 class="tup">{{item.title}}</h2>
-        <p class="p" v-html="item.description" />
-      </div> -->
-      <div>
-        <p class="mb-4">Music Feast merchandise works differently than normal merchandise manufacturers. 
-          We allow users to purchase limited-edition artist merch for manufacturing or for transferring. 
-          When you purchase merchandise on Music Feast you are purchasing the right to manufacture the merch item or 
-          to hold on to it. 
-        </p>
+    <div class="center divcol mt-16 mb-16 margin-block-mobile">
+      <h2 class="tcenter mb-16 margin-block-mobile">
+        Music Feast merchandise works differently than normal merchandise manufacturers
+      </h2>
 
-        <p class="p">Using a unique NFT-based system, we allow users to reserve the right to order the 
-          merch and/or to transfer it. This creates a one-of-a-kind ownership experience that allows users
-           to PURCHASE, REDEEM, HOLD, and TRANSFER their merchandise orders. 
-           Below is an explanation of how Music Feast Merchandise works:
-        </p>
-      </div>
-    </section>
+      <p class="p mobile-text-align">
+        We allow users to purchase limited-edition artist merch for manufacturing or for transferring. When you purchase merchandise on Music Feast you are purchasing the right to manufacture the merch item or to hold on to it.<br>
+        <br>Using a unique NFT-based system, we allow users to reserve the right to order the merch and/or to transfer it. This creates a one-of-a-kind ownership experience that allows users to PURCHASE, REDEEM, HOLD, and TRANSFER their merchandise orders.<br>
+        <br><b>Below is an explanation of how Music Feast Merchandise works:</b>
+      </p>
+    </div>
 
-    <h2 class="Title tlow tfirst">Quick Tip Help</h2>
+    <div class="mb-16 mt-16 margin-block-mobile">
+      <h2 class="tup title-line p">Quick tip help</h2>
+      <div class="lowline"></div>
+    </div>
 
-    <section v-for="(item,i) in dataTeam" :key="i" class="container-team mobile" :class="{special: i === 1}">
-      <template v-if="!isMobile">
-        <aside class="container-team--photo">
-          <v-sheet color="transparent">
-            <div>
-              <v-btn
-                v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.user" target="_blank"
-                :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
-                <v-icon color="var(--accent)">{{item2.name}}</v-icon>
-              </v-btn>
+    <div v-for="(item, index) in panelsData" :key="index" :class="`container-expansion center panel-${index}`">
+      <v-expansion-panels flat style="max-width: 1440px;">
+        <v-expansion-panel>
+          <v-expansion-panel-header class="h6" expand-icon="mdi-menu-down">{{ item.name }}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <p class="mb-8 mt-8 font20">
+              <b>{{ item.main_desc }}</b>
+            </p>
+            <ul class="mt-8 mb-8">
+              <li class="mb-8 font18">
+                <b>{{ item.title1 }}</b> {{ item.description1 }}
+              </li>
+              <li class="mt-8 font18">
+                <b>{{ item.title2 }}</b> {{ item.description2 }}
+              </li>
+              <li class="mt-8 font18">
+                <b>{{ item.title3 }}</b> {{ item.description3 }}
+              </li>
+              <li v-if="item.title4 && item.description4" class="mt-8 font18">
+                <b>{{ item.title4 }}</b> {{ item.description4 }}
+              </li>
+              <li v-if="item.title5 && item.description5" class="mt-8 font18">
+                <b>{{ item.title5 }}</b> {{ item.description5 }}
+              </li>
+              <li v-if="item.title6 && item.description6" class="mt-8 font18">
+                <b>{{ item.title6 }}</b> {{ item.description6 }}
+              </li>
+              <li v-if="item.title7 && item.description7" class="mt-8 font18">
+                <b>{{ item.title7 }}</b> {{ item.description7 }}
+              </li>
+            </ul>
+
+            <div v-if="item.last_desc" class="card card-last-desc mt-8 mb-8">
+              <p class="font18">
+                <b>{{ item.last_desc }}</b>
+              </p>
+              <p v-if="item.last_desc2" class="font18">
+                <b>{{ item.last_desc2 }}</b>
+              </p>
             </div>
-          </v-sheet>
-
-          <div class="wrapper-img">
-            <img :src="item.img" :alt="`${item.name}'s image`">
-          </div>
-        </aside>
-
-        <v-sheet class="container-team--content" color="transparent">
-          <div class="div-shaped" />
-          
-          <h3 class="p mb-2 tlow tfirst">{{item.name}}</h3>
-          <span style="line-height: 10px;">{{item.position}}</span>
-          <p class="p mt-4"><span>{{ item.title1 }}</span> {{ item.description1 }}</p>
-          <p class="p mt-4"><span>{{ item.title2 }}</span> {{ item.description2 }}</p>
-          <p class="p mt-4"><span>{{ item.title3 }}</span> {{ item.description3 }}</p>
-          <p class="p mt-4"><span>{{ item.title4 }}</span> {{ item.description4 }}</p>
-          <p class="p mt-4"><span>{{ item.title5 }}</span> {{ item.description5 }}</p>
-          <p class="p mt-4"><span>{{ item.title6 }}</span> {{ item.description6 }}</p>
-          <p class="p mt-4"><span>{{ item.title6 }}</span> {{ item.description7 }}</p>
-          <span class="mt-3" style="line-height: 10px;">{{item.last_desc}}</span>
-          <span class="mt-3" style="line-height: 10px;">{{item.last_desc2}}</span>
-        </v-sheet>
-      </template>
-
-      <template v-else>
-        <aside class="container-team--header" color="transparent">
-          <div class="wrapper-img">
-            <img :src="item.img" :alt="`${item.name}'s image`">
-          </div>
-
-          <div class="divcol center tcenter">
-            <h3 class="p">{{item.name}}</h3>
-            <span>{{item.position}}</span>
-            <div>
-              <v-btn
-                v-for="(item2,i2) in item.social" :key="i2" icon :href="item2.link" target="_blank"
-                :style="`--index: ${i2}; --index-reverse: ${item.social.slice().reverse().indexOf(item2)}`">
-                <v-icon color="var(--accent)">{{item2.icon}}</v-icon>
-              </v-btn>
-            </div>
-          </div>
-        </aside>
-
-        <p class="p" v-html="item.description" />
-      </template>
-    </section>
-  </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+  </div>  
 </template>
 
 <script>
-import isMobile from '~/mixins/isMobile'
 import computeds from '~/mixins/computeds'
-import styles from '~/mixins/styles'
 
 export default {
-  name: "AboutPage",
-  mixins: [isMobile, computeds, styles],
+  name: "QuickTipHelpPage",
+  mixins: [computeds],
   data() {
     return {
-      pageName: "about",
-      dataAbout: [],
-      dataTeam: [
+      panelsData: [
         {
           name:"Purchase",
-          position: "Non-Fungible Tokens (NFTs) are digital assets that represent ownership or proof of authenticity of a unique item or piece of content, such as digital artwork, collectibles, or even physical merchandise. When it comes to purchasing an NFT that represents physical merch, here's how it typically works:",
+          main_desc: "Non-Fungible Tokens (NFTs) are digital assets that represent ownership or proof of authenticity of a unique item or piece of content, such as digital artwork, collectibles, or even physical merchandise. When it comes to purchasing an NFT that represents physical merch, here's how it typically works:",
           title1:"Authenticity and Ownership Proof:", 
           description1: "By associating an NFT with physical merchandise, the token serves as a digital certificate of authenticity and proof of ownership. It verifies the item's uniqueness and establishes a digital record of its origin.",
           title2: "Creation and Minting:",
@@ -118,7 +100,7 @@ export default {
         },
         {
           name:"Redeem",
-          position: "The term REDEEM typically refers to the process of exchanging or converting something, such as a voucher, coupon, or token, for a specific value, product, or service. In various contexts, the act of redeeming involves utilizing or claiming something that has been previously acquired or obtained. Here are a few common scenarios where the term REDEEM is often used:",
+          main_desc: "The term REDEEM typically refers to the process of exchanging or converting something, such as a voucher, coupon, or token, for a specific value, product, or service. In various contexts, the act of redeeming involves utilizing or claiming something that has been previously acquired or obtained. Here are a few common scenarios where the term REDEEM is often used:",
           title1:"Redeeming a Voucher or Coupon:", 
           description1: "When you have a voucher or coupon, you can redeem it by presenting it to the appropriate vendor or retailer to receive the specified discount, free item, or other benefits associated with it. The vendor will then verify the voucher's validity and provide the corresponding goods or services.",
           title2: "Redeeming Points or Rewards:",
@@ -131,7 +113,7 @@ export default {
         },
         {
           name:"Hold",
-          position: "When you HOLD an NFT (Non-Fungible Token), it means that you possess ownership or control over a specific digital asset represented by the NFT. Holding an NFT typically involves acquiring it and keeping it in your digital wallet or associated account. Here's how holding an NFT generally works:",
+          main_desc: "When you HOLD an NFT (Non-Fungible Token), it means that you possess ownership or control over a specific digital asset represented by the NFT. Holding an NFT typically involves acquiring it and keeping it in your digital wallet or associated account. Here's how holding an NFT generally works:",
           title1:"Acquiring an NFT:", 
           description1: "To hold an NFT, you need to acquire it first. NFTs are typically obtained by purchasing them from NFT marketplaces such as Music Feast or participating in auctions or sales events. Each NFT represents a unique digital item, such as artwork, collectibles, virtual real estate, or even representations of physical merchandise.",
           title2: "Digital Wallet:",
@@ -149,7 +131,7 @@ export default {
         },
         {
           name: "Transfer",
-          position: "Transferring an NFT (Non-Fungible Token) involves moving the ownership rights of the digital asset from one party to another. Here's how the process of transferring an NFT generally works:",
+          main_desc: "Transferring an NFT (Non-Fungible Token) involves moving the ownership rights of the digital asset from one party to another. Here's how the process of transferring an NFT generally works:",
           title1: "Initiating the Transfer",
           description1: "To begin the transfer process, the current owner of the NFT needs to initiate the transfer from their digital wallet or associated platform. This usually involves specifying the recipient's wallet address to whom the NFT will be transferred.",
           title2:"Confirmation and Approval:",
@@ -167,66 +149,14 @@ export default {
     }
   },
   head() {
-    const title = "About"
+    const title = "Quick Tip Help"
     return {
       title,
     }
   },
-  mounted() {
-    this.getAbout();
-    this.getTeam();
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.styles)
-  },
+ 
   methods: {
-    styles() {
-      if (window.innerWidth > 880) {
-        setTimeout(() => {
-          const specialContainer = document.querySelector(".container-team.special")
-          const special = specialContainer.querySelector(".container-team--content")
-          specialContainer.style.setProperty("--h-content", `${special.getBoundingClientRect().height}px`)
-        }, 100);
-      }
-    },
-    getAbout() {
-      this.$axios.get(`${this.baseUrl}api/v1/get-about`).then(result => {
-        for (const item of result.data) { this.dataAbout.push(item) }
-      }).catch(err => {
-        console.error(err)
-      });
-    },
-    getTeam() {
-      this.$axios.get(`${this.baseUrl}api/v1/get-core-team`).then(result => {
-        for (const item of result.data) {
-          item.img = this.baseUrl + item.img
-          item.social.forEach(el => {
-            if (el.name === "telegram") {
-              // telegram
-              el.user = `https://t.me/${el.user}`
-            } else if (el.name === "discord") {
-              // discord
-              el.user = `https://discord.com/channels/${el.user}`
-            } else if (el.name === "instagram") {
-              // instagram
-              el.name = 'mdi-instagram'
-              el.user = `https://instagram.com/${el.user}`
-            } else if (el.name === "twitter") {
-              // twitter
-              el.name = 'mdi-twitter'
-              el.user = `https://twitter.com/${el.user}`
-            } else if (el.name === "facebook") {
-              el.user = `https://www.facebook.com/${el.user}`
-            }
-          })
-          // this.dataTeam.push(item)
-        }
-        this.styles()
-        window.addEventListener("resize", this.styles)
-      }).catch(err => {
-        console.error(err)
-      });
-    },
+   
   }
 };
 </script>

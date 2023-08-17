@@ -158,7 +158,7 @@
 
           <span>Music Feast merchandise works differently than normal merchandise manufacturers. 
             We allow users to purchase limited-edition merch. 
-            <span style="font-size: 20px!important;text-decoration: underline; cursor: pointer;" @click="dialogHelp = true">Quick Tip Help</span>
+            <span style="font-size: 20px!important;text-decoration: underline; cursor: pointer;" @click="$router.push('quick-tip-help')">Quick Tip Help</span>
           </span>
         </div>
 
