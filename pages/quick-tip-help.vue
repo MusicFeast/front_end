@@ -132,7 +132,7 @@ export default {
         {
           name: "Transfer",
           main_desc: "Transferring an NFT (Non-Fungible Token) involves moving the ownership rights of the digital asset from one party to another. Here's how the process of transferring an NFT generally works:",
-          title1: "Initiating the Transfer",
+          title1: "Initiating the Transfer:",
           description1: "To begin the transfer process, the current owner of the NFT needs to initiate the transfer from their digital wallet or associated platform. This usually involves specifying the recipient's wallet address to whom the NFT will be transferred.",
           title2:"Confirmation and Approval:",
           description2: "After initiating the transfer, the blockchain network on which the NFT is hosted requires confirmation of the transaction. Depending on the blockchain's consensus mechanism, this confirmation may involve verification by network validators or miners. The process typically requires a certain number of confirmations to ensure the transaction's validity and security.",
