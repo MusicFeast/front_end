@@ -129,6 +129,45 @@
       h2 {font-size: 3.5em}
       span:not(.v-btn__content), p {font-weight: 500; font-size: var(--font-text)}
       p {line-height: 1.2}
+
+      .font20{
+        b{
+          font-size: 20px!important;
+          --fs: 20px!important;
+
+          @include media(max, 960px){
+            font-size: 16px!important;
+          --fs: 16px!important;
+          }
+        }
+
+        p{
+          font-size: 20px!important;
+          --fs: 20px!important;
+          @include media(max, 960px){
+            font-size: 16px!important;
+          --fs: 16px!important;
+          }
+        }
+
+        li{
+          font-size: 20px!important;
+          --fs: 20px!important;
+          @include media(max, 960px){
+            font-size: 16px!important;
+          --fs: 16px!important;
+          }
+        }
+
+        a{
+          font-size: 20px!important;
+          --fs: 20px!important;
+          @include media(max, 960px){
+            font-size: 16px!important;
+          --fs: 16px!important;
+          }
+        }
+      }
     }
   }
 

@@ -7,11 +7,12 @@
         </v-icon>
         <h3>{{transaction_data.title}}</h3>
         <p class="p" style="max-width: 70%;" clas="tcenter">{{transaction_data.desc}}</p>
-        <p 
+        <a 
         v-if="transaction_data.tier == 'tier1'" class="p" 
-        style="text-decoration: underline!important; cursor: pointer"
-        @click="$router.push('quick-tip-help')"
-        >Quick Tip Help</p>
+        target="_blank"
+        href="quick-tip-help"
+        >Quick Tip Help</a>
+        <!-- poner un blank en el router push -->
         <p v-if="transaction_data.desc2" class="p">{{transaction_data.desc2}}</p>
       </div>
 

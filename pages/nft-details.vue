@@ -155,11 +155,10 @@
           }}</v-btn> -->
 
           <h2 class="p tup">{{ nft_main.name }}</h2>
-
+          <!-- 
           <span>Music Feast merchandise works differently than normal merchandise manufacturers. 
             We allow users to purchase limited-edition merch. 
-            <span style="font-size: 20px!important;text-decoration: underline; cursor: pointer;" @click="$router.push('quick-tip-help')">Quick Tip Help</span>
-          </span>
+          </span> -->
         </div>
 
         <div class="spacea">
@@ -228,9 +227,11 @@
           >
         </div>
 
-        <span>{{ nft_main.desc }}</span>
+        <span class="font20">{{ nft_main.desc }}</span>
 
-        <p class="p" v-html="nft_main.description"></p>
+        <p class="p font20" v-html="nft_main.description"></p>
+
+        <span class="font20">Learn More About Community Access: <a href="quick-tip-help" target="_blank" style="text-decoration: underline;">Quick Tip Help</a></span>
       </article>
     </section>
 

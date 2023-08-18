@@ -1,7 +1,7 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-/* // // quick-tip-help // // */ 
+/* // // tier-system // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-#quick-tip-help{
+#tier-system{
     position: relative;
     padding-inline: var(--margin-global);
     padding-bottom: 4em;
@@ -131,6 +131,25 @@
       }
     }
   
+    .panel-4 {
+     background-color: transparent;
+
+     .v-expansion-panel{
+        background-color: transparent;
+        border-radius: 0px;
+        box-shadow: none!important;
+     }
+    }
+
+    .panel-5 {
+    background-color: #000000;
+
+    .v-expansion-panel{
+        background-color: transparent;
+        border-radius: 0px;
+        box-shadow: none!important;
+    }
+    }
     .delete-in-mobile{
       @include media(max, 1475px){
         img{
