@@ -113,6 +113,18 @@
   
     .panel-2 {
       background-color: transparent;
+
+      .v-expansion-panel-header .v-icon {
+        position: absolute;
+        left: 330px;
+        bottom: 5px;
+        font-size: 60px;
+  
+        @include media(max, 630px){
+          left: 250px!important;
+          bottom: 0px;
+        }
+      }
   
       .v-expansion-panel{
         background-color: transparent;

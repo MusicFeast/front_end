@@ -8,9 +8,10 @@
         <h3>{{transaction_data.title}}</h3>
         <p class="p" style="max-width: 70%;" clas="tcenter">{{transaction_data.desc}}</p>
         <a 
-        v-if="transaction_data.tier == 'tier1'" class="p" 
+        v-if="transaction_data.tier == 'tier1'" class="p mt-4" 
         target="_blank"
         href="quick-tip-help"
+        style="font-size: 20px;text-decoration: underline;"
         >Quick Tip Help</a>
         <!-- poner un blank en el router push -->
         <p v-if="transaction_data.desc2" class="p">{{transaction_data.desc2}}</p>

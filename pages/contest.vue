@@ -100,17 +100,13 @@
             ></v-text-field>
 
             <label for="country">Country</label>
-            <v-select
+            <v-text-field
               id="country"
               v-model="country"
-              class="select"
-              solo
               :rules="rules.required"
-              :items="items"
-              hide-details
-              placeholder="Artist or band name"
+              placeholder="Write your country"
               style="margin-bottom: 20px;"
-            ></v-select>
+            ></v-text-field>
 
             <label for="email">Email</label>
             <v-text-field
