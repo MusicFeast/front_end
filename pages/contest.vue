@@ -4,7 +4,7 @@
         <div class="divcol astart mobile-align" style="gap: 35px; min-width: 30%!important;">
          <h2 class="delete-mobile tup" style="color: var(--primary); line-height: 60px;">Music <br> Production <br> Contest</h2>
          <h2 class="show-mobile p tup tcenter" style="color: var(--primary);">Music Production Contest</h2>
-         <span style="font-size: 16px!important;">We are Giving Away Thousands of Dollars in Prizes</span>
+         <span class="tcenter" style="font-size: 16px!important;">We are Giving Away Thousands of Dollars in Prizes</span>
          <v-btn class="btn" style="--w: 180px;" @click="goForm()">Contest Form</v-btn>
        </div>
        <div class="divrow center margin-mobile-left" style="gap: 30px; min-width: 70%!important;">
@@ -89,37 +89,23 @@
       <div id="contest-form" class="form-div" style="margin-top: 40px;">
         <div class="max1770">
           <h2 style="--fw: 500;">CONTEST FORM</h2>
-          <v-form ref="form-contest">
-            <v-row class="aend jend" style="margin-bottom: 20px;">
-              <v-col lg="10" sm="9">
-                <label for="photo">Upload Photo</label>
-                <v-file-input
-                  id="photo"
-                  placeholder=".JPG or .PNG"
-                  hide-details
-                  accept=".jpg,.png"
-                  class="no-icon"
-                  style="margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
-                ></v-file-input>
-              </v-col>
-
-              <v-col lg="2" sm="3">
-                <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
-              </v-col>
-            </v-row>
-
+          <v-form ref="formContest">
             <label for="full-name">Full Name</label>
             <v-text-field
               id="full-name"
+              v-model="full_name"
               placeholder="John Doe"
+              :rules="rules.required"
               style="margin-bottom: 20px;"
             ></v-text-field>
 
             <label for="country">Country</label>
             <v-select
               id="country"
+              v-model="country"
               class="select"
               solo
+              :rules="rules.required"
               :items="items"
               hide-details
               placeholder="Artist or band name"
@@ -129,6 +115,8 @@
             <label for="email">Email</label>
             <v-text-field
               id="email"
+              v-model="email"
+              :rules="rules.email"
               placeholder="example@gmail.com"
               style="margin-bottom: 20px;"
             ></v-text-field>
@@ -136,6 +124,8 @@
             <label for="discord">Discord ID</label>
             <v-text-field
               id="discord"
+              v-model="discord_id"
+              :rules="rules.required"
               placeholder="Username#321"
               style="margin-bottom: 20px;"
             ></v-text-field>
@@ -143,6 +133,8 @@
             <label for="twitter">Twitter Account</label>
             <v-text-field
               id="twitter"
+              v-model="twitter"
+              :rules="rules.required"
               placeholder="@username"
               style="margin-bottom: 20px;"
             ></v-text-field>
@@ -150,6 +142,8 @@
             <label for="bio">Bio</label>
             <v-text-field
               id="bio"
+              v-model="bio"
+              :rules="rules.required"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
             ></v-text-field>
@@ -159,6 +153,7 @@
                 <label for="track-demo">Track Demo</label>
                 <v-file-input
                   id="track-demo"
+                  v-model="track_demo"
                   placeholder=".WAV or .AIFF"
                   hide-details
                   :rules="fileRules"
@@ -169,19 +164,21 @@
               </v-col>
 
               <v-col lg="2" sm="3">
-                <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
+                <v-btn class="btn" style="--w: 100%;" :loading="btnUploadTrack" @click="uploadFile()">Upload</v-btn>
               </v-col>
             </v-row>
 
             <label for="track-desc">Track Description</label>
             <v-text-field
               id="track-desc"
+              v-model="track_desc"
+              :rules="rules.required"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
             ></v-text-field>
           </v-form>
 
-          <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;">Upload</v-btn>
+          <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :loading="btnUploadForm" :disabled="fileUp == false" @click="uploadForm()">Upload</v-btn>
         </div>
       </div>
     </div>
@@ -222,29 +219,12 @@ export default {
           icon: require("~/assets/sources/icons/discord_white.svg")
         },
       ],
-      items:["Canada", "EEUU", "Lorem Ipsum", "Lorem Ipsum"],
+      items:["Canada", "EEUU", "Argentina", "Venezuela", "Mexico", "Ecuador"],
       rules: {
       required: [(v) => !!v || "Field required"],
-      repeatedUsername: [
+      email: [
         (v) => !!v || "Field required",
-        () => !(this.djangoExistenceList.username) || "Username is already taken"
-      ],
-      repeatedEmail: [
-        (v) => !!v || "Field required",
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-        () => !(this.djangoExistenceList.email) || "Email is already used"
-      ],
-      repeatedDiscord: [
-        () => !(this.djangoExistenceList.discord) || "Discord account is already used"
-      ],
-      repeatedInstagram: [
-        () => !(this.djangoExistenceList.instagram) || "Instagram account is already used"
-      ],
-      repeatedTwitter: [
-        () => !(this.djangoExistenceList.twitter) || "Twitter account is already used"
-      ],
-      repeatedTelegram: [
-        () => !(this.djangoExistenceList.telegram) || "Telegram account is already used"
+        (v) => /.+@.+\..+/.test(v) || "Invalid email address",
       ],
     },
 
@@ -260,6 +240,21 @@ export default {
 
     coming: false,
     visible: false,
+    uploadedFileInfo: null,
+
+    btnUploadTrack: false,
+    btnUploadForm: false,
+
+    full_name: '',
+    country: '',
+    email: '',
+    discord_id: '',
+    twitter: '',
+    bio: '',
+    track_demo: '',
+    track_desc: '',
+
+    fileUp: false,
     }
   },
   head() {
@@ -267,6 +262,10 @@ export default {
     return {
       title,
       }
+  },
+
+  created(){
+    localStorage.removeItem('cid')
   },
 
   methods: {
@@ -278,7 +277,81 @@ export default {
           block: 'start',
         });
       }
-    }
+    },
+
+    uploadForm() {
+      if (this.$refs.formContest.validate() && this.fileUp){
+      this.btnUploadForm = true
+      this.dataForm = {
+        wallet: "",
+        full_name: this.full_name,
+        country: this.country,
+        email: this.email,
+        discord_id: this.discord_id,
+        twitter: this.twitter,
+        bio: this.bio,
+        track_demo: "https://" + localStorage.getItem('cid') + ".ipfs.nftstorage.link",
+        track_desc: this.track_desc
+      }
+
+      this.$axios.post('https://testnet.musicfeast.io/musicfeast_testnet/api/v1/contest-form/', this.dataForm)
+      .then(result => {
+        console.log(result)
+        this.btnUploadForm = false
+        this.$alert( {key:"success" ,title: "SUCCESS", desc: "Information Sent"})
+        localStorage.removeItem('cid')
+        this.fileUp = false
+      }).catch(err => {
+        this.btnUploadForm = false
+        this.$alert("cancel", {desc: err.message})
+      })
+      }
+    },
+
+    async uploadIpfs(file) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const resp = await this.$axios.post(
+          'https://api.nft.storage/upload',
+          formData,
+          {
+            headers: {
+              'Content-Type': file.type,
+              Authorization: 'Bearer ' + process.env.VUE_APP_IPFS_KEY,
+            },
+            maxContentLength: 100 * 1024 * 1024, // 100 MB
+            maxBodyLength: 100 * 1024 * 1024, // 100 MB
+          }
+        );
+
+        this.uploadedFileInfo = resp.data.value
+        localStorage.setItem('cid', this.uploadedFileInfo.cid)
+        return resp.data;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    },
+    async uploadFile() {
+      this.btnUploadTrack = true
+      
+      if (!this.track_demo) {
+        this.btnUploadTrack = false
+        return;
+      }
+
+      const result = await this.uploadIpfs(this.track_demo);
+
+      if (result) {
+        this.$alert( {key:"success" ,title: "SUCCESS", desc: "File Sent"})
+        this.btnUploadTrack = false
+        this.fileUp = true
+      } else {
+        this.btnUploadTrack = false
+      }
+    },
   },
 };
 </script>

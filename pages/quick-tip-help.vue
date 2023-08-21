@@ -88,11 +88,11 @@
             main_desc: "We use Discord to allow users to gain access to Artist Communities. Now that you have purchased your Community Access Pass, you will need to create or log in to your Discord account and follow the instructional steps on the Artist Page to gain access.",
           },
           {
-            name:"All tiers",
+            name:"All Tiers",
             main_desc: "On the platform use a unique NFT-based system and smart contracts, we offer payments associated with all creator's wallets, and auto-swap to stablecoins in order to protect the artists from crypto volatility. Music Feast has a secondary market where all NFTs can be resold. Creators retain a 10% royalty on any secondary sales. ",
           },
           {
-            name:"Important",
+            name:"It's Important",
             main_desc: "It's important to note that during the transfer process, some NFTs may have additional conditions or limitations set by the creator or issuer. For example, there might be restrictions on subsequent transfers, commercial use, or other terms outlined in the smart contract associated with the NFT.",
           },
           {
