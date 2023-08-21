@@ -177,6 +177,17 @@
           <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :loading="btnUploadForm" :disabled="fileUp == false" @click="uploadForm()">Upload</v-btn>
         </div>
       </div>
+
+      <v-dialog v-model="snackError" content-class="snackError">
+        <v-card class="card divrow center jspace pl-2 pr-2">
+          <v-icon color="red">
+            mdi-close
+          </v-icon>
+          <span>
+            Something gone wrong, please try again
+          </span>
+        </v-card>
+      </v-dialog>
     </div>
 </template>
 
@@ -190,6 +201,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      snackError: false,
       dataImg:[
         {
           img: require("~/assets/sources/images/dj.svg")
