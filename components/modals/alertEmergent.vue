@@ -16,7 +16,7 @@
       <v-icon size="6em" :style="`color: ${item.color} !important`">{{item.icon}}</v-icon>
 
       <v-card class="card" style="--bg: hsl(0 0% 60% / .4)">
-        <p class="p h11_em center">{{item.desc}}</p>
+        <p class="p h11_em center tcenter tup">{{item.desc}}</p>
       </v-card>
     </v-dialog>
   </div>

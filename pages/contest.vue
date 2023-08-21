@@ -174,20 +174,9 @@
             ></v-text-field>
           </v-form>
 
-          <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :loading="btnUploadForm" :disabled="fileUp == false" @click="uploadForm()">Upload</v-btn>
+          <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :loading="btnUploadForm" @click="uploadForm()">Upload</v-btn>
         </div>
       </div>
-
-      <v-dialog v-model="snackError" content-class="snackError">
-        <v-card class="card divrow center jspace pl-2 pr-2">
-          <v-icon color="red">
-            mdi-close
-          </v-icon>
-          <span>
-            Something gone wrong, please try again
-          </span>
-        </v-card>
-      </v-dialog>
     </div>
 </template>
 
@@ -276,6 +265,10 @@ export default {
     localStorage.removeItem('cid')
   },
 
+  // mounted(){
+  //   this.$alert( {title: "ERROR", desc: "Information Sent", icon:"close", color:"hsl(0, 84%, 58%)"})
+  // },
+
   methods: {
     goForm() {
       const seccionFormularioConcurso = document.getElementById('contest-form')
@@ -310,9 +303,12 @@ export default {
         localStorage.removeItem('cid')
         this.fileUp = false
       }).catch(err => {
+        console.log(err)
         this.btnUploadForm = false
-        this.$alert("cancel", {desc: err.message})
+        this.$alert( {title: "ERROR", desc: err.response.data.email[0] ? err.response.data.email[0] : "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
       })
+      }else{
+        this.$alert( {title: "ERROR", desc: "YOU MUST FILL IN ALL THE FIELDS", icon:"close", color:"hsl(0, 84%, 58%)"})
       }
     },
 
