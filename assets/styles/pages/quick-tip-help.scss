@@ -59,18 +59,6 @@
     .container-expansion{
       margin-inline: calc(50% - 50vw);
   
-      .v-expansion-panel-header .v-icon {
-        position: absolute;
-        left: 230px;
-        bottom: 5px;
-        font-size: 60px;
-  
-        @include media(max, 630px){
-          left: 180px!important;
-          bottom: 0px;
-        }
-      }
-  
       .font20{
         @include media(max, 960px){
           font-size: 16px;

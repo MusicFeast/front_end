@@ -28,16 +28,12 @@
       </div>
   
       <div v-for="(item, index) in panelsData" :key="index" :class="`container-expansion center panel-${index}`">
-        <v-expansion-panels flat style="max-width: 1440px;">
-          <v-expansion-panel>
-            <v-expansion-panel-header class="h6" expand-icon="mdi-menu-down">{{ item.name }}</v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <p class="mb-8 mt-8 font20">
-                <b>{{ item.title_main_desc }}</b> {{ item.main_desc }}
-              </p>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+        <div class="pt-4 pb-4 pl-6 pr-6" style="max-width: 1770px;">
+          <span class="h6">{{ item.name }}</span>
+          <p class="mb-8 mt-8 font20">
+            <b>{{ item.title_main_desc }}</b> {{ item.main_desc }}
+          </p>
+        </div>
       </div>
     </div>  
   </template>
