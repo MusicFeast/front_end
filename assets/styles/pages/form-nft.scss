@@ -71,6 +71,10 @@
       }
     }
 
+    .v-input__slot::after{
+      display: none;
+    }
+
     .v-input {
       overflow: hidden;
       padding-top: 0;

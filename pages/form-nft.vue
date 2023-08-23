@@ -21,8 +21,10 @@
             <label for="tier">Tier</label>
             <v-select
               id="tier"
-              class="select"
-              placeholder="Artist or band name"
+              v-model="selectedTier"
+              class="select tfirst"
+              :items="items_tier"
+              placeholder="Select Your Tier"
             ></v-select>
           </section>
         </v-col>
@@ -51,33 +53,37 @@
           <v-btn class="btn-plus-minus" style="top: 20px;right: 0; position: absolute!important;"><v-icon>mdi-plus</v-icon></v-btn>
         </div>
 
-        <v-row class="center">
-          <v-col  xl="10" lg="10" md="10" sm="10" cols="8">
-            <label for="nft-name">Song audio</label>
-            <v-text-field
-              id="song"
-              placeholder="Song"
-            ></v-text-field>
-          </v-col>
+        <template v-if="selectedTier === 'Tier 1'">
+          <v-row class="center">
+            <v-col  xl="10" lg="10" md="10" sm="10" cols="8">
+              <label for="nft-name">Song audio</label>
+              <v-text-field
+                id="song"
+                placeholder="Song"
+              ></v-text-field>
+            </v-col>
 
-          <v-col xl="2" lg="2" md="2" sm="2" cols="4">
-            <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
-          </v-col>
-        </v-row>
+            <v-col xl="2" lg="2" md="2" sm="2" cols="4">
+              <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
+            </v-col>
+          </v-row>
+        </template>
 
-        <v-row class="center">
-          <v-col  xl="10" lg="10" md="10" sm="10" cols="8">
-            <label for="nft-name">Video</label>
-            <v-text-field
-              id="video"
-              placeholder="Video"
-            ></v-text-field>
-          </v-col>
+        <template v-if="selectedTier === 'Tier 2'">
+          <v-row class="center">
+            <v-col  xl="10" lg="10" md="10" sm="10" cols="8">
+              <label for="nft-name">Video</label>
+              <v-text-field
+                id="video"
+                placeholder="Video"
+              ></v-text-field>
+            </v-col>
 
-          <v-col xl="2" lg="2" md="2" sm="2" cols="4">
-            <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
-          </v-col>
-        </v-row>
+            <v-col xl="2" lg="2" md="2" sm="2" cols="4">
+              <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
+            </v-col>
+          </v-row>
+        </template>
       </section>
 
       <section class="card" style="margin-top: 40px;">
@@ -144,40 +150,42 @@
         </v-row>
       </section>
 
-      <h2 class="Title tup lines">Physical Merchandise</h2>  
+      <template v-if="selectedTier === 'Tier 3' || selectedTier === 'Tier 4'">
+        <h2 class="Title tup lines">Physical Merchandise</h2>  
 
-      <section class="card" style="margin-top: 40px;">
-        <v-badge
-          class="mb-5"
-          offset-x="-5px"
-          >
-          <template #badge>
-            <v-icon color="var(--primary)" style="font-size: 25px;">mdi-information-symbol</v-icon>
-          </template>
-          <span class="span-badge">Type of merchandise</span>
-        </v-badge>
+        <section class="card" style="margin-top: 40px;">
+          <v-badge
+            class="mb-5"
+            offset-x="-5px"
+            >
+            <template #badge>
+              <v-icon color="var(--primary)" style="font-size: 25px;">mdi-information-symbol</v-icon>
+            </template>
+            <span class="span-badge">Type of merchandise</span>
+          </v-badge>
 
-        <hr class="mb-4" style="border-color: var(--primary)!important;">
+          <hr class="mb-4" style="border-color: var(--primary)!important;">
 
-        <div class="pa-2 container-card-merchandise">
-          <v-card v-for="(item,index) in dataMerchandise" :key="index" class="card pa-3 card-merchandise">
-            <img :src=item.img alt="img" style="width: 200px;">
-            <div class="div-card-hover">
-              <span class="tcenter" style="text-decoration: underline; font-weight: 700!important;">
-                Merchandise <br> Title
-              </span>
+          <div class="pa-2 container-card-merchandise">
+            <v-card v-for="(item,index) in dataMerchandise" :key="index" class="card pa-3 card-merchandise">
+              <img :src=item.img alt="img" style="width: 200px;">
+              <div class="div-card-hover">
+                <span class="tcenter" style="text-decoration: underline; font-weight: 700!important;">
+                  Merchandise <br> Title
+                </span>
 
-              <span class="tcenter" style="font-size: 13px;">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit, eveniet!
-              </span>
+                <span class="tcenter" style="font-size: 13px;">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit, eveniet!
+                </span>
 
-              <v-btn class="btn center" style="max-width: 70%!important; min-width: 70%!important;">
-                Select
-              </v-btn>
-            </div>
-          </v-card>
-        </div>
-      </section>
+                <v-btn class="btn center" style="max-width: 70%!important; min-width: 70%!important;">
+                  Select
+                </v-btn>
+              </div>
+            </v-card>
+          </div>
+        </section>
+      </template>
 
       <section class="card divrow" style="margin-top: 40px; gap: 40px;">
         <div class="divrow acenter" style="gap: 5px;">
@@ -270,7 +278,10 @@
         {
           img: require("~/assets/sources/images/cup.png")
         },
-      ]
+      ],
+
+      items_tier:["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],
+      selectedTier: null,
       }
     },
     head() {
