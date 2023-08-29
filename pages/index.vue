@@ -126,7 +126,7 @@ export default {
     });
     
     // get artists
-    this.$axios.get(`${this.baseUrl}api/v1/get-artists-home`)
+    this.$axios.get(`${this.baseUrl}api/v1/get-artists`)
       .then(result => {
         result.data.forEach(e => {
           e.banner = this.baseUrl+e.banner;
@@ -134,6 +134,16 @@ export default {
           e.image = e.image ? this.baseUrl+e.image : require('~/assets/sources/avatars/avatar.png');
           e.state = "soong"
         });
+        result.data.sort((p1, p2) => (p1.order_list > p2.order_list) ? 1 : (p1.order_list < p2.order_list) ? -1 : 0);
+          result.data.sort((a, b) => {
+            if (a.comming === b.comming) {
+              return 0;
+            } else if (a.comming) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
         this.dataArtists = result.data
       }).catch(err => {
         // this.$alert("cancel", {desc: err.message})
