@@ -9,8 +9,10 @@
       </v-btn>
     </aside>
 
-    <section id="comunity__chat-body" class="flex-grow-1">
-      <h2>body</h2>
+    <section id="comunity__chat-body" class="d-flex flex-grow-1">
+      <ComunityMessage />
+
+      <ComunityMessageDivider date-time="05 / Nov / 2023" />
     </section>
 
     <v-text-field solo hide-details class="flex-grow-0">
@@ -27,7 +29,8 @@
 
 <script>
 export default {
-  name: "ComunityChat"
+  name: "ComunityChat",
+  messages: []
 }
 </script>
 
@@ -62,13 +65,13 @@ export default {
 
 
   &-body {
-    
+    flex-direction: column-reverse;
   }
 
 
   .v-input {
     margin-inline: 12px 24px;
-    margin-bottom: 12px;
+    margin-block: 12px;
 
     &__slot {
       background-color: var(--input) !important;
