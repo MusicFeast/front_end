@@ -51,11 +51,11 @@ export default {
 $line-width: 8px;
 
 #comunity__sider-bar {
-  position: absolute;
-  width: var(--side-bar-width);
-  top: 0;
-  left: calc(var(--side-bar-width) * -1);
-  bottom: 0;
+  min-width: var(--side-bar-width);
+  // position: absolute;
+  // top: 0;
+  // left: calc(var(--side-bar-width) * -1);
+  // bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;

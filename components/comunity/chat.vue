@@ -39,6 +39,7 @@ export default {
 #comunity__chat {
   isolation: isolate;
   position: relative;
+  overflow: hidden;
 
   &-info {
     position: absolute;
@@ -55,7 +56,7 @@ export default {
     justify-content: space-between;
     padding-inline: 16px;
     z-index: 2;
-    transition: .3s $ease-return;
+    animation: moveBanishDown .2s ease;
 
     span {
       font-size: 15px !important;

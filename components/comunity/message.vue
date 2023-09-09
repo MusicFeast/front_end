@@ -85,7 +85,7 @@ export default {
     grid-area: arrow;
     margin-left: auto;
     margin-right: -4px;
-    animation: showArrow .2s ease;
+    animation: moveBanishUp .2s ease;
   }
   
 
@@ -104,7 +104,7 @@ export default {
   .answered-message {
     grid-area: answered;
     transform: translateY(calc(var(--gap-spacing) * -1));
-    animation: showArrow .2s ease;
+    animation: moveBanishUp .2s ease;
 
     &-text {
       font-size: 14px !important;
@@ -124,12 +124,6 @@ export default {
     &-text {
       font-size: 16px !important;
     }
-  }
-
-  
-  @keyframes showArrow {
-    0% { opacity: 50%; transform: translateY(95%) }
-    100% { opacity: 100%; transform: translateY(0) }
   }
 }
 </style>

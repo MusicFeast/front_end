@@ -2,75 +2,81 @@
   <v-navigation-drawer
     id="comunity__drawer"
     v-model="model"
+    :absolute="isMobile"
+    :touchless="!isMobile"
   >
-    <div id="comunity__drawer-header" class="d-flex align-center" style="gap: 10px">
-      <avatar-tier
-        :src="testImage"
-        sizes="40"
-        tier="4"
-        class="flex-grow-0"
-      ></avatar-tier>
+    <ComunitySideBar></ComunitySideBar>
 
-      <h6 class="text-labeled mb-0">
-        Artist Name
-        <v-icon color="var(--labeled)">mdi-menu-down</v-icon>
-      </h6>
-    </div>
-
-
-    <v-list expand nav>
-      <v-list-group
-        v-for="item in items" :key="item.title"
-        v-model="item.active"
-        :prepend-icon="item.active ? 'mdi-menu-up' : 'mdi-menu-down'"
-        append-icon=""
-      >
-        <template #activator>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </template>
-
-        <v-list-item
-          v-for="(child, i2) in item.items" :key="i2"
-          dense
-          flat
-          :class="{active: child.active}"
-          @click="items.forEach(e => e.items.forEach(e => e.active = false)); child.active = true"
-        >
-          <v-list-item-content>
-            <v-list-item-title>
-              <span>#</span> {{ child.title }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-    </v-list>
-
-
-    <!-- <div id="comunity__drawer-footer" class="d-flex" style="gap: 10px">
-      <v-badge
-        bottom
-        overlap
-        color="green"
-        offset-x="15"
-        offset-y="15"
-        class="not"
-      >
-        <v-img-load
+    <section id="comunity__drawer-drawer" class="flex-grow-1">
+      <div id="comunity__drawer-header" class="d-flex align-center" style="gap: 10px">
+        <avatar-tier
           :src="testImage"
-          alt="test image"
-          sizes="50px"
-          rounded="50%"
-          border="1.5px solid #000"
-        />
-      </v-badge>
+          sizes="40"
+          tier="4"
+          class="flex-grow-0"
+        ></avatar-tier>
 
-      <div class="d-flex flex-column justify-center" style="gap: 5px">
-        <h6 class="mb-0">User name 🤑</h6>
-        <span>Online</span>
+        <h6 class="text-labeled mb-0">
+          Artist Name
+          <v-icon color="var(--labeled)">mdi-menu-down</v-icon>
+        </h6>
       </div>
-    </div> -->
+
+
+      <v-list expand nav>
+        <v-list-group
+          v-for="item in items" :key="item.title"
+          v-model="item.active"
+          :prepend-icon="item.active ? 'mdi-menu-up' : 'mdi-menu-down'"
+          append-icon=""
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title" />
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="(child, i2) in item.items" :key="i2"
+            dense
+            flat
+            :class="{active: child.active}"
+            @click="items.forEach(e => e.items.forEach(e => e.active = false)); child.active = true"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                <span>#</span> {{ child.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
+
+
+      <!-- <div id="comunity__drawer-footer" class="d-flex" style="gap: 10px">
+        <v-badge
+          bottom
+          overlap
+          color="green"
+          offset-x="15"
+          offset-y="15"
+          class="not"
+        >
+          <v-img-load
+            :src="testImage"
+            alt="test image"
+            sizes="50px"
+            rounded="50%"
+            border="1.5px solid #000"
+          />
+        </v-badge>
+
+        <div class="d-flex flex-column justify-center" style="gap: 5px">
+          <h6 class="mb-0">User name 🤑</h6>
+          <span>Online</span>
+        </div>
+      </div> -->
+    </section>
   </v-navigation-drawer>
 </template>
 
@@ -140,6 +146,17 @@ export default {
         "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
     }
   },
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.mobile
+    }
+  },
+  watch: {
+    isMobile(value) {
+      if (value) this.model = false
+      else this.model = true
+    }
+  }
 }
 </script>
 
@@ -148,14 +165,23 @@ export default {
 $border-radius: 8px;
 
 #comunity__drawer {
+  min-width: var(--drawer-width);
   background: var(--drawer) !important;
-  left: var(--side-bar-width);
+  // left: var(--side-bar-width);
+
+  &-drawer {
+    display: flex;
+    flex-direction: column;
+
+    &::-webkit-scrollbar { display: none }
+  }
+
 
   .v-navigation-drawer {
     &__content {
       display: flex;
-      flex-direction: column;
-      scrollbar-gutter: stable;
+
+      &::-webkit-scrollbar { display: none }
     }
 
     &__border {

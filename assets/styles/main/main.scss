@@ -330,7 +330,7 @@ h2.Title {
 }
 
 //- drawer -//
-.v-navigation-drawer:not(.not_vuetify, .not) {
+#drawer-toggle.v-navigation-drawer:not(.not_vuetify, .not) {
   --w-drawer: 300px;
   @include media(max, x-small) {--w-drawer: 100vw}
   width: var(--w-drawer) !important;

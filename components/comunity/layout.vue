@@ -1,11 +1,12 @@
 <template>
   <v-main id="comunity-layout">
-    <ComunitySideBar></ComunitySideBar>
-    <ComunityDrawer></ComunityDrawer>
+    <ComunityDrawer ref="drawer" />
 
     <section>
-      <ComunityHeader></ComunityHeader>
-      <ComunityChat></ComunityChat>
+      <ComunityHeader
+        @toggle-drawer="$refs.drawer.model = !$refs.drawer.model"
+      />
+      <ComunityChat />
     </section>
   </v-main>
 </template>
@@ -19,6 +20,7 @@ export default {
 <style lang="scss">
 #comunity-layout {
   --side-bar-width: 70px;
+  --drawer-width: 313px;
   --header-height: 56px;
   --chat-height: 800px;
   --primary: #ff462e;
@@ -33,12 +35,14 @@ export default {
 
   isolation: isolate;
   position: relative;
+  overflow: hidden;
   background-color: var(--body);
-  padding-left: var(--side-bar-width) !important;
+  // padding-left: var(--side-bar-width) !important;
   height: var(--chat-height);
 
   
-  ::-webkit-scrollbar { background-color: var(--secondary) }
+  ::-webkit-scrollbar { background-color: var(--drawer) }
+  ::-webkit-scrollbar-thumb { background-color: var(--secondary) }
   
   .v-main__wrap {
     display: flex;
@@ -49,6 +53,17 @@ export default {
       flex-direction: column;
       width: 100%;
     }
+  }
+
+
+  @keyframes moveBanishDown {
+    0% { opacity: 50%; transform: translateY(-95%) }
+    100% { opacity: 100%; transform: translateY(0) }
+  }
+
+  @keyframes moveBanishUp {
+    0% { opacity: 50%; transform: translateY(95%) }
+    100% { opacity: 100%; transform: translateY(0) }
   }
 }
 </style>

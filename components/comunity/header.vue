@@ -1,6 +1,15 @@
 <template>
   <div id="comunity__header" class="d-flex align-center">
-    <h6 class="text-labeled mb-0"># welcome 🖐️</h6>
+    <div id="comunity__header-title" class="d-flex align-center" style="gap: 10px;">
+      <v-btn
+        v-show="$vuetify.breakpoint.mobile"
+        icon @click="$emit('toggle-drawer')"
+      >
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
+
+      <h6 class="text-labeled mb-0"># welcome 🖐️</h6>
+    </div>
 
     <v-text-field
       placeholder="Search"
@@ -23,6 +32,11 @@ export default {
   padding-inline: 16px;
   justify-content: space-between;
   border-bottom: 1px solid var(--secondary);
+
+
+  &-title {
+    @media (min-width: 880px) { display: contents }
+  }
 
 
   .v-input {
