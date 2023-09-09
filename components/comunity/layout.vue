@@ -23,8 +23,8 @@ export default {
   --secondary: #2B2D33;
   --body: #4B4F59;
   --drawer: #46484F;
-  --label: #7B7C81;
-  --title: #C5C7CF;
+  --title: #7B7C81;
+  --label: #C5C7CF;
   --responded: #C3C3C7;
 
   isolation: isolate;

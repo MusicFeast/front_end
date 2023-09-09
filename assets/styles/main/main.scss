@@ -22,6 +22,19 @@
 }
 
 
+.text-title {
+  color: var(--title) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+.text-labeled {
+  color: var(--label) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+
 // container-table--expansion
 // [data-widgetbot] {
 //   @include media(max, small) {display: none !important}

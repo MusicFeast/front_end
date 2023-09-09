@@ -11,9 +11,9 @@
         class="flex-grow-0"
       ></avatar-tier>
 
-      <h6 class="mb-0">
+      <h6 class="text-labeled mb-0">
         Artist Name
-        <v-icon color="#fff">mdi-menu-down</v-icon>
+        <v-icon color="var(--labeled)">mdi-menu-down</v-icon>
       </h6>
     </div>
 
@@ -144,6 +144,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/main/main.scss';
 $border-radius: 8px;
 
 #comunity__drawer {
@@ -187,14 +188,11 @@ $border-radius: 8px;
           border-bottom-left-radius: $border-radius;
         }
 
-        * { color: var(--label) /* !important */ }
+        * { color: var(--title) /* !important */ }
 
         .v-list-item {
 
-          &__title {
-            font-size: 18px !important;
-            font-weight: 600 !important;
-          }
+          &__title { @extend .text-title }
 
           &__icon {
             margin-top: 7px;
@@ -205,23 +203,24 @@ $border-radius: 8px;
 
 
       &__items {
-        * { color: var(--title) }
+        * { color: var(--label) }
 
         .v-list-item {
           padding-left: 30px;
           min-height: 27px;
-          margin-bottom: 0;
           border-top-left-radius: $border-radius;
           border-bottom-left-radius: $border-radius;
 
+          &__title { @extend .text-labeled }
+
           &__content { padding-block: 0 }
 
-          span { color: var(--label) !important }
+          span { color: var(--title) !important }
 
           &.active {
             background-color: var(--body);
 
-            span { color: var(--title) !important }
+            span { color: var(--label) !important }
           }
         }
       }
