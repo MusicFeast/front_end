@@ -6,7 +6,7 @@
     <div id="comunity__drawer-header" class="d-flex align-center" style="gap: 10px">
       <avatar-tier
         :src="testImage"
-        sizes="45"
+        sizes="40"
         tier="4"
         class="flex-grow-0"
       ></avatar-tier>
@@ -164,6 +164,7 @@ $border-radius: 8px;
 
 
   &-header {
+    height: var(--header-height);
     padding: 6px 8px;
     background-color: var(--drawer);
     border-bottom: 1px solid;

@@ -19,6 +19,7 @@ export default {
 <style lang="scss">
 #comunity-layout {
   --side-bar-width: 70px;
+  --header-height: 56px;
   --primary: #ff462e;
   --secondary: #2B2D33;
   --body: #4B4F59;
@@ -41,6 +42,7 @@ export default {
     > section {
       display: flex;
       flex-direction: column;
+      width: 100%;
     }
   }
 }
