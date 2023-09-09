@@ -155,6 +155,7 @@ $border-radius: 8px;
     &__content {
       display: flex;
       flex-direction: column;
+      scrollbar-gutter: stable;
     }
 
     &__border {

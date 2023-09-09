@@ -20,6 +20,7 @@ export default {
 #comunity-layout {
   --side-bar-width: 70px;
   --header-height: 56px;
+  --chat-height: 800px;
   --primary: #ff462e;
   --secondary: #2B2D33;
   --body: #4B4F59;
@@ -34,8 +35,10 @@ export default {
   position: relative;
   background-color: var(--body);
   padding-left: var(--side-bar-width) !important;
-  min-height: 800px;
+  height: var(--chat-height);
 
+  
+  ::-webkit-scrollbar { background-color: var(--secondary) }
   
   .v-main__wrap {
     display: flex;

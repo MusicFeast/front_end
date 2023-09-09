@@ -10,9 +10,11 @@
     </aside>
 
     <section id="comunity__chat-body" class="d-flex flex-grow-1">
-      <ComunityMessage />
+      <ComunityMessage answered />
 
       <ComunityMessageDivider date-time="05 / Nov / 2023" />
+
+      <ComunityMessage v-for="n in 3" :key="n" />
     </section>
 
     <v-text-field solo hide-details class="flex-grow-0">
@@ -29,8 +31,7 @@
 
 <script>
 export default {
-  name: "ComunityChat",
-  messages: []
+  name: "ComunityChat"
 }
 </script>
 
@@ -43,7 +44,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    right: 8px;
     min-height: 48px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -53,6 +54,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding-inline: 16px;
+    z-index: 2;
     transition: .3s $ease-return;
 
     span {
@@ -66,6 +68,9 @@ export default {
 
   &-body {
     flex-direction: column-reverse;
+    height: calc(var(--chat-height) - (var(--header-height) + (52px + 24px))); // <-- input height
+    overflow-y: auto;
+    scrollbar-gutter: stable;
   }
 
 

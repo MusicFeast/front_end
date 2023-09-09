@@ -19,9 +19,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/main/main.scss';
+
 .message-divider {
   position: relative;
-  margin-block: 30px;
+  margin-block: 40px 10px;
 
   &-time {
     position: absolute;
@@ -33,9 +35,7 @@ export default {
 
     max-width: max-content;
     padding-inline: 10px;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-    color: var(--title) !important;
+    @extend .text-date;
   }
 }
 </style>

@@ -21,6 +21,11 @@
   @include media(max, x-small) {--margin-separator: 18px};
 }
 
+.text-date {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--title) !important;
+}
 
 .text-title {
   color: var(--title) !important;
