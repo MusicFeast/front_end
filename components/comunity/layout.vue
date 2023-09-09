@@ -27,6 +27,8 @@ export default {
   --title: #7B7C81;
   --label: #C5C7CF;
   --responded: #C3C3C7;
+  --input: #363940;
+  
 
   isolation: isolate;
   position: relative;

@@ -28,7 +28,10 @@ export default {
   .v-input {
     font-size: 12px !important;
 
-    &__slot { min-height: 26px !important }
+    &__slot {
+      background-color: var(--input) !important;
+      min-height: 26px !important;
+    }
 
     &__append-inner {
       border-left: 1px solid #fff;
