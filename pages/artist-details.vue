@@ -315,7 +315,10 @@
     <span style="font-size: 20px; cursor: pointer; text-decoration: underline;" class="tcenter mb-5 mt-1 less-font-size" @click="$router.push('quick-tip-help')">
       Quick Tip Help
     </span>
-    <v-container v-if="server_dc">
+
+    <ComunityLayout></ComunityLayout>
+
+    <!-- <v-container v-if="server_dc">
     <v-row no-gutters>
       <v-col
         cols="12"
@@ -333,7 +336,7 @@
     ></widgetbot>
     </v-col>
     </v-row>
-    </v-container>
+    </v-container> -->
     <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
 
     <!-- <v-expansion-panels class="custome-expansion">

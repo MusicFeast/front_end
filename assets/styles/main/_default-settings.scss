@@ -88,7 +88,7 @@ div.v-card::before {background: transparent !important}
   -ms-text-stroke: var(--stroke, initial);
   -o-text-stroke: var(--stroke, initial);
 }
-body {background: var(--bg-ap)}
+body {background: center no-repeat var(--bg-ap)}
 
 * {caret-color: var(--primary)}
 ::selection {
