@@ -43,7 +43,9 @@
 
           <v-icon>mdi-file</v-icon>
 
-          <v-icon>mdi-emoticon-outline</v-icon>
+          <v-icon
+            @click="showEmojis()"
+          >mdi-emoticon-outline</v-icon>
         </template>
       </v-text-field>
     </aside>
@@ -57,6 +59,11 @@ export default {
     return {
       answered: false
     }
+  },
+  methods: {
+    showEmojis() {
+      console.log("show emojis");
+    },
   }
 }
 </script>

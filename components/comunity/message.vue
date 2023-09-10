@@ -65,11 +65,6 @@ export default {
         "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
     }
   },
-  methods: {
-    test() {
-      console.log("test");
-    }
-  }
 }
 </script>
 
@@ -130,7 +125,6 @@ export default {
 
     .v-icon {
       opacity: 0;
-      cursor: pointer;
       transition: .4s ease;
     }
     &:hover .v-icon { opacity: 1 }
