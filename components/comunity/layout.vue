@@ -66,4 +66,16 @@ export default {
     100% { opacity: 100%; transform: translateY(0) }
   }
 }
+
+
+#emojiPicker.emoji-picker {
+  --ep-color-bg: #4B4F59;
+  --ep-color-sbg: #363940;
+  --ep-color-border: #2B2D33;
+  --ep-color-text: #7B7C81;
+  --ep-color-active: #ff462e;
+  border-radius: 10px !important;
+
+  .container-emoji { margin-bottom: 5px }
+}
 </style>

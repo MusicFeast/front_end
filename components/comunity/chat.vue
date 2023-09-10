@@ -1,6 +1,12 @@
 <template>
   <div id="comunity__chat" class="d-flex flex-column flex-grow-1">
-    <ComunityMenuChat />
+    <v-menu
+      activator="#emojiPickerBtn"
+      :close-on-content-click="false"
+      top left
+    >
+      <VEmojiPicker id="emojiPicker" @select="selectEmoji" />
+    </v-menu>
 
     <aside id="comunity__chat-info">
       <span>More than 45 new messages since 13:30 on October 10, 2023</span>
@@ -43,9 +49,7 @@
 
           <v-icon>mdi-file</v-icon>
 
-          <v-icon
-            @click="showEmojis()"
-          >mdi-emoticon-outline</v-icon>
+          <v-icon id="emojiPickerBtn" class="pointer">mdi-emoticon-outline</v-icon>
         </template>
       </v-text-field>
     </aside>
@@ -53,17 +57,22 @@
 </template>
 
 <script>
+import { VEmojiPicker } from 'v-emoji-picker';
+
 export default {
   name: "ComunityChat",
+  components: {
+    VEmojiPicker
+  },
   data() {
     return {
-      answered: false
+      answered: false,
     }
   },
   methods: {
-    showEmojis() {
-      console.log("show emojis");
-    },
+    selectEmoji(event) {
+      console.log("emoji:", event);
+    }
   }
 }
 </script>
