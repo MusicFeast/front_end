@@ -17,19 +17,24 @@
 
       <ComunityMessageDivider date-time="05 / Nov / 2023" />
 
-      <ComunityMessage v-for="n in 3" :key="n" />
+      <ComunityMessage v-for="n in 3" :key="n" @show-answered="answered = true" />
     </section>
 
 
     <aside id="comunity__chat-input">
-      <div v-if="answered" id="comunity__chat-input-answered" class="d-flex" style="gap: 10px;">
+      <div
+        id="comunity__chat-input-answered"
+        class="d-flex"
+        :class="{answer: answered}"
+        style="gap: 10px;"
+      >
         <span class="text-labeled">answer to</span>
 
         <img src="@/assets/sources/icons/arrow-answered-simple.svg" alt="arrow icon">
 
         <h6 class="mb-0">Artist name 🤘</h6>
 
-        <v-icon size="18" @click="$emit('close-answered')">mdi-close</v-icon>
+        <v-icon size="18" @click="answered = false">mdi-close</v-icon>
       </div>
 
       <v-text-field solo hide-details class="flex-grow-0">
@@ -48,10 +53,9 @@
 <script>
 export default {
   name: "ComunityChat",
-  props: {
-    answered: {
-      type: Boolean,
-      default: false,
+  data() {
+    return {
+      answered: false
     }
   }
 }
@@ -98,41 +102,37 @@ export default {
 
 
   &-input {
-    display: grid;
-    grid-template-areas:
-      "answered"
-      "message";
-
+    position: relative;
 
     &-answered {
-      position: relative;
-      grid-area: answered;
+      top: -50px;
+      position: absolute;
       margin-inline: 12px 24px;
       margin-top: 12px;
       padding-bottom: 12px;
       
       padding-inline: 16px;
       padding-top: 10px;
-      background-color: hsl(222, 8%, 23%, .6);
+      background-color: hsl(222, 8%, 23%, .9);
+      backdrop-filter: blur(5px);
       max-width: max-content;
       border-radius: 8px;
+      opacity: 0;
+
+      &.answer {
+        opacity: 1;
+        animation: moveBanishDown .2s ease;
+      }
 
       h6 {
         font-size: 16px !important;
         font-weight: 700 !important;
         width: max-content;
       }
-
-      .v-icon {
-        position: absolute;
-        right: -30px;
-        cursor: pointer;
-      }
     }
 
 
     .v-input {
-      grid-area: message;
       margin-inline: 12px 24px;
       margin-block: 12px;
 

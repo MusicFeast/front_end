@@ -40,7 +40,7 @@
 
         <span class="text-date">03 / 10 /2023</span>
 
-        <v-icon color="var(--labeled)" size="20">mdi-reply</v-icon>
+        <v-icon color="var(--labeled)" size="20" @click="$emit('show-answered')">mdi-reply</v-icon>
       </div>
 
       <p class="message-text mb-0">
