@@ -22,6 +22,7 @@
       --border-radius: ${rounded};
       --border: ${border};
       --box-shadow: ${boxShadow};
+      --background-color: ${bgColor};
     `"
   >
     <template v-if="!lazySrc" #placeholder>
@@ -129,7 +130,11 @@ export default {
     boxShadow: {
       type: String,
       default: "none",
-    }
+    },
+    bgColor: {
+      type: String,
+      default: null,
+    },
   }
 }
 </script>
@@ -137,10 +142,11 @@ export default {
 <style lang="scss">
 .v-img-load {
 
-  .v-image__image {
+  .v-img__img {
     border-radius: var(--border-radius, initial) !important;
     border: var(--border, none) !important;
     box-shadow: var(--box-shadow, none);
+    background-color: var(--background-color);
   }
 
   .v-img__placeholder .v-skeleton-loader__bone {
