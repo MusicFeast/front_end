@@ -35,10 +35,12 @@
     </aside>
 
     <aside class="message d-flex flex-column" style="gap: var(--gap-spacing);">
-      <div class="d-flex" style="gap: var(--gap-names);">
+      <div class="d-flex align-center" style="gap: var(--gap-names);">
         <h6 class="message-name mb-0">User name 🤑</h6>
 
         <span class="text-date">03 / 10 /2023</span>
+
+        <v-icon color="var(--labeled)" size="20">mdi-reply</v-icon>
       </div>
 
       <p class="message-text mb-0">
@@ -63,6 +65,11 @@ export default {
         "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
     }
   },
+  methods: {
+    test() {
+      console.log("test");
+    }
+  }
 }
 </script>
 
@@ -120,6 +127,13 @@ export default {
 
   .message {
     grid-area: message;
+
+    .v-icon {
+      opacity: 0;
+      cursor: pointer;
+      transition: .4s ease;
+    }
+    &:hover .v-icon { opacity: 1 }
 
     &-text {
       font-size: 16px !important;

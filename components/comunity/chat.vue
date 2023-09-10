@@ -1,5 +1,7 @@
 <template>
   <div id="comunity__chat" class="d-flex flex-column flex-grow-1">
+    <ComunityMenuChat />
+
     <aside id="comunity__chat-info">
       <span>More than 45 new messages since 13:30 on October 10, 2023</span>
 
@@ -9,6 +11,7 @@
       </v-btn>
     </aside>
 
+
     <section id="comunity__chat-body" class="d-flex flex-grow-1">
       <ComunityMessage answered />
 
@@ -17,21 +20,40 @@
       <ComunityMessage v-for="n in 3" :key="n" />
     </section>
 
-    <v-text-field solo hide-details class="flex-grow-0">
-      <template #append>
-        <v-icon>mdi-send</v-icon>
 
-        <v-icon>mdi-file</v-icon>
+    <aside id="comunity__chat-input">
+      <div v-if="answered" id="comunity__chat-input-answered" class="d-flex" style="gap: 10px;">
+        <span class="text-labeled">answer to</span>
 
-        <v-icon>mdi-emoticon-outline</v-icon>
-      </template>
-    </v-text-field>
+        <img src="@/assets/sources/icons/arrow-answered-simple.svg" alt="arrow icon">
+
+        <h6 class="mb-0">Artist name 🤘</h6>
+
+        <v-icon size="18" @click="$emit('close-answered')">mdi-close</v-icon>
+      </div>
+
+      <v-text-field solo hide-details class="flex-grow-0">
+        <template #append>
+          <v-icon>mdi-send</v-icon>
+
+          <v-icon>mdi-file</v-icon>
+
+          <v-icon>mdi-emoticon-outline</v-icon>
+        </template>
+      </v-text-field>
+    </aside>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ComunityChat"
+  name: "ComunityChat",
+  props: {
+    answered: {
+      type: Boolean,
+      default: false,
+    }
+  }
 }
 </script>
 
@@ -75,23 +97,59 @@ export default {
   }
 
 
-  .v-input {
-    margin-inline: 12px 24px;
-    margin-block: 12px;
+  &-input {
+    display: grid;
+    grid-template-areas:
+      "answered"
+      "message";
 
-    &__slot {
-      background-color: var(--input) !important;
-      padding-inline: 16px !important;
-      padding-block: 10px !important;
-      border-radius: 8px !important;
+
+    &-answered {
+      position: relative;
+      grid-area: answered;
+      margin-inline: 12px 24px;
+      margin-top: 12px;
+      padding-bottom: 12px;
+      
+      padding-inline: 16px;
+      padding-top: 10px;
+      background-color: hsl(222, 8%, 23%, .6);
+      max-width: max-content;
+      border-radius: 8px;
+
+      h6 {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        width: max-content;
+      }
+
+      .v-icon {
+        position: absolute;
+        right: -30px;
+        cursor: pointer;
+      }
     }
 
-    input { font-size: 16px !important }
 
-    &__append-inner {
-      gap: 8px;
+    .v-input {
+      grid-area: message;
+      margin-inline: 12px 24px;
+      margin-block: 12px;
 
-      *, :before, ::after { color: var(--labeled) !important }
+      &__slot {
+        background-color: var(--input) !important;
+        padding-inline: 16px !important;
+        padding-block: 10px !important;
+        border-radius: 8px !important;
+      }
+
+      input { font-size: 16px !important }
+
+      &__append-inner {
+        gap: 8px;
+
+        *, :before, ::after { color: var(--labeled) !important }
+      }
     }
   }
 }
