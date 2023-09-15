@@ -97,6 +97,7 @@
               placeholder="John Doe"
               :rules="rules.required"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
 
             <label for="country">Country</label>
@@ -106,6 +107,7 @@
               :rules="rules.required"
               placeholder="Write your country"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
 
             <label for="email">Email</label>
@@ -115,6 +117,7 @@
               :rules="rules.email"
               placeholder="example@gmail.com"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
 
             <label for="discord">Discord ID</label>
@@ -124,6 +127,7 @@
               :rules="rules.required"
               placeholder="Username#321"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
 
             <label for="twitter">Twitter Account</label>
@@ -133,6 +137,7 @@
               :rules="rules.required"
               placeholder="@username"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
 
             <label for="bio">Bio</label>
@@ -142,27 +147,28 @@
               :rules="rules.required"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
 
-            <v-row class="aend jend" style="margin-bottom: 20px;">
-              <v-col lg="10" sm="9">
+  
+     
                 <label for="track-demo">Track Demo</label>
                 <v-file-input
                   id="track-demo"
                   v-model="track_demo"
-                  placeholder=".WAV or .AIFF"
                   hide-details
-                  :rules="fileRules"
-                  accept=".wav,.aiff"
+                  placeholder="Audio track"
+                  :rules="rules.required"
+                  accept="audio/*"
                   class="no-icon"
-                  style="margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
+                  style="margin-bottom: 20px; margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
                 ></v-file-input>
-              </v-col>
+          
 
-              <v-col lg="2" sm="3">
-                <v-btn class="btn" style="--w: 100%;" :loading="btnUploadTrack" @click="uploadFile()">Upload</v-btn>
-              </v-col>
-            </v-row>
+              <!-- <v-col lg="2" sm="3">
+                <v-btn class="btn" style="--w: 100%;" :disabled="disableUpload || validateFile" :loading="btnUploadTrack" @click="uploadFile()">Upload</v-btn>
+              </v-col> -->
+
 
             <label for="track-desc">Track Description</label>
             <v-text-field
@@ -171,10 +177,11 @@
               :rules="rules.required"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
+              @input="inputValidate"
             ></v-text-field>
           </v-form>
 
-          <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :loading="btnUploadForm" @click="uploadForm()">Upload</v-btn>
+          <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :disabled="disableUpload || validateFile" :loading="btnUploadForm" @click="uploadForm()">Upload</v-btn>
         </div>
       </div>
     </div>
@@ -190,6 +197,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      disableUpload: false,
       snackError: false,
       dataImg:[
         {
@@ -254,6 +262,15 @@ export default {
     fileUp: false,
     }
   },
+  computed: {
+    validateFile() {
+      if (this.full_name && this.track_demo && this.country && this.email && this.discord_id && this.twitter && this.bio && this.track_desc) {
+        return false
+      } else {
+        return true
+      }
+    }
+  },
   head() {
     const title = "Contest"
     return {
@@ -270,6 +287,11 @@ export default {
   // },
 
   methods: {
+    inputValidate() {
+      if (!this.$ramper.getAccountId()) {
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
+      }
+    },
     goForm() {
       const seccionFormularioConcurso = document.getElementById('contest-form')
       if (seccionFormularioConcurso) {
@@ -280,35 +302,46 @@ export default {
       }
     },
 
-    uploadForm() {
-      if (this.$refs.formContest.validate() && this.fileUp){
-      this.btnUploadForm = true
-      this.dataForm = {
-        wallet: "",
-        full_name: this.full_name,
-        country: this.country,
-        email: this.email,
-        discord_id: this.discord_id,
-        twitter: this.twitter,
-        bio: this.bio,
-        track_demo: "https://" + localStorage.getItem('cid') + ".ipfs.nftstorage.link",
-        track_desc: this.track_desc
-      }
+    async uploadForm() {
+      if (this.$ramper.getAccountId()) {
+        console.log(this.$refs.formContest.validate())
+        if (this.$refs.formContest.validate() && this.track_demo){
+          this.btnUploadForm = true
+          this.disableUpload = true
 
-      this.$axios.post('https://testnet.musicfeast.io/musicfeast_testnet/api/v1/contest-form/', this.dataForm)
-      .then(result => {
-        console.log(result)
-        this.btnUploadForm = false
-        this.$alert( {key:"success" ,title: "SUCCESS", desc: "Information Sent"})
-        localStorage.removeItem('cid')
-        this.fileUp = false
-      }).catch(err => {
-        console.log(err)
-        this.btnUploadForm = false
-        this.$alert( {title: "ERROR", desc: err.response.data.email[0] ? err.response.data.email[0] : "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
-      })
-      }else{
-        this.$alert( {title: "ERROR", desc: "YOU MUST FILL IN ALL THE FIELDS", icon:"close", color:"hsl(0, 84%, 58%)"})
+          const cid = await this.uploadIpfs(this.track_demo);
+
+          if (!cid) return false;
+
+          this.dataForm = {
+            wallet: this.$ramper.getAccountId(),
+            full_name: this.full_name,
+            country: this.country,
+            email: this.email,
+            discord_id: this.discord_id,
+            twitter: this.twitter,
+            bio: this.bio,
+            track_demo: "https://" + cid + ".ipfs.nftstorage.link",
+            track_desc: this.track_desc
+          }
+
+          this.$axios.post(`${this.baseUrl}api/v1/contest-form/`, this.dataForm)
+            .then(result => {
+              console.log(result)
+              this.btnUploadForm = false
+              this.disableUpload = false
+              this.$alert( {key:"success" ,title: "SUCCESS", desc: "Information Sent"})
+              localStorage.removeItem('cid')
+              this.fileUp = false
+            }).catch(err => {
+              console.log(err)
+              this.btnUploadForm = false
+              this.disableUpload = false
+              this.$alert( {title: "ERROR", desc: err.response.data.email[0] ? err.response.data.email[0] : "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
+            })
+        }
+      } else {
+        this.$parent.$parent.$parent.$refs.connect.modalConnect = true
       }
     },
 
@@ -330,9 +363,9 @@ export default {
           }
         );
 
-        this.uploadedFileInfo = resp.data.value
-        localStorage.setItem('cid', this.uploadedFileInfo.cid)
-        return resp.data;
+        // this.uploadedFileInfo = resp.data.value
+        // localStorage.setItem('cid', this.uploadedFileInfo.cid)
+        return resp.data.value?.cid
       } catch (error) {
         console.error(error);
         return false;
