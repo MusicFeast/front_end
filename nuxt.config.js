@@ -1,6 +1,7 @@
 import "dotenv/config";
 import webpack from 'webpack'
 import colors from 'vuetify/es5/util/colors'
+import fs from 'fs'
 
 const development = process.env.NODE_ENV !== 'production'
 
@@ -74,6 +75,7 @@ export default {
     // services
     '~/services/near-api',
     '~/services/ramper-api',
+    '~/services/firebase',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -100,6 +102,24 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     '@nuxtjs/i18n',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyDI0UGucwhq5P0zq67KE-kcIefgXtPqOYk",
+          authDomain: "musicfeast.firebaseapp.com",
+          projectId: "musicfeast",
+          storageBucket: "musicfeast.appspot.com",
+          messagingSenderId: "926982198772",
+          appId: "1:926982198772:web:cea625a99339a27be715a1",
+          measurementId: "G-TJ9WHS6TGE"
+        },
+        services: {
+          auth: true, // Just as example. Can be any other service.
+          firestore: true,
+        }
+      }
+    ]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

@@ -324,8 +324,10 @@
 
 <script>
 import gql from 'graphql-tag'
+import { query } from 'firebase/firestore'
 import computeds from '~/mixins/computeds'
 import styles from '~/mixins/styles'
+
 
 export default {
   name: "ProfilePage",
@@ -448,7 +450,8 @@ export default {
       tableItemsOffersRe: [],
       currentPageOffers: 1,
       itemsPerPageOffers: 10,
-      minimumStorage: null
+      minimumStorage: null,
+      messages: null
     }
   },
   head() {
@@ -472,6 +475,57 @@ export default {
     }
   },
   mounted() {
+    console.log("FIREBASE")
+
+    // const messageInfo = {
+    //   userUID: "123",
+    //   text: "hola osy juan",
+    //   created: Date.now(),
+    //   room: "CLASSIQ"
+    // };
+
+    // this.$fire.firestore
+    // .collection("ARTISTS")
+    // .doc("LORDE SANCTUS")
+    // .collection("appetizer")
+    // .add(messageInfo)
+    // .then((docRef) => {
+    //   console.log("Mensaje agregado con éxito:", docRef.id);
+    // })
+
+    // console.log(await this.$fire.firestore
+    // .collection("ARTISTS")
+    // .doc("CLASSIQ").get())
+
+    console.log(query(this.$fire.firestore, "ARTISTS"))
+
+    // const refCollection = this.$fire.firestore.collection("ARTISTS").doc("CLASSIQ").collection("appetizer")
+
+    // this.$fire.firestore
+    //   .collection('ARTISTS')
+    //   .get()
+    //   .then((querySnapShot) => {
+    //     querySnapShot.forEach((doc) => {
+    //       console.log(doc.data())
+    //     })
+    //   })
+
+    // Obtener todos los documentos de la colección
+    // refCollection.get()
+    //   .then((querySnapshot) => {
+    //     console.log(querySnapshot)
+    //     querySnapshot.forEach((doc) => {
+    //       console.log("Mensaje agregado")
+    //       // Accede a los datos de cada documento
+    //       const data = doc.data();
+    //       console.log("Datos del documento:", data);
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error al obtener documentos:", error);
+    //   });
+
+    
     this.server_dc = process.env.SERVER_DC
     this.channel_dc = process.env.CHANNEL_DC
     const queryString = window.location.search; // tomo mi url
