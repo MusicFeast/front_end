@@ -142,7 +142,7 @@ export default {
 <style lang="scss">
 .v-img-load {
 
-  .v-img__img {
+  .v-image__image {
     border-radius: var(--border-radius, initial) !important;
     border: var(--border, none) !important;
     box-shadow: var(--box-shadow, none);

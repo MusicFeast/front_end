@@ -1,6 +1,6 @@
 <template>
   <div id="comunity__header" class="d-flex align-center">
-    <div id="comunity__header-title" class="d-flex align-center" style="gap: 10px;">
+    <aside id="comunity__header-title" class="d-flex align-center" style="gap: 10px;">
       <v-btn
         v-show="$vuetify.breakpoint.mobile"
         icon @click="$emit('toggle-drawer')"
@@ -9,20 +9,30 @@
       </v-btn>
 
       <h6 class="text-labeled mb-0"># welcome 🖐️</h6>
-    </div>
+    </aside>
 
-    <v-text-field
-      placeholder="Search"
-      solo hide-details
-      append-icon="mdi-magnify"
-      class="flex-grow-0"
-    ></v-text-field>
+
+    <aside class="d-flex align-center" style="gap: 10px;">
+      <v-text-field
+        placeholder="Search"
+        solo hide-details
+        append-icon="mdi-magnify"
+        class="flex-grow-0"
+      ></v-text-field>
+  
+      <v-icon @click="$emit('fullscreen')">
+        {{ fullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen' }}
+      </v-icon>
+    </aside>
   </div>
 </template>
 
 <script>
 export default {
   name: "ComunityHeader",
+  props: {
+    fullscreen: Boolean
+  }
 }
 </script>
 

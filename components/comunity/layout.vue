@@ -1,17 +1,24 @@
 <template>
-  <v-main
-    id="comunity-layout"
-    :style="`--chat-height: ${height}; --layout-width: ${width}`"
-  >
-    <ComunityDrawer ref="drawer" />
+  <div style="display: contents">
+    <v-main
+      id="comunity-layout"
+      :class="{ fullscreen: fullscreen }"
+      :style="`--chat-height: ${height}; --layout-width: ${width}`"
+    >
+      <ComunityDrawer ref="drawer" />
+  
+      <section>
+        <ComunityHeader
+          :fullscreen="fullscreen"
+          @fullscreen="toggleFullscreen"
+          @toggle-drawer="$refs.drawer.model = !$refs.drawer.model"
+        />
+        <ComunityChat />
+      </section>
+    </v-main>
 
-    <section>
-      <ComunityHeader
-        @toggle-drawer="$refs.drawer.model = !$refs.drawer.model"
-      />
-      <ComunityChat />
-    </section>
-  </v-main>
+    <div :style="fullscreen ? `height: ${height}; max-width: ${width}` : ''" />
+  </div>
 </template>
 
 <script>
@@ -25,6 +32,17 @@ export default {
     height: {
       type: String,
       default: "800px"
+    }
+  },
+  data() {
+    return {
+      fullscreen: false,
+    }
+  },
+  methods: {
+    toggleFullscreen() {
+      this.fullscreen = !this.fullscreen
+      document.documentElement.style.overflow = this.fullscreen ? 'hidden' : 'visible'
     }
   }
 }
@@ -52,6 +70,16 @@ export default {
   // padding-left: var(--side-bar-width) !important;
   max-width: var(--layout-width);
   height: var(--chat-height);
+  overscroll-behavior: contain;
+
+
+  &.fullscreen {
+    position: fixed;
+    max-width: auto;
+    height: auto;
+    inset: 0;
+    z-index: 999;
+  }
 
   
   ::-webkit-scrollbar { background-color: var(--drawer) }
