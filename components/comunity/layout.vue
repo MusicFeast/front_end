@@ -1,5 +1,8 @@
 <template>
-  <v-main id="comunity-layout">
+  <v-main
+    id="comunity-layout"
+    :style="`--chat-height: ${height}; --layout-width: ${width}`"
+  >
     <ComunityDrawer ref="drawer" />
 
     <section>
@@ -14,6 +17,16 @@
 <script>
 export default {
   name: "ComunityLayout",
+  props: {
+    width: {
+      type: String,
+      default: "auto"
+    },
+    height: {
+      type: String,
+      default: "800px"
+    }
+  }
 }
 </script>
 
@@ -22,7 +35,6 @@ export default {
   --side-bar-width: 70px;
   --drawer-width: 313px;
   --header-height: 56px;
-  --chat-height: 800px;
   --primary: #ff462e;
   --secondary: #2B2D33;
   --body: #4B4F59;
@@ -38,6 +50,7 @@ export default {
   overflow: hidden;
   background-color: var(--body);
   // padding-left: var(--side-bar-width) !important;
+  max-width: var(--layout-width);
   height: var(--chat-height);
 
   
