@@ -491,7 +491,7 @@ export default {
     //   console.log("Mensaje agregado con éxito:", docRef.id);
     // })
 
-    this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
+    this.$fire.firestore.collection('CLASSIQ').onSnapshot((snapshot) => {
       const postData = [];
       snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
       console.log(postData);  // <------
