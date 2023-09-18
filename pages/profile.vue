@@ -324,10 +324,9 @@
 
 <script>
 import gql from 'graphql-tag'
-import { query } from 'firebase/firestore'
+// import { query } from 'firebase/firestore'
 import computeds from '~/mixins/computeds'
 import styles from '~/mixins/styles'
-
 
 export default {
   name: "ProfilePage",
@@ -476,7 +475,6 @@ export default {
   },
   mounted() {
     console.log("FIREBASE")
-
     // const messageInfo = {
     //   userUID: "123",
     //   text: "hola osy juan",
@@ -493,11 +491,13 @@ export default {
     //   console.log("Mensaje agregado con éxito:", docRef.id);
     // })
 
-    // console.log(await this.$fire.firestore
-    // .collection("ARTISTS")
-    // .doc("CLASSIQ").get())
+    this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
+      const postData = [];
+      snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
+      console.log(postData);  // <------
+    });
 
-    console.log(query(this.$fire.firestore, "ARTISTS"))
+    // console.log(query(this.$fire.firestore.collection("ARTISTS"), "ARTISTS"))
 
     // const refCollection = this.$fire.firestore.collection("ARTISTS").doc("CLASSIQ").collection("appetizer")
 
@@ -867,7 +867,7 @@ export default {
       }).subscribe(async (res) => {
         const data = res.data.nfts
 
-        console.log("BRRR",data)
+       // console.log("BRRR",data)
 
         this.dataNfts = []
 

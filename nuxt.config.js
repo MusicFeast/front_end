@@ -117,6 +117,7 @@ export default {
         services: {
           auth: true, // Just as example. Can be any other service.
           firestore: true,
+          storage: true,
         }
       }
     ]
