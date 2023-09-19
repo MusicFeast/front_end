@@ -33,7 +33,8 @@ export default {
   data() {
     return {
       imgDefault: "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
-      dataArtists: []
+      dataArtists: [],
+      avatarIds: []
     }
   },
   mounted() {
@@ -84,15 +85,13 @@ export default {
       this.dataArtists.forEach(e=>{e.active=false;item.active=true})
       this.$store.state.artistSelect = item
     },
-    async getAvatars(datos) {
-      console.log(datos)
+    async getAvatarsFn(datos) {
+      console.log("IDS CHATs", datos[0])
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
       .then(result => {
         const data = result.data
-        console.log("DATIS", data)
         for (let i = 0; i < data.length; i++) {
           for (let j = 0; j < this.dataArtists.length; j++) {
-            console.log("FINN", String(data[i].id_collection) + "  " + String(this.dataArtists[j].id_collection))
             if (String(data[i].id_collection) === String(this.dataArtists[j].id_collection)) {
               this.dataArtists[j].img = this.baseUrl+data[i].image
             }
@@ -105,7 +104,7 @@ export default {
     },
     getArtists() {
       this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
-        const avatarIds = []
+        this.avatarIds = [];
         const postData = [];
         let i = 0
         snapshot.forEach(async (doc) => {
@@ -118,7 +117,7 @@ export default {
               }
               postData.push(item)
               if (Number(item.id_collection) !== 0) {
-                avatarIds.push(item.id_collection)
+                this.avatarIds.push(String(item.id_collection))
               } else {
                 item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
               }
@@ -129,7 +128,7 @@ export default {
             }
             postData.push(item)
             if (Number(item.id_collection) !== 0) {
-              avatarIds.push(item.id_collection)
+              this.avatarIds.push(String(item.id_collection))
             } else {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
             }
@@ -137,8 +136,8 @@ export default {
           i++
         });
         this.dataArtists = postData
-        console.log("IDSSS", this.dataArtists)
-        this.getAvatars(avatarIds)
+        console.log(this.avatarIds)
+        this.getAvatarsFn(this.avatarIds)
       });
     }
   }
