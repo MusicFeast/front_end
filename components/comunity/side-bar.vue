@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
 export default {
@@ -39,16 +40,59 @@ export default {
     this.getArtists()
   },
   methods: {
+    async validateTierFn(idCollection, tierId, collectionNow) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String, $collection: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}, collection: $collection}
+          ) {
+            typetoken_id
+            serie_id
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(idCollection), owner_id: this.$ramper.getAccountId(), reference: String(tierId), collection: collectionNow},
+      })
+
+      const data = res.data.nfts
+
+      if (data.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    },
     selectArtist(item) {
       this.dataArtists.forEach(e=>{e.active=false;item.active=true})
       this.$store.state.artistSelect = item
     },
     async getAvatars(datos) {
+      console.log(datos)
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
       .then(result => {
         const data = result.data
+        console.log("DATIS", data)
         for (let i = 0; i < data.length; i++) {
           for (let j = 0; j < this.dataArtists.length; j++) {
+            console.log("FINN", String(data[i].id_collection) + "  " + String(this.dataArtists[j].id_collection))
             if (String(data[i].id_collection) === String(this.dataArtists[j].id_collection)) {
               this.dataArtists[j].img = this.baseUrl+data[i].image
             }
@@ -64,16 +108,36 @@ export default {
         const avatarIds = []
         const postData = [];
         let i = 0
-        snapshot.forEach((doc) => {
+        snapshot.forEach(async (doc) => {
           const item = { ...doc.data(), id: doc.id, img: this.imgDefault, active: false }
-          if (i === 0) {
-            item.active = false
+          const artistId = this.$route.query.artist
+          if (artistId) {
+            if (String(item.id_collection) === String(artistId) && await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
+              if (i === 0) {
+                item.active = false
+              }
+              postData.push(item)
+              if (Number(item.id_collection) !== 0) {
+                avatarIds.push(item.id_collection)
+              } else {
+                item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              }
+            }
+          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
+            if (i === 0) {
+              item.active = false
+            }
+            postData.push(item)
+            if (Number(item.id_collection) !== 0) {
+              avatarIds.push(item.id_collection)
+            } else {
+              item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+            }
           }
-          postData.push(item)
-          avatarIds.push(item.id_collection)
           i++
         });
         this.dataArtists = postData
+        console.log("IDSSS", this.dataArtists)
         this.getAvatars(avatarIds)
       });
     }
