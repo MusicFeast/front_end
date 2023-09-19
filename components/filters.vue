@@ -24,24 +24,24 @@
       <template #selection="{ item }">
         <div class="v-select__selection v-select__selection--comma">
           {{
-            item === 1 ? "Bronze" :
-            item === 2 ? "Silver" :
-            item === 3 ? "Gold" :
-            item === 4 ? "platinum" :
-            item === 5 ? "Diamond" :
-            item === 6 ? "Uranium" : item
+            item === 1 ? "Tier 1" :
+            item === 2 ? "Tier 2" :
+            item === 3 ? "Tier 3" :
+            item === 4 ? "Tier 4" :
+            item === 5 ? "Tier 5" :
+            item === 6 ? "Tier 6" : item
           }}
         </div>
       </template>
       <template #item="{ item }">
         <v-list-item-title>
           {{
-            item === 1 ? "Bronze" :
-            item === 2 ? "Silver" :
-            item === 3 ? "Gold" :
-            item === 4 ? "platinum" :
-            item === 5 ? "Diamond" :
-            item === 6 ? "Uranium" : item
+            item === 1 ? "Tier 1" :
+            item === 2 ? "Tier 2" :
+            item === 3 ? "Tier 3" :
+            item === 4 ? "Tier 4" :
+            item === 5 ? "Tier 5" :
+            item === 6 ? "Tier 6" : item
           }}
         </v-list-item-title>
       </template>
