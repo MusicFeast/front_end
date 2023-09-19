@@ -76,7 +76,7 @@
 
         <v-col cols="12">
           <section class="card card-icons">
-            <v-btn v-for="(item,index) in dataSocial" :key="index">
+            <v-btn v-for="(item,index) in dataSocial" :key="index" :href="item.link" target="_blank">
               <img :src=item.icon alt="icon" style="width: 25px!important; height: 25px!important;">
             </v-btn>
           </section>
@@ -209,17 +209,21 @@ export default {
       ],
       dataSocial:[
         {
-          icon: require("~/assets/sources/icons/instagram_white.svg")
+          icon: require("~/assets/sources/icons/instagram_white.svg"),
+          link: 'https://www.instagram.com/musicfeast.io/ ',
         },
         {
-          icon: require("~/assets/sources/icons/twitter_white.svg")
+          icon: require("~/assets/sources/icons/twitter_white.svg"),
+          link: 'https://twitter.com/musicfeast_io',
         },
         {
-          icon: require("~/assets/sources/icons/facebook_white.svg")
+          icon: require("~/assets/sources/icons/facebook_white.svg"),
+          link: 'https://www.facebook.com/musicfeast.io',
         },
-        {
-          icon: require("~/assets/sources/icons/discord_white.svg")
-        },
+        // {
+        //   icon: require("~/assets/sources/icons/discord_white.svg"),
+        //   link: '',
+        // },
       ],
       items:["Canada", "EEUU", "Argentina", "Venezuela", "Mexico", "Ecuador"],
       rules: {
