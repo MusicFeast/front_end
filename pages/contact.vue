@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     goToMail() {
-      window.location.href = "mailto:musicfeast.io@gmail.com";
+      window.location.href = "mailto:info@musicfeast.io";
     },
     async getDataSocial() {
       await this.$axios.get(`${this.baseUrl}api/v1/get-info-mf`)
