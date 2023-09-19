@@ -8,7 +8,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>
 
-      <h6 class="text-labeled mb-0"># welcome 🖐️</h6>
+      <h6 class="text-labeled mb-0">{{ getChatSelect? "# " + getChatSelect?.chat : "" }}</h6>
     </aside>
 
 
@@ -32,7 +32,12 @@ export default {
   name: "ComunityHeader",
   props: {
     fullscreen: Boolean
-  }
+  },
+  computed: {
+    getChatSelect() {
+      return this.$store.getters.getChatSelect;
+    },
+  },
 }
 </script>
 

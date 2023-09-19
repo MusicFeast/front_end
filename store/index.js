@@ -1,4 +1,5 @@
 import html2canvas from 'html2canvas'
+export const strict = false
 
 export const state = () => ({
   theme: 'dark',
@@ -19,9 +20,12 @@ export const state = () => ({
     dataSocial: [],
   },
   buyDirect: null,
+  artistSelect: null,
+  chatSelect: null
 })
 
 export const mutations = {
+  setArtistSelect(state, value) {state.artistSelect = value},
   switchTheme(state, theme) {
     // theme
     state.theme = theme
@@ -170,6 +174,9 @@ export const mutations = {
 }
 
 export const actions = {
+  updateArtistSelect({ commit }, value) {
+    commit('setArtistSelect', value);
+  },
   modalConnect() {
     const layout = this.$router.app.$children.find(
       (data) => data.$el === document.getElementById('layout')
@@ -243,6 +250,12 @@ export const actions = {
 }
 
 export const getters = {
+  getChatSelect(state) {
+    return state.chatSelect;
+  },
+  getArtistSelect(state) {
+    return state.artistSelect;
+  },
   pagination:
     () =>
     ({ items, currentPage, itemsPerPage, search, filterA, filterB }) => {

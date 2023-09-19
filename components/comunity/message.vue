@@ -1,61 +1,69 @@
 <template>
-  <div class="message-chat">
-    <img
-      v-if="answered"
-      src="@/assets/sources/icons/arrow-answered.svg" alt="arrow icon"
-      class="arrow-answered"
-    >
+  <div class="message-content" >
+    <section class="message-chat" v-for="item in messages" :key="item" >
+        <!-- <img
+        v-if="answered"
+        src="@/assets/sources/icons/arrow-answered.svg" alt="arrow icon"
+        class="arrow-answered"
+      > -->
 
-    <avatar-tier
-      :src="testImage"
-      sizes="55"
-      class="user-avatar"
-    />
+      <avatar-tier
+        :src="item.avatar || testImage"
+        sizes="55"
+        class="user-avatar"
+      />
 
-    <aside
-      v-if="answered"
-      class="answered-message d-flex align-center"
-      style="gap: var(--gap-names);"
-    >
-      <div class="d-flex align-center" style="gap: var(--gap-spacing)">
-        <avatar-tier
-          :src="testImage"
-          sizes="32"
-        />
-
-        <h6 class="answered-message-name mb-0">Artist name 🤘</h6>
-      </div>
-
-      <p
-        class="answered-message-text mb-0"
-        title="Donec hendrerit ex augue, ut suscipit libero ornare eget. Nulla quis sem nulla. Morbi molestie fringilla mi nec pulvinar. Morbi commodo fringilla ligula ut hendrerit. Morbi lacinia dictum sapien quis vulputate. Quisque ullamcorper diam non ipsum viverra, eget euismod est venenatis. Aliquam quis leo vel nunc porttitor rhoncus."
+      <!-- <aside
+        v-if="answered"
+        class="answered-message d-flex align-center"
+        style="gap: var(--gap-names);"
       >
-        Donec hendrerit ex augue, ut suscipit libero ornare eget. Nulla quis sem nulla. Morbi molestie fringilla mi nec pulvinar. Morbi commodo fringilla ligula ut hendrerit. Morbi lacinia dictum sapien quis vulputate. Quisque ullamcorper diam non ipsum viverra, eget euismod est venenatis. Aliquam quis leo vel nunc porttitor rhoncus.
-      </p>
-    </aside>
+        <div class="d-flex align-center" style="gap: var(--gap-spacing)">
+          <avatar-tier
+            :src="testImage"
+            sizes="32"
+          />
 
-    <aside class="message d-flex flex-column" style="gap: var(--gap-spacing);">
-      <div class="d-flex align-center" style="gap: var(--gap-names);">
-        <h6 class="message-name mb-0">User name 🤑</h6>
+          <h6 class="answered-message-name mb-0">Artist name 🤘</h6>
+        </div>
 
-        <span class="text-date">03 / 10 /2023</span>
+        <p
+          class="answered-message-text mb-0"
+          title="Donec hendrerit ex augue, ut suscipit libero ornare eget. Nulla quis sem nulla. Morbi molestie fringilla mi nec pulvinar. Morbi commodo fringilla ligula ut hendrerit. Morbi lacinia dictum sapien quis vulputate. Quisque ullamcorper diam non ipsum viverra, eget euismod est venenatis. Aliquam quis leo vel nunc porttitor rhoncus."
+        >
+          Donec hendrerit ex augue, ut suscipit libero ornare eget. Nulla quis sem nulla. Morbi molestie fringilla mi nec pulvinar. Morbi commodo fringilla ligula ut hendrerit. Morbi lacinia dictum sapien quis vulputate. Quisque ullamcorper diam non ipsum viverra, eget euismod est venenatis. Aliquam quis leo vel nunc porttitor rhoncus.
+        </p>
+      </aside> -->
 
-        <v-icon color="var(--labeled)" size="20" @click="$emit('show-answered')">mdi-reply</v-icon>
-      </div>
+      <aside class="message d-flex flex-column" style="gap: var(--gap-spacing);">
+        <div class="d-flex align-center" style="gap: var(--gap-names);">
+          <h6 class="message-name mb-0">{{ item.username }}</h6>
 
-      <p class="message-text mb-0">
-        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin tincidunt lacus nec fermentum semper. Donec nec tempor mauris. Curabitur suscipit, enim at condimentum pharetra, nisi urna blandit sem, non ullamcorper arcu leo ut ligula. Pellentesque molestie sapien iaculis lectus bibendum blandit. Integer ultricies enim quam, mattis pharetra nisl dignissim a.
-      </p>
-    </aside>
+          <span class="text-date">{{ convertDate(item.created) }}</span>
+
+          <v-icon color="var(--labeled)" size="20" @click="$emit('show-answered')">mdi-reply</v-icon>
+        </div>
+
+        <p class="message-text mb-0">
+          {{ item.content }}
+        </p>
+      </aside>
+    </section>
+    
   </div>
 </template>
 
 <script>
+import moment from "moment"
 export default {
   name: "MessageComponent",
   props: {
     answered: {
       type: Boolean,
+      default: false,
+    },
+    messages: {
+      type: [],
       default: false,
     }
   },
@@ -65,10 +73,19 @@ export default {
         "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
     }
   },
+  methods: {
+    convertDate(created) {
+      return moment(created).format('DD/MM/YYYY HH:mm');
+    }
+  }
 }
 </script>
 
 <style lang="scss">
+.message-content {
+  display: flex;
+  flex-direction: column;
+}
 .message-chat {  
   --gap-names: 20px;
   --gap-spacing: 10px;
