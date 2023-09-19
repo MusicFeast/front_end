@@ -19,7 +19,7 @@
 
         <h6 v-show="artistSelect?.artist" class="text-labeled mb-0">
           {{ artistSelect?.artist }}
-          <v-icon color="var(--labeled)">mdi-menu-down</v-icon>
+          <!-- <v-icon color="var(--labeled)">mdi-menu-down</v-icon> -->
         </h6>
       </div>
 
