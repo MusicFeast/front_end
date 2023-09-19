@@ -318,7 +318,8 @@
    </v-col>
     </v-row>
     </v-container>
-    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
+    <ComunityLayout></ComunityLayout>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script> -->
   </div>
 </template>
 
@@ -491,12 +492,6 @@ export default {
     //   console.log("Mensaje agregado con éxito:", docRef.id);
     // })
 
-    this.$fire.firestore.collection('CLASSIQ').onSnapshot((snapshot) => {
-      const postData = [];
-      snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
-      console.log(postData);  // <------
-    });
-
     // console.log(query(this.$fire.firestore.collection("ARTISTS"), "ARTISTS"))
 
     // const refCollection = this.$fire.firestore.collection("ARTISTS").doc("CLASSIQ").collection("appetizer")
@@ -543,9 +538,17 @@ export default {
     this.getOffersReceived()
     this.storageMini()
     this.getChats()
+    // this.getChatArtist()
     // this.setProfile();
   },
   methods: {
+    getChatArtist() {
+      this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
+        const postData = [];
+        snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
+        console.log(postData);  // <------
+      });
+    },
     async getChats() {
       const accountId = this.$ramper.getAccountId()
       // get data user

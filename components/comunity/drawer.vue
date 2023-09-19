@@ -10,33 +10,38 @@
     <section id="comunity__drawer-drawer" class="flex-grow-1">
       <div id="comunity__drawer-header" class="d-flex align-center" style="gap: 10px">
         <avatar-tier
-          :src="testImage"
+          v-show="artistSelect?.img"
+          :src="artistSelect?.img"
           sizes="40"
           tier="4"
           class="flex-grow-0"
         ></avatar-tier>
 
-        <h6 class="text-labeled mb-0">
-          Artist Name
+        <h6 v-show="artistSelect?.artist" class="text-labeled mb-0">
+          {{ artistSelect?.artist }}
           <v-icon color="var(--labeled)">mdi-menu-down</v-icon>
         </h6>
       </div>
 
 
       <v-list expand nav>
-        <v-list-group
-          v-for="item in items" :key="item.title"
+        <v-list-item
+          v-for="item in items" :key="item.chat"
           v-model="item.active"
-          :prepend-icon="item.active ? 'mdi-menu-up' : 'mdi-menu-down'"
-          append-icon=""
+          flat
+          :class="{active: item.active}"
+          @click="selectChat(item)"
         >
-          <template #activator>
+          <template>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title" />
+              <!-- <v-list-item-title v-text="item.title" /> -->
+              <v-list-item-title>
+                <span>#</span> {{ item.chat }}
+              </v-list-item-title>
             </v-list-item-content>
           </template>
 
-          <v-list-item
+          <!-- <v-list-item
             v-for="(child, i2) in item.items" :key="i2"
             dense
             flat
@@ -48,8 +53,8 @@
                 <span>#</span> {{ child.title }}
               </v-list-item-title>
             </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
+          </v-list-item> -->
+        </v-list-item>
       </v-list>
 
 
@@ -87,66 +92,43 @@ export default {
     return {
       model: true,
       items: [
-        {
-          items: [
-            { title: 'Welcome 🖐️', active: false },
-            { title: 'the - lobby 👓', active: false },
-            { title: 'the - menu 🗂️', active: false },
-            { title: 'lorem ipsum 🤘', active: false },
-          ],
-          title: 'Grand Entrance',
-        },
-        {
-          items: [
-            { title: 'Welcome 🖐️', active: false },
-            { title: 'the - lobby 👓', active: false },
-            { title: 'the - menu 🗂️', active: false },
-            { title: 'lorem ipsum 🤘', active: false },
-          ],
-          title: 'Grand Entrance',
-        },
-        {
-          items: [
-            { title: 'Welcome 🖐️', active: false },
-            { title: 'the - lobby 👓', active: false },
-            { title: 'the - menu 🗂️', active: false },
-            { title: 'lorem ipsum 🤘', active: false },
-          ],
-          title: 'Grand Entrance',
-        },
-        {
-          items: [
-            { title: 'Welcome 🖐️', active: false },
-            { title: 'the - lobby 👓', active: false },
-            { title: 'the - menu 🗂️', active: false },
-            { title: 'lorem ipsum 🤘', active: false },
-          ],
-          title: 'Grand Entrance',
-        },
-        {
-          items: [
-            { title: 'Welcome 🖐️', active: false },
-            { title: 'the - lobby 👓', active: false },
-            { title: 'the - menu 🗂️', active: false },
-            { title: 'lorem ipsum 🤘', active: false },
-          ],
-          title: 'Grand Entrance',
-        },
-        {
-          items: [
-            { title: 'Welcome 🖐️', active: false },
-            { title: 'the - lobby 👓', active: false },
-            { title: 'the - menu 🗂️', active: false },
-            { title: 'lorem ipsum 🤘', active: false },
-          ],
-          title: 'Grand Entrance',
-        },
+        // {
+        //   title: 'Grand Entrance',
+        //   active: true
+        // },
+        // {
+        //   title: 'Grand Entrance',
+        //   active: false
+        // },
+        // {
+        //   title: 'Grand Entrance',
+        //   active: false
+        // },
+        // {
+        //   title: 'Grand Entrance',
+        //   active: false
+        // },
+        // {
+        //   title: 'Grand Entrance',
+        //   active: false
+        // },
+        // {
+        //   title: 'Grand Entrance',
+        //   active: false
+        // },
       ],
+      selectItem: null,
       testImage: 
         "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
     }
   },
   computed: {
+    artistSelect() {
+      if (this.$store.getters.getArtistSelect) {
+        this.getChats(this.$store.getters.getArtistSelect)
+      }
+      return this.$store.getters.getArtistSelect;
+    },
     isMobile() {
       return this.$vuetify.breakpoint.mobile
     }
@@ -155,6 +137,33 @@ export default {
     isMobile(value) {
       if (value) this.model = false
       else this.model = true
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    selectChat(item) {
+      // item.active = true
+      this.items.forEach(e=>{e.active=false;item.active=true})
+      this.$store.state.chatSelect = item
+      // this.$store.dispatch('updateArtistSelect', item);
+      // this.$store.commit('updateArtistSelect', item)
+      // this.$store.state.artistSelect = item
+    },
+    getChats(item) {
+      this.$fire.firestore.collection('ARTISTS').doc(item.id).collection("CHATS").onSnapshot((snapshot) => {
+        const postData = [];
+        let i = 0
+        snapshot.forEach((doc) => {
+          const item = { ...doc.data(), id: doc.id, active: false }
+          if (i === 0) {
+            item.active = false
+          }
+          postData.push(item)
+          i++
+        });
+        this.items = postData.reverse()
+      });
     }
   }
 }

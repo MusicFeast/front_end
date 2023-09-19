@@ -19,11 +19,11 @@
 
 
     <section id="comunity__chat-body" class="d-flex flex-grow-1">
-      <ComunityMessage answered />
+      <!-- <ComunityMessage answered /> -->
 
-      <ComunityMessageDivider date-time="05 / Nov / 2023" />
+      <!-- <ComunityMessageDivider date-time="05 / Nov / 2023" /> -->
 
-      <ComunityMessage v-for="n in 3" :key="n" @show-answered="answered = true" />
+      <ComunityMessage :messages="messages" @show-answered="answered = true" />
     </section>
 
 
@@ -43,7 +43,7 @@
         <v-icon size="18" @click="answered = false">mdi-close</v-icon>
       </div>
 
-      <v-text-field solo hide-details class="flex-grow-0">
+      <v-text-field :disabled="!getChatSelect && $ramper.getAccountId()" v-model="messageContent" solo hide-details class="flex-grow-0" @keydown.enter="sendMessage">
         <template #append>
           <v-icon>mdi-send</v-icon>
 
@@ -58,20 +58,66 @@
 
 <script>
 import { VEmojiPicker } from 'v-emoji-picker';
+import computeds from '~/mixins/computeds'
 
 export default {
   name: "ComunityChat",
+  mixins: [computeds],
   components: {
     VEmojiPicker
   },
+  computed: {
+    getChatSelect() {
+      console.log(this.$store.getters.getChatSelect)
+      if (this.$store.getters.getChatSelect) {
+        this.getMessages(this.$store.getters.getChatSelect)
+      }
+      return this.$store.getters.getChatSelect;
+    },
+    artistSelect() {
+      return this.$store.getters.getArtistSelect;
+    },
+  },
   data() {
     return {
+      messageContent: null,
       answered: false,
+      messages: [],
+      chatSelect: null
     }
   },
+  mounted() {
+  },
   methods: {
+    sendMessage() {
+      const messageInfo = {
+        wallet: this.$ramper.getAccountId(),
+        username: this.user.username || this.$ramper.getAccountId(),
+        avatar: this.user.avatar,
+        content: this.messageContent,
+        created: Date.now(),
+      };
+
+      console.log(messageInfo);
+      this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(this.chatSelect.id).collection("MESSAGES").add(messageInfo)
+
+      this.messageContent = null
+    },
     selectEmoji(event) {
       console.log("emoji:", event);
+    },
+    getMessages(item) {
+      this.chatSelect = item
+      this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(item.id).collection("MESSAGES").onSnapshot((snapshot) => {
+        const postData = [];
+    
+        snapshot.forEach((doc) => {
+          const item = { ...doc.data(), id: doc.id, active: false }
+          postData.push(item)
+
+        });
+        this.messages = postData.reverse()
+      });
     }
   }
 }
