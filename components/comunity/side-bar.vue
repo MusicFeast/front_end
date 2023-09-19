@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
 export default {
@@ -32,18 +33,60 @@ export default {
   data() {
     return {
       imgDefault: "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
-      dataArtists: []
+      dataArtists: [],
+      avatarIds: []
     }
   },
   mounted() {
     this.getArtists()
   },
   methods: {
+    async validateTierFn(idCollection, tierId, collectionNow) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String, $collection: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}, collection: $collection}
+          ) {
+            typetoken_id
+            serie_id
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(idCollection), owner_id: this.$ramper.getAccountId(), reference: String(tierId), collection: collectionNow},
+      })
+
+      const data = res.data.nfts
+
+      if (data.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    },
     selectArtist(item) {
       this.dataArtists.forEach(e=>{e.active=false;item.active=true})
       this.$store.state.artistSelect = item
     },
-    async getAvatars(datos) {
+    async getAvatarsFn(datos) {
+      console.log("IDS CHATs", datos[0])
       await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
       .then(result => {
         const data = result.data
@@ -61,20 +104,40 @@ export default {
     },
     getArtists() {
       this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
-        const avatarIds = []
+        this.avatarIds = [];
         const postData = [];
         let i = 0
-        snapshot.forEach((doc) => {
+        snapshot.forEach(async (doc) => {
           const item = { ...doc.data(), id: doc.id, img: this.imgDefault, active: false }
-          if (i === 0) {
-            item.active = false
+          const artistId = this.$route.query.artist
+          if (artistId) {
+            if (String(item.id_collection) === String(artistId) && await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
+              if (i === 0) {
+                item.active = false
+              }
+              postData.push(item)
+              if (Number(item.id_collection) !== 0) {
+                this.avatarIds.push(String(item.id_collection))
+              } else {
+                item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              }
+            }
+          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
+            if (i === 0) {
+              item.active = false
+            }
+            postData.push(item)
+            if (Number(item.id_collection) !== 0) {
+              this.avatarIds.push(String(item.id_collection))
+            } else {
+              item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+            }
           }
-          postData.push(item)
-          avatarIds.push(item.id_collection)
           i++
         });
         this.dataArtists = postData
-        this.getAvatars(avatarIds)
+        console.log(this.avatarIds)
+        this.getAvatarsFn(this.avatarIds)
       });
     }
   }

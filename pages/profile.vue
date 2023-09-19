@@ -475,7 +475,6 @@ export default {
     }
   },
   mounted() {
-    console.log("FIREBASE")
     // const messageInfo = {
     //   userUID: "123",
     //   text: "hola osy juan",
@@ -546,7 +545,6 @@ export default {
       this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
         const postData = [];
         snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
-        console.log(postData);  // <------
       });
     },
     async getChats() {
