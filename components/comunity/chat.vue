@@ -38,7 +38,7 @@
 
         <img src="@/assets/sources/icons/arrow-answered-simple.svg" alt="arrow icon">
 
-        <h6 class="mb-0">Artist name 🤘</h6>
+        <h6 v-show="search" class="mb-0">Artist name 🤘</h6>
 
         <v-icon size="18" @click="answered = false">mdi-close</v-icon>
       </div>
@@ -74,18 +74,34 @@ export default {
     artistSelect() {
       return this.$store.getters.getArtistSelect;
     },
+    search() {
+      console.log(this.$store.getters.getSearch)
+      this.debounce(this.$store.getters.getSearch)
+      return true
+    },
   },
   data() {
     return {
       messageContent: "",
       answered: false,
       messages: [],
-      chatSelect: null
+      messagesData: [],
+      chatSelect: null,
+      searchItem: "",
     }
   },
   mounted() {
   },
   methods: {
+    debounce(item) {
+      this.searchItem = item
+      clearTimeout(this.timer)
+      // this.auxDebounce = true
+      this.timer = setTimeout(this.inputSearch, 500)
+    },
+    inputSearch() {
+      this.messages = this.messagesData.filter((item) => {return item.content?.toLowerCase().includes(this.searchItem.toLowerCase())})
+    },
     sendMessage() {
       if (this.messageContent) {
         const messageInfo = {
@@ -95,8 +111,7 @@ export default {
           content: this.messageContent,
           created: Date.now(),
         };
-
-        console.log(messageInfo);
+        
         this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(this.chatSelect.id).collection("MESSAGES").add(messageInfo)
 
         this.messageContent = ""
@@ -115,7 +130,13 @@ export default {
           postData.push(item)
 
         });
-        this.messages = postData
+        this.messagesData = postData
+
+        if (this.searchItem) {
+          this.messages = this.messagesData.filter((item) => {return item.content?.toLowerCase().includes(this.searchItem.toLowerCase())})
+        } else {
+          this.messages = postData
+        }
       });
     }
   }

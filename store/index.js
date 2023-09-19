@@ -21,7 +21,8 @@ export const state = () => ({
   },
   buyDirect: null,
   artistSelect: null,
-  chatSelect: null
+  chatSelect: null,
+  search: ""
 })
 
 export const mutations = {
@@ -252,6 +253,9 @@ export const actions = {
 export const getters = {
   getChatSelect(state) {
     return state.chatSelect;
+  },
+  getSearch(state) {
+    return state.search;
   },
   getArtistSelect(state) {
     return state.artistSelect;

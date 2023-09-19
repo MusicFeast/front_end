@@ -14,10 +14,12 @@
 
     <aside class="d-flex align-center" style="gap: 10px;">
       <v-text-field
+        v-model="search"
         placeholder="Search"
         solo hide-details
         append-icon="mdi-magnify"
         class="flex-grow-0"
+        @input="inputSearch"
       ></v-text-field>
   
       <v-icon @click="$emit('fullscreen')">
@@ -38,6 +40,19 @@ export default {
       return this.$store.getters.getChatSelect;
     },
   },
+  data() {
+    return {
+      search: "",
+    }
+  },
+  methods: {
+    inputSearch() {
+      if (!this.search) {
+        this.search = ""
+      }
+      this.$store.state.search = this.search
+    },
+  }
 }
 </script>
 

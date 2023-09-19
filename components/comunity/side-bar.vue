@@ -1,10 +1,16 @@
 <template>
   <nav id="comunity__sider-bar">
-    <div
+    <!-- <div
       v-for="(item, i) in dataArtists" :key="i"
       class="container-image"
       :class="{ active: item.active }"
       :style="`--messages: '${22}'`"
+      @click="selectArtist(item)"
+    > -->
+    <div
+      v-for="(item, i) in dataArtists" :key="i"
+      class="container-image"
+      :class="{ active: item.active }"
       @click="selectArtist(item)"
     >
       <avatar-tier
