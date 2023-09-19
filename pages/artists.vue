@@ -45,11 +45,11 @@
 
       <Filters
         contents
-        :hide="[2]"
+        :hide="[3]"
         :search="search"
-        :filter-b="filter.list"
+        :filter-a="filterA.list"
         @search="(model) => search = model"
-        @filterB="(model) => filter.model = model"
+        @filterA="(model) => filterA.model = model"
       />
     </h2>
 
@@ -104,6 +104,10 @@ export default {
       modelCarousel: 0,
       dataArtists: [],
       search: "",
+      filterA: {
+        model: "",
+        list: [6, 5, 4, 3, 2, 1],
+      },
       filter: {
         model: "",
         list: ["lastest releases", "oldest", "coming soon"],
