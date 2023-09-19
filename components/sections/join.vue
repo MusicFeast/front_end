@@ -8,10 +8,10 @@
         </p>
         <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)" v-if="linkDiscord">
           <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->
-          <v-btn
+          <!-- <v-btn
             class="btn tlow tfirst" style="--w: 8.5em;"
             :href="linkDiscord" target="_blank"
-            >Join</v-btn>
+            >Join</v-btn> -->
         </div>
       </article>
     </div>
