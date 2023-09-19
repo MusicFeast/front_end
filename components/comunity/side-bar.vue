@@ -85,11 +85,17 @@ export default {
       this.dataArtists.forEach(e=>{e.active=false;item.active=true})
       this.$store.state.artistSelect = item
     },
-    async getAvatarsFn(datos) {
-      console.log("IDS CHATs", datos[0])
-      await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
+    async getAvatarsFn() {
+      const ids = []
+      for (const item of this.dataArtists) {
+        console.log("item", item)
+        ids.push(String(item.id_collection))
+      }
+      console.log(ids)
+      await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": ids })
       .then(result => {
         const data = result.data
+        console.log("AVATARS", data)
         for (let i = 0; i < data.length; i++) {
           for (let j = 0; j < this.dataArtists.length; j++) {
             if (String(data[i].id_collection) === String(this.dataArtists[j].id_collection)) {
@@ -117,7 +123,7 @@ export default {
               }
               postData.push(item)
               if (Number(item.id_collection) !== 0) {
-                this.avatarIds.push(String(item.id_collection))
+                this.avatarIds.push(item.id_collection)
               } else {
                 item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
               }
@@ -128,7 +134,7 @@ export default {
             }
             postData.push(item)
             if (Number(item.id_collection) !== 0) {
-              this.avatarIds.push(String(item.id_collection))
+              this.avatarIds.push(item.id_collection)
             } else {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
             }
@@ -136,8 +142,7 @@ export default {
           i++
         });
         this.dataArtists = postData
-        console.log(this.avatarIds)
-        this.getAvatarsFn(this.avatarIds)
+        this.getAvatarsFn()
       });
     }
   }
