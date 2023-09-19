@@ -4,7 +4,7 @@
       <article class="divcol center gap2">
         <h2 class="tup">Join the community</h2>
         <p class="tcentermobile">
-          {{join_data}}
+          Help us navigate this new and exciting era of tech and music!
         </p>
         <div class="center wrap fill_w" style="gap: clamp(2em, 4vw, 4em)" v-if="linkDiscord">
           <!-- <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --w: 8.5em">Join</v-btn> -->

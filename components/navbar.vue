@@ -18,7 +18,7 @@
         />
       </a>
 
-      <section class="center gap2 deletemobile">
+      <section class="center gap1 deletemobile">
         <a
           v-for="(item, i) in dataNavbar"
           :key="i"
@@ -187,6 +187,7 @@ export default {
       dataNavbar: [
         { name: 'home', to: '/' },
         // { name: 'events', to: '/events' },
+        { name: 'contest', to: '/contest' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
         // { name: 'artist submission', to: '/form-mf' },

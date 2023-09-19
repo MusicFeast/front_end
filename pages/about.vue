@@ -12,6 +12,8 @@
           <p class="p" v-html="item.description" />
         </div>
       </section>
+
+      <SectionsJoin></SectionsJoin>
   
       <h2 class="Title tup">core team</h2>
   

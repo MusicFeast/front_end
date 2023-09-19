@@ -26,7 +26,7 @@
       </section>
 
       <section id="container-copyright" class="fill_w space tcenter divcol_invmobile gap2">
-        <span class="h10_em">&copy; 2022 Everyone Eats Entertainment LP.</span>
+        <span class="h10_em">&copy; 2023 Everyone Eats Entertainment LP.</span>
         <span class="h10_em">Cookie statement <span class="pointer semibold" @click="$router.push(localePath('/terms-and-conditions'))">Terms &amp; Conditions</span> Privacy Policy</span>
       </section>
 
