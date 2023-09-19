@@ -8,14 +8,14 @@
       <VEmojiPicker id="emojiPicker" @select="selectEmoji" />
     </v-menu>
 
-    <aside id="comunity__chat-info">
+    <!-- <aside id="comunity__chat-info">
       <span>More than 45 new messages since 13:30 on October 10, 2023</span>
 
       <v-btn text>
         <span>Mark as read</span>
         <v-icon size="20" class="ml-2">mdi-check</v-icon>
       </v-btn>
-    </aside>
+    </aside> -->
 
 
     <section id="comunity__chat-body" class="d-flex flex-grow-1">
@@ -45,10 +45,7 @@
 
       <v-text-field :disabled="!getChatSelect && $ramper.getAccountId()" v-model="messageContent" solo hide-details class="flex-grow-0" @keydown.enter="sendMessage">
         <template #append>
-          <v-icon>mdi-send</v-icon>
-
-          <v-icon>mdi-file</v-icon>
-
+          <v-icon :disabled="!messageContent" @click="sendMessage()">mdi-send</v-icon>
           <v-icon id="emojiPickerBtn" class="pointer">mdi-emoticon-outline</v-icon>
         </template>
       </v-text-field>
@@ -80,7 +77,7 @@ export default {
   },
   data() {
     return {
-      messageContent: null,
+      messageContent: "",
       answered: false,
       messages: [],
       chatSelect: null
@@ -90,25 +87,27 @@ export default {
   },
   methods: {
     sendMessage() {
-      const messageInfo = {
-        wallet: this.$ramper.getAccountId(),
-        username: this.user.username || this.$ramper.getAccountId(),
-        avatar: this.user.avatar,
-        content: this.messageContent,
-        created: Date.now(),
-      };
+      if (this.messageContent) {
+        const messageInfo = {
+          wallet: this.$ramper.getAccountId(),
+          username: this.user.username || this.$ramper.getAccountId(),
+          avatar: this.user.avatar,
+          content: this.messageContent,
+          created: Date.now(),
+        };
 
-      console.log(messageInfo);
-      this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(this.chatSelect.id).collection("MESSAGES").add(messageInfo)
+        console.log(messageInfo);
+        this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(this.chatSelect.id).collection("MESSAGES").add(messageInfo)
 
-      this.messageContent = null
+        this.messageContent = ""
+      }
     },
     selectEmoji(event) {
-      console.log("emoji:", event);
+      this.messageContent = this.messageContent + event.data
     },
     getMessages(item) {
       this.chatSelect = item
-      this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(item.id).collection("MESSAGES").onSnapshot((snapshot) => {
+      this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(item.id).collection("MESSAGES").orderBy("created").onSnapshot((snapshot) => {
         const postData = [];
     
         snapshot.forEach((doc) => {
@@ -116,7 +115,7 @@ export default {
           postData.push(item)
 
         });
-        this.messages = postData.reverse()
+        this.messages = postData
       });
     }
   }
