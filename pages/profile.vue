@@ -279,16 +279,6 @@
 
     <h2 class="Title tup">chats</h2>
 
-    <span style="font-size: 20px;" class="tcenter mb-1 mt-4 less-font-size">
-      Currently, we use Discord to allow users to gain access to Artist Communities. Now that you have purchased your
-       Community Access Pass, you will need to click the link below, create or log in to your Discord account, 
-       and follow the instructional steps to gain access. Learn More About Community Access:
-    </span>
-
-    <span style="font-size: 20px; cursor: pointer; text-decoration: underline;" class="tcenter mb-5 mt-1 less-font-size" @click="$router.push('quick-tip-help')">
-      Quick Tip Help
-    </span>
-
     <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="toLink()">

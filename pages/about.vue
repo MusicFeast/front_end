@@ -110,6 +110,7 @@
       getAbout() {
         this.$axios.get(`${this.baseUrl}api/v1/get-about`).then(result => {
           for (const item of result.data) { this.dataAbout.push(item) }
+          this.dataAbout = this.dataAbout.sort((a, b) => b.id - a.id);
         }).catch(err => {
           console.error(err)
         });

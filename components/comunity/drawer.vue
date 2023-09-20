@@ -162,7 +162,15 @@ export default {
           postData.push(item)
           i++
         });
-        this.items = postData.reverse()
+        this.items = postData.sort((a, b) => {
+          if (a.order < b.order) {
+            return -1;
+          }
+          if (a.order > b.order) {
+            return 1;
+          }
+          return 0;
+        });
       });
     }
   }
