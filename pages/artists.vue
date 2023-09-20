@@ -113,7 +113,7 @@ export default {
         list: ["lastest releases", "oldest", "coming soon"],
       },
       currentPage: localStorage.getItem('paginationPage') || 1,
-      itemsPerPage: 10,
+      itemsPerPage: 50,
       artistIdClicked: undefined,
     }
   },
@@ -206,7 +206,7 @@ export default {
           });
 
           this.dataArtists = result.data
-          this.itemsPerPage = Math.min(10, this.dataArtists.length);
+          this.itemsPerPage = Math.min(50, this.dataArtists.length);
           // console.log(this.dataArtists)
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})
