@@ -85,28 +85,21 @@ export default {
       this.dataArtists.forEach(e=>{e.active=false;item.active=true})
       this.$store.state.artistSelect = item
     },
-    async getAvatarsFn() {
-      const ids = []
-      for (const item of this.dataArtists) {
-        console.log("item", item)
-        ids.push(String(item.id_collection))
-      }
-      console.log(ids)
-      await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": ids })
-      .then(result => {
-        const data = result.data
-        console.log("AVATARS", data)
-        for (let i = 0; i < data.length; i++) {
-          for (let j = 0; j < this.dataArtists.length; j++) {
-            if (String(data[i].id_collection) === String(this.dataArtists[j].id_collection)) {
-              this.dataArtists[j].img = this.baseUrl+data[i].image
-            }
+    getAvatar(id) {
+      const resp = this.$axios.post(`${this.baseUrl}api/v1/get-avatar/`, { "artist": id })
+        .then(result => {
+          const data = result.data
+          console.log("AVATAR", data)
+          if (data.image) {
+            return `${this.baseUrl}` + data.image
+          } else {
+            return this.imgDefault
           }
-        }
-      }).catch(err => {
-        // this.$alert("cancel", {desc: err.message})
-        console.error(err);
-      })
+        }).catch(err => {
+          console.log(err)
+          return this.imgDefault
+        })
+      return resp
     },
     getArtists() {
       this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
@@ -121,28 +114,36 @@ export default {
               if (i === 0) {
                 item.active = false
               }
-              postData.push(item)
-              if (Number(item.id_collection) !== 0) {
-                this.avatarIds.push(item.id_collection)
-              } else {
+              if (Number(item.id_collection) === 0) {
                 item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              }else {
+                item.img = await this.getAvatar(item.id_collection)
               }
+              postData.push(item)
             }
           } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
             if (i === 0) {
               item.active = false
             }
-            postData.push(item)
-            if (Number(item.id_collection) !== 0) {
-              this.avatarIds.push(item.id_collection)
-            } else {
+            if (Number(item.id_collection) === 0) {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+            } else {
+              item.img = await this.getAvatar(item.id_collection)
             }
+            postData.push(item)
           }
           i++
         });
-        this.dataArtists = postData
-        this.getAvatarsFn()
+        this.dataArtists = postData.sort((p1, p2) => (p1.id_collection < p2.id_collection) ? 1 : (p1.id_collection > p2.id_collection) ? -1 : 0);
+        console.log(this.dataArtists)
+        // console.log(this.dataArtists)
+        // console.log(this.dataArtists.length)
+        // for (let i = 0; i < this.dataArtists.length; i++) {
+        //   console.log(i)
+        //   if (this.dataArtists[i].id_collection !== 0) {
+        //     this.dataArtists[i].img = this.getAvatar(this.dataArtists[i].id_collection)
+        //   }
+        // }
       });
     }
   }

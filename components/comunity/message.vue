@@ -41,7 +41,7 @@
 
           <span class="text-date">{{ convertDate(item.created) }}</span>
 
-          <v-icon color="var(--labeled)" size="20" @click="$emit('show-answered')">mdi-reply</v-icon>
+          <!-- <v-icon color="var(--labeled)" size="20" @click="$emit('show-answered')">mdi-reply</v-icon> -->
         </div>
 
         <p class="message-text mb-0">
