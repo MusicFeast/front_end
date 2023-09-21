@@ -1,17 +1,5 @@
 <template>
   <div id="about--artists" class="divcol center">
-    <section id="about--home">
-      <h1>ABOUT</h1>
-      <v-sheet color="transparent" class="content divcol gap1 gap2mobile">
-        <div v-for="(item,i) in dataAbout" :key="i" class="content-top divcol">
-          <h2>{{item.title}}</h2>
-          <!-- <p class="p">{{item.description}}</p> -->
-          <p class="p" v-html="item.description" />
-          <a class="deletemobile" @click="$router.push(localePath('/about'))">More</a>
-        </div>
-      </v-sheet>
-    </section>
-
     <div v-for="n in 2" :key="n" class="separators" />
 
     <section id="artists--home">

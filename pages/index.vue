@@ -1,6 +1,7 @@
 <template>
   <div id="home" class="divcol" style="gap:4em">
     <SectionsHero :data-hero="dataHero"></SectionsHero>
+    <SectionsAboutArtists :data-about="dataAbout" :data-artists="dataArtists"></SectionsAboutArtists>
     <SectionsContestHome></SectionsContestHome>
     <SectionsJoin></SectionsJoin>
     <SectionsLastestReleases :data-lastest-releases="dataLastestReleases"></SectionsLastestReleases>
