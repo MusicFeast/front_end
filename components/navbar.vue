@@ -187,7 +187,7 @@ export default {
       dataNavbar: [
         { name: 'home', to: '/' },
         // { name: 'events', to: '/events' },
-        { name: 'contest', to: '/contest' },
+        // { name: 'contest', to: '/contest' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
         // { name: 'artist submission', to: '/form-mf' },
