@@ -1,8 +1,8 @@
 <template>
   <div id="home" class="divcol" style="gap:4em">
     <SectionsHero :data-hero="dataHero"></SectionsHero>
-    <SectionsAboutArtists :data-about="dataAbout" :data-artists="dataArtists"></SectionsAboutArtists>
     <SectionsContestHome></SectionsContestHome>
+    <SectionsAboutArtists :data-about="dataAbout" :data-artists="dataArtists"></SectionsAboutArtists>
     <SectionsJoin></SectionsJoin>
     <SectionsLastestReleases :data-lastest-releases="dataLastestReleases"></SectionsLastestReleases>
     <SectionsNews :data-news="dataNews"></SectionsNews>
