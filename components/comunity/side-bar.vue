@@ -13,7 +13,8 @@
       :class="{ active: item.active }"
       @click="selectArtist(item)"
     >
-      <avatar-tier
+      <avatar-tier 
+        :title="item.artist"
         :src="item.img"
         width="100%"
         :aspect-ratio="1/1"
@@ -90,7 +91,6 @@ export default {
       const resp = this.$axios.post(`${this.baseUrl}api/v1/get-avatar/`, { "artist": id })
         .then(result => {
           const data = result.data
-          console.log("AVATAR", data)
           if (data.image) {
             return `${this.baseUrl}` + data.image
           } else {
