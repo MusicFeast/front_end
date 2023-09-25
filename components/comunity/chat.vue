@@ -43,7 +43,7 @@
         <v-icon size="18" @click="answered = false">mdi-close</v-icon>
       </div>
 
-      <v-text-field :disabled="!getChatSelect && $ramper.getAccountId()" v-model="messageContent" solo hide-details class="flex-grow-0" @keydown.enter="sendMessage">
+      <v-text-field :disabled="!getChatSelect || !$ramper.getAccountId()" v-model="messageContent" solo hide-details class="flex-grow-0" @keydown.enter="sendMessage">
         <template #append>
           <v-icon :disabled="!messageContent" @click="sendMessage()">mdi-send</v-icon>
           <v-icon id="emojiPickerBtn" class="pointer">mdi-emoticon-outline</v-icon>
@@ -91,6 +91,7 @@ export default {
     }
   },
   mounted() {
+    console.log("USER", this.$ramper.getAccountId())
   },
   methods: {
     debounce(item) {

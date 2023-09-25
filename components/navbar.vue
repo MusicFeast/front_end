@@ -200,6 +200,7 @@ export default {
   },
   async mounted() {
     await this.getPriceNear()
+    this.getIsAdmin()
     const queryString = window.location.search // tomo mi url
     const urlParams = new URLSearchParams(queryString) // tomo los paramtros de url
 
@@ -285,6 +286,18 @@ export default {
     },
     signIn() {
       this.$wallet.requestSignIn(process.env.CONTRACT_NFT)
+    },
+    async getIsAdmin() {
+      if (this.$ramper.getAccountId()) {
+        await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
+          .then(result => {
+            console.log(result.data)
+            this.$store.commit("setIsAdmin", result.data);
+          }).catch(err => {
+            // this.$alert("cancel", {desc: err.message})
+            console.error(err);
+          })
+      }
     },
     async getBalance() {
       try {
