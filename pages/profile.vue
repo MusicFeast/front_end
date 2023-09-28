@@ -278,7 +278,7 @@
     </v-expansion-panels>
 
     <h2 class="Title tup">chats</h2>
-
+    <center><a href="quick-tip-help-chat" target="_blank"><p class="mb-8 mt-8 font20">Learn here how the chat works</p></a></center>
     <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="toLink()">

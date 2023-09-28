@@ -2,7 +2,7 @@
   <div id="join" class="center">
     <div id="join-wrapper">
       <article class="divcol center gap2">
-        <h2 class="tup">Join the community</h2>
+        <a @click="$parent.$parent.$parent.$parent.$refs.connect.modalConnect = true"><h2 class="tup">Join the community</h2></a>
         <p class="tcentermobile">
           Help us navigate this new and exciting era of tech and music!
         </p>

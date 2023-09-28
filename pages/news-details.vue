@@ -10,12 +10,12 @@
       </v-img>
 
       <article class="divcol gap1">
-        <v-btn icon class="share">
+        <!-- <v-btn icon class="share">
           <v-icon size="clamp(2em, 2.4vw, 2.4em)">mdi-share-variant</v-icon>
-        </v-btn>
+        </v-btn> -->
 
         <h3 class="bold">{{dataNews.title}}</h3>
-        <span class="tcap">{{dataNews.title2}}</span>
+        <!-- <span class="tcap">{{dataNews.title2}}</span> -->
         <!-- <p class="p">{{dataNews.description}}</p> -->
         <p class="p" v-html="dataNews.description" />
 
@@ -28,7 +28,7 @@
     </section>
 
     <blockquote class="divcol" style="margin-block: 3em; padding-inline: var(--margin-separator)">
-      <h2 class="tup" style="text-decoration: underline">{{dataNews.title2}}</h2>
+      <!-- <h2 class="tup" style="text-decoration: underline">{{dataNews.title2}}</h2> -->
       <!-- <p>{{dataNews.desc_long}}</p> -->
       <p v-html="dataNews.desc_long" />
     </blockquote>

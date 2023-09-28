@@ -91,7 +91,7 @@
             <v-list-item :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload My NFT
-              </v-list-item-title>
+              </v-list-item-title> 
             </v-list-item>
 
             <!-- <v-list-item
@@ -187,7 +187,7 @@ export default {
       dataNavbar: [
         { name: 'home', to: '/' },
         // { name: 'events', to: '/events' },
-        // { name: 'contest', to: '/contest' },
+        { name: 'contest', to: '/contest' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
         // { name: 'artist submission', to: '/form-mf' },

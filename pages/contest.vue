@@ -19,7 +19,7 @@
         <p class="p mb-6 mobile-span tcenter" style="margin-inline: 40px;">
             We are hosting a worldwide music production contest to find some of the dopest producers in the game! <br>
             <br>We are giving away Thousands of dollars in prizes, including a Grand Prize of $1000, a mix session with Grammy Award-winning engineer Blake Blizzy - whose credits include Kendrick Lamar, and Travis Scott - and a track produced by Nailz - whose credits include Eminem, Dr. Dre - and much more!<br>
-            <br>From September 21st to October 21st, just fill out the SUBMIT FORM below and follow the prompts to sign up and enter the contest!<br>
+            <br>From September 26th to October 26th, just fill out the SUBMIT FORM below and follow the prompts to sign up and enter the contest!<br>
             <br>In addition, the first 100 submissions will be getting a FREE NFT of ClassiQ - Generator! We can’t wait to hear what you turn in and keep it fresh!<br>
         </p>
         <div class="lowlines"></div>
@@ -38,7 +38,7 @@
             THE DATES:
            </span>
            <span class="mobile-span" style="line-height: 20px; max-width: 60%;">
-            From September 21st to October 21st (30 days) music producers can submit their music to the Music Feast Music Production Contest for a chance to win one of FOUR PRIZES!
+            From September 26th to October 26th (30 days) music producers can submit their music to the Music Feast Music Production Contest for a chance to win one of FOUR PRIZES!
            </span>
 
            <span class="bold mobile-span" style="--c:var(--accent); --fw: 700;">
@@ -70,7 +70,7 @@
       <div class="divcol jstart center" style="gap: 25px;">
         <h2 style="--fw: 500;">HOW TO ENTER</h2>
         <p class="mobile-span tcenter">
-          • Submit your music track demo on or before the deadline date of October 21st via the SUBMIT FORM below. <br>
+          • Submit your music track demo on or before the deadline date of October 26th via the SUBMIT FORM below. <br>
           <br>• You will receive a confirmation email of your music submission. From this confirmation email, you will share this page and follow our socials. Make a social post about this contest and tag us.
         </p>
 

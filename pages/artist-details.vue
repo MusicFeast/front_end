@@ -307,6 +307,8 @@
 
     <h2 class="Title tup">chats</h2>
 
+    <center><a href="quick-tip-help-chat" target="_blank"><p class="mb-8 mt-8 font20">Learn here how the chat works</p></a></center>
+
     <ComunityLayout></ComunityLayout>
 
     <!-- <v-container v-if="server_dc">
