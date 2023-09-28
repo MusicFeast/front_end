@@ -150,17 +150,12 @@ export default {
       // this.$store.commit('updateArtistSelect', item)
       // this.$store.state.artistSelect = item
     },
-    getChats(item) {
-      this.$fire.firestore.collection('ARTISTS').doc(item.id).collection("CHATS").onSnapshot((snapshot) => {
+    getChats(itemAux) {
+      this.$fire.firestore.collection('ARTISTS').doc(itemAux.id).collection("CHATS").onSnapshot((snapshot) => {
         const postData = [];
-        let i = 0
         snapshot.forEach((doc) => {
           const item = { ...doc.data(), id: doc.id, active: false }
-          if (i === 0) {
-            item.active = false
-          }
           postData.push(item)
-          i++
         });
         this.items = postData.sort((a, b) => {
           if (a.order < b.order) {
@@ -171,6 +166,10 @@ export default {
           }
           return 0;
         });
+        if (this.items.length > 0) {
+            this.items[0].active = true
+            this.$store.state.chatSelect = this.items[0]
+        }
       });
     }
   }

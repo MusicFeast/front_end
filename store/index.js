@@ -19,14 +19,20 @@ export const state = () => ({
     balance: 0,
     dataSocial: [],
   },
+  isAdmin: "false",
   buyDirect: null,
   artistSelect: null,
   chatSelect: null,
-  search: ""
+  search: '',
 })
 
 export const mutations = {
-  setArtistSelect(state, value) {state.artistSelect = value},
+  setArtistSelect(state, value) {
+    state.artistSelect = value
+  },
+  setIsAdmin(state, value) {
+    state.isAdmin = value
+  },
   switchTheme(state, theme) {
     // theme
     state.theme = theme
@@ -114,7 +120,7 @@ export const mutations = {
       nearWallet = 'https://wallet.testnet.near.org'
       myNearWallet = 'https://testnet.mynearwallet.com'
     }
-    
+
     if (key === 'ramper') {
       const login = await window.$nuxt.$ramper.signIn()
       if (login) {
@@ -176,7 +182,10 @@ export const mutations = {
 
 export const actions = {
   updateArtistSelect({ commit }, value) {
-    commit('setArtistSelect', value);
+    commit('setArtistSelect', value)
+  },
+  updateIsAdmin({ commit }, value) {
+    commit('setIsAdmin', value)
   },
   modalConnect() {
     const layout = this.$router.app.$children.find(
@@ -240,7 +249,7 @@ export const actions = {
           this.$loadCursor(false)
           console.error(err)
         })
-    } else if (key === 'artist'){
+    } else if (key === 'artist') {
       localStorage.setItem(key, JSON.stringify(item.id))
       this.$router.push(this.localePath(`/${key}-details/?artist=${item.id}`))
     } else {
@@ -252,13 +261,16 @@ export const actions = {
 
 export const getters = {
   getChatSelect(state) {
-    return state.chatSelect;
+    return state.chatSelect
+  },
+  getIsAdmin(state) {
+    return state.isAdmin
   },
   getSearch(state) {
-    return state.search;
+    return state.search
   },
   getArtistSelect(state) {
-    return state.artistSelect;
+    return state.artistSelect
   },
   pagination:
     () =>

@@ -13,7 +13,8 @@
       :class="{ active: item.active }"
       @click="selectArtist(item)"
     >
-      <avatar-tier
+      <avatar-tier 
+        :title="item.artist"
         :src="item.img"
         width="100%"
         :aspect-ratio="1/1"
@@ -84,12 +85,12 @@ export default {
     selectArtist(item) {
       this.dataArtists.forEach(e=>{e.active=false;item.active=true})
       this.$store.state.artistSelect = item
+      this.$store.state.chatSelect = null
     },
     getAvatar(id) {
       const resp = this.$axios.post(`${this.baseUrl}api/v1/get-avatar/`, { "artist": id })
         .then(result => {
           const data = result.data
-          console.log("AVATAR", data)
           if (data.image) {
             return `${this.baseUrl}` + data.image
           } else {
@@ -105,34 +106,40 @@ export default {
       this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
         this.avatarIds = [];
         const postData = [];
-        let i = 0
         snapshot.forEach(async (doc) => {
           const item = { ...doc.data(), id: doc.id, img: this.imgDefault, active: false }
           const artistId = this.$route.query.artist
-          if (artistId) {
+          if (this.$store.state.isAdmin && (item.id_collection || item.id_collection === 0)) {
+            if (Number(item.id_collection) === 0) {
+              item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              item.active = true
+              this.$store.state.artistSelect = item
+            }else {
+              console.log(item.id_collection)
+              item.img = await this.getAvatar(item.id_collection)
+            }
+            postData.push(item)
+          } else if (artistId && (item.id_collection || item.id_collection === 0)) {
             if (String(item.id_collection) === String(artistId) && await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
-              if (i === 0) {
-                item.active = false
-              }
               if (Number(item.id_collection) === 0) {
                 item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+                item.active = true
+                this.$store.state.artistSelect = item
               }else {
                 item.img = await this.getAvatar(item.id_collection)
               }
               postData.push(item)
             }
-          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
-            if (i === 0) {
-              item.active = false
-            }
+          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && (item.id_collection || item.id_collection === 0)) {
             if (Number(item.id_collection) === 0) {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              item.active = true
+              this.$store.state.artistSelect = item
             } else {
               item.img = await this.getAvatar(item.id_collection)
             }
             postData.push(item)
           }
-          i++
         });
         this.dataArtists = postData.sort((p1, p2) => (p1.id_collection < p2.id_collection) ? 1 : (p1.id_collection > p2.id_collection) ? -1 : 0);
         console.log(this.dataArtists)
