@@ -309,7 +309,8 @@ export default {
           this.userExist = false
         }
       }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
+        this.$alert( {title: "ERROR", desc: "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
+        // this.$alert("cancel", {desc: err.message})
         console.error(err);
       })
     },
@@ -339,7 +340,7 @@ export default {
       this.$axios.post(`${this.baseUrl}api/v1/validate-perfil/`, consult).then(result => {
         this.djangoExistenceList = result.data
         
-        if (!this.$refs.form.validate()) return this.$alert('cancel', {title: 'Failed request', desc: 'Need fill all required fields'})
+        if (!this.$refs.form.validate()) return this.$alert( {title: "Failed request", desc: "Need fill all required fields", icon:"close", color:"hsl(0, 84%, 58%)"})
         
         // save form ✔️
         if (this.userExist) {
@@ -351,7 +352,8 @@ export default {
         } else {
           this.$axios.post(`${this.baseUrl}api/v1/perfil/`, this.$formData(this.form))
           .then(() => this.goBack()).catch(err => {
-            this.$alert("cancel", {desc: err.message})
+            this.$alert( {title: "ERROR", desc: "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
+            // this.$alert("cancel", {desc: err.message})
             console.error(err);
           })
         }
@@ -362,7 +364,7 @@ export default {
       })
     },
     goBack() {
-      this.$alert({title: "Success!", desc: "Your data has been saved successfully."})
+      this.$alert({title: "Profile updated successfully!", desc: "Your information has been successfully modified."})
       setTimeout(() => this.$router.go(0), 400);
       this.$router.go(-1)
       
