@@ -477,6 +477,7 @@ export default {
     if (!this.artist) {this.$router.push(this.localePath('/artists'))}
   },
   async mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     this.server_dc = process.env.SERVER_DC
     this.channel_dc = process.env.CHANNEL_DC
     this.artistId = JSON.parse(localStorage.getItem("artist"))

@@ -331,6 +331,7 @@ export default {
     if (this.user.tier >= 3) {this.$router.push(this.localePath("/user-nft-details-vip"))}
   },
   async mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     this.nft_main = this.nft
     this.nft_main.price_near = this.dollarConversion(this.nft_main.floor_price)
     this.ownedTier1 = true // await this.validateTierFn(1)

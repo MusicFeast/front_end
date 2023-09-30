@@ -170,6 +170,7 @@ export default {
   //   this.getData();
   // },
   mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     this.EnterKeyboardListener();
   },
   methods: {

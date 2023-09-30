@@ -76,6 +76,7 @@ export default {
     '~/services/near-api',
     '~/services/ramper-api',
     '~/services/firebase',
+    { src: '~/plugins/gtag.js', mode: 'client' }, // Google Analytics
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

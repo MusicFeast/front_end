@@ -64,6 +64,7 @@ export default {
     this.getData();
   },
   mounted() {
+    
     this.EnterKeyboardListener();
   },
   methods: {

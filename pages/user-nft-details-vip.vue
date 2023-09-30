@@ -227,6 +227,7 @@ export default {
     if (this.user.tier < 3) {this.$router.push(this.localePath("/user-nft-details"))}
   },
   mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
   },
   methods: {
     dollarConversion(price) {

@@ -465,6 +465,7 @@ export default {
     }
   },
   mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     // const messageInfo = {
     //   userUID: "123",
     //   text: "hola osy juan",

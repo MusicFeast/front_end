@@ -154,11 +154,15 @@ export default {
       title,
     }
   },
+  mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
+  },
  
   methods: {
    
-  }
+  },
 };
+
 </script>
 
 <style src="~/assets/styles/pages/quick-tip-help-3-4.scss" lang="scss" />

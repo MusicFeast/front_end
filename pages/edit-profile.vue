@@ -284,6 +284,7 @@ export default {
     this.getData();
   },
   mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     const countries = getAllCountries();
     this.dataCountries = Object.values(countries)
     this.EnterKeyboardListener();

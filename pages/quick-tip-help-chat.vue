@@ -143,7 +143,9 @@ export default {
       title
     }
   },
-
+  mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
+  },
   methods: {}
 }
 </script>

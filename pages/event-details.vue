@@ -373,6 +373,7 @@ export default {
     }
   },
   async mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     await this.getEvent()
     this.getSocials()
     this.getEventTickets()

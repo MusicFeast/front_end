@@ -119,6 +119,7 @@ export default {
     },
   },
   mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     this.styles()
     this.getData();
 

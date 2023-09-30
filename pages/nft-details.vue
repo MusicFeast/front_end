@@ -570,6 +570,7 @@ export default {
     if (isFirefox) setTimeout(() => window.scrollTo(0, 1), 0)
   },
   async mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     this.nft_main = this.nft
     // console.log("BRRRRRR",this.nft_main)
     this.nft_main.price_near = this.dollarConversion(this.nft_main.price)

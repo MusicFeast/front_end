@@ -361,6 +361,7 @@ export default {
     if (this.user.tier < 3) {this.$router.push(this.localePath("/marketplace"))}
   },
   mounted() {
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     this.styles();
     
     // resize listener

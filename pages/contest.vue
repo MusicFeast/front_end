@@ -283,9 +283,10 @@ export default {
     localStorage.removeItem('cid')
   },
 
-  // mounted(){
-  //   this.$alert( {title: "ERROR", desc: "Information Sent", icon:"close", color:"hsl(0, 84%, 58%)"})
-  // },
+  mounted(){
+    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
+   // this.$alert( {title: "ERROR", desc: "Information Sent", icon:"close", color:"hsl(0, 84%, 58%)"})
+  },
 
   methods: {
     inputValidate() {
