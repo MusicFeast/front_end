@@ -94,7 +94,7 @@ export default {
 
       const arrayIds = []
 
-      this.artists = data.slice(0, 4)
+      this.artists = data.slice(0, 3)
 
       for (let i = 0; i < data.length; i++) {
         arrayIds.push(data[i].artist_id)
