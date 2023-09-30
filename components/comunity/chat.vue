@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     getChatSelect() {
-      console.log(this.$store.getters.getChatSelect)
+      // console.log(this.$store.getters.getChatSelect)
       if (this.$store.getters.getChatSelect) {
         this.getMessages(this.$store.getters.getChatSelect)
       }
@@ -90,9 +90,9 @@ export default {
       searchItem: "",
     }
   },
-  mounted() {
-    console.log("USER", this.$ramper.getAccountId())
-  },
+  // mounted() {
+  //   console.log("USER", this.$ramper.getAccountId())
+  // },
   methods: {
     debounce(item) {
       this.searchItem = item

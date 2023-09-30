@@ -306,7 +306,7 @@
     />
 
     <h2 class="Title tup">chats</h2>
-
+    <center><p class="mb-8 mt-8 font20">Welcome to the Music Feast Chat! In order to participate in the chat and interact with the community, please make sure you are logged in to your account. Logging in allows us to provide you with a secure and personalized chat experience. If you don't have an account yet, you can easily create one by clicking on the 'Log In' button. Thank you for choosing Music Feast and we look forward to chatting with you!</p></center>
     <center><a href="quick-tip-help-chat" target="_blank"><p class="mb-8 mt-8 font20">Learn here how the chat works</p></a></center>
 
     <ComunityLayout></ComunityLayout>
@@ -498,7 +498,7 @@ export default {
       console.log(this.artistId)
       this.$axios.post(`${this.baseUrl}api/v1/get-tiers-coming/`, {"id": Number(this.artistId)})
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           this.tiersComing = response.data
         }).catch(err => {
           // this.$alert("cancel", {desc: err.message})
@@ -842,7 +842,7 @@ export default {
       }).subscribe((res) => {
         const data = res.data.artist
 
-        console.log("DATAAA", data, this.artist.id_collection)
+        // console.log("DATAAA", data, this.artist.id_collection)
 
         this.collectionNow = data.collection
 
@@ -976,7 +976,7 @@ export default {
         // console.log("DATANEW", data)
         this.dataSlider = []
 
-        console.log("SKU",data)
+        // console.log("SKU",data)
 
         for (let i = 0; i < data.length; i++) {
           const item = {

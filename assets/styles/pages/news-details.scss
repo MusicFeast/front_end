@@ -51,11 +51,36 @@
   }
 
   blockquote {
-    background-color: rgb(255, 255, 255); 
-    width: 60%;
+    background-color: rgb(0, 0, 0); 
+    width: 80%;
+    color: white;
+    opacity: 0.8;
+    text-align: center!important; 
+    max-width: 100%;
     margin-inline: auto;
+    text-align: center ;
     padding-inline: var(--margin-separator);
     padding-block: 1.5em 3em;
+    /* Media query for small screens */
+      @media (max-width: 576px) {
+        img {
+          max-width: 100% !important;
+        }
+      }
+      
+      /* Media query for medium screens */
+      @media (min-width: 577px) and (max-width: 992px) {
+        img {
+          max-width: 80% !important;
+        }
+      }
+      
+      /* Media query for large screens */
+      @media (min-width: 993px) {
+        img {
+          max-width: 60% !important;
+        }
+      }
     h2 {
       margin-bottom: 1em;
     }

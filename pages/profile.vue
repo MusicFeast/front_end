@@ -278,6 +278,7 @@
     </v-expansion-panels>
 
     <h2 class="Title tup">chats</h2>
+    <center><p class="mb-8 mt-8 font20">Welcome to the Music Feast Chat! In order to participate in the chat and interact with the community, please make sure you are logged in to your account. Logging in allows us to provide you with a secure and personalized chat experience. If you don't have an account yet, you can easily create one by clicking on the 'Log In' button. Thank you for choosing Music Feast and we look forward to chatting with you!</p></center>
     <center><a href="quick-tip-help-chat" target="_blank"><p class="mb-8 mt-8 font20">Learn here how the chat works</p></a></center>
     <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
       <v-expansion-panel v-for="(item,i) in dataChats" :key="i">

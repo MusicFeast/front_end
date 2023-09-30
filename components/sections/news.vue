@@ -60,7 +60,7 @@ export default {
   methods: {
     goTo(item) {
       this.$store.dispatch('goTo', {key: 'news', item})
-      localStorage.setItem("validator-news", "pages")
+      localStorage.setItem("validator-news", "page")
     }
   }
 };

@@ -75,6 +75,8 @@ export default {
       })
 
       const data = res.data.nfts
+      
+      // console.log('data', data)
 
       if (data.length > 0) {
         return true
@@ -109,18 +111,18 @@ export default {
         snapshot.forEach(async (doc) => {
           const item = { ...doc.data(), id: doc.id, img: this.imgDefault, active: false }
           const artistId = this.$route.query.artist
-          if (this.$store.state.isAdmin && (item.id_collection || item.id_collection === 0)) {
+          if (this.$store.state.isAdmin && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
             if (Number(item.id_collection) === 0) {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
               item.active = true
               this.$store.state.artistSelect = item
             }else {
-              console.log(item.id_collection)
+              // console.log(item.id_collection)
               item.img = await this.getAvatar(item.id_collection)
             }
             postData.push(item)
           } else if (artistId && (item.id_collection || item.id_collection === 0)) {
-            if (String(item.id_collection) === String(artistId) && await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0) {
+            if (String(item.id_collection) === String(artistId) && await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && this.$ramper.getAccountId()) {
               if (Number(item.id_collection) === 0) {
                 item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
                 item.active = true
@@ -130,7 +132,7 @@ export default {
               }
               postData.push(item)
             }
-          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && (item.id_collection || item.id_collection === 0)) {
+          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
             if (Number(item.id_collection) === 0) {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
               item.active = true
@@ -139,10 +141,10 @@ export default {
               item.img = await this.getAvatar(item.id_collection)
             }
             postData.push(item)
-          }
+          } 
         });
         this.dataArtists = postData.sort((p1, p2) => (p1.id_collection < p2.id_collection) ? 1 : (p1.id_collection > p2.id_collection) ? -1 : 0);
-        console.log(this.dataArtists)
+        // console.log(this.dataArtists)
         // console.log(this.dataArtists)
         // console.log(this.dataArtists.length)
         // for (let i = 0; i < this.dataArtists.length; i++) {
