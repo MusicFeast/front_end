@@ -17,7 +17,7 @@
         <h3 class="bold">{{dataNews.title}}</h3>
         <!-- <span class="tcap">{{dataNews.title2}}</span> -->
         <!-- <p class="p">{{dataNews.description}}</p> -->
-        <p class="p" v-html="dataNews.description" />
+        <p class="p" v-html="dataNews.description"></p>
 
         <!-- <div class="container-press-and-news--social center gap1">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon>
@@ -27,10 +27,10 @@
       </article>
     </section>
 
-    <blockquote class="divcol" style="margin-block: 3em; padding-inline: var(--margin-separator)">
+    <blockquote class="divcol center mobile100" style="margin-block: 3em;">
       <!-- <h2 class="tup" style="text-decoration: underline">{{dataNews.title2}}</h2> -->
       <!-- <p>{{dataNews.desc_long}}</p> -->
-      <p v-html="dataNews.desc_long" />
+      <p v-html="dataNews.desc_long" style="--c: #000; text-align: center!important; max-width: 100%;"></p>
     </blockquote>
 
     <h2 class="Title tup">other news</h2>
@@ -46,7 +46,7 @@
         v-show="item.created !== dataNews.created"
         :key="i" v-slot="{ toggle }"
       >
-        <v-card class="card tcentermobile" :ripple="false" @click="toggle; selectNews(item)">
+        <v-card class="card tcentermobile" :ripple="false" @click="toggle; selectNews(item); navigateWithQueryParams()">
           <v-img :src="item.image" :alt="`${item.title} image`" style="--w: 100%; --h: 23em; --br: 5px" transition="fade-transition">
             <template #placeholder>
               <v-skeleton-loader type="card" />
@@ -56,7 +56,7 @@
           <!-- <p class="p">
             {{item.description}}
           </p> -->
-          <p class="p" v-html="dataNews.description" />
+          <p class="p" v-html="dataNews.description"></p>
         </v-card>
       </v-slide-item>
       
@@ -103,6 +103,7 @@ export default {
   },
   mounted() {
     this.getData();
+    // this.navigateWithQueryParams()
   },
   methods: {
     async getData() {
@@ -115,6 +116,8 @@ export default {
           else if (localStorage.getItem("validator-news") === "navbar") {
             this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           }
+          this.navigateWithQueryParams();
+          console.log('nameee', this.dataNews.title)
         }).catch(err => {
           this.$alert("cancel", {desc: err.message})
           console.error(err);
@@ -124,7 +127,13 @@ export default {
     selectNews(item) {
       this.dataNews = item;
       this.$scrollTo('top');
-    }
+    },
+    navigateWithQueryParams() {
+      const itemName = this.dataNews.title;
+      this.$router.push({
+        path: `/news-details?utm_source=Organic&utm_medium=Blog&utm_campaign=${itemName}`,
+      });
+    },
   }
 };
 </script>

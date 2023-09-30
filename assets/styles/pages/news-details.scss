@@ -46,7 +46,14 @@
     }
   }
 
+  .mobile100{
+    @include media(max, 680px){width: 100%!important;}
+  }
+
   blockquote {
+    background-color: rgb(255, 255, 255); 
+    width: 60%;
+    margin-inline: auto;
     padding-inline: var(--margin-separator);
     padding-block: 1.5em 3em;
     h2 {
