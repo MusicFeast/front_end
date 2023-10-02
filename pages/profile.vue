@@ -331,7 +331,7 @@ export default {
       pageName: 'profile',
       dataProfits: {
         nfts: null,
-        chats: "---",
+        chats: "0",
         high: "---",
       },
       search: "",
@@ -442,7 +442,8 @@ export default {
       currentPageOffers: 1,
       itemsPerPageOffers: 10,
       minimumStorage: null,
-      messages: null
+      messages: null,
+      isAdmin: false
     }
   },
   head() {
@@ -465,7 +466,7 @@ export default {
       return Math.ceil(this.tableItemsOffers.length / this.itemsPerPageOffers)
     }
   },
-  mounted() {
+  async mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     // const messageInfo = {
     //   userUID: "123",
@@ -528,6 +529,7 @@ export default {
     this.getOffers()
     this.getOffersReceived()
     this.storageMini()
+    await this.getIsAdmin()
     this.getChats()
     // this.getChatArtist()
     // this.setProfile();
@@ -539,7 +541,7 @@ export default {
         snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
       });
     },
-    async getChats() {
+    async getChats2() {
       const accountId = this.$ramper.getAccountId()
       // get data user
       await this.$axios.post(`${this.baseUrl}api/v1/get-chats-enabled/`, { "wallet": accountId })
@@ -549,6 +551,72 @@ export default {
         this.$alert("cancel", {desc: err.message})
         console.error(err);
       })
+    },
+    async validateTierFn(idCollection, tierId, collectionNow) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String, $collection: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}, collection: $collection}
+          ) {
+            typetoken_id
+            serie_id
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(idCollection), owner_id: this.$ramper.getAccountId(), reference: String(tierId), collection: collectionNow},
+      })
+
+      const data = res.data.nfts
+
+      if (data.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    },
+    async getIsAdmin() {
+      if (this.$ramper.getAccountId()) {
+        await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
+          .then(result => {
+            this.isAdmin = result.data
+            // console.log(result.data)
+            // this.$store.commit("setIsAdmin", result.data);
+          }).catch(() => {
+            // this.$alert("cancel", {desc: err.message})
+            // console.error(err);
+            this.isAdmin = false
+          })
+      }
+    },
+    getChats() {
+      this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
+        snapshot.forEach(async (doc) => {
+          const item = { ...doc.data(), id: doc.id}
+          if (this.isAdmin && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
+            this.dataProfits.chats = Number(this.dataProfits.chats) + 1
+          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
+            this.dataProfits.chats = Number(this.dataProfits.chats) + 1
+          } 
+        });
+      });
     },
     toLink() {
       window.open("https://discord.gg/9KB3gjJkWJ")

@@ -1,4 +1,4 @@
-import { AUTH_PROVIDER, CHAIN,getUser, init, openWallet, sendTransaction, signIn, signOut, THEME, WALLET_PROVIDER } from "@ramper/near";
+import { AUTH_PROVIDER, CHAIN,getUser, init, openWallet, sendTransaction, signIn, signOut, THEME } from "@ramper/near";
 import {functionCall} from 'near-api-js/lib/transaction'
 import Vue from 'vue'
 

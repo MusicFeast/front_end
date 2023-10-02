@@ -33,15 +33,31 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      isAdmin: false,
       imgDefault: "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
       dataArtists: [],
       avatarIds: []
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getIsAdmin()
     this.getArtists()
   },
   methods: {
+    async getIsAdmin() {
+      if (this.$ramper.getAccountId()) {
+        await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
+          .then(result => {
+            this.isAdmin = result.data
+            // console.log(result.data)
+            // this.$store.commit("setIsAdmin", result.data);
+          }).catch(() => {
+            // this.$alert("cancel", {desc: err.message})
+            // console.error(err);
+            this.isAdmin = false
+          })
+      }
+    },
     async validateTierFn(idCollection, tierId, collectionNow) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
@@ -111,7 +127,7 @@ export default {
         snapshot.forEach(async (doc) => {
           const item = { ...doc.data(), id: doc.id, img: this.imgDefault, active: false }
           const artistId = this.$route.query.artist
-          if (this.$store.state.isAdmin && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
+          if (this.isAdmin && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
             if (Number(item.id_collection) === 0) {
               item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
               item.active = true

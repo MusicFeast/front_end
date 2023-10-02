@@ -88,11 +88,11 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item :ripple="false" @click="$router.push('form-nft')">
+            <!-- <v-list-item :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload My NFT
               </v-list-item-title> 
-            </v-list-item>
+            </v-list-item> -->
 
             <!-- <v-list-item
               v-if="user.username == 'juanochando'"
@@ -200,7 +200,7 @@ export default {
   },
   async mounted() {
     await this.getPriceNear()
-    this.getIsAdmin()
+    // this.getIsAdmin()
     const queryString = window.location.search // tomo mi url
     const urlParams = new URLSearchParams(queryString) // tomo los paramtros de url
 
