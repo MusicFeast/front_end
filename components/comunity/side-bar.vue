@@ -41,7 +41,6 @@ export default {
   },
   async mounted() {
     await this.getIsAdmin()
-    this.getArtists()
   },
   methods: {
     async getIsAdmin() {
@@ -49,12 +48,14 @@ export default {
         await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
           .then(result => {
             this.isAdmin = result.data
+            this.getArtists()
             // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           }).catch(() => {
             // this.$alert("cancel", {desc: err.message})
             // console.error(err);
             this.isAdmin = false
+            this.getArtists()
           })
       }
     },
