@@ -73,6 +73,9 @@
           • Submit your music track demo on or before the deadline date of October 26th via the SUBMIT FORM below. <br>
           <br>• You will receive a confirmation email of your music submission. From this confirmation email, you will share this page and follow our socials. Make a social post about this contest and tag us.
         </p>
+        <p class="mobile-span tcenter">
+          Experiencing issues with Safari? Please use <a style="font-weight: bold;" href="https://www.google.com/intl/en_en/chrome/" target="_blank">Google Chrome</a> for a smoother browsing experience.
+        </p>
 
         <v-col cols="12">
           <section class="card card-icons">
