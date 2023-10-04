@@ -22,10 +22,46 @@
     border-right: 1px solid var(--primary)!important;
   }
 
+  .sheet-avatar{
+    background-color: #f0eef0;
+    border-radius: 50%;
+    border: 5px solid var(--primary);
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 4;
+
+    @include media(max, 680px){
+      top: -60px;
+    }
+
+    .chip-pencil{
+      background-color: var(--primary);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      bottom: -10px;
+      right: 0px;
+      padding-inline: 0px!important;
+      position: absolute;
+    }
+  }
+
   .input-file{
-    background-color: #fff;
+    background-color: transparent;
     min-height: 250px;
     height: 100%;
+    z-index: 3!important;
+    position: relative;
+
+    .v-file-input__text{
+      min-height: 200px;
+    }
   }
 
   .btn-input-file{
@@ -37,6 +73,34 @@
     margin: auto;
     max-width: 150px!important;
     max-height: 40px!important;
+    z-index: 4!important;
+  }
+
+  .btn-input-file-banner{
+    position: absolute;
+    bottom: -150px;
+    left: 100px;
+    top: 0;
+    margin: auto;
+    max-width: 150px!important;
+    max-height: 40px!important;
+    z-index: 4!important;
+
+    @include media(max, 560px){
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .span-image{
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-weight: 700!important;
+    z-index: 2!important;
   }
 
   section.card {
@@ -135,6 +199,10 @@
     @include media(max, 800px){
       justify-content: center;
     }
+  }
+
+  .custome-expansion {
+    padding-inline: 0 !important;
   }
 }
 

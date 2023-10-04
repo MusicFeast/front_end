@@ -104,7 +104,6 @@
             <v-text-field
               id="country"
               v-model="country"
-              :rules="rules.required"
               placeholder="Write your country"
               style="margin-bottom: 20px;"
               @input="inputValidate"
@@ -124,7 +123,6 @@
             <v-text-field
               id="discord"
               v-model="discord_id"
-              :rules="rules.required"
               placeholder="Username#321"
               style="margin-bottom: 20px;"
               @input="inputValidate"
@@ -134,7 +132,6 @@
             <v-text-field
               id="twitter"
               v-model="twitter"
-              :rules="rules.required"
               placeholder="@username"
               style="margin-bottom: 20px;"
               @input="inputValidate"
@@ -144,7 +141,6 @@
             <v-text-field
               id="bio"
               v-model="bio"
-              :rules="rules.required"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
               @input="inputValidate"
@@ -174,7 +170,6 @@
             <v-text-field
               id="track-desc"
               v-model="track_desc"
-              :rules="rules.required"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
               @input="inputValidate"
@@ -268,7 +263,7 @@ export default {
   },
   computed: {
     validateFile() {
-      if (this.full_name && this.track_demo && this.country && this.email && this.discord_id && this.twitter && this.bio && this.track_desc) {
+      if (this.full_name && this.track_demo && this.email) {
         return false
       } else {
         return true

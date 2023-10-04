@@ -1,13 +1,112 @@
 <template>
     <div id="form">
+      <h2 class="Title tup lines">FORM ARTIST</h2>  
+
+      <v-row style="margin-top: 40px;">
+        <v-col xl="10" lg="10" md="9" sm="8" cols="12">
+          <div class="relative" style="background-color: #fff;">
+            <v-file-input class="input-file" prepend-icon="none">
+            </v-file-input>
+
+            <v-sheet class="sheet-avatar">
+              <v-chip class="chip-pencil center">
+                <v-icon small>
+                  mdi-pencil
+                </v-icon>
+              </v-chip>
+              <span class="divcol center span-image" style="color: #000; font-size: 12px;">
+                <v-icon color="#000" style="margin-bottom: -10px;">mdi-image-outline</v-icon>
+                <br>
+                Profile Picture
+              </span>
+            </v-sheet>
+
+            <v-btn class="btn btn-input-file-banner">Upload Banner</v-btn>
+          </div>
+        </v-col>
+
+        <v-col xl="2" lg="2" md="3" sm="4" cols="12">
+          <div class="relative" style="background-color: #fff;">
+            <v-file-input class="input-file" prepend-icon="none">
+            </v-file-input>
+
+            <v-btn class="btn btn-input-file">Upload Banner</v-btn>
+
+            <span class="divcol center span-image" style="color: #000; font-size: 12px;">
+              <v-icon color="#000" style="margin-bottom: -10px;">mdi-image-outline</v-icon>
+              <br>
+              Mobile Banner
+            </span>
+          </div>
+        </v-col>
+      </v-row>
+
+      <section class="card" style="margin-top: 40px;">
+        <label for="name-artist">Name</label>
+        <v-text-field
+          id="name-artist"
+          placeholder="Lorem Ipsum"
+        ></v-text-field>
+
+        <label for="description-artist">Description</label>
+        <v-text-field
+          id="description-artist"
+          placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat" 
+        ></v-text-field>
+
+        <label for="about-artist">About</label>
+        <v-text-field
+          id="about-artist"
+          placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat" 
+        ></v-text-field>
+        
+        <label for="discord-role">Discord Role ID</label>
+        <v-text-field
+          id="discord-role"
+          placeholder="Username#123"
+        ></v-text-field>
+
+        <label for="instagram">Instagram</label>
+        <v-text-field
+          id="instagram"
+          placeholder="@username"
+        ></v-text-field>
+
+        <label for="twitter">Twitter</label>
+        <v-text-field
+          id="twitter"
+          placeholder="@username"
+        ></v-text-field>
+
+        <label for="discord-user">Discord</label>
+        <v-text-field
+          id="discord-user"
+          placeholder="Username#456"
+        ></v-text-field>
+
+        <div class="divrow mt-4" style="gap: 30px;">
+          <div class="divrow acenter" style="gap: 5px;">
+            <v-checkbox id="visible_artist" v-model="visible_artist"></v-checkbox>
+            <label for="visible_artist" class="mb-2">Visible</label>
+          </div>
+
+          <div class="divrow acenter" style="gap: 5px;">
+            <v-checkbox id="coming_artist" v-model="coming_artist"></v-checkbox>
+            <label for="coming_artist" class="mb-2">Coming</label>
+          </div>
+        </div>
+      </section>
+
       <h2 class="Title tup lines">FORM NFT</h2>  
       
       <v-row style="margin-top: 40px;">
         <v-col xl="2" lg="3" md="3" sm="4" cols="12" style="position: relative!important;">
-          <v-file-input class="input-file" prepend-icon="none">
-          </v-file-input>
+          <div style="background-color: #fff;">
+            <v-file-input class="input-file" prepend-icon="none">
+            </v-file-input>
 
-          <v-btn class="btn btn-input-file">Upload Image</v-btn>
+            <v-btn class="btn btn-input-file">Upload Image</v-btn>
+          </div>
         </v-col>
 
         <v-col xl="10" lg="9" md="9" sm="8" cols="12">
@@ -199,8 +298,39 @@
         </div>
       </section>
 
+      <v-expansion-panels class="custome-expansion not_padding" style="margin-top: 40px;">
+        <v-expansion-panel>
+          <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Artists to be approve</v-expansion-panel-header>
+
+          <v-expansion-panel-content color="rgb(0, 0, 0, .4)" class="container-table--expansion mt-5">
+            <v-data-table
+              :headers="tableHeadersArtists"
+              :items="tableItemsArtists"
+              :page.sync="currentPageArtists"
+              :items-per-page="itemsPerPageArtists"
+              hide-default-footer
+              class="mb-4"
+              mobile-breakpoint="-1"
+              :header-props="{sortIcon: 'mdi-menu-down'}"
+              style="background: transparent"
+            >
+              <template #[`item.actions`]="{ item }">
+                <v-btn class="btn" @click="showData(item)">
+                  Show Data
+                </v-btn>
+              </template>
+            </v-data-table>
+            <Pagination
+              :total-pages="pagination_per_page"
+              :current-page="currentPageArtists"
+              @pagechanged="(page) => currentPageArtists = page"
+            />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
       <div class="center" style="gap: 10px; margin-top: 40px;">
-        <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --fw:700; --w: 150px; --br: 0px;">Cancel</v-btn>
+        <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --fw:700; --w: 150px; --br: 0px;">Approve</v-btn>
         <v-btn class="btn" style="--fw:700; --w: 150px; --br: 0px;" @click="dialogSuccess = true">Save</v-btn>
       </div>
 
@@ -236,6 +366,22 @@
     mixins: [computeds],
     data() {
       return {
+        tableHeadersArtists: [
+          {text: 'Artist Name', value: 'artist_name', sortable: false, align: 'center'},
+          {text: 'Description', value: 'description', sortable: false, align: 'center'},
+          {text: 'Tier', value: 'tier', sortable: false, align: 'center'},
+          {value: 'actions', sortable: false, align: 'center'},
+        ],
+        tableItemsArtists: [
+          {artist_name: 'DJ Khaled', description: 'The best DJ in LA', tier: 'Tier 1'},
+          {artist_name: 'DJ Navas', description: 'The best DJ in Valencia', tier: 'Tier 2'},
+          {artist_name: 'DJ Khaled', description: 'The best DJ in LA', tier: 'Tier 1'},
+          {artist_name: 'DJ Navas', description: 'The best DJ in Valencia', tier: 'Tier 2'},
+          {artist_name: 'DJ Khaled', description: 'The best DJ in LA', tier: 'Tier 1'},
+          {artist_name: 'DJ Navas', description: 'The best DJ in Valencia', tier: 'Tier 2'}, 
+        ],
+        currentPageArtists: 1,
+        itemsPerPageArtists: 10,
         dialogSuccess: false,
         rules: {
         required: [(v) => !!v || "Field required"],
@@ -289,6 +435,11 @@
       return {
         title,
         }
+    },
+    computed:{
+      pagination_per_page() {
+        return Math.ceil(this.tableItemsArtists.length / this.itemsPerPageArtists)
+      }
     },
     methods() {
       
