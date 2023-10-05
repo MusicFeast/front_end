@@ -1,7 +1,6 @@
 <template>
     <div id="form">
       <h2 class="Title tup lines">FORM ARTIST</h2>  
-
       <v-row style="margin-top: 40px;">
         <v-col xl="10" lg="10" md="9" sm="8" cols="12">
           <div class="relative" style="background-color: #fff;">
@@ -45,36 +44,48 @@
         <label for="name-artist">Name</label>
         <v-text-field
           id="name-artist"
+          v-model="formArtist.name"
           placeholder="Lorem Ipsum"
         ></v-text-field>
 
         <label for="description-artist">Description</label>
         <v-text-field
           id="description-artist"
+          v-model="formArtist.description"
           placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat" 
         ></v-text-field>
 
         <label for="about-artist">About</label>
         <v-text-field
           id="about-artist"
+          v-model="formArtist.about"
           placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat" 
         ></v-text-field>
         
-        <label for="discord-role">Discord Role ID</label>
+        <!-- <label for="discord-role">Discord Role ID</label>
         <v-text-field
           id="discord-role"
           placeholder="Username#123"
-        ></v-text-field>
+        ></v-text-field> -->
 
         <label for="instagram">Instagram</label>
         <v-text-field
-          id="instagram"
+          id="instagram"  
+          v-model="formArtist.instagram"
           placeholder="@username"
         ></v-text-field>
 
         <label for="twitter">Twitter</label>
         <v-text-field
           id="twitter"
+          v-model="formArtist.twitter"
+          placeholder="@username"
+        ></v-text-field>
+
+        <label for="facebook">Facebook</label>
+        <v-text-field
+          id="facebook"
+          v-model="formArtist.facebook"
           placeholder="@username"
         ></v-text-field>
 
@@ -84,7 +95,7 @@
           placeholder="Username#456"
         ></v-text-field>
 
-        <div class="divrow mt-4" style="gap: 30px;">
+        <!-- <div class="divrow mt-4" style="gap: 30px;">
           <div class="divrow acenter" style="gap: 5px;">
             <v-checkbox id="visible_artist" v-model="visible_artist"></v-checkbox>
             <label for="visible_artist" class="mb-2">Visible</label>
@@ -94,7 +105,7 @@
             <v-checkbox id="coming_artist" v-model="coming_artist"></v-checkbox>
             <label for="coming_artist" class="mb-2">Coming</label>
           </div>
-        </div>
+        </div> -->
       </section>
 
       <h2 class="Title tup lines">FORM NFT</h2>  
@@ -286,7 +297,7 @@
         </section>
       </template>
 
-      <section class="card divrow" style="margin-top: 40px; gap: 40px;">
+      <!-- <section class="card divrow" style="margin-top: 40px; gap: 40px;">
         <div class="divrow acenter" style="gap: 5px;">
           <v-checkbox id="visible" v-model="visible"></v-checkbox>
           <label for="visible" class="mb-2">Visible</label>
@@ -296,9 +307,9 @@
           <v-checkbox id="coming" v-model="coming"></v-checkbox>
           <label for="coming" class="mb-2">Coming</label>
         </div>
-      </section>
+      </section> -->
 
-      <v-expansion-panels class="custome-expansion not_padding" style="margin-top: 40px;">
+      <v-expansion-panels v-if="isAdmin" class="custome-expansion not_padding" style="margin-top: 40px;">
         <v-expansion-panel>
           <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Artists to be approve</v-expansion-panel-header>
 
@@ -330,8 +341,8 @@
       </v-expansion-panels>
 
       <div class="center" style="gap: 10px; margin-top: 40px;">
-        <v-btn class="btn" style="--bg: #fff; --c: var(--primary); --fw:700; --w: 150px; --br: 0px;">Approve</v-btn>
-        <v-btn class="btn" style="--fw:700; --w: 150px; --br: 0px;" @click="dialogSuccess = true">Save</v-btn>
+        <v-btn v-if="isAdmin" class="btn" style="--bg: #fff; --c: var(--primary); --fw:700; --w: 150px; --br: 0px;">Approve</v-btn>
+        <v-btn class="btn" style="--fw:700; --w: 150px; --br: 0px;" @click="saveForm();dialogSuccess = true">Save</v-btn>
       </div>
 
       <!-- Dialog Success -->
@@ -366,6 +377,8 @@
     mixins: [computeds],
     data() {
       return {
+        formArtist: {},
+
         tableHeadersArtists: [
           {text: 'Artist Name', value: 'artist_name', sortable: false, align: 'center'},
           {text: 'Description', value: 'description', sortable: false, align: 'center'},
@@ -427,7 +440,8 @@
       ],
 
       items_tier:["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],
-      selectedTier: null,
+      selectedTier: "Tier 1",
+      isAdmin: false,
       }
     },
     head() {
@@ -441,8 +455,32 @@
         return Math.ceil(this.tableItemsArtists.length / this.itemsPerPageArtists)
       }
     },
-    methods() {
-      
+    async mounted() {
+      this.isAdmin = await this.getIsAdmin()
+
+      console.log(this.isAdmin)
+    },
+    methods: {
+      saveForm() {
+        console.log(this.$refs.artistForm.validate())
+        if (this.$refs.artistForm.validate()){
+          console.log("ENTRO")
+        }
+      },
+      async getIsAdmin() {
+        if (this.$ramper.getAccountId()) {
+          return await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
+            .then(result => {
+              return result.data
+              // console.log(result.data)
+              // this.$store.commit("setIsAdmin", result.data);
+            }).catch(() => {
+              // this.$alert("cancel", {desc: err.message})
+              // console.error(err);
+              return false
+            })
+        }
+      }
     }
   };
   </script>
