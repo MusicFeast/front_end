@@ -3,13 +3,25 @@
       <h2 class="Title tup lines">FORM ARTIST</h2>  
       <v-row style="margin-top: 40px;">
         <v-col xl="10" lg="10" md="9" sm="8" cols="12">
-          <div class="relative" style="background-color: #fff;">
-            <v-file-input class="input-file" prepend-icon="none">
-            </v-file-input>
+          <div class="relative" style="background-color: #fff; max-height: 250px; min-height: 250px;">
+            <v-file-input 
+            ref="fileInputBanner" v-model="imageBanner" class="input-file" 
+            prepend-icon="none" style="display: none;" @change="onFileChange"
+            ></v-file-input>
+
+            <v-btn class="btn btn-input-file-banner" @click="openFileInputBanner">Upload Banner</v-btn>
+
+            <img :src="selectedImageBanner" alt="" class="imgBanner">
 
             <v-sheet class="sheet-avatar">
+              <img :src="selectedImageAvatar" alt="" class="imgAvatar">
+
+              <v-file-input 
+              ref="fileInputAvatar" v-model="imageAvatar" class="input-file" 
+              prepend-icon="none" style="display: none;" @change="onFileChangeAvatar"
+              ></v-file-input>
               <v-chip class="chip-pencil center">
-                <v-icon small>
+                <v-icon small @click="openFileInputAvatar">
                   mdi-pencil
                 </v-icon>
               </v-chip>
@@ -19,17 +31,19 @@
                 Profile Picture
               </span>
             </v-sheet>
-
-            <v-btn class="btn btn-input-file-banner">Upload Banner</v-btn>
           </div>
         </v-col>
 
         <v-col xl="2" lg="2" md="3" sm="4" cols="12">
-          <div class="relative" style="background-color: #fff;">
-            <v-file-input class="input-file" prepend-icon="none">
-            </v-file-input>
+          <div class="relative" style="background-color: #fff; max-height: 250px; min-height: 250px;">
+            <v-file-input 
+            ref="fileInputMobile" v-model="imageMobile" class="input-file" 
+            prepend-icon="none" style="display: none;" @change="onFileChangeMobile"
+            ></v-file-input>
 
-            <v-btn class="btn btn-input-file">Upload Banner</v-btn>
+            <img :src="selectedImageMobile" alt="" class="imgMobile">
+
+            <v-btn class="btn btn-input-file" @click="openFileInputMobile">Upload Banner</v-btn>
 
             <span class="divcol center span-image" style="color: #000; font-size: 12px;">
               <v-icon color="#000" style="margin-bottom: -10px;">mdi-image-outline</v-icon>
@@ -112,11 +126,15 @@
       
       <v-row style="margin-top: 40px;">
         <v-col xl="2" lg="3" md="3" sm="4" cols="12" style="position: relative!important;">
-          <div style="background-color: #fff;">
-            <v-file-input class="input-file" prepend-icon="none">
-            </v-file-input>
+          <div style="background-color: #fff; max-height: 270px; min-height: 270px;">
+            <v-file-input 
+            ref="fileInputNft" v-model="imageNft" class="input-file" 
+            prepend-icon="none" style="display: none;" @change="onFileChangeNft"
+            ></v-file-input>
 
-            <v-btn class="btn btn-input-file">Upload Image</v-btn>
+            <img :src="selectedImageNft" alt="" class="imgNft">
+
+            <v-btn class="btn btn-input-file" @click="openFileInputNft">Upload Image</v-btn>
           </div>
         </v-col>
 
@@ -377,6 +395,18 @@
     mixins: [computeds],
     data() {
       return {
+        imageNft: undefined,
+        selectedImageNft: '',
+        
+        imageMobile: undefined,
+        selectedImageMobile: '',
+
+        imageAvatar: undefined,
+        selectedImageAvatar: '',
+
+        imageBanner: undefined,
+        selectedImageBanner: '',
+
         formArtist: {},
 
         tableHeadersArtists: [
@@ -461,6 +491,78 @@
       console.log(this.isAdmin)
     },
     methods: {
+      openFileInputNft() {
+        this.$refs.fileInputNft.$el.querySelector('input[type="file"]').click();
+      },
+      createImageNft(file) {
+        const reader = new FileReader();
+
+        reader.onload = e => {
+          this.selectedImageNft = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      },
+      onFileChangeNft(file) {
+        if (!file) {
+          return;
+        }
+        this.createImageNft(file);
+      },
+
+      openFileInputBanner() {
+        this.$refs.fileInputBanner.$el.querySelector('input[type="file"]').click();
+      },
+      createImageBanner(file) {
+        const reader = new FileReader();
+
+        reader.onload = e => {
+          this.selectedImageBanner = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      },
+      onFileChange(file) {
+        if (!file) {
+          return;
+        }
+        this.createImageBanner(file);
+      },
+
+      openFileInputAvatar() {
+        this.$refs.fileInputAvatar.$el.querySelector('input[type="file"]').click();
+      },
+      createImageAvatar(file) {
+        const reader = new FileReader();
+
+        reader.onload = e => {
+          this.selectedImageAvatar = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      },
+      onFileChangeAvatar(file) {
+        if (!file) {
+          return;
+        }
+        this.createImageAvatar(file);
+      },
+
+      openFileInputMobile() {
+        this.$refs.fileInputMobile.$el.querySelector('input[type="file"]').click();
+      },
+      createImageMobile(file) {
+        const reader = new FileReader();
+
+        reader.onload = e => {
+          this.selectedImageMobile = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      },
+      onFileChangeMobile(file) {
+        if (!file) {
+          return;
+        }
+        this.createImageMobile(file);
+      },
+
       saveForm() {
         console.log(this.$refs.artistForm.validate())
         if (this.$refs.artistForm.validate()){
