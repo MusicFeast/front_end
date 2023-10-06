@@ -100,14 +100,14 @@
               @input="inputValidate"
             ></v-text-field>
 
-            <label for="country">Country</label>
+            <!-- <label for="country">Country</label>
             <v-text-field
               id="country"
               v-model="country"
               placeholder="Write your country"
               style="margin-bottom: 20px;"
               @input="inputValidate"
-            ></v-text-field>
+            ></v-text-field> -->
 
             <label for="email">Email</label>
             <v-text-field
@@ -119,61 +119,58 @@
               @input="inputValidate"
             ></v-text-field>
 
-            <label for="discord">Discord ID</label>
+            <!-- <label for="discord">Discord ID</label>
             <v-text-field
               id="discord"
               v-model="discord_id"
               placeholder="Username#321"
               style="margin-bottom: 20px;"
               @input="inputValidate"
-            ></v-text-field>
+            ></v-text-field> -->
 
-            <label for="twitter">Twitter Account</label>
+            <!-- <label for="twitter">Twitter Account</label>
             <v-text-field
               id="twitter"
               v-model="twitter"
               placeholder="@username"
               style="margin-bottom: 20px;"
               @input="inputValidate"
-            ></v-text-field>
+            ></v-text-field> -->
 
-            <label for="bio">Bio</label>
+            <!-- <label for="bio">Bio</label>
             <v-text-field
               id="bio"
               v-model="bio"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
               @input="inputValidate"
-            ></v-text-field>
-
-  
+            ></v-text-field> -->
      
-                <label for="track-demo">Track Demo</label>
-                <v-file-input
-                  id="track-demo"
-                  v-model="track_demo"
-                  hide-details
-                  placeholder="Audio track"
-                  :rules="rules.required"
-                  accept="audio/*"
-                  class="no-icon"
-                  style="margin-bottom: 20px; margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
-                ></v-file-input>
-          
+            <label for="track-demo">Track Demo</label>
+            <v-file-input
+              id="track-demo"
+              v-model="track_demo"
+              hide-details
+              placeholder="Audio track"
+              :rules="rules.required"
+              accept="audio/*"
+              class="no-icon"
+              style="margin-bottom: 20px; margin-left: -0px; border-bottom: 1px solid var(--primary)!important;"
+            ></v-file-input>
 
               <!-- <v-col lg="2" sm="3">
                 <v-btn class="btn" style="--w: 100%;" :disabled="disableUpload || validateFile" :loading="btnUploadTrack" @click="uploadFile()">Upload</v-btn>
               </v-col> -->
 
 
-            <label for="track-desc">Track Description</label>
+            <!-- <label for="track-desc">Track Description</label>
             <v-text-field
               id="track-desc"
               v-model="track_desc"
               placeholder="Lorem Ipsum"
               style="margin-bottom: 20px;"
               @input="inputValidate"
-            ></v-text-field>
+            ></v-text-field> -->
           </v-form>
 
           <v-btn class="btn mt-4" style="--w: 180px; justify-self: center; align-self: center;" :disabled="disableUpload || validateFile" :loading="btnUploadForm" @click="uploadForm()">Upload</v-btn>
