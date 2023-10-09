@@ -23,6 +23,7 @@
           v-for="(item, i) in dataNavbar"
           :key="i"
           class="tup"
+          :class="{'showmobile': item.name === 'profile'}"
           @click="goTo(item.to)"
           >{{ item.name }}</a
         >
@@ -195,6 +196,7 @@ export default {
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },
         // { name: 'Drops', to: '/drops' },
+        { name: 'profile', to: '/profile' },
       ],
     }
   },

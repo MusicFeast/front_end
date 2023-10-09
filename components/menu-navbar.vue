@@ -61,7 +61,7 @@
             
             <v-list-item
               v-for="(item,i) in $parent.dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
-              :ripple="false" :class="{active: item.to === $route.path}"
+              :ripple="false" :class="{active: item.to === $route.path}" class="deletemobile"
               @click="menuProfile = false; drawer = false; $router.push(localePath(item.to))">
               <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
                 {{item.title}}
@@ -101,6 +101,16 @@
               </span>
             </v-list-item-title>
           </v-list-item>
+
+          <!-- <v-list-item
+            :ripple="false" link :class="{active: profile === $route.path}"
+            @click="drawer = false; $router.push(localePath('profile'))">
+            <v-list-item-title class="conttitle acenter gap1 h10_em">
+              <span style="max-width: max-content" class="tcap">
+                {{profile}}
+              </span>
+            </v-list-item-title>
+          </v-list-item> -->
         </v-list>
 
         <section class="v-navigation-drawer__content--footer divcol center gap1">
@@ -127,6 +137,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      // profile: 'profile',
       balanceNear: 0,
       messages: 1,
       drawer: false,
