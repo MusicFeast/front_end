@@ -128,9 +128,16 @@ export default {
   },
   methods: {
     async getData() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const utmCampaign = urlParams.get('utm_campaign');
+      // console.log('utmCampaign', utmCampaign)
+      // if(title!==undefined){
+      //   title = utmCampaign;
+      // }
       // get news
       await this.$axios
-        .get(`${this.baseUrl}api/v1/get-news`)
+        .get(`${this.baseUrl}api/v1/get-news?title=${utmCampaign === null ? '' : utmCampaign}`)
         .then((result) => {
           result.data.forEach((e) => {
             e.image = this.baseUrl + e.image
@@ -139,6 +146,7 @@ export default {
           // this.dataNews = this.news
           if (localStorage.getItem('validator-news') === 'pages') {
             this.dataNews = this.news
+            console.log('nameee', this.dataNews)
           } else if (localStorage.getItem('validator-news') === 'navbar') {
             this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           }
@@ -149,6 +157,9 @@ export default {
           // this.$alert("cancel", {desc: err.message})
           console.error(err)
         })
+    },
+    loadNewNews() {
+      location.reload();
     },
     selectNews(item) {
       this.dataNews = item
