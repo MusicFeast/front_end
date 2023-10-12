@@ -59,7 +59,11 @@ export default {
   },
   methods: {
     goTo(item) {
-      this.$store.dispatch('goTo', {key: 'news', item})
+      // this.$store.dispatch('goTo', {key: 'news', item})
+      localStorage.setItem("news", JSON.stringify(item))
+      this.$router.push({
+        path: `/news-details/?title=${item.title.replace(/ /g, '-')}`
+      })
       localStorage.setItem("validator-news", "page")
     }
   }

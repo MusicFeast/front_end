@@ -129,28 +129,30 @@ export default {
   methods: {
     async getData() {
       const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const utmCampaign = urlParams.get('utm_campaign');
-      // console.log('utmCampaign', utmCampaign)
-      // if(title!==undefined){
-      //   title = utmCampaign;
-      // }
+		  const urlParams = new URLSearchParams(queryString);
+      const slug = urlParams.get('title')
+      const title = slug === null ? '' : slug.replace(/-/g, ' ')
+      // console.log('title', title)
       // get news
       await this.$axios
-        .get(`${this.baseUrl}api/v1/get-news?title=${utmCampaign === null ? '' : utmCampaign}`)
+        .get(`${this.baseUrl}api/v1/get-news?title=${title}`)
         .then((result) => {
           result.data.forEach((e) => {
             e.image = this.baseUrl + e.image
           })
           this.dataOtherNews = result.data.sort((a, b) => a.id - b.id)
           // this.dataNews = this.news
-          if (localStorage.getItem('validator-news') === 'pages') {
+          if (localStorage.getItem('validator-news') === 'page') {
             this.dataNews = this.news
-            console.log('nameee', this.dataNews)
           } else if (localStorage.getItem('validator-news') === 'navbar') {
             this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           }
+          if(title===null){
           this.navigateWithQueryParams()
+          }
+          if(title!==null){
+            this.getDataAll();
+          }
           // console.log('nameee', this.dataNews.title)
         })
         .catch((err) => {
@@ -158,17 +160,38 @@ export default {
           console.error(err)
         })
     },
-    loadNewNews() {
-      location.reload();
+    async getDataAll() {
+      // get news
+      await this.$axios
+        .get(`${this.baseUrl}api/v1/get-news?title=`)
+        .then((result) => {
+          result.data.forEach((e) => {
+            e.image = this.baseUrl + e.image
+          })
+          this.dataOtherNews = result.data.sort((a, b) => a.id - b.id)
+          // this.dataNews = this.news
+          // if (localStorage.getItem('validator-news') === 'pages') {
+          //   this.dataNews = this.news
+          //   console.log('nameee', this.dataNews)
+          // } else if (localStorage.getItem('validator-news') === 'navbar') {
+          //   this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
+          // }
+          // this.navigateWithQueryParams()
+          // console.log('nameee', this.dataNews.title)
+        })
+        .catch((err) => {
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
     },
     selectNews(item) {
       this.dataNews = item
       this.$scrollTo('top')
     },
     navigateWithQueryParams() {
-      const itemName = this.dataNews.title
+      const itemName = this.dataNews.title.replace(/ /g, '-')
       this.$router.push({
-        path: `/news-details?utm_source=Organic&utm_medium=Blog&utm_campaign=${itemName}`
+        path: `/news-details/?title=${itemName}`
       })
     }
   }
