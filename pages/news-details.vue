@@ -147,9 +147,7 @@ export default {
           } else if (localStorage.getItem('validator-news') === 'navbar') {
             this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           }
-          if(title===null){
           this.navigateWithQueryParams()
-          }
           if(title!==null){
             this.getDataAll();
           }
