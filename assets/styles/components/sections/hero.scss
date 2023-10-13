@@ -9,6 +9,28 @@
     --height-desktop: 918.72px; // 750px original
     --height-mobile: 179.89px; // 450px original
     max-height: var(--height-desktop);
+    .btn-carousel-absolute{
+      position: absolute;
+      top: 450px;
+      left: 60px;
+      right: 0;
+      max-width: 200px;
+      background-color: #fff;
+      --c: #000!important;
+      --fw: 700!important;
+      padding: .5em clamp(1em, 3vw, 2.5em);
+      box-shadow: 3px 3px 10px 6px rgba(0,0,0,.3);
+      @include media(max, 1900px){top: 600px;}
+      @include media(max, 1600px){top: 450px;}
+      @include media(max, 1250px){top: 400px;}
+      @include media(max, 960px){
+        top: 20px;
+        left: 20px;
+        margin: 0px;
+        min-height: 30px!important;
+        width: max-content!important;
+      }
+    }
     .v-skeleton-loader {
       height: var(--height-desktop);
       @include media(max, 880px) {height: var(--height-mobile)}
