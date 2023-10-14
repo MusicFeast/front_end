@@ -28,7 +28,7 @@
               <span class="divcol center span-image" style="color: #000; font-size: 12px;">
                 <v-icon color="#000" style="margin-bottom: -10px;">mdi-image-outline</v-icon>
                 <br>
-                Profile Picture
+                <div class="mt-3">Profile Picture</div>
               </span>
             </v-sheet>
           </div>
@@ -48,7 +48,7 @@
             <span class="divcol center span-image" style="color: #000; font-size: 12px;">
               <v-icon color="#000" style="margin-bottom: -10px;">mdi-image-outline</v-icon>
               <br>
-              Mobile Banner
+              <div class="mt-3">Mobile Banner</div>
             </span>
           </div>
         </v-col>
@@ -277,7 +277,6 @@
             <v-text-field
               v-model="item.percentage"
               type="number"
-              :disabled="showItem"
               placeholder="%"
               @input="inputPercentRoyalties(item)"
               :rules="rulesRoyal"
@@ -308,8 +307,8 @@
             <label for="near-account">Near Account</label>
             <v-text-field
               id="near-account"
-              :disabled="showItem"
               v-model="item.account"
+              :disabled="showItem"
               placeholder="nearaccount.testnet"
               :rules="rules.required"
             ></v-text-field>
@@ -568,13 +567,16 @@
     methods: {
       inputPercentRoyalties(item) {
         console.log(item)
-        if (item?.percentage > 10) {
+        if (item?.percentage >= 10) {
           let total = 0;
           this.dataRoyalties.forEach(item2 => {
             total += parseInt(item2.percentage) || 0;
           });
           total = total - item.percentage;
           item.percentage = String(10 - total);
+          this.showItem = true;
+        } else {
+          this.showItem = false;
         }
 
         const limitRoyal = 10

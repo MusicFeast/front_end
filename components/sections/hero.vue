@@ -10,7 +10,7 @@
             <v-skeleton-loader type="card" />
           </template>
         </v-img>
-        <v-btn class="btn-carousel-absolute" @click="$parent.$parent.$parent.$parent.$refs.connect.modalConnect = true">
+        <v-btn class="btn-carousel-absolute mt-5" @click="$parent.$parent.$parent.$parent.$refs.connect.modalConnect = true">
           Get started
         </v-btn>
       </v-carousel-item>
