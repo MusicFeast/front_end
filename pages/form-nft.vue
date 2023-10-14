@@ -259,7 +259,7 @@
           <template #badge>
             <v-icon color="var(--primary)" style="font-size: 25px;">mdi-information-symbol</v-icon>
           </template>
-          <span class="span-badge">Royalties</span>
+          <span class="span-badge">Royalties</span>  <span style="margin-left: 10px; color: white">Available: ({{ royalAvaibable }}%)</span>
         </v-badge>
 
         <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
@@ -276,9 +276,11 @@
           <v-col xl="2" lg="2" md="2" sm="4" cols="4">
             <v-text-field
               v-model="item.percentage"
+              type="number"
               :disabled="showItem"
               placeholder="%"
-              :rules="rules.required"
+              @input="inputPercentRoyalties(item)"
+              :rules="rulesRoyal"
             ></v-text-field>
           </v-col>
           <v-col style="align-self: center!important;">
@@ -288,7 +290,7 @@
         </v-row>
 
         <v-row class="aend">
-          <v-btn class="btn ml-3" :disabled="showItem" @click="dataRoyalties.push({ account: '', percentage: 0 })" style="--fw:700; --w: 150px; --br: 0px;">Add Royalties</v-btn>
+          <v-btn class="btn ml-3" :disabled="showItem" @click="dataRoyalties.push({ account: '', percentage: null })" style="--fw:700; --w: 150px; --br: 0px;">Add Royalties</v-btn>
         </v-row>
 
         <v-badge
@@ -325,7 +327,7 @@
           </v-col>
         </v-row>
         <v-row class="aend">
-          <v-btn class="btn ml-3" :disabled="showItem" @click="dataSplit.push({ account: '', percentage: 0 })" style="--fw:700; --w: 150px; --br: 0px;">Add Split</v-btn>
+          <v-btn class="btn ml-3" :disabled="showItem" @click="dataSplit.push({ account: '', percentage: null })" style="--fw:700; --w: 150px; --br: 0px;">Add Split</v-btn>
         </v-row>
         </v-form>
       </section>
@@ -526,13 +528,21 @@
         },
       ],
 
-      items_tier:["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],
+      // items_tier:["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],
+      items_tier:["Tier 1", "Tier 2"],
       selectedTier: null,
       isAdmin: false,
       formArtistItem: null,
       disabledSave: true,
       btnSave: false,
       showItem: null,
+      splitAvailable: 70,
+      royalAvaibable: 10,
+      rulesRoyal: [
+          v => !!v || 'required',
+          v => v >= 1 || 'required',
+          v => v <= 10 || 'Royalties available: 10%',
+        ],
       }
     },
     head() {
@@ -556,8 +566,44 @@
       console.log(this.isAdmin)
     },
     methods: {
+      inputPercentRoyalties(item) {
+        console.log(item)
+        if (item?.percentage > 10) {
+          let total = 0;
+          this.dataRoyalties.forEach(item2 => {
+            total += parseInt(item2.percentage) || 0;
+          });
+          total = total - item.percentage;
+          item.percentage = String(10 - total);
+        }
+
+        const limitRoyal = 10
+        let total = 0
+        this.dataRoyalties.forEach(item2 => {
+          total += parseInt(item2.percentage) || 0
+        })
+
+        console.log(total)
+      
+        if (total > 10) {
+          if (item?.percentage) {
+            const totalPer = total - item.percentage
+            item.percentage = String(limitRoyal - totalPer)
+          }
+          
+          total = 0
+          this.dataRoyalties.forEach(item2 => {
+            total += parseInt(item2.percentage) || 0
+          })
+          this.royalAvaibable = limitRoyal - total
+        } else {
+          this.royalAvaibable = limitRoyal - total
+          console.log(this.royalAvaibable)
+        }
+        
+      },
       showData(item) {
-        this.items_tier = ["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"]
+        this.items_tier = ["Tier 1", "Tier 2"]
         console.log(item)
         this.showItem = item
 
@@ -635,6 +681,8 @@
 // }
       remove(pos) {
         this.dataRoyalties.splice(pos, 1);
+        console.log("HOLAAA!")
+        this.inputPercentRoyalties()
       },
       remove1(pos) {
         this.dataSplit.splice(pos, 1);
@@ -894,7 +942,7 @@
                 this.selectedTier = "Tier 1"
                 return false
               } else {
-                this.items_tier = ["Tier 2", "Tier 3", "Tier 4", "Tier 5"]
+                this.items_tier = ["Tier 2"]
                 this.selectedTier = null
                 const item = result.data[0]
                 this.formArtist = item
