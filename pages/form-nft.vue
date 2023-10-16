@@ -55,6 +55,15 @@
       </v-row>
 
       <section class="card" style="margin-top: 40px;">
+        <label for="nft-name">Wallet Artist <label for="name-artist" style="color: red">*</label></label>
+        <v-text-field
+          id="description"
+           v-model="formArtist.walletArtist"
+           :disabled="showItem"
+           @input="inputArtist(formArtist.walletArtist)"
+          placeholder="artist.near"
+        ></v-text-field>
+
         <label for="name-artist">Name <label for="name-artist" style="color: red">*</label></label>
         <v-text-field
           id="name-artist"
@@ -278,7 +287,8 @@
               v-model="item.percentage"
               type="number"
               placeholder="%"
-              @input="inputPercentRoyalties(item)"
+              @input="inputPercentRoyalties()"
+              @change="inputPercentRoyalties()"
               :rules="rulesRoyal"
             ></v-text-field>
           </v-col>
@@ -299,7 +309,7 @@
           <template #badge>
             <v-icon color="var(--primary)" style="font-size: 25px;">mdi-information-symbol</v-icon>
           </template>
-          <span class="span-badge">Split Revenue</span>
+          <span class="span-badge">Split Revenue</span>  <span style="margin-left: 10px; color: white">Available: ({{ splitAvailable }}%)</span>
         </v-badge>
 
         <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
@@ -308,7 +318,7 @@
             <v-text-field
               id="near-account"
               v-model="item.account"
-              :disabled="showItem"
+              :disabled="i==0? true : showItem"
               placeholder="nearaccount.testnet"
               :rules="rules.required"
             ></v-text-field>
@@ -316,13 +326,16 @@
           <v-col xl="2" lg="2" md="2" sm="4" cols="4">
             <v-text-field
               v-model="item.percentage"
+              type="number"
+              @input="inputPercentSplit()"
+              @change="inputPercentSplit()"
               :disabled="showItem"
               placeholder="%"
-              :rules="rules.required"
+              :rules="rulesSplit"
             ></v-text-field>
           </v-col>
           <v-col style="align-self: center!important;">
-            <v-icon color="var(--primary)" @click="remove1(i)" :disabled="showItem" class="mr-2" style="font-size: 26px;">mdi-delete</v-icon>
+            <v-icon v-if="i!=0" color="var(--primary)" @click="remove1(i)" :disabled="showItem" class="mr-2" style="font-size: 26px;">mdi-delete</v-icon>
           </v-col>
         </v-row>
         <v-row class="aend">
@@ -412,8 +425,8 @@
       </v-expansion-panels>
 
       <div class="center" style="gap: 10px; margin-top: 40px;">
-        <v-btn v-if="isAdmin && showItem" class="btn" style="--fw:700; --w: 150px; --br: 0px;">Reject</v-btn>
-        <v-btn v-if="isAdmin && showItem" class="btn" style="--bg: #fff; --c: var(--primary); --fw:700; --w: 150px; --br: 0px;">Approve</v-btn>
+        <v-btn v-if="isAdmin && showItem" class="btn" :disabled="disabledApprove" :loading="btnReject" style="--fw:700; --w: 150px; --br: 0px;" @click=responseProposal(2)>Reject</v-btn>
+        <v-btn v-if="isAdmin && showItem" class="btn" :disabled="disabledApprove" :loading="btnApprove" style="--bg: #fff; --c: var(--primary); --fw:700; --w: 150px; --br: 0px;" @click=responseProposal(1)>Approve</v-btn>
         <v-btn v-if="!showItem" class="btn" :disabled="disabledSave" style="--fw:700; --w: 150px; --br: 0px;" :loading="btnSave" @click="saveForm()">Save</v-btn>
       </div>
 
@@ -429,9 +442,9 @@
           SUCCESS!
         </h2>
         <span>
-          Your transaction was succesful.
+          Your operation was succesful.
         </span>
-        <v-btn class="btn" style="min-width: 70%!important;" @click="dialogSuccess = false">
+        <v-btn class="btn" style="min-width: 70%!important;" @click="OkSuccess()">
           Ok
         </v-btn>
       </v-card>
@@ -450,7 +463,7 @@
     data() {
       return {
         dataRoyalties: [],
-        dataSplit: [],
+        dataSplit: [{ account: '', percentage: null }],
         imageNft: undefined,
         selectedImageNft: '',
         
@@ -534,13 +547,25 @@
       formArtistItem: null,
       disabledSave: true,
       btnSave: false,
+      btnApprove: false,
+      btnReject: false,
+      disabledApprove: false,
       showItem: null,
       splitAvailable: 70,
       royalAvaibable: 10,
+      royalBool: false,
+      splitBool: false,
       rulesRoyal: [
-          v => !!v || 'required',
-          v => v >= 1 || 'required',
-          v => v <= 10 || 'Royalties available: 10%',
+        v => !!v || 'required',
+        v => !!Number(v) || 'Number is required',
+        v => v >= 1 || 'required',
+        v => v <= 10 || 'Royalties available: 10%',
+      ],
+      rulesSplit: [
+        v => !!v || 'required',
+        v => !!Number(v) || 'Number is required',
+        v => v >= 1 || 'required',
+        v => v <= 70 || 'Royalties available: 70%',
         ],
       }
     },
@@ -565,44 +590,69 @@
       console.log(this.isAdmin)
     },
     methods: {
-      inputPercentRoyalties(item) {
-        console.log(item)
-        if (item?.percentage >= 10) {
-          let total = 0;
-          this.dataRoyalties.forEach(item2 => {
-            total += parseInt(item2.percentage) || 0;
-          });
-          total = total - item.percentage;
-          item.percentage = String(10 - total);
-          this.showItem = true;
-        } else {
-          this.showItem = false;
+      OkSuccess() {
+        this.dialogSuccess = false
+        location.reload()
+      },
+      responseProposal(status) {
+        this.disabledApprove = true
+        if (status === 1) {
+          this.btnApprove = true
+        } else if (status === 2) {
+          this.btnReject = true
+        } 
+        const item = {
+          wallet: this.$ramper.getAccountId(),
+          artist_id: String(this.showItem.id),
+          tier_id: String(this.showItem.tierItem.id),
+          status
         }
-
+        this.$axios.post(`${this.baseUrl}api/v1/response-proposal/`, item)
+          .then(() => {
+            this.dialogSuccess = true
+            this.btnReject = false
+            this.btnApprove = false
+          }).catch((err) => {
+            this.btnReject = false
+            this.btnApprove = false
+            console.log(err);
+          }) 
+      },
+      inputArtist(item) {
+        this.dataSplit[0].account = item
+        this.inputSave()
+      },
+      inputPercentRoyalties() {
         const limitRoyal = 10
         let total = 0
-        this.dataRoyalties.forEach(item2 => {
-          total += parseInt(item2.percentage) || 0
+        this.dataRoyalties.forEach(item => {
+          total += parseInt(item.percentage) || 0
         })
-
-        console.log(total)
       
-        if (total > 10) {
-          if (item?.percentage) {
-            const totalPer = total - item.percentage
-            item.percentage = String(limitRoyal - totalPer)
-          }
-          
-          total = 0
-          this.dataRoyalties.forEach(item2 => {
-            total += parseInt(item2.percentage) || 0
-          })
-          this.royalAvaibable = limitRoyal - total
+        if (total === 10) {
+          this.royalAvaibable = 0
+          this.royalBool = true
         } else {
           this.royalAvaibable = limitRoyal - total
-          console.log(this.royalAvaibable)
+          this.royalBool = false
         }
-        
+        this.inputSave()
+      },
+      inputPercentSplit() {
+        const limitSplit = 70
+        let total = 0
+        this.dataSplit.forEach(item => {
+          total += parseInt(item.percentage) || 0
+        })
+      
+        if (total === 70) {
+          this.splitAvailable = 0
+          this.splitBool = true
+        } else {
+          this.splitAvailable = limitSplit - total
+          this.splitBool = false
+        }
+        this.inputSave()
       },
       showData(item) {
         this.items_tier = ["Tier 1", "Tier 2"]
@@ -610,6 +660,7 @@
         this.showItem = item
 
         this.formArtist.name = item.name
+        this.formArtist.walletArtist = item.wallet_artist
         this.formArtist.description = item.description
         this.formArtist.about = item.about
         this.formArtist.instagram = item.instagram || null
@@ -627,6 +678,7 @@
         this.formTier.copies = item.tierItem.copies
         this.selectedImageNft= item.tierItem.image
         this.dataRoyalties = JSON.parse(item.tierItem.royalties)
+        this.dataSplit = JSON.parse(item.tierItem.royalties_split)
 
         if (item.tier === "Tier 1") {
           this.formTier.song = item.tierItem.media
@@ -767,14 +819,14 @@
       inputSave() {
         // this.disabledSave = false
         if (this.formArtistItem) {
-          if (this.validateFormTier()) {
+          if (this.validateFormTier() && this.royalBool && this.splitBool) {
             this.disabledSave = false
           } else {
             this.disabledSave = true
           }
         } else if (!this.formArtistItem) {
-          console.log(this.validateFormArtist(), this.validateFormTier())
-          if (this.validateFormArtist() && this.validateFormTier()) {
+          console.log(this.validateFormArtist(), this.validateFormTier(), this.royalBool, this.splitBool)
+          if (this.validateFormArtist() && this.validateFormTier() && this.royalBool && this.splitBool) {
             this.disabledSave = false
           } else {
             this.disabledSave = true
@@ -782,7 +834,7 @@
         }
       },
       validateFormArtist () {
-        if (this.imageMobile && this.imageAvatar && this.imageBanner && this.formArtist.name && this.formArtist.description && this.formArtist.about) {
+        if (this.imageMobile && this.imageAvatar && this.imageBanner && this.formArtist.name && this.formArtist.description && this.formArtist.about && this.formArtist.walletArtist) {
           return true
         } else {
           return false
@@ -817,10 +869,11 @@
         if (this.$refs.form.validate()){
           if (!this.formArtistItem) {
             const cidNft = await this.uploadIpfs(this.imageNft)
-            const cidSong = await this.uploadIpfs(this.formTier.song)
+            // const cidSong = await this.uploadIpfs(this.formTier.song)
 
             const formDataArtist = new FormData();
             formDataArtist.append("wallet", this.$ramper.getAccountId());
+            formDataArtist.append("wallet_artist", this.formArtist.walletArtist);
             formDataArtist.append("name", this.formArtist.name);
             formDataArtist.append("description", this.formArtist.description);
             formDataArtist.append("about", this.formArtist.about);
@@ -844,8 +897,14 @@
                 formDataNft.append("price", this.formTier.price);
                 formDataNft.append("image", "https://" + cidNft + ".ipfs.nftstorage.link");
                 formDataNft.append("copies", this.formTier.copies);
-                formDataNft.append("media", "https://" + cidSong + ".ipfs.nftstorage.link");
                 formDataNft.append("royalties", JSON.stringify(this.dataRoyalties));
+                formDataNft.append("royalties_split", JSON.stringify(this.dataSplit));
+
+                if (this.selectedTier === "Tier 2") {
+                  formDataNft.append("video", this.formTier.media);
+                } else if (this.selectedTier === "Tier 1") {
+                  formDataNft.append("audio", this.formTier.song);
+                }
 
                 this.$axios.post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
                   .then(async () => {
@@ -863,10 +922,10 @@
               })
           } else {
             const cidNft = await this.uploadIpfs(this.imageNft)
-            let cidMedia
-            if (this.selectedTier === "Tier 2") {
-              cidMedia = await this.uploadIpfs(this.formTier.song)
-            }
+            // let cidMedia
+            // if (this.selectedTier === "Tier 2") {
+            //   cidMedia = await this.uploadIpfs(this.formTier.song)
+            // }
 
             const formDataNft = new FormData();
             formDataNft.append("artist_proposal", this.formArtistItem.id);
@@ -877,9 +936,12 @@
             formDataNft.append("image", "https://" + cidNft + ".ipfs.nftstorage.link");
             formDataNft.append("copies", this.formTier.copies);
             formDataNft.append("royalties", JSON.stringify(this.dataRoyalties));
+            formDataNft.append("royalties_split", JSON.stringify(this.dataSplit));
 
-            if (cidMedia) {
-              formDataNft.append("media", "https://" + cidMedia + ".ipfs.nftstorage.link");
+            if (this.selectedTier === "Tier 2") {
+              formDataNft.append("video", this.formTier.media);
+            } else if (this.selectedTier === "Tier 1") {
+              formDataNft.append("audio", this.formTier.song);
             }
 
             this.$axios.post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
@@ -947,6 +1009,7 @@
                 this.items_tier = ["Tier 2"]
                 this.selectedTier = null
                 const item = result.data[0]
+                item.walletArtist = item.wallet_artist
                 this.formArtist = item
                 this.selectedImageAvatar = this.baseUrl+item.image
                 this.selectedImageBanner = this.baseUrl+item.banner
