@@ -82,7 +82,7 @@
           @input="inputSave()" 
         ></v-text-field>
 
-        <label for="about-artist">About <label for="name-artist" style="color: red">*</label></label>
+        <label for="about-artist">Nutritional fact <label for="name-artist" style="color: red">*</label></label>
         <v-text-field
           id="about-artist"
           v-model="formArtist.about"

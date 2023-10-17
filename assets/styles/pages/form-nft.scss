@@ -7,6 +7,10 @@
   padding-inline: var(--margin-global);
   padding-bottom: 4em;
 
+  input{
+    text-transform: none!important;
+  }
+
   h2 {
     font-size: 3em
   }
