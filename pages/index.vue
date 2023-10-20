@@ -104,6 +104,8 @@ export default {
     }
   },
   mounted() {
+    localStorage.removeItem('tier-form');
+
     this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
     // get carousel
     this.$axios.get(`${this.baseUrl}api/v1/get-carousel`)

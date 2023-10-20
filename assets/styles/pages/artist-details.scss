@@ -140,6 +140,13 @@
           .container-actions {
             margin-top: auto;
             font-size: 13px;
+
+            .config{
+              max-width: max-content!important;
+              align-self: center!important;
+              justify-self: center!important;
+            }
+
             a {
               --margin: 1em;
               --c: var(--accent);

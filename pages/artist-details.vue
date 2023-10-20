@@ -59,6 +59,7 @@
     </v-expansion-panels>
 
 
+  <v-btn class="btn mb-14" style="max-width: 200px!important; align-self: flex-end!important;" @click="$router.push('nft-form-newcol')">Add New Collection</v-btn>
 
   <v-slide-group
     id="custome-slider"
@@ -146,6 +147,13 @@
         </div>
 
         <div class="container-actions divcol">
+          <v-tooltip
+            right color="rgba(0, 0, 0, .4)">
+            <template #activator="{ on, attrs}">
+              <v-icon v-if="item.validate" class="config" v-bind="attrs" v-on="on" @click="goToForm(item.tier)">mdi-cog</v-icon>
+            </template>
+            <span>Update Tier</span>
+          </v-tooltip>
           <a v-if="!item.validate" @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
           <a v-else>More Details</a>
           <v-btn
@@ -494,6 +502,10 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    goToForm(tier){
+      localStorage.setItem("tier-form", tier)
+      this.$router.push('form-nft')
+    },
     getTiersComing() {
       console.log(this.artistId)
       this.$axios.post(`${this.baseUrl}api/v1/get-tiers-coming/`, {"id": Number(this.artistId)})
