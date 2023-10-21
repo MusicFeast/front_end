@@ -54,7 +54,6 @@
           id="name"
           v-model="form.full_name"
           placeholder="Mario Perez"
-          :rules="rules.required"
         ></v-text-field>
         
         <label for="username">username</label>
@@ -140,7 +139,6 @@
           :items="dataCountries" solo
           item-text="name"
           item-value="name"
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
           placeholder="Select The Country"
           style="--fs-place: 16px"
           clearable clear-icon="mdi-close"
@@ -151,7 +149,6 @@
           id="street"
           v-model="form.address.street_address"
           placeholder="Street Address, P.O, box, lorem ipsum"
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
         
         <label for="apartment">Apartment, Suite, Etc</label>
@@ -159,7 +156,6 @@
           id="apartment"
           v-model="form.address.street_address2"
           placeholder="Street Address 2, P.O, box, lorem ipsum "
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
         
         <label for="city">city</label>
@@ -167,7 +163,6 @@
           id="city"
           v-model="form.address.city"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
         
         <label for="state">State / Province / Region</label>
@@ -175,7 +170,6 @@
           id="state"
           v-model="form.address.state"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
 
         <label for="postal">Postal / Zip Code</label>
@@ -183,7 +177,6 @@
           id="postal"
           v-model="form.address.postal"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
 
         <label for="postal">Phone Number</label>
@@ -191,7 +184,6 @@
           id="postal"
           v-model="form.address.phone_number"
           placeholder="Lorem ipsum"
-          :rules="Object.keys(form.address).find(e => form.address[e]) ? rules.required : undefined"
         ></v-text-field>
       </section>
 
@@ -251,11 +243,9 @@ export default {
       rules: {
         required: [(v) => !!v || "Field required"],
         repeatedUsername: [
-          (v) => !!v || "Field required",
           () => !(this.djangoExistenceList.username) || "Username is already taken"
         ],
         repeatedEmail: [
-          (v) => !!v || "Field required",
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
           () => !(this.djangoExistenceList.email) || "Email is already used"
         ],
@@ -341,7 +331,7 @@ export default {
       this.$axios.post(`${this.baseUrl}api/v1/validate-perfil/`, consult).then(result => {
         this.djangoExistenceList = result.data
         
-        if (!this.$refs.form.validate()) return this.$alert( {title: "Failed request", desc: "Need fill all required fields", icon:"close", color:"hsl(0, 84%, 58%)"})
+        // if (!this.$refs.form.validate()) return this.$alert( {title: "Failed request", desc: "Need fill all required fields", icon:"close", color:"hsl(0, 84%, 58%)"})
         
         // save form ✔️
         if (this.userExist) {
