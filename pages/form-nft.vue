@@ -70,7 +70,7 @@
           v-model="formArtist.name"
           :disabled="formArtistItem || showItem"
           placeholder="Lorem Ipsum"
-          @input="inputSave()"
+          @input="inputSave(); inputName()"
         ></v-text-field>
 
         <label for="description-artist">Description <label for="name-artist" style="color: red">*</label></label>
@@ -164,13 +164,13 @@
             <v-text-field
               id="nft-name"
               v-model="formTier.nft_name"
-              :disabled="showItem"
+              disabled
               @input="inputSave()"
               placeholder="Mario Perez"
             ></v-text-field>
             
-            <label for="tier">Tier</label>
-            <v-select
+            <label for="tier">Tier 1</label>
+            <!-- <v-select
               id="tier"
               v-model="selectedTier"
               :disabled="showItem"
@@ -178,7 +178,7 @@
               class="select tfirst"
               :items="items_tier"
               placeholder="Select Your Tier"
-            ></v-select>
+            ></v-select> -->
           </section>
         </v-col>
       </v-row>
@@ -188,7 +188,7 @@
         <v-text-field
           id="description"
            v-model="formTier.description"
-           :disabled="showItem"
+           disabled
            @input="inputSave()"
           placeholder="Lorem Ipsum"
         ></v-text-field>
@@ -203,7 +203,7 @@
           placeholder="Price"
         ></v-text-field>
 
-        <div class="relative">
+        <!-- <div class="relative">
           <label for="nft-name">Number of copies</label>
           <v-text-field
             id="copies"
@@ -215,7 +215,7 @@
           ></v-text-field>
           <v-btn class="btn-plus-minus" style="top: 20px;right: 40px; position: absolute!important;"><v-icon>mdi-minus</v-icon></v-btn>
           <v-btn class="btn-plus-minus" style="top: 20px;right: 0; position: absolute!important;"><v-icon>mdi-plus</v-icon></v-btn>
-        </div>
+        </div> -->
 
         <template v-if="selectedTier === 'Tier 1'">
           <div class="relative">
@@ -477,7 +477,10 @@
         selectedImageBanner: '',
 
         formArtist: {},
-        formTier: {},
+        formTier: {
+          nft_name: "Enter The Feast with Chef",
+          description: "asd"
+        },
 
         tableHeadersArtists: [
           {text: 'Artist Name', value: 'name', sortable: false, align: 'center'},
@@ -498,6 +501,7 @@
         itemsPerPageArtists: 10,
         dialogSuccess: false,
         rules: {
+        validate: [(v) => !!v || "Field required", (v) => this.validateNear(v) || "Wallet invalidate"],
         required: [(v) => !!v || "Field required"],
         repeatedUsername: [
           (v) => !!v || "Field required",
@@ -541,7 +545,7 @@
       ],
 
       // items_tier:["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],
-      items_tier:["Tier 1", "Tier 2"],
+      items_tier:["Tier 1"],
       selectedTier: null,
       isAdmin: false,
       formArtistItem: null,
@@ -590,6 +594,20 @@
       console.log(this.isAdmin)
     },
     methods: {
+      async validateNear(wallet) {
+        const account = await this.$near.account(wallet);
+        const res = account.state()
+            .then(() => {
+                return true
+            }).catch(() => {
+                return false
+            })
+        return res
+      },
+      inputName() {
+        const nftName = "Enter The Feast with Chef"
+        this.formTier.nft_name = nftName + " " + this.formArtist.name + "!"
+      },
       OkSuccess() {
         this.dialogSuccess = false
         location.reload()
@@ -655,7 +673,7 @@
         this.inputSave()
       },
       showData(item) {
-        this.items_tier = ["Tier 1", "Tier 2"]
+        this.items_tier = ["Tier 1"]
         console.log(item)
         this.showItem = item
 
@@ -675,7 +693,6 @@
         this.formTier.nft_name = item.tierItem.nft_name
         this.formTier.description = item.tierItem.description
         this.formTier.price = item.tierItem.price
-        this.formTier.copies = item.tierItem.copies
         this.selectedImageNft= item.tierItem.image
         this.dataRoyalties = JSON.parse(item.tierItem.royalties)
         this.dataSplit = JSON.parse(item.tierItem.royalties_split)
@@ -841,7 +858,7 @@
         }
       },
       validateFormTier () {
-        if (this.imageNft && this.formTier.nft_name && this.formTier.description && this.formTier.price && this.formTier.copies) {
+        if (this.imageNft && this.formTier.nft_name && this.formTier.description && this.formTier.price) {
           console.log(this.selectedTier)
           if (this.selectedTier === "Tier 1") {
             if (this.formTier.song) {
@@ -896,7 +913,6 @@
                 formDataNft.append("description", this.formTier.description);
                 formDataNft.append("price", this.formTier.price);
                 formDataNft.append("image", "https://" + cidNft + ".ipfs.nftstorage.link");
-                formDataNft.append("copies", this.formTier.copies);
                 formDataNft.append("royalties", JSON.stringify(this.dataRoyalties));
                 formDataNft.append("royalties_split", JSON.stringify(this.dataSplit));
 
@@ -934,7 +950,6 @@
             formDataNft.append("description", this.formTier.description);
             formDataNft.append("price", this.formTier.price);
             formDataNft.append("image", "https://" + cidNft + ".ipfs.nftstorage.link");
-            formDataNft.append("copies", this.formTier.copies);
             formDataNft.append("royalties", JSON.stringify(this.dataRoyalties));
             formDataNft.append("royalties_split", JSON.stringify(this.dataSplit));
 
