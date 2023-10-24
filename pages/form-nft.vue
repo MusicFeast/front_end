@@ -264,7 +264,7 @@
       <v-text-field
         id="description"
         v-model="formTier.description"
-        disabled
+        :disabled="showItem"
         @input="inputSave()"
         placeholder="Lorem Ipsum"
       ></v-text-field>
@@ -364,6 +364,7 @@
               v-model="item.percentage"
               type="number"
               placeholder="%"
+              :disabled="showItem"
               @input="inputPercentRoyalties()"
               @change="inputPercentRoyalties()"
               :rules="rulesRoyal"
@@ -638,8 +639,6 @@ export default {
       formArtist: {},
       formTier: {
         nft_name: 'Enter The Feast with Chef',
-        description:
-          '<p>UNLOVE you” by AST£R is a rendition of deep emotions clustered inside the mind of the artiste,caused by series of events and factors that arouse this carthasis from the artiste through to the listener via the music.</p>',
       },
 
       tableHeadersArtists: [
@@ -1119,7 +1118,7 @@ export default {
       this.btnSave = true
       if (this.$refs.form.validate()) {
         if (!this.formArtistItem) {
-          const cidNft = await this.uploadIpfs(this.imageNft)
+          const itemIpfs = await this.uploadIpfs(this.imageNft)
           // const cidSong = await this.uploadIpfs(this.formTier.song)
 
           const formDataArtist = new FormData()
@@ -1152,7 +1151,7 @@ export default {
               formDataNft.append('price', this.formTier.price)
               formDataNft.append(
                 'image',
-                'https://' + cidNft + '.ipfs.nftstorage.link'
+                "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
               )
               formDataNft.append(
                 'royalties',
@@ -1187,7 +1186,7 @@ export default {
               console.log(err)
             })
         } else {
-          const cidNft = await this.uploadIpfs(this.imageNft)
+          const itemIpfs = await this.uploadIpfs(this.imageNft)
           // let cidMedia
           // if (this.selectedTier === "Tier 2") {
           //   cidMedia = await this.uploadIpfs(this.formTier.song)
@@ -1204,7 +1203,7 @@ export default {
           formDataNft.append('price', this.formTier.price)
           formDataNft.append(
             'image',
-            'https://' + cidNft + '.ipfs.nftstorage.link'
+            "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
           )
           formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
           formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
@@ -1267,7 +1266,13 @@ export default {
 
         // this.uploadedFileInfo = resp.data.value
         // localStorage.setItem('cid', this.uploadedFileInfo.cid)
-        return resp.data.value?.cid || false
+        if (resp.data.value?.cid && resp.data.value?.files[0]?.name) {
+          return {
+            cid: resp.data.value.cid,
+            name: resp.data.value.files[0].name}
+        } else {
+          return false
+        }
       } catch (error) {
         console.error(error)
         return false

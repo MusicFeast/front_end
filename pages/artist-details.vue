@@ -59,7 +59,7 @@
     </v-expansion-panels>
 
 
-  <v-btn class="btn mb-14" style="max-width: 200px!important; align-self: flex-end!important;" @click="$router.push('nft-form-newcol')">Add New Collection</v-btn>
+  <v-btn v-if="isCreator" class="btn mb-14" style="max-width: 200px!important; align-self: flex-end!important;" @click="$router.push('nft-form-newcol')">Add New Collection</v-btn>
 
   <v-slide-group
     id="custome-slider"
@@ -147,10 +147,10 @@
         </div>
 
         <div class="container-actions divcol">
-          <v-tooltip
+          <v-tooltip v-if="isCreator"
             right color="rgba(0, 0, 0, .4)">
             <template #activator="{ on, attrs}">
-              <v-icon v-if="item.validate" class="config" v-bind="attrs" v-on="on" @click="goToForm(item.tier)">mdi-cog</v-icon>
+              <v-icon class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
             </template>
             <span>Update Tier</span>
           </v-tooltip>
@@ -452,6 +452,7 @@ export default {
       dataChats: [
         { icon: "discord", chat: "discord" },
       ],
+      isCreator: false,
       tiersComing: {
         tierOne: false,
         tierTwo: false,
@@ -502,9 +503,9 @@ export default {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
-    goToForm(tier){
-      localStorage.setItem("tier-form", tier)
-      this.$router.push('form-nft')
+    goToForm(item){
+      // localStorage.setItem("tier-form", tier)
+      this.$router.push('update-nft-form?token_id=' + item.token_id)
     },
     getTiersComing() {
       console.log(this.artistId)
@@ -548,6 +549,7 @@ export default {
         .then(async response => {
           const data = response.data[0]
           if (data) {
+            this.isCreator = data.creator_id === this.$ramper.getAccountId()
             this.artist = data
             this.artist.banner = this.baseUrl+this.artist.banner;
             this.artist.banner_mobile = this.baseUrl+this.artist.banner_mobile;
