@@ -714,7 +714,7 @@ export default {
 
         const data = res.data.series
 
-        // console.log("DATANFTS2222222", data)
+        console.log("DATANFTS2222222", data)
 
 
         this.dataCollections = []
