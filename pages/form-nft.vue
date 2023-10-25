@@ -104,7 +104,7 @@
       <v-text-field
         id="description"
         v-model="formArtist.walletArtist"
-        :disabled="showItem"
+        :disabled="formArtistItem || showItem"
         :error="errorWalletArtist"
         :error-messages="errorMessage"
         @input="validateWalletArtist(formArtist.walletArtist)"
@@ -293,7 +293,7 @@
           <v-btn class="btn-plus-minus" style="top: 20px;right: 0; position: absolute!important;"><v-icon>mdi-plus</v-icon></v-btn>
         </div> -->
 
-      <template v-if="selectedTier === 'Tier 1'">
+      <template>
         <div class="relative">
           <label for="nft-name">Song audio</label>
           <!-- <v-text-field
@@ -575,10 +575,10 @@
       <v-btn
         v-if="!showItem"
         class="btn"
-        :disabled="disabledSave"
+        :disabled="disabledSave "
         style="--fw: 700; --w: 150px; --br: 0px"
         :loading="btnSave"
-        @click="saveForm()"
+        @click="isApprove ? saveNewCollection() : saveForm()"
         >Save</v-btn
       >
     </div>
@@ -591,9 +591,9 @@
       content-class="nft-dialog"
       persistent
     >
-      <v-btn icon class="close" @click="dialogSuccess = false">
+      <!-- <v-btn icon class="close" @click="dialogSuccess = false">
         <v-icon large>mdi-close</v-icon>
-      </v-btn>
+      </v-btn> -->
 
       <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
         <h2 class="p center" style="--fs: 1.8em; text-decoration: underline">
@@ -776,6 +776,15 @@ export default {
     this.isAdmin = await this.getIsAdmin()
 
     this.formArtistItem = await this.getFormArtist()
+
+    console.log(this.formArtistItem)
+
+    if (this.formArtistItem) {
+      this.inputName()
+      this.dataSplit[0].account = this.formArtistItem.wallet_artist
+
+      this.isApprove = this.formArtistItem.status === 1
+    }
 
     this.getArtistProposals()
 
@@ -1041,6 +1050,12 @@ export default {
     inputSave() {
       // this.disabledSave = false
       if (this.formArtistItem) {
+        console.log("HOLA")
+        console.log(
+          this.validateFormTier(),
+          this.royalBool,
+          this.splitBool
+        )
         if (this.validateFormTier() && this.royalBool && this.splitBool) {
           this.disabledSave = false
         } else {
@@ -1088,30 +1103,81 @@ export default {
         this.formTier.price
       ) {
         console.log(this.selectedTier)
-        if (this.selectedTier === 'Tier 1') {
-          if (this.formTier.song) {
+        if (this.formTier.song) {
             return true
           } else {
             return false
           }
-        } else if (this.selectedTier === 'Tier 2') {
-          if (this.formTier.media) {
-            return true
-          } else {
-            return false
-          }
-        } else if (
-          this.selectedTier === 'Tier 3' ||
-          this.selectedTier === 'Tier 4' ||
-          this.selectedTier === 'Tier 5' ||
-          this.selectedTier === 'Tier 6'
-        ) {
-          return true
-        } else {
-          return false
-        }
+        // if (this.selectedTier === 'Tier 1') {
+        //   if (this.formTier.song) {
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // } else if (this.selectedTier === 'Tier 2') {
+        //   if (this.formTier.media) {
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // } else if (
+        //   this.selectedTier === 'Tier 3' ||
+        //   this.selectedTier === 'Tier 4' ||
+        //   this.selectedTier === 'Tier 5' ||
+        //   this.selectedTier === 'Tier 6'
+        // ) {
+        //   return true
+        // } else {
+        //   return false
+        // }
       } else {
         return false
+      }
+    },
+    async saveNewCollection() {
+      console.log("NEW COLLECITON")
+      return
+      this.btnSave = true
+      if (this.$refs.form.validate() && this.isApprove) {
+        console.log("ENTRO")
+        console.log(this.formArtistItem)
+        const itemIpfs = await this.uploadIpfs(this.imageNft)
+
+        const formDataNft = new FormData()
+        formDataNft.append('wallet', this.$ramper.getAccountId())
+        formDataNft.append('id_collection', this.formArtistItem.id_collection)
+        formDataNft.append(
+          'tierNumber',
+          1
+        )
+        formDataNft.append('nft_name', this.formTier.nft_name)
+        formDataNft.append('description', this.formTier.description)
+        formDataNft.append('price', this.formTier.price)
+        formDataNft.append(
+          'image',
+          "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+        )
+        formDataNft.append(
+          'royalties',
+          JSON.stringify(this.dataRoyalties)
+        )
+        formDataNft.append(
+          'royalties_split',
+          JSON.stringify(this.dataSplit)
+        )
+
+        formDataNft.append('audio', this.formTier.song)
+    
+        this.$axios
+          .post(`${this.baseUrl}api/v1/new-collection/`, formDataNft)
+          .then(() => {
+            this.dialogSuccess = true
+            this.btnSave = false
+          })
+          .catch((err) => {
+            this.btnSave = false
+            console.log(err)
+          })
       }
     },
     async saveForm() {
@@ -1144,7 +1210,7 @@ export default {
               formDataNft.append('artist_proposal', result.data.id)
               formDataNft.append(
                 'tierNumber',
-                Number(this.selectedTier.replace('Tier ', ''))
+                1
               )
               formDataNft.append('nft_name', this.formTier.nft_name)
               formDataNft.append('description', this.formTier.description)
@@ -1196,7 +1262,7 @@ export default {
           formDataNft.append('artist_proposal', this.formArtistItem.id)
           formDataNft.append(
             'tierNumber',
-            Number(this.selectedTier.replace('Tier ', ''))
+            1
           )
           formDataNft.append('nft_name', this.formTier.nft_name)
           formDataNft.append('description', this.formTier.description)
@@ -1226,7 +1292,10 @@ export default {
               console.log(err)
             })
         }
+      } else{
+        this.btnSave = false
       }
+      
     },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {

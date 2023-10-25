@@ -246,9 +246,9 @@
       <!-- Dialog Success -->
 
       <v-dialog v-model="dialogSuccess" max-width="500px" content-class="nft-dialog" persistent>
-      <v-btn icon class="close" @click="dialogSuccess = false">
+      <!-- <v-btn icon class="close" @click="dialogSuccess = false">
         <v-icon large>mdi-close</v-icon>
-      </v-btn>
+      </v-btn> -->
 
       <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
         <h2 class="p center" style="--fs: 1.8em; text-decoration: underline;">
@@ -731,7 +731,8 @@
             .then((res) => {
               console.log(res)
               this.btnSave = false
-              this.$axios.post(`${this.baseUrl}api/v1/update-coming-soon/`, {wallet: this.$ramper.getAccountId(), tier: String(this.tokenAux.typetoken_id)})
+              this.$axios.post(`${this.baseUrl}api/v1/update-coming-soon/`, {wallet: this.$ramper.getAccountId(), tier: String(this.tokenAux.typetoken_id), id_collection: this.tokenAux.artist_id})
+              this.dialogSuccess = true
             }).catch((err) => {
               console.log(err);
               this.btnSave = false
