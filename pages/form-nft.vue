@@ -179,13 +179,13 @@
         placeholder="@username"
       ></v-text-field>
 
-      <label for="discord-user">Discord</label>
+      <!-- <label for="discord-user">Discord</label>
       <v-text-field
         id="discord-user"
         :disabled="formArtistItem || showItem"
         v-model="formArtist.discord"
         placeholder="Username#456"
-      ></v-text-field>
+      ></v-text-field> -->
 
       <!-- <div class="divrow mt-4" style="gap: 30px;">
           <div class="divrow acenter" style="gap: 5px;">
@@ -1136,9 +1136,8 @@ export default {
     },
     async saveNewCollection() {
       console.log("NEW COLLECITON")
-      return
       this.btnSave = true
-      if (this.$refs.form.validate() && this.isApprove) {
+      if (this.$refs.form.validate() && this.isApprove && !this.isApprove) {
         console.log("ENTRO")
         console.log(this.formArtistItem)
         const itemIpfs = await this.uploadIpfs(this.imageNft)

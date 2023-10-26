@@ -856,6 +856,7 @@ export default {
         .post(`${this.baseUrl}api/v1/get-media/`, {
           media: String(media),
           artist: Number(this.nft_main.artist_id),
+          number_collection: Number(this.nft_main.collection)
         })
         .then((result) => {
           const data = result.data

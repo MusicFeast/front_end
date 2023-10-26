@@ -147,10 +147,10 @@
         </div>
 
         <div class="container-actions divcol">
-          <v-tooltip v-if="isCreator"
+          <v-tooltip v-if="isCreator" :disabled="item.tier != 1 && item.tier != 2"
             right color="rgba(0, 0, 0, .4)">
             <template #activator="{ on, attrs}">
-              <v-icon class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
+              <v-icon :disabled="item.tier != 1 && item.tier != 2" class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
             </template>
             <span>Update Tier</span>
           </v-tooltip>
