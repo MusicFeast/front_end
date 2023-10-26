@@ -142,13 +142,15 @@
         <span class="underline" @click="textExampleDialog = true">Text Example</span>
         <label for="name-artist" style="color: red">*</label>
       </label>
-      <v-text-field
+      <vue-editor v-model="formArtist.about" class="mt-4 mb-4"></vue-editor>
+
+      <!-- <v-text-field
         id="about-artist"
         v-model="formArtist.about"
         :disabled="formArtistItem || showItem"
         placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat"
         @input="inputSave()"
-      ></v-text-field>
+      ></v-text-field> -->
 
       <!-- <label for="discord-role">Discord Role ID</label>
         <v-text-field
@@ -641,10 +643,14 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor"
 import computeds from '~/mixins/computeds'
 //   import styles from '~/mixins/styles'
 
 export default {
+  components: {
+    VueEditor
+  },
   name: 'FormPage',
   // mixins: [computeds, styles],
   mixins: [computeds],
