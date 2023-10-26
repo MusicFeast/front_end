@@ -787,11 +787,8 @@ export default {
       splitBool: false,
       errorWalletArtist: false,
       errorMessage: "",
-<<<<<<< HEAD
-      artistAboutValue: 'artist-about',
-=======
       track: false,
->>>>>>> 615f849 (up)
+      artistAboutValue: 'artist-about',
       rulesRoyal: [
         (v) => !!v || 'required',
         (v) => !!Number(v) || 'Number is required',
@@ -836,11 +833,10 @@ export default {
     console.log(this.isAdmin)
   },
   methods: {
-<<<<<<< HEAD
     goToArtistDetails(){
       localStorage.setItem("artist-about", this.artistAboutValue)
-      this.$router.push({ path: 'artist-details?artist=2' })
-=======
+      window.open('/artist-details?artist=2', '_blank')
+    },
     trackSong() {
       this.track = !this.track
 
@@ -849,7 +845,6 @@ export default {
       } else {
         this.showItem.track.pause()
       }
->>>>>>> 615f849 (up)
     },
     async validateWalletArtist(item) {
       this.inputArtist(item)
