@@ -694,7 +694,6 @@
       },
       async updateNft() {
         this.btnSave = true
-        console.log(this.tokenItem.video)
         if (this.$refs.form.validate()){
           console.log(this.$refs.form.validate())
           if (this.selectedImageNft) {
@@ -704,14 +703,12 @@
             }
           }
 
-          console.log(this.tokenItem.description)
-          console.log(this.tokenAux.description)
-
           const formDataNft = new FormData()
           formDataNft.append('id', this.tokenItem.id)
           formDataNft.append('wallet', this.$ramper.getAccountId())
           formDataNft.append('tier', String(this.tokenAux.typetoken_id))
           formDataNft.append('id_collection', this.tokenAux.artist_id)
+          formDataNft.append("number_collection", this.tokenAux.collection)
 
           if (this.tokenAux.title !== this.tokenItem.title) {
             formDataNft.append('title', this.tokenItem.title)
