@@ -492,17 +492,29 @@ export default {
     this.artistId = JSON.parse(localStorage.getItem("artist"))
     await this.getCurrentArtist()
     
-    this.$scrollTo("top")
+    // this.$scrollTo("top")
     this.styles();
 
     // resize listener
     window.addEventListener('resize', this.styles);
-    
+    this.scrollToTopOrNot()
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles);
   },
   methods: {
+    scrollToTopOrNot() {
+      const fragment = localStorage.getItem("artist-about");
+      if (fragment) {
+        const element = document.getElementById('artist-about')
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+        localStorage.removeItem("artist-about")
+      } else {
+        this.$scrollTo("top")
+      }
+    },
     goToForm(item){
       // localStorage.setItem("tier-form", tier)
       this.$router.push('update-nft-form?token_id=' + item.token_id)

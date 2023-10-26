@@ -138,9 +138,10 @@
       ></v-text-field>
 
       <label for="about-artist"
-        >Nutritional fact
-        <label for="name-artist" style="color: red">*</label></label
-      >
+        >Nutritional fact -
+        <span class="underline" @click="textExampleDialog = true">Text Example</span>
+        <label for="name-artist" style="color: red">*</label>
+      </label>
       <v-text-field
         id="about-artist"
         v-model="formArtist.about"
@@ -609,6 +610,33 @@
         </v-btn>
       </v-card>
     </v-dialog>
+
+    <!-- Dialog Text Example -->
+    <v-dialog
+      v-model="textExampleDialog"
+      max-width="500px"
+      content-class="nft-dialog"
+      persistent
+    >
+      <v-btn icon class="close" @click="textExampleDialog = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+
+      <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
+        <h2 class="center" style="--fs: 1.6em;">
+          Example text
+        </h2>
+        
+        <p>
+          Name: ClassiQ <br>
+          <br>Origin: Bauchi, Nigeria<br>
+          <br>Genre: Hip Hop / Hausa Trap<br>
+          <br>Ingredients: Witty Lyricism, Youth Consciousness, Groovy Vibes<br>
+        </p>
+
+        <a @click="goToArtistDetails()" target="_blank" style="text-decoration: underline;">Check the example description here</a>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -622,6 +650,8 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      textExampleDialog: false,
+
       dataRoyalties: [],
       dataSplit: [{ account: '', percentage: null }],
       imageNft: undefined,
@@ -747,6 +777,7 @@ export default {
       splitBool: false,
       errorWalletArtist: false,
       errorMessage: "",
+      artistAboutValue: 'artist-about',
       rulesRoyal: [
         (v) => !!v || 'required',
         (v) => !!Number(v) || 'Number is required',
@@ -791,6 +822,10 @@ export default {
     console.log(this.isAdmin)
   },
   methods: {
+    goToArtistDetails(){
+      localStorage.setItem("artist-about", this.artistAboutValue)
+      this.$router.push({ path: 'artist-details?artist=2' })
+    },
     async validateWalletArtist(item) {
       this.inputArtist(item)
 
