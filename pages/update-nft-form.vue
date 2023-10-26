@@ -269,6 +269,7 @@
   <script>
   import gql from 'graphql-tag'
   import computeds from '~/mixins/computeds'
+
 //   import styles from '~/mixins/styles'
   
   export default {
@@ -707,6 +708,9 @@
           
           const item = {
             id: this.tokenItem.id,
+            wallet: this.$ramper.getAccountId(),
+            tier: String(this.tokenAux.typetoken_id),
+            id_collection: this.tokenAux.artist_id
           }
 
           if (this.tokenAux.title !== this.tokenItem.title) {
@@ -731,7 +735,6 @@
             .then((res) => {
               console.log(res)
               this.btnSave = false
-              this.$axios.post(`${this.baseUrl}api/v1/update-coming-soon/`, {wallet: this.$ramper.getAccountId(), tier: String(this.tokenAux.typetoken_id), id_collection: this.tokenAux.artist_id})
               this.dialogSuccess = true
             }).catch((err) => {
               console.log(err);

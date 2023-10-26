@@ -51,7 +51,7 @@
           transition="fade-transition"
         >
           <template #default>
-            <audio ref="track" :src="mediaUrl" type="audio/mpeg"></audio>
+            <audio ref="track" :src="mediaUrl" type="audio/*"></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />

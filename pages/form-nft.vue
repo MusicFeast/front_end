@@ -272,7 +272,7 @@
         placeholder="Lorem Ipsum"
       ></v-text-field>
 
-      <label for="nft-name">Price</label>
+      <label for="nft-name">Price (USD)</label>
       <v-text-field
         id="Price"
         v-model="formTier.price"
@@ -298,7 +298,7 @@
 
       <template>
         <div class="relative">
-          <label for="nft-name">Song audio</label>
+          <label for="nft-name">Song audio <v-icon v-if="showItem && track" @click="trackSong()">mdi-pause</v-icon><v-icon v-if="showItem && !track" @click="trackSong()">mdi-play</v-icon></label>
           <!-- <v-text-field
                 id="song"
                 v-model="formTier.song"
@@ -358,6 +358,9 @@
               id="near-account"
               v-model="item.account"
               :disabled="showItem"
+              :error="item.error"
+              :error-messages="item.errorMessage"
+              @input="inputAccount(item)"
               placeholder="nearaccount.testnet"
               :rules="rules.required"
             ></v-text-field>
@@ -415,6 +418,7 @@
               v-model="item.account"
               :disabled="i == 0 ? true : showItem"
               placeholder="nearaccount.testnet"
+              @input="inputAccount(item)"
               :rules="rules.required"
             ></v-text-field>
           </v-col>
@@ -783,7 +787,11 @@ export default {
       splitBool: false,
       errorWalletArtist: false,
       errorMessage: "",
+<<<<<<< HEAD
       artistAboutValue: 'artist-about',
+=======
+      track: false,
+>>>>>>> 615f849 (up)
       rulesRoyal: [
         (v) => !!v || 'required',
         (v) => !!Number(v) || 'Number is required',
@@ -828,9 +836,20 @@ export default {
     console.log(this.isAdmin)
   },
   methods: {
+<<<<<<< HEAD
     goToArtistDetails(){
       localStorage.setItem("artist-about", this.artistAboutValue)
       this.$router.push({ path: 'artist-details?artist=2' })
+=======
+    trackSong() {
+      this.track = !this.track
+
+      if (this.track) {
+        this.showItem.track.play()
+      } else {
+        this.showItem.track.pause()
+      }
+>>>>>>> 615f849 (up)
     },
     async validateWalletArtist(item) {
       this.inputArtist(item)
@@ -844,6 +863,20 @@ export default {
         this.errorWalletArtist = true
         this.errorMessage = "Account invalidate"
       }
+    },
+    async inputAccount(item) {
+      const validate = await this.validateNear(item.account)
+
+      console.log(validate)
+
+      if (validate) {
+        item.error = false
+        item.errorMessage = null
+      } else {
+        item.error = true
+        item.errorMessage = "Account invalidate"
+      }
+      console.log(item)
     },
     async validateNear(wallet) {
       const account = await this.$near.account(wallet)
@@ -929,8 +962,17 @@ export default {
     },
     showData(item) {
       this.items_tier = ['Tier 1']
-      console.log(item)
       this.showItem = item
+      const srcAudio = this.baseUrlSlash + this.showItem.tierItem.audio
+
+      const sonido = document.createElement("audio");
+      sonido.src = srcAudio;
+      sonido.setAttribute("preload", "auto");
+      sonido.setAttribute("controls", "none");
+      sonido.style.display = "none"; // <-- oculto
+      document.body.appendChild(sonido);
+
+      this.showItem.track = sonido
 
       this.formArtist.name = item.name
       this.formArtist.walletArtist = item.wallet_artist
