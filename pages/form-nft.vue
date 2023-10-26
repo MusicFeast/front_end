@@ -835,11 +835,7 @@ export default {
   methods: {
     goToArtistDetails(){
       localStorage.setItem("artist-about", this.artistAboutValue)
-<<<<<<< HEAD
-      window.open('/artist-details?artist=2', '_blank')
-=======
       this.$router.push({ path: 'artist-details?artist=2' })
->>>>>>> 170459f (up)
     },
     trackSong() {
       this.track = !this.track
