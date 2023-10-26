@@ -97,7 +97,7 @@
               class="no-icon"
               v-model="tokenItem.video"
               :disabled="showItem"
-              accept="audio/*"
+              accept="video/*"
               placeholder="Video"
               :rules="rules.required"
             ></v-file-input>
@@ -694,6 +694,7 @@
       },
       async updateNft() {
         this.btnSave = true
+        console.log(this.tokenItem.video)
         if (this.$refs.form.validate()){
           console.log(this.$refs.form.validate())
           if (this.selectedImageNft) {
@@ -705,33 +706,34 @@
 
           console.log(this.tokenItem.description)
           console.log(this.tokenAux.description)
-          
-          const item = {
-            id: this.tokenItem.id,
-            wallet: this.$ramper.getAccountId(),
-            tier: String(this.tokenAux.typetoken_id),
-            id_collection: this.tokenAux.artist_id
-          }
+
+          const formDataNft = new FormData()
+          formDataNft.append('id', this.tokenItem.id)
+          formDataNft.append('wallet', this.$ramper.getAccountId())
+          formDataNft.append('tier', String(this.tokenAux.typetoken_id))
+          formDataNft.append('id_collection', this.tokenAux.artist_id)
 
           if (this.tokenAux.title !== this.tokenItem.title) {
-            item.title = this.tokenItem.title
-          } 
+            formDataNft.append('title', this.tokenItem.title)
+          }
           if (this.tokenAux.description !== this.tokenItem.description) {
-            item.description = this.tokenItem.description
+            formDataNft.append('description', this.tokenItem.description)
           }
           if (this.tokenAux.price !== this.tokenItem.price) {
-            item.price = this.tokenItem.price
+            formDataNft.append('price', this.tokenItem.price)
           }
-          if (this.tokenAux.copies !== this.tokenItem.copies) {
-            item.copies = this.tokenItem.copies
+          if (this.tokenAux.copies && this.tokenAux.copies !== this.tokenItem.copies) {
+            formDataNft.append('copies', this.tokenItem.copies)
           }
           if (this.tokenAux.media !== this.tokenItem.media) {
-            item.media = this.tokenItem.media
+            formDataNft.append('media', this.tokenItem.media)
           }
 
-          console.log(item)
+          if (this.tokenItem.video) {
+            formDataNft.append('video', this.tokenItem.video)
+          }
 
-          this.$axios.post(`${process.env.NODE_URL}/update-nft/`, item)
+          this.$axios.post(`${process.env.NODE_URL}/update-nft/`, formDataNft)
             .then((res) => {
               console.log(res)
               this.btnSave = false
@@ -740,6 +742,8 @@
               console.log(err);
               this.btnSave = false
             })
+        } else {
+          this.btnSave = false
         }
       },
       async saveForm() {
