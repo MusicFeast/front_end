@@ -852,6 +852,7 @@ export default {
       }
     },
     async getMedia(media) {
+      console.log( String(media), Number(this.nft_main.artist_id), Number(this.nft_main.collection))
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-media/`, {
           media: String(media),
@@ -864,7 +865,7 @@ export default {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
-              this.mediaUrl = data.media
+              this.mediaUrl = "https://vimeo.com/" + data.media
             }
             // console.log("MEDIA1", this.mediaUrl)
           }
