@@ -77,6 +77,7 @@
           allowfullscreen
         ></iframe>
 
+        <script src="https://player.vimeo.com/api/player.js"></script>
         <!-- <video
           v-show="media == 'video'" ref="track" :src="mediaUrl"
           @pause="reloadButton = false; reloadButton = true"
@@ -865,7 +866,7 @@ export default {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
-              this.mediaUrl = "https://vimeo.com/" + data.media
+              this.mediaUrl = "https://player.vimeo.com/video/" + data.media
             }
             // console.log("MEDIA1", this.mediaUrl)
           }
