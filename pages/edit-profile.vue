@@ -47,6 +47,103 @@
       </template>
     </v-img>
 
+    <v-row style="margin-top: 40px">
+      <v-col xl="10" lg="10" md="9" sm="8" cols="12">
+        <div
+          class="relative"
+          style="background-color: #fff; max-height: 250px; min-height: 250px"
+        >
+          <span class="absolute-font">1180 Width x 401.5 Height</span>
+
+          <v-file-input
+            ref="fileInputBanner"
+            v-model="imageBanner"
+            class="input-file"
+            prepend-icon="none"
+            style="display: none"
+            @change="onFileChange"
+          ></v-file-input>
+
+          <v-btn
+            class="btn btn-input-file-banner"
+            :disabled="formArtistItem || showItem"
+            @click="openFileInputBanner"
+            >Upload Banner</v-btn
+          >
+
+          <img :src="selectedImageBanner" alt="" class="imgBanner" />
+
+          <v-sheet class="sheet-avatar">
+            <img :src="selectedImageAvatar" alt="" class="imgAvatar" />
+
+            <v-file-input
+              ref="fileInputAvatar"
+              v-model="imageAvatar"
+              class="input-file"
+              prepend-icon="none"
+              style="display: none"
+              @change="onFileChangeAvatar"
+            ></v-file-input>
+            <v-chip class="chip-pencil center">
+              <v-icon
+                small
+                :disabled="formArtistItem || showItem"
+                @click="openFileInputAvatar"
+              >
+                mdi-pencil
+              </v-icon>
+            </v-chip>
+            <span
+              class="divcol center span-image"
+              style="color: #000; font-size: 12px"
+            >
+              <span style="color: rgba(0,0,0,0.6); font-size: 12px">307 x 307</span>
+              <br />
+              <div class="mt-3">Profile Picture</div>
+            </span>
+          </v-sheet>
+        </div>
+      </v-col>
+
+      <v-col xl="2" lg="2" md="3" sm="4" cols="12">
+        <div
+          class="relative"
+          style="background-color: #fff; max-height: 250px; min-height: 250px"
+        >
+          <span class="absolute-font">135.5 Height x 271 Height</span>
+
+          <v-file-input
+            ref="fileInputMobile"
+            v-model="imageMobile"
+            class="input-file"
+            prepend-icon="none"
+            style="display: none"
+            @change="onFileChangeMobile"
+          ></v-file-input>
+
+          <img :src="selectedImageMobile" alt="" class="imgMobile" />
+
+          <v-btn
+            class="btn btn-input-file"
+            :disabled="formArtistItem || showItem"
+            @click="openFileInputMobile"
+            >Upload Banner</v-btn
+          >
+
+          <span
+            class="divcol center span-image"
+            style="color: #000; font-size: 12px"
+          >
+            <v-icon color="#000" style="margin-bottom: -10px"
+              >mdi-image-outline</v-icon
+            >
+            <br />
+            <div class="mt-3">Mobile Banner</div>
+          </span>
+        </div>
+      </v-col>
+    </v-row>
+
     <v-form ref="form" class="grid" @submit.prevent="saveForm()">
       <section class="card">
         <label for="name">full name</label>

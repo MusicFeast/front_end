@@ -58,6 +58,10 @@
   
     .container-expansion{
       margin-inline: calc(50% - 50vw);
+
+      .wrap-expansion{
+        margin-inline: var(--margin-global);
+      }
   
       .font20{
         @include media(max, 960px){

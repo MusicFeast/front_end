@@ -124,7 +124,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item :ripple="false" @click="$router.push('form-nft')">
+            <v-list-item :ripple="false" @click="$router.push('quick-tip-help-form')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload Tier 1
               </v-list-item-title>
@@ -184,6 +184,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      isAdmin: false,
       balanceNear: 0,
       account: null,
       menuProfile: false,
@@ -213,8 +214,9 @@ export default {
     }
   },
   async mounted() {
+    // this.isAdmin = await this.getIsAdmin()
     await this.getPriceNear()
-    // this.getIsAdmin()
+    this.getIsAdmin()
     const queryString = window.location.search // tomo mi url
     const urlParams = new URLSearchParams(queryString) // tomo los paramtros de url
 
@@ -307,6 +309,7 @@ export default {
           .then(result => {
             console.log(result.data)
             this.$store.commit("setIsAdmin", result.data);
+            this.isAdmin = result.data
           }).catch(err => {
             // this.$alert("cancel", {desc: err.message})
             console.error(err);

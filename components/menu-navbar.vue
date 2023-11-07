@@ -71,7 +71,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item :ripple="false" @click="$router.push('form-nft')">
+            <v-list-item :ripple="false" @click="$router.push('quick-tip-help-form')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload Tier 1
               </v-list-item-title>
@@ -150,6 +150,7 @@ export default {
   data() {
     return {
       // profile: 'profile',
+      isAdmin: false,
       balanceNear: 0,
       messages: 1,
       drawer: false,
@@ -167,6 +168,7 @@ export default {
   //   this.overlayMethod(theme);
   // },
   async mounted() {
+    this.isAdmin = await this.getIsAdmin()
     // this.$store.commit('priceNEAR')
     await this.getPriceNear()
     const queryString = window.location.search; // tomo mi url
@@ -201,6 +203,20 @@ export default {
     // set route push to marketplace
   },
   methods: {
+    async getIsAdmin() {
+      if (this.$ramper.getAccountId()) {
+        return await this.$axios
+          .post(`${this.baseUrl}api/v1/is-admin/`, {
+            admin: this.$ramper.getAccountId(),
+          })
+          .then((result) => {
+            return result.data
+          })
+          .catch(() => {
+            return false
+          })
+      }
+    },
     async getPriceNear () {
       const account = await this.$near.account(this.$ramper.getAccountId());
       const contract = new Contract(account, process.env.CONTRACT_NFT, {
