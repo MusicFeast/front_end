@@ -47,6 +47,8 @@
       </template>
     </v-img>
 
+    <h2 class="tup p mt-16">Artist banner</h2>
+
     <v-row style="margin-top: 40px">
       <v-col xl="10" lg="10" md="9" sm="8" cols="12">
         <div
