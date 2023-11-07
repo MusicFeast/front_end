@@ -7,6 +7,8 @@
           class="relative"
           style="background-color: #fff; max-height: 250px; min-height: 250px"
         >
+          <span class="absolute-font">200x200</span>
+
           <v-file-input
             ref="fileInputBanner"
             v-model="imageBanner"
@@ -64,6 +66,8 @@
           class="relative"
           style="background-color: #fff; max-height: 250px; min-height: 250px"
         >
+          <span class="absolute-font">200x200</span>
+
           <v-file-input
             ref="fileInputMobile"
             v-model="imageMobile"
@@ -97,7 +101,7 @@
     </v-row>
 
     <section class="card" style="margin-top: 40px">
-      <label for="nft-name"
+      <!-- <label for="nft-name"
         >Wallet Artist
         <label for="name-artist" style="color: red">*</label></label
       >
@@ -109,7 +113,7 @@
         :error-messages="errorMessage"
         @input="validateWalletArtist(formArtist.walletArtist)"
         placeholder="artist.near"
-      ></v-text-field>
+      ></v-text-field> -->
 
       <label for="name-artist"
         >Name <label for="name-artist" style="color: red">*</label></label
@@ -125,7 +129,7 @@
         "
       ></v-text-field>
 
-      <label for="description-artist"
+      <!-- <label for="description-artist"
         >Description
         <label for="name-artist" style="color: red">*</label></label
       >
@@ -135,10 +139,10 @@
         :disabled="formArtistItem || showItem"
         placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat"
         @input="inputSave()"
-      ></v-text-field>
+      ></v-text-field> -->
 
       <label for="about-artist"
-        >Nutritional fact -
+        >Description -
         <span class="underline" @click="textExampleDialog = true">Text Example</span>
         <label for="name-artist" style="color: red">*</label>
       </label>
@@ -203,86 +207,302 @@
         </div> -->
     </section>
 
-    <h2 class="Title tup lines">FORM NFT</h2>
 
-    <v-row style="margin-top: 40px">
-      <v-col
-        xl="2"
-        lg="3"
-        md="3"
-        sm="4"
-        cols="12"
-        style="position: relative !important"
-      >
-        <div
-          style="background-color: #fff; max-height: 270px; min-height: 270px"
-        >
-          <v-file-input
-            ref="fileInputNft"
-            v-model="imageNft"
-            class="input-file"
-            prepend-icon="none"
-            style="display: none"
-            @change="onFileChangeNft"
-          ></v-file-input>
+    <h2 class="tup tcenter mt-16" style="color: var(--primary);">Music Feast Community Access Quick Tip Help Guide</h2>
 
-          <img :src="selectedImageNft" alt="" class="imgNft" />
+    <div class="center">
+      <v-btn class="btn" @click="scrollToForm()">Start Now</v-btn>
+    </div>
+    <div class="divrow center delete-in-mobile" style="gap: 20px; margin-block: 100px;">
+      <img src="~/assets/sources/images/person-cap.png" alt="cap" class="animated-img-up">
+      <img src="~/assets/sources/images/shirt.png" alt="cap" class="animated-img-down">
+      <img src="~/assets/sources/images/5-shirts.png" alt="cap" class="static-img">
+      <img src="~/assets/sources/images/cup.png" alt="cap" class="animated-img-down">
+      <img src="~/assets/sources/images/cap.png" alt="cap" class="animated-img-up">
+    </div>
 
-          <v-btn
-            class="btn btn-input-file"
-            :disabled="showItem"
-            @click="openFileInputNft"
-            >Upload Image</v-btn
-          >
+    <div class="center divcol mt-16 mb-16 margin-block-mobile">
+      <h2 class="tcenter mb-16 margin-block-mobile">
+          Welcome to the Community!
+      </h2>
+
+      <p class="p mobile-text-align">
+        The Music Feast works differently than the normal music distribution currently available. We allow users to purchase music to keep, transfer, or gain access to even more exclusive rights to limited-edition assets.<br>
+        <br>Using a TIER System <a href="tier-system" target="_blank" style="text-decoration: underline;">Learn More About The TIER System</a>, Music Feast allows users to purchase, sell, and gain access to Artist’s Music and Exclusive Communities via the Community Access Pass. <br>
+        <br><b>This creates a one-of-a-kind music purchasing and rights access experience that allows users to PURCHASE and TRANSFER their music, and limited-edition assets. Below is an explanation of how the Music Feast Community Access Pass works:</b>
+      </p>
+    </div>
+
+    <div class="mb-16 mt-16 margin-block-mobile">
+      <h2 class="tup title-line p">Quick tip help</h2>
+      <div class="lowline"></div>
+    </div>
+
+    <div v-for="(item, index) in panelsData" :key="index" :class="`container-expansion center panel-${index}`">
+        <div class="pt-4 pb-4 pl-6 pr-6 wrap-container-expansion">
+          <span class="h6">{{ item.name }}</span>
+            <p class="mb-8 mt-8 font20">
+              <b>{{ item.main_desc }}</b>
+            </p>
+            <ul class="mt-8 mb-8">
+              <li v-if="item.title1 && item.description1" class="mb-8 font18">
+                <b>{{ item.title1 }}</b> {{ item.description1 }}
+              </li>
+              <li v-if="item.title2 && item.description2" class="mt-8 font18">
+                <b>{{ item.title2 }}</b> {{ item.description2 }}
+              </li>
+              <li v-if="item.title3 && item.description3" class="mt-8 font18">
+                <b>{{ item.title3 }}</b> {{ item.description3 }}
+              </li>
+              <li v-if="item.title4 && item.description4" class="mt-8 font18">
+                <b>{{ item.title4 }}</b> {{ item.description4 }}
+              </li>
+              <li v-if="item.title5 && item.description5" class="mt-8 font18">
+                <b>{{ item.title5 }}</b> {{ item.description5 }}
+              </li>
+              <li v-if="item.title6 && item.description6" class="mt-8 font18">
+                <b>{{ item.title6 }}</b> {{ item.description6 }}
+              </li>
+              <li v-if="item.title7 && item.description7" class="mt-8 font18">
+                <b>{{ item.title7 }}</b> {{ item.description7 }}
+              </li>
+            </ul>
+
+            <div v-if="item.last_desc" class="card card-last-desc mt-8 mb-8">
+              <p class="font18">
+                <b>{{ item.last_desc }}</b>
+              </p>
+              <p v-if="item.last_desc2" class="font18">
+                <b>{{ item.last_desc2 }}</b>
+              </p>
+            </div>
         </div>
-      </v-col>
+    </div>
 
-      <v-col xl="10" lg="9" md="9" sm="8" cols="12">
-        <section class="card">
-          <label for="nft-name">NFT Name</label>
-          <v-text-field
-            id="nft-name"
-            v-model="formTier.nft_name"
-            disabled
-            @input="inputSave()"
-            placeholder="Mario Perez"
-          ></v-text-field>
 
-          <label for="tier">Tier 1</label>
-          <!-- <v-select
-              id="tier"
-              v-model="selectedTier"
-              :disabled="showItem"
-              @change="inputSave()"
-              class="select tfirst"
-              :items="items_tier"
-              placeholder="Select Your Tier"
-            ></v-select> -->
+    <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
+
+    <v-window v-model="windowStep">
+      <v-window-item :value="1">
+        <v-row style="margin-top: 40px">
+          <v-col xl="2" lg="2" md="3" sm="4" cols="12" class="center" style="position: relative !important">
+            <div class="nft-upload-div">
+              <v-file-input
+                ref="fileInputNft"
+                v-model="imageNft"
+                class="input-file"
+                prepend-icon="none"
+                style="display: none"
+                @change="onFileChangeNft"
+              ></v-file-input>
+
+              <img :src="selectedImageNft" alt="" class="imgNft" />
+
+              <v-btn
+                class="btn btn-input-file"
+                :disabled="showItem"
+                @click="openFileInputNft"
+                >Upload Image</v-btn
+              >
+            </div>
+          </v-col>
+
+          <v-col xl="10" lg="10" md="9" sm="8" cols="12">
+            <section class="card">
+              <label for="nft-name">Track Name</label>
+              <v-text-field
+                id="nft-name"
+                v-model="formTier.nft_name"
+                disabled
+                @input="inputSave()"
+                placeholder="Mario Perez"
+              ></v-text-field>
+
+              <!-- <label for="tier">Tier 1</label> -->
+              <!-- <v-select
+                  id="tier"
+                  v-model="selectedTier"
+                  :disabled="showItem"
+                  @change="inputSave()"
+                  class="select tfirst"
+                  :items="items_tier"
+                  placeholder="Select Your Tier"
+                ></v-select> -->
+
+                <label for="nft-name">Description</label>
+                <v-text-field
+                  id="description"
+                  v-model="formTier.description"
+                  :disabled="showItem"
+                  @input="inputSave()"
+                  placeholder="Lorem Ipsum"
+                ></v-text-field>
+
+                <label for="nft-name">Price (USD)</label>
+                <v-text-field
+                  id="Price"
+                  v-model="formTier.price"
+                  :disabled="showItem"
+                  type="number"
+                  @input="inputSave()"
+                  placeholder="Price"
+                ></v-text-field>
+
+                <label for="nft-name">Track Audio <v-icon v-if="showItem && track" @click="trackSong()">mdi-pause</v-icon><v-icon v-if="showItem && !track" @click="trackSong()">mdi-play</v-icon></label>
+                <!-- <v-text-field
+                      id="song"
+                      v-model="formTier.song"
+                      @input="inputSave()"
+                      placeholder="Song"
+                    ></v-text-field> -->
+                <v-file-input
+                  id="song"
+                  class="no-icon"
+                  v-model="formTier.song"
+                  :disabled="showItem"
+                  accept="audio/*"
+                  placeholder="Song"
+                  @change="inputSave()"
+                ></v-file-input>
+            </section>
+          </v-col>
+        </v-row>
+      </v-window-item>
+
+      <v-window-item :value="2">
+        <section class="card" style="margin-top: 40px">
+          <v-form ref="form">
+            <v-badge class="mb-5" offset-x="-5px">
+              <template #badge>
+                <v-icon color="var(--primary)" style="font-size: 25px"
+                  >mdi-information-symbol</v-icon
+                >
+              </template>
+              <span class="span-badge">Royalties</span>
+              <span style="margin-left: 10px; color: white"
+                >Available: ({{ royalAvaibable }}%)</span
+              >
+            </v-badge>
+
+            <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
+              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
+                <label for="near-account">Near Account</label>
+                <v-text-field
+                  id="near-account"
+                  v-model="item.account"
+                  :disabled="showItem"
+                  :error="item.error"
+                  :error-messages="item.errorMessage"
+                  @input="inputAccount(item)"
+                  placeholder="nearaccount.testnet"
+                  :rules="rules.required"
+                ></v-text-field>
+              </v-col>
+              <v-col xl="2" lg="2" md="2" sm="4" cols="4">
+                <v-text-field
+                  v-model="item.percentage"
+                  type="number"
+                  placeholder="%"
+                  :disabled="showItem"
+                  @input="inputPercentRoyalties()"
+                  @change="inputPercentRoyalties()"
+                  :rules="rulesRoyal"
+                ></v-text-field>
+              </v-col>
+              <v-col style="align-self: center !important">
+                <v-icon
+                  color="var(--primary)"
+                  class="mr-2"
+                  :disabled="showItem"
+                  @click="remove(i)"
+                  style="font-size: 26px"
+                  >mdi-delete</v-icon
+                >
+              </v-col>
+            </v-row>
+
+            <v-row class="aend">
+              <v-btn
+                class="btn ml-3"
+                :disabled="showItem"
+                @click="dataRoyalties.push({ account: '', percentage: null })"
+                style="--fw: 700; --w: 150px; --br: 0px"
+                >Add Royalties</v-btn
+              >
+            </v-row>
+
+            <v-badge class="mb-5 mt-14" offset-x="-5px">
+              <template #badge>
+                <v-icon color="var(--primary)" style="font-size: 25px"
+                  >mdi-information-symbol</v-icon
+                >
+              </template>
+              <span class="span-badge">Split Revenue</span>
+              <span style="margin-left: 10px; color: white"
+                >Available: ({{ splitAvailable }}%)</span
+              >
+            </v-badge>
+
+            <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
+              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
+                <label for="near-account">Near Account</label>
+                <v-text-field
+                  id="near-account"
+                  v-model="item.account"
+                  :disabled="i == 0 ? true : showItem"
+                  placeholder="nearaccount.testnet"
+                  @input="inputAccount(item)"
+                  :rules="rules.required"
+                ></v-text-field>
+              </v-col>
+              <v-col xl="2" lg="2" md="2" sm="4" cols="4">
+                <v-text-field
+                  v-model="item.percentage"
+                  type="number"
+                  @input="inputPercentSplit()"
+                  @change="inputPercentSplit()"
+                  :disabled="showItem"
+                  placeholder="%"
+                  :rules="rulesSplit"
+                ></v-text-field>
+              </v-col>
+              <v-col style="align-self: center !important">
+                <v-icon
+                  v-if="i != 0"
+                  color="var(--primary)"
+                  @click="remove1(i)"
+                  :disabled="showItem"
+                  class="mr-2"
+                  style="font-size: 26px"
+                  >mdi-delete</v-icon
+                >
+              </v-col>
+            </v-row>
+            <v-row class="aend">
+              <v-btn
+                class="btn ml-3"
+                :disabled="showItem"
+                @click="dataSplit.push({ account: '', percentage: null })"
+                style="--fw: 700; --w: 150px; --br: 0px"
+                >Add Split</v-btn
+              >
+            </v-row>
+          </v-form>
         </section>
-      </v-col>
-    </v-row>
+      </v-window-item>
+    </v-window>
 
-    <section class="card" style="margin-top: 40px">
-      <label for="nft-name">Description</label>
-      <v-text-field
-        id="description"
-        v-model="formTier.description"
-        :disabled="showItem"
-        @input="inputSave()"
-        placeholder="Lorem Ipsum"
-      ></v-text-field>
+    <div class="center gap1 mt-6">
+      <v-btn v-if="windowStep > 1" class="btn2" @click="windowStep = 1"><v-icon class="mr-3">mdi-arrow-left</v-icon> Back</v-btn>
 
-      <label for="nft-name">Price (USD)</label>
-      <v-text-field
-        id="Price"
-        v-model="formTier.price"
-        :disabled="showItem"
-        type="number"
-        @input="inputSave()"
-        placeholder="Price"
-      ></v-text-field>
+      <v-btn v-if="windowStep < 2" class="btn" @click="windowStep = 2">Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn>
 
-      <!-- <div class="relative">
+      <v-btn v-if="windowStep === 2" class="btn">Preview info <v-icon class="ml-3">mdi-information-outline</v-icon></v-btn>
+    </div>
+
+    <!-- <section class="card" style="margin-top: 40px">
+
+      <div class="relative">
           <label for="nft-name">Number of copies</label>
           <v-text-field
             id="copies"
@@ -294,30 +514,15 @@
           ></v-text-field>
           <v-btn class="btn-plus-minus" style="top: 20px;right: 40px; position: absolute!important;"><v-icon>mdi-minus</v-icon></v-btn>
           <v-btn class="btn-plus-minus" style="top: 20px;right: 0; position: absolute!important;"><v-icon>mdi-plus</v-icon></v-btn>
-        </div> -->
+        </div>
 
       <template>
         <div class="relative">
-          <label for="nft-name">Song audio <v-icon v-if="showItem && track" @click="trackSong()">mdi-pause</v-icon><v-icon v-if="showItem && !track" @click="trackSong()">mdi-play</v-icon></label>
-          <!-- <v-text-field
-                id="song"
-                v-model="formTier.song"
-                @input="inputSave()"
-                placeholder="Song"
-              ></v-text-field> -->
-          <v-file-input
-            id="song"
-            class="no-icon"
-            v-model="formTier.song"
-            :disabled="showItem"
-            accept="audio/*"
-            placeholder="Song"
-            @change="inputSave()"
-          ></v-file-input>
+          
 
-          <!-- <v-col xl="2" lg="2" md="2" sm="2" cols="4">
+          <v-col xl="2" lg="2" md="2" sm="2" cols="4">
               <v-btn class="btn" style="--w: 100%;">Upload</v-btn>
-            </v-col> -->
+            </v-col>
         </div>
       </template>
 
@@ -335,127 +540,7 @@
           ></v-file-input>
         </div>
       </template>
-    </section>
-
-    <section class="card" style="margin-top: 40px">
-      <v-form ref="form">
-        <v-badge class="mb-5" offset-x="-5px">
-          <template #badge>
-            <v-icon color="var(--primary)" style="font-size: 25px"
-              >mdi-information-symbol</v-icon
-            >
-          </template>
-          <span class="span-badge">Royalties</span>
-          <span style="margin-left: 10px; color: white"
-            >Available: ({{ royalAvaibable }}%)</span
-          >
-        </v-badge>
-
-        <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
-          <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-            <label for="near-account">Near Account</label>
-            <v-text-field
-              id="near-account"
-              v-model="item.account"
-              :disabled="showItem"
-              :error="item.error"
-              :error-messages="item.errorMessage"
-              @input="inputAccount(item)"
-              placeholder="nearaccount.testnet"
-              :rules="rules.required"
-            ></v-text-field>
-          </v-col>
-          <v-col xl="2" lg="2" md="2" sm="4" cols="4">
-            <v-text-field
-              v-model="item.percentage"
-              type="number"
-              placeholder="%"
-              :disabled="showItem"
-              @input="inputPercentRoyalties()"
-              @change="inputPercentRoyalties()"
-              :rules="rulesRoyal"
-            ></v-text-field>
-          </v-col>
-          <v-col style="align-self: center !important">
-            <v-icon
-              color="var(--primary)"
-              class="mr-2"
-              :disabled="showItem"
-              @click="remove(i)"
-              style="font-size: 26px"
-              >mdi-delete</v-icon
-            >
-          </v-col>
-        </v-row>
-
-        <v-row class="aend">
-          <v-btn
-            class="btn ml-3"
-            :disabled="showItem"
-            @click="dataRoyalties.push({ account: '', percentage: null })"
-            style="--fw: 700; --w: 150px; --br: 0px"
-            >Add Royalties</v-btn
-          >
-        </v-row>
-
-        <v-badge class="mb-5 mt-14" offset-x="-5px">
-          <template #badge>
-            <v-icon color="var(--primary)" style="font-size: 25px"
-              >mdi-information-symbol</v-icon
-            >
-          </template>
-          <span class="span-badge">Split Revenue</span>
-          <span style="margin-left: 10px; color: white"
-            >Available: ({{ splitAvailable }}%)</span
-          >
-        </v-badge>
-
-        <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
-          <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-            <label for="near-account">Near Account</label>
-            <v-text-field
-              id="near-account"
-              v-model="item.account"
-              :disabled="i == 0 ? true : showItem"
-              placeholder="nearaccount.testnet"
-              @input="inputAccount(item)"
-              :rules="rules.required"
-            ></v-text-field>
-          </v-col>
-          <v-col xl="2" lg="2" md="2" sm="4" cols="4">
-            <v-text-field
-              v-model="item.percentage"
-              type="number"
-              @input="inputPercentSplit()"
-              @change="inputPercentSplit()"
-              :disabled="showItem"
-              placeholder="%"
-              :rules="rulesSplit"
-            ></v-text-field>
-          </v-col>
-          <v-col style="align-self: center !important">
-            <v-icon
-              v-if="i != 0"
-              color="var(--primary)"
-              @click="remove1(i)"
-              :disabled="showItem"
-              class="mr-2"
-              style="font-size: 26px"
-              >mdi-delete</v-icon
-            >
-          </v-col>
-        </v-row>
-        <v-row class="aend">
-          <v-btn
-            class="btn ml-3"
-            :disabled="showItem"
-            @click="dataSplit.push({ account: '', percentage: null })"
-            style="--fw: 700; --w: 150px; --br: 0px"
-            >Add Split</v-btn
-          >
-        </v-row>
-      </v-form>
-    </section>
+    </section> -->
 
     <template v-if="selectedTier === 'Tier 3' || selectedTier === 'Tier 4'">
       <h2 class="Title tup lines">Physical Merchandise</h2>
@@ -518,6 +603,7 @@
       </section> -->
 
     <v-expansion-panels
+      v-if="isAdmin"
       class="custome-expansion not_padding"
       style="margin-top: 40px"
     >
@@ -660,6 +746,27 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      windowStep: 1,
+
+      panelsData: [
+        {
+          name:"Currently",
+          main_desc: "We use Discord to allow users to gain access to Artist Communities. Now that you have purchased your Community Access Pass, you will need to create or log in to your Discord account and follow the instructional steps on the Artist Page to gain access.",
+        },
+        {
+          name:"All Tiers",
+          main_desc: "On the platform use a unique NFT-based system and smart contracts, we offer payments associated with all creator's wallets, and auto-swap to stablecoins in order to protect the artists from crypto volatility. Music Feast has a secondary market where all NFTs can be resold. Creators retain a 10% royalty on any secondary sales. ",
+        },
+        {
+          name:"It's Important",
+          main_desc: "It's important to note that during the transfer process, some NFTs may have additional conditions or limitations set by the creator or issuer. For example, there might be restrictions on subsequent transfers, commercial use, or other terms outlined in the smart contract associated with the NFT.",
+        },
+        {
+          name: "Transfer",
+          main_desc: "The transfer of NFTs is facilitated by the underlying blockchain technology, which ensures secure, transparent, and immutable record-keeping of ownership changes. By leveraging the decentralized nature of blockchains, NFT transfers provide a reliable and verifiable way to transfer digital assets from one party to another.",
+        },
+      ],
+
       textExampleDialog: false,
 
       dataRoyalties: [],
@@ -830,9 +937,18 @@ export default {
 
     this.getArtistProposals()
 
-    console.log(this.isAdmin)
+    console.log(this.isAdmin, 'Admindndinewoidfoiewnd')
   },
   methods: {
+    scrollToForm() {
+      const section = document.getElementById("section-form-nft");
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    },
     goToArtistDetails(){
       localStorage.setItem("artist-about", this.artistAboutValue)
       this.$router.push({ path: 'artist-details?artist=2' })

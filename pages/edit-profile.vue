@@ -110,7 +110,7 @@
           @input="clearRepeted('telegram')"
         ></v-text-field>
         
-        <label for="bio">bio</label>
+        <label for="bio">Description</label>
         <v-textarea
           id="bio"
           v-model="form.bio"
