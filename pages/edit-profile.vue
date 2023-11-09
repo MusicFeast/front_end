@@ -55,7 +55,7 @@
           class="relative"
           style="background-color: #fff; max-height: 250px; min-height: 250px"
         >
-          <span class="absolute-font">1180 Width x 401.5 Height</span>
+          <span class="absolute-font"><div>1180 Width x 401.5 Height</div></span>
 
           <v-file-input
             ref="fileInputBanner"
@@ -106,6 +106,7 @@
           </v-sheet>
         </div>
       </v-col>
+      
 
       <v-col xl="2" lg="2" md="3" sm="4" cols="12">
         <div
@@ -146,7 +147,11 @@
       </v-col>
     </v-row>
 
+    
+
     <v-form ref="form" class="grid" @submit.prevent="saveForm()">
+      <h2 class="tup p">Basic information</h2>
+
       <section class="card">
         <label for="name">full name</label>
         <v-text-field
@@ -218,17 +223,7 @@
         ></v-textarea>
       </section>
 
-      <h2 class="tup p">address<sup class="relative" style="top: calc(clamp(15px, 2vw, 30px) * -1)">
-          <v-tooltip
-            right color="rgba(0, 0, 0, .4)" transition="slide-x-transition"
-            :open-delay="100" :close-delay="100">
-            <template #activator="{ on, attrs}">
-              <img src="~/assets/sources/icons/info.svg" alt="info" style="--w: clamp(12px, 1.5vw, 21px)" v-bind="attrs" v-on="on">
-            </template>
-            <span>(optional) Apply to redeem physical products</span>
-          </v-tooltip>
-        </sup>
-      </h2>
+      <h2 class="tup p">address (This is only to receive your physical merch)</h2>
 
       <section class="card">
         <label for="country">country</label>

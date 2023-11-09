@@ -73,13 +73,13 @@
 
             <v-list-item :ripple="false" @click="$router.push('quick-tip-help-form')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                Upload Tier 1
+                Upload Track
               </v-list-item-title>
             </v-list-item>
 
             <v-list-item v-if="isAdmin" :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                Approve Tier 1
+                Admin Approve
               </v-list-item-title>
             </v-list-item>
 

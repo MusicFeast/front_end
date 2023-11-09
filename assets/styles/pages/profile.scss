@@ -305,9 +305,20 @@
       font-size: 15px!important;
     }
   }
+
+  .absolute-font {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust as needed */
+    width: 100%; /* Adjust as needed */
+  }
+  
 }
-
-
 input{
   text-transform: none!important;
 }
