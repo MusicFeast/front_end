@@ -145,6 +145,12 @@
           <span class="underline" @click="textExampleDialog = true">Text Example</span>
           <label for="name-artist" style="color: red">*</label>
         </label>
+        <vue-editor :disabled="formArtistItem || showItem" v-model="formArtist.description" class="mt-4 mb-4"></vue-editor>
+
+        <label for="about-artist"
+          >About
+          <label for="name-artist" style="color: red">*</label>
+        </label>
         <vue-editor v-model="formArtist.about" class="mt-4 mb-4"></vue-editor>
 
         <!-- <v-text-field
@@ -241,6 +247,7 @@
               <label for="nft-name">Track Name</label>
               <v-text-field
                 id="nft-name"
+                disabled
                 v-model="formTier.nft_name"
                 @input="validateForm()"
                 placeholder="Track name"
@@ -425,9 +432,9 @@
 
       <v-btn v-if="windowStep < 2" class="btn" @click="windowStep = 2" :disabled="!formInvalid">Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn>
 
-      <v-btn v-if="windowStep === 2 && reviewState === false" class="btn" @click="scrollToTop()">Preview info <v-icon class="ml-3">mdi-information-outline</v-icon></v-btn>
+      <v-btn v-if="windowStep === 2 && reviewState === false" :disabled="previewInfo" class="btn" @click="scrollToTop()">Preview info <v-icon class="ml-3">mdi-information-outline</v-icon></v-btn>
 
-      <v-btn v-if="windowStep === 2 && reviewState === true" class="btn width100" @click="dialogSure = true">Save</v-btn>
+      <v-btn v-if="windowStep === 2 && reviewState === true" class="btn width100" :loading="btnSave" @click="dialogSure = true">Save</v-btn>
     </div>
 
     <!-- <section class="card" style="margin-top: 40px">
@@ -556,7 +563,7 @@
           </v-btn>
           <v-btn
             class="btn"
-            @click="dialogSure = false"
+            @click="saveForm()"
           >
             Continue
           </v-btn>
@@ -643,7 +650,7 @@ export default {
       textExampleDialog: false,
 
       dataRoyalties: [],
-      dataSplit: [{ account: '', percentage: null }],
+      dataSplit: [{ account: this.$ramper.getAccountId(), percentage: null }],
       imageNft: undefined,
       selectedImageNft: '',
 
@@ -693,6 +700,7 @@ export default {
       ],
       currentPageArtists: 1,
       itemsPerPageArtists: 10,
+      previewInfo: true,
       dialogSuccess: false,
       rules: {
         validate: [
@@ -757,6 +765,7 @@ export default {
       formArtistItem: null,
       disabledSave: true,
       btnSave: false,
+      approveTier: false,
       btnApprove: false,
       btnReject: false,
       disabledApprove: false,
@@ -768,6 +777,7 @@ export default {
       errorWalletArtist: false,
       errorMessage: "",
       track: false,
+      created: false,
       artistAboutValue: 'artist-about',
       rulesRoyal: [
         (v) => !!v || 'required',
@@ -797,14 +807,23 @@ export default {
   async mounted() {
     this.isAdmin = await this.getIsAdmin()
 
-    this.formArtistItem = await this.getFormArtist()
+    this.formArtistItem = await this.getFormArtistMain()
 
-    console.log(this.formArtistItem)
+    console.log("JUANNNN1",this.formArtistItem)
 
     if (this.formArtistItem) {
-      this.inputName()
-      this.dataSplit[0].account = this.formArtistItem.wallet_artist
+      this.created = true
+    } else {
+      this.formArtistItem = await this.getFormArtist()
+    }
+    
 
+
+    console.log("JUANNNN",this.formArtistItem)
+    this.inputName()
+    if (this.created) {
+      this.dataSplit[0].account = this.formArtistItem.wallet
+      this.approveTier = true
       this.isApprove = this.formArtistItem.status === 1
     }
 
@@ -814,17 +833,19 @@ export default {
   },
   methods: {
     scrollToTop() {
-      this.reviewState = true;
+      if (this.$refs.form.validate()) {
+        this.reviewState = true;
 
-      setTimeout(() => {
-        const section = document.getElementById("block-artist");
-        if (section) {
-          section.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }, 0);
+        setTimeout(() => {
+          const section = document.getElementById("block-artist");
+          if (section) {
+            section.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 0);
+      }
     },
     windowBack(){
       if(this.reviewState === true){
@@ -940,7 +961,12 @@ export default {
         this.royalAvaibable = limitRoyal - total
         this.royalBool = false
       }
-      this.inputSave()
+
+      if (this.splitBool && this.royalBool) {
+        this.previewInfo = false
+      } else {
+        this.previewInfo = true
+      }
     },
     inputPercentSplit() {
       const limitSplit = 70
@@ -956,7 +982,13 @@ export default {
         this.splitAvailable = limitSplit - total
         this.splitBool = false
       }
-      this.inputSave()
+      
+      
+      if (this.splitBool && this.royalBool) {
+        this.previewInfo = false
+      } else {
+        this.previewInfo = true
+      }
     },
     showData(item) {
       this.items_tier = ['Tier 1']
@@ -981,7 +1013,7 @@ export default {
       this.formArtist.facebook = item.facebook || null
       this.formArtist.discord = item.discord || null
       this.selectedImageAvatar = this.baseUrl + item.image
-      this.selectedImageBanner = this.baseUrl + item.banner
+      this.selectedImageBanner = this.baseUrl + item.banner_artist
       this.selectedImageMobile = this.baseUrl + item.banner_mobile
 
       this.selectedTier = item.tier
@@ -1047,7 +1079,6 @@ export default {
     // }
     remove(pos) {
       this.dataRoyalties.splice(pos, 1)
-      console.log('HOLAAA!')
       this.inputPercentRoyalties()
     },
     remove1(pos) {
@@ -1218,7 +1249,7 @@ export default {
     async saveNewCollection() {
       console.log("NEW COLLECITON")
       this.btnSave = true
-      if (this.$refs.form.validate() && this.isApprove && !this.isApprove) {
+      if (this.$refs.form.validate() && this.isApprove) {
         console.log("ENTRO")
         console.log(this.formArtistItem)
         const itemIpfs = await this.uploadIpfs(this.imageNft)
@@ -1261,121 +1292,123 @@ export default {
       }
     },
     async saveForm() {
+      console.log("AQIUIII",this.created)
       this.btnSave = true
-      if (this.$refs.form.validate()) {
-        if (!this.formArtistItem) {
-          const itemIpfs = await this.uploadIpfs(this.imageNft)
-          // const cidSong = await this.uploadIpfs(this.formTier.song)
+      this.dialogSure = false
+      if (this.approveTier) {
+        this.saveNewCollection()
+      } else if (!this.approveTier) {
+        if (this.$refs.form.validate()) {
+          console.log(this.created)
+          if (!this.created) {
+            const itemIpfs = await this.uploadIpfs(this.imageNft)
+            // const cidSong = await this.uploadIpfs(this.formTier.song)
 
-          const formDataArtist = new FormData()
-          formDataArtist.append('wallet', this.$ramper.getAccountId())
-          formDataArtist.append('wallet_artist', this.formArtist.walletArtist)
-          formDataArtist.append('name', this.formArtist.name)
-          formDataArtist.append('description', this.formArtist.description)
-          formDataArtist.append('about', this.formArtist.about)
+            const formDataArtist = new FormData()
+            formDataArtist.append('wallet', this.$ramper.getAccountId())
+            formDataArtist.append('wallet_artist', this.formArtist.walletArtist)
+            formDataArtist.append('name', this.formArtist.name)
+            formDataArtist.append('description', this.formArtist.description)
+            formDataArtist.append('about', this.formArtist.about)
 
-          formDataArtist.append('instagram', this.formArtist.instagram || '')
-          formDataArtist.append('twitter', this.formArtist.twitter || '')
-          formDataArtist.append('facebook', this.formArtist.facebook || '')
-          formDataArtist.append('discord', this.formArtist.discord || '')
-          formDataArtist.append('image', this.imageAvatar)
-          formDataArtist.append('banner', this.imageBanner)
-          formDataArtist.append('banner_mobile', this.imageMobile)
+            formDataArtist.append('instagram', this.formArtist.instagram || '')
+            formDataArtist.append('twitter', this.formArtist.twitter || '')
+            formDataArtist.append('facebook', this.formArtist.facebook || '')
+            formDataArtist.append('discord', this.formArtist.discord || '')
+            // formDataArtist.append('image', this.imageAvatar)
+            // formDataArtist.append('banner', this.imageBanner)
+            // formDataArtist.append('banner_mobile', this.imageMobile)
 
-          this.$axios
-            .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
-            .then((result) => {
-              console.log(result.data)
-              const formDataNft = new FormData()
-              formDataNft.append('artist_proposal', result.data.id)
-              formDataNft.append(
-                'tierNumber',
-                1
-              )
-              formDataNft.append('nft_name', this.formTier.nft_name)
-              formDataNft.append('description', this.formTier.description)
-              formDataNft.append('price', this.formTier.price)
-              formDataNft.append(
-                'image',
-                "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
-              )
-              formDataNft.append(
-                'royalties',
-                JSON.stringify(this.dataRoyalties)
-              )
-              formDataNft.append(
-                'royalties_split',
-                JSON.stringify(this.dataSplit)
-              )
+            this.$axios
+              .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
+              .then((result) => {
+                console.log(result.data)
+                const formDataNft = new FormData()
+                formDataNft.append('artist_proposal', result.data.id)
+                formDataNft.append(
+                  'tierNumber',
+                  1
+                )
+                formDataNft.append('nft_name', this.formTier.nft_name)
+                formDataNft.append('description', this.formTier.description)
+                formDataNft.append('price', this.formTier.price)
+                formDataNft.append(
+                  'image',
+                  "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+                )
+                formDataNft.append(
+                  'royalties',
+                  JSON.stringify(this.dataRoyalties)
+                )
+                formDataNft.append(
+                  'royalties_split',
+                  JSON.stringify(this.dataSplit)
+                )
 
-              if (this.selectedTier === 'Tier 2') {
-                formDataNft.append('video', this.formTier.media)
-              } else if (this.selectedTier === 'Tier 1') {
                 formDataNft.append('audio', this.formTier.song)
-              }
 
-              this.$axios
-                .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
-                .then(async () => {
-                  this.formArtistItem = await this.getFormArtist()
-                  this.getArtistProposals()
-                  this.dialogSuccess = true
-                  this.btnSave = false
-                })
-                .catch((err) => {
-                  this.btnSave = false
-                  console.log(err)
-                })
-            })
-            .catch((err) => {
-              this.btnSave = false
-              console.log(err)
-            })
-        } else {
-          const itemIpfs = await this.uploadIpfs(this.imageNft)
-          // let cidMedia
-          // if (this.selectedTier === "Tier 2") {
-          //   cidMedia = await this.uploadIpfs(this.formTier.song)
-          // }
+                this.$axios
+                  .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
+                  .then(async () => {
+                    this.formArtistItem = await this.getFormArtist()
+                    this.getArtistProposals()
+                    this.dialogSuccess = true
+                    this.btnSave = false
+                  })
+                  .catch((err) => {
+                    this.btnSave = false
+                    console.log(err)
+                  })
+              })
+              .catch((err) => {
+                this.btnSave = false
+                console.log(err)
+              })
+          } else {
+            const itemIpfs = await this.uploadIpfs(this.imageNft)
+            // let cidMedia
+            // if (this.selectedTier === "Tier 2") {
+            //   cidMedia = await this.uploadIpfs(this.formTier.song)
+            // }
 
-          const formDataNft = new FormData()
-          formDataNft.append('artist_proposal', this.formArtistItem.id)
-          formDataNft.append(
-            'tierNumber',
-            1
-          )
-          formDataNft.append('nft_name', this.formTier.nft_name)
-          formDataNft.append('description', this.formTier.description)
-          formDataNft.append('price', this.formTier.price)
-          formDataNft.append(
-            'image',
-            "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
-          )
-          formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
-          formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
+            const formDataNft = new FormData()
+            formDataNft.append('artist_proposal', this.formArtistItem.id)
+            formDataNft.append(
+              'tierNumber',
+              1
+            )
+            formDataNft.append('nft_name', this.formTier.nft_name)
+            formDataNft.append('description', this.formTier.description)
+            formDataNft.append('price', this.formTier.price)
+            formDataNft.append(
+              'image',
+              "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+            )
+            formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
+            formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
 
-          if (this.selectedTier === 'Tier 2') {
-            formDataNft.append('video', this.formTier.media)
-          } else if (this.selectedTier === 'Tier 1') {
-            formDataNft.append('audio', this.formTier.song)
+            if (this.selectedTier === 'Tier 2') {
+              formDataNft.append('video', this.formTier.media)
+            } else if (this.selectedTier === 'Tier 1') {
+              formDataNft.append('audio', this.formTier.song)
+            }
+
+            this.$axios
+              .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
+              .then(() => {
+                this.dialogSuccess = true
+                this.btnSave = false
+                this.getArtistProposals()
+              })
+              .catch((err) => {
+                this.btnSave = false
+                console.log(err)
+              })
           }
-
-          this.$axios
-            .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
-            .then(() => {
-              this.dialogSuccess = true
-              this.btnSave = false
-              this.getArtistProposals()
-            })
-            .catch((err) => {
-              this.btnSave = false
-              console.log(err)
-            })
+        } else{
+          this.btnSave = false
         }
-      } else{
-        this.btnSave = false
       }
-      
     },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
@@ -1429,6 +1462,67 @@ export default {
     },
     async getFormArtist() {
       if (this.$ramper.getAccountId()) {
+        const accountId = this.$ramper.getAccountId()
+        return await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+          .then((result) => {
+            console.log(result.data)
+            if (result.data.length === 0) {
+              this.items_tier = ['Tier 1']
+              this.selectedTier = 'Tier 1'
+              return false
+            } else {
+              this.items_tier = ['Tier 2']
+              this.selectedTier = null
+              const item = result.data[0]
+              item.walletArtist = item.wallet
+              item.description = item.bio
+              item.name = item.username
+              this.formArtist = item
+              this.selectedImageAvatar = this.baseUrl + item.image
+              this.selectedImageBanner = this.baseUrl + item.banner_artist
+              this.selectedImageMobile = this.baseUrl + item.banner_mobile
+
+              return result.data[0]
+            }
+            // this.$store.commit("setIsAdmin", result.data);
+          })
+          .catch((err) => {
+            // this.$alert("cancel", {desc: err.message})
+            console.error(err)
+          })
+      }
+    },
+    async getData() {
+      const accountId = this.$ramper.getAccountId()
+      // get data user
+      await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+      .then(result => {
+        const data = result.data[0]
+        console.log(data)
+        if (result.data[0]) {
+          this.$equalData(this.form, data)
+          this.form.id = data.id
+          this.imgBanner = data.banner ? this.baseUrl+data.banner : this.user.banner
+          this.imgAvatar = data.avatar ? this.baseUrl+data.avatar : this.user.avatar
+          this.userExist = true
+
+          this.selectedImageAvatar = data.image ? this.baseUrl+data.image : null
+          this.selectedImageBanner = data.banner_artist ? this.baseUrl+data.banner_artist : null
+          this.selectedImageMobile = data.banner_mobile ? this.baseUrl+data.banner_mobile : null
+        } else {
+          this.form.wallet = accountId
+          this.imgBanner = this.user.banner
+          this.imgAvatar = this.user.avatar
+          this.userExist = false
+        }
+      }).catch(err => {
+        this.$alert( {title: "ERROR", desc: "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
+        // this.$alert("cancel", {desc: err.message})
+        console.error(err);
+      })
+    },
+    async getFormArtistMain() {
+      if (this.$ramper.getAccountId()) {
         return await this.$axios
           .post(`${this.baseUrl}api/v1/get-artist-proposal/`, {
             wallet: this.$ramper.getAccountId(),
@@ -1443,6 +1537,7 @@ export default {
               this.items_tier = ['Tier 2']
               this.selectedTier = null
               const item = result.data[0]
+              console.log("ITE<",item)
               item.walletArtist = item.wallet_artist
               this.formArtist = item
               this.selectedImageAvatar = this.baseUrl + item.image

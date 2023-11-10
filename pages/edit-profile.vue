@@ -215,12 +215,13 @@
         ></v-text-field>
         
         <label for="bio">Description</label>
-        <v-textarea
+        <!-- <v-textarea
           id="bio"
           v-model="form.bio"
           placeholder="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
           no-resize
-        ></v-textarea>
+        ></v-textarea> -->
+        <vue-editor v-model="form.bio" class="mt-4 mb-4"></vue-editor>
       </section>
 
       <h2 class="tup p">address (This is only to receive your physical merch)</h2>
@@ -290,10 +291,14 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor"
 import computeds from '~/mixins/computeds'
 const { getAllCountries } = require('countries-and-timezones');
 
 export default {
+  components: {
+    VueEditor
+  },
   name: "EditProfilePage",
   mixins: [computeds],
   data() {
@@ -325,6 +330,17 @@ export default {
           postal: null,
         }
       },
+      imageNft: undefined,
+      selectedImageNft: '',
+
+      imageMobile: undefined,
+      selectedImageMobile: '',
+
+      imageAvatar: undefined,
+      selectedImageAvatar: '',
+
+      imageBanner: undefined,
+      selectedImageBanner: '',
       dataCountries: [],
       djangoExistenceList: {
         username: undefined,
@@ -387,6 +403,10 @@ export default {
           this.imgBanner = data.banner ? this.baseUrl+data.banner : this.user.banner
           this.imgAvatar = data.avatar ? this.baseUrl+data.avatar : this.user.avatar
           this.userExist = true
+
+          this.selectedImageAvatar = data.image ? this.baseUrl+data.image : null
+          this.selectedImageBanner = data.banner_artist ? this.baseUrl+data.banner_artist : null
+          this.selectedImageMobile = data.banner_mobile ? this.baseUrl+data.banner_mobile : null
         } else {
           this.form.wallet = accountId
           this.imgBanner = this.user.banner
@@ -426,6 +446,18 @@ export default {
         this.djangoExistenceList = result.data
         
         // if (!this.$refs.form.validate()) return this.$alert( {title: "Failed request", desc: "Need fill all required fields", icon:"close", color:"hsl(0, 84%, 58%)"})
+
+        if (this.imageBanner) {
+          this.form.banner_artist = this.imageBanner
+        }
+
+        if (this.imageAvatar) {
+          this.form.image = this.imageAvatar
+        }
+
+        if (this.imageMobile) {
+          this.form.banner_mobile = this.imageMobile
+        }
         
         // save form ✔️
         if (this.userExist) {
@@ -462,6 +494,78 @@ export default {
       this.form[key] = file;
       if (key === 'avatar') { this.imgAvatar = URL.createObjectURL(file) }
       else { this.imgBanner = URL.createObjectURL(file) }
+    },
+    openFileInputNft() {
+      this.$refs.fileInputNft.$el.querySelector('input[type="file"]').click()
+    },
+    createImageNft(file) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.selectedImageNft = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    onFileChangeNft(file) {
+      this.validateForm()
+      if (!file) {
+        return
+      }
+      this.createImageNft(file)
+    },
+
+    openFileInputBanner() {
+      this.$refs.fileInputBanner.$el.querySelector('input[type="file"]').click()
+    },
+    createImageBanner(file) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.selectedImageBanner = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    onFileChange(file) {
+      if (!file) {
+        return
+      }
+      this.createImageBanner(file)
+    },
+
+    openFileInputAvatar() {
+      this.$refs.fileInputAvatar.$el.querySelector('input[type="file"]').click()
+    },
+    createImageAvatar(file) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.selectedImageAvatar = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    onFileChangeAvatar(file) {
+      if (!file) {
+        return
+      }
+      this.createImageAvatar(file)
+    },
+
+    openFileInputMobile() {
+      this.$refs.fileInputMobile.$el.querySelector('input[type="file"]').click()
+    },
+    createImageMobile(file) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.selectedImageMobile = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    onFileChangeMobile(file) {
+      if (!file) {
+        return
+      }
+      this.createImageMobile(file)
     },
   }
 };

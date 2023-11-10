@@ -144,6 +144,12 @@
         <span class="underline" @click="textExampleDialog = true">Text Example</span>
         <label for="name-artist" style="color: red">*</label>
       </label>
+      <vue-editor v-model="formArtist.description" class="mt-4 mb-4"></vue-editor>
+
+      <label for="about-artist"
+        >About
+        <label for="name-artist" style="color: red">*</label>
+      </label>
       <vue-editor v-model="formArtist.about" class="mt-4 mb-4"></vue-editor>
 
       <!-- <v-text-field
