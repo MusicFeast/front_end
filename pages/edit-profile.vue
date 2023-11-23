@@ -66,7 +66,30 @@
       </template>
     </v-img>
 
-    <h2 class="tup p mt-16">Artist banner</h2>
+    <v-row class="mt-6">
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>Set Address</h4>
+          <v-btn class="btn" @click="$router.push('edit-address')">Start</v-btn>
+        </v-card>
+      </v-col>
+
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>New Collection</h4>
+          <v-btn class="btn">Start</v-btn>
+        </v-card>
+      </v-col>
+
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>Edit Collection</h4>
+          <v-btn class="btn" @click="dialogTier = true">Start</v-btn>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- <h2 class="tup p mt-16">Artist banner</h2>
 
     <v-row style="margin-top: 40px">
       <v-col xl="10" lg="10" md="9" sm="8" cols="12">
@@ -167,9 +190,9 @@
           </span>
         </div>
       </v-col>
-    </v-row>
+    </v-row> -->
 
-    <v-form ref="form" class="grid" @submit.prevent="saveForm()">
+    <v-form ref="form" class="grid" @submit.prevent="saveForm()" style="display: none;">
       <h2 class="tup p">Basic information</h2>
 
       <section class="card">
@@ -324,6 +347,37 @@
         >
       </div>
     </v-form>
+
+    <!-- Dialogsss -->
+    <v-dialog
+      v-model="dialogTier"
+      max-width="500px"
+      content-class="nft-dialog"
+      persistent
+    >
+      <v-btn icon class="close" @click="dialogTier = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+
+      <v-card id="modalBuy" class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6">
+        <!-- <h2 class="center" style="--fs: 1.6em">Example text</h2> -->
+
+        <div class="card center divcol card-background-padding">
+          <h4 class="tcenter">Quick Tip Help</h4>
+          <v-btn class="btn">Start</v-btn>
+        </div>
+
+        <div class="card center divcol card-background-padding">
+          <h4 class="tcenter">Upload Track <br> (Tier 1)</h4>
+          <v-btn class="btn">Start</v-btn>
+        </div>
+
+        <div class="card center divcol card-background-padding">
+          <h4 class="tcenter">Upload Video <br> (Tier 2)</h4>
+          <v-btn class="btn">Start</v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -343,6 +397,7 @@ export default {
       userExist: undefined,
       imgBanner: undefined,
       imgAvatar: undefined,
+      dialogTier: false,
       avatar_model: [],
       banner_model: [],
       form: {

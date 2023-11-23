@@ -110,6 +110,14 @@
   }
 
   // edit profile
+  .card-background-padding{
+    background-color: rgba(0, 0, 0, .4)!important;
+    padding-block: 30px!important;
+
+    .btn{
+      width: 150px!important;
+    }
+  }
   .imgBanner{
     width: 100%;
     min-height: 250px;
@@ -322,3 +330,18 @@
 input{
   text-transform: none!important;
 }
+
+
+.nft-dialog{
+  .v-card{
+    .card-background-padding{
+      background-color: rgba(0, 0, 0, .6)!important;
+      padding-block: 30px!important;
+    
+      .btn{
+        width: 150px!important;
+      }
+    }
+  }
+}
+
