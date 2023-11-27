@@ -815,7 +815,6 @@ export default {
       }
 
       this.dataNfts = data
-
     },
     // sell
     clearSell() {

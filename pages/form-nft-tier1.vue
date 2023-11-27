@@ -3,12 +3,13 @@
     <template v-if="reviewState">
       <h2 id="block-artist" class="Title tup lines">FORM ARTIST</h2>
       <v-row style="margin-top: 40px">
-        <v-col xl="10" lg="10" md="9" sm="8" cols="12">
+        <v-col cols="12" class="jcenter">
+        <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
           <div
-            class="relative"
-            style="background-color: #fff; max-height: 250px; min-height: 250px"
+            class="relative background-upload-div-banner"
+            style="max-height: 250px; min-height: 250px"
           >
-            <span class="absolute-font">1180 Width x 401.5 Height</span>
+            <span class="absolute-font-banner">1180 x 401.5 pixels <br> .jpg or .png</span>
 
             <v-file-input
               ref="fileInputBanner"
@@ -62,12 +63,13 @@
           </div>
         </v-col>
 
-        <v-col xl="2" lg="2" md="3" sm="4" cols="12">
+        <v-col cols="12" class="jcenter">
+        <!-- <v-col xl="2" lg="2" md="3" sm="4" cols="12"> -->
           <div
-            class="relative"
-            style="background-color: #fff; max-height: 250px; min-height: 250px"
+            class="relative background-upload-div-mobile"
+            style="max-height: 250px; min-height: 250px"
           >
-            <span class="absolute-font">135.5 Height x 271 Height</span>
+            <span class="absolute-font2">135.5 x 271 pixels <br>.jpg or .png</span>
 
             <v-file-input
               ref="fileInputMobile"
@@ -81,14 +83,14 @@
             <img :src="selectedImageMobile" alt="" class="imgMobile" />
 
             <v-btn
-              class="btn btn-input-file"
+              class="btn btn-input-file-banner-mobile"
               :disabled="formArtistItem || showItem"
               @click="openFileInputMobile"
               >Upload Banner</v-btn
             >
 
             <span
-              class="divcol center span-image"
+              class="divcol center span-image-mobile-banner"
               style="color: #000; font-size: 12px"
             >
               <v-icon color="#000" style="margin-bottom: -10px"
@@ -225,10 +227,237 @@
       </section>
     </template>
 
-    <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
-
     <v-window v-model="windowStep">
       <v-window-item :value="1">
+        <h2 id="block-artist" class="Title tup lines">FORM ARTIST</h2>
+        <v-row style="margin-top: 40px">
+          <v-col cols="12" class="jcenter">
+          <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
+            <div
+              class="relative background-upload-div-banner"
+              style="max-height: 250px; min-height: 250px"
+            >
+              <span class="absolute-font-banner">1180 x 401.5 pixels <br> .jpg or .png</span>
+
+              <v-file-input
+                ref="fileInputBanner"
+                v-model="imageBanner"
+                class="input-file"
+                prepend-icon="none"
+                style="display: none"
+                @change="onFileChange"
+              ></v-file-input>
+
+              <v-btn
+                class="btn btn-input-file-banner"
+                :disabled="formArtistItem || showItem"
+                @click="openFileInputBanner"
+                >Upload Banner</v-btn
+              >
+
+              <img :src="selectedImageBanner" alt="" class="imgBanner" />
+
+              <v-sheet class="sheet-avatar">
+                <img :src="selectedImageAvatar" alt="" class="imgAvatar" />
+
+                <v-file-input
+                  ref="fileInputAvatar"
+                  v-model="imageAvatar"
+                  class="input-file"
+                  prepend-icon="none"
+                  style="display: none"
+                  @change="onFileChangeAvatar"
+                ></v-file-input>
+                <v-chip class="chip-pencil center">
+                  <v-icon
+                    small
+                    :disabled="formArtistItem || showItem"
+                    @click="openFileInputAvatar"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                </v-chip>
+                <span
+                  class="divcol center span-image"
+                  style="color: #000; font-size: 12px"
+                >
+                  <span style="color: rgba(0, 0, 0, 0.6); font-size: 12px"
+                    >307 x 307</span
+                  >
+                  <br />
+                  <div class="mt-3">Profile Picture</div>
+                </span>
+              </v-sheet>
+            </div>
+          </v-col>
+
+          <v-col cols="12" class="jcenter">
+          <!-- <v-col xl="2" lg="2" md="3" sm="4" cols="12"> -->
+            <div
+              class="relative background-upload-div-mobile"
+              style="max-height: 250px; min-height: 250px"
+            >
+              <span class="absolute-font2">135.5 x 271 pixels <br>.jpg or .png</span>
+
+              <v-file-input
+                ref="fileInputMobile"
+                v-model="imageMobile"
+                class="input-file"
+                prepend-icon="none"
+                style="display: none"
+                @change="onFileChangeMobile"
+              ></v-file-input>
+
+              <img :src="selectedImageMobile" alt="" class="imgMobile" />
+
+              <v-btn
+                class="btn btn-input-file-banner-mobile"
+                :disabled="formArtistItem || showItem"
+                @click="openFileInputMobile"
+                >Upload Banner</v-btn
+              >
+
+              <span
+                class="divcol center span-image-mobile-banner"
+                style="color: #000; font-size: 12px"
+              >
+                <v-icon color="#000" style="margin-bottom: -10px"
+                  >mdi-image-outline</v-icon
+                >
+                <br />
+                <div class="mt-3">Mobile Banner</div>
+              </span>
+            </div>
+          </v-col>
+        </v-row>
+
+        <section class="card" style="margin-top: 40px">
+          <!-- <label for="nft-name"
+            >Wallet Artist
+            <label for="name-artist" style="color: red">*</label></label
+          >
+          <v-text-field
+            id="description"
+            v-model="formArtist.walletArtist"
+            :disabled="formArtistItem || showItem"
+            :error="errorWalletArtist"
+            :error-messages="errorMessage"
+            @input="validateWalletArtist(formArtist.walletArtist)"
+            placeholder="artist.near"
+          ></v-text-field> -->
+
+          <label for="name-artist"
+            >Name <label for="name-artist" style="color: red">*</label></label
+          >
+          <v-text-field
+            id="name-artist"
+            v-model="formArtist.name"
+            :disabled="formArtistItem || showItem"
+            placeholder="Lorem Ipsum"
+            @input="
+              inputSave()
+              inputName()
+            "
+          ></v-text-field>
+
+          <!-- <label for="description-artist"
+            >Description
+            <label for="name-artist" style="color: red">*</label></label
+          >
+          <v-text-field
+            id="description-artist"
+            v-model="formArtist.description"
+            :disabled="formArtistItem || showItem"
+            placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat"
+            @input="inputSave()"
+          ></v-text-field> -->
+
+          <label for="about-artist"
+            >Description -
+            <span class="underline" @click="textExampleDialog = true"
+              >Text Example</span
+            >
+            <label for="name-artist" style="color: red">*</label>
+          </label>
+          <vue-editor
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.description"
+            class="mt-4 mb-4"
+          ></vue-editor>
+
+          <label for="about-artist"
+            >About
+            <label for="name-artist" style="color: red">*</label>
+          </label>
+          <vue-editor
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.about"
+            class="mt-4 mb-4"
+          ></vue-editor>
+
+          <!-- <v-text-field
+            id="about-artist"
+            v-model="formArtist.about"
+            :disabled="formArtistItem || showItem"
+            placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat"
+            @input="inputSave()"
+          ></v-text-field> -->
+
+          <!-- <label for="discord-role">Discord Role ID</label>
+            <v-text-field
+              id="discord-role"
+              placeholder="Username#123"
+            ></v-text-field> -->
+
+          <label for="instagram">Instagram</label>
+          <v-text-field
+            id="instagram"
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.instagram"
+            placeholder="@username"
+          ></v-text-field>
+
+          <label for="twitter">Twitter</label>
+          <v-text-field
+            id="twitter"
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.twitter"
+            placeholder="@username"
+          ></v-text-field>
+
+          <label for="facebook">Facebook</label>
+          <v-text-field
+            id="facebook"
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.facebook"
+            placeholder="@username"
+          ></v-text-field>
+
+          <!-- <label for="discord-user">Discord</label>
+          <v-text-field
+            id="discord-user"
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.discord"
+            placeholder="Username#456"
+          ></v-text-field> -->
+
+          <!-- <div class="divrow mt-4" style="gap: 30px;">
+              <div class="divrow acenter" style="gap: 5px;">
+                <v-checkbox id="visible_artist" v-model="visible_artist"></v-checkbox>
+                <label for="visible_artist" class="mb-2">Visible</label>
+              </div>
+
+              <div class="divrow acenter" style="gap: 5px;">
+                <v-checkbox id="coming_artist" v-model="coming_artist"></v-checkbox>
+                <label for="coming_artist" class="mb-2">Coming</label>
+              </div>
+            </div> -->
+        </section>
+      </v-window-item>
+
+      <v-window-item :value="2">
+        <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
+
         <v-row style="margin-top: 40px">
           <v-col
             xl="3"
@@ -241,7 +470,7 @@
           >
             <div class="nft-upload-div">
               <span class="absolute-font" style="left: 20px"
-                >255 Width x 255 Height</span
+                >255 x 255 pixels <br>.jpg or .png</span
               >
 
               <v-file-input
@@ -266,14 +495,14 @@
 
           <v-col xl="9" lg="9" md="9" sm="8" cols="12">
             <section class="card">
-              <label for="nft-name">Track Name</label>
+              <!-- <label for="nft-name">Track Name</label>
               <v-text-field
                 id="nft-name"
                 disabled
                 v-model="formTier.nft_name"
                 @input="validateForm()"
                 placeholder="Track name"
-              ></v-text-field>
+              ></v-text-field> -->
 
               <!-- <label for="tier">Tier 1</label> -->
               <!-- <v-select
@@ -321,7 +550,7 @@
                     ></v-text-field> -->
               <v-file-input
                 id="song"
-                class="no-icon"
+                truncate-length="100"
                 v-model="formTier.song"
                 :disabled="showItem"
                 accept="audio/*"
@@ -333,7 +562,9 @@
         </v-row>
       </v-window-item>
 
-      <v-window-item :value="2">
+      <v-window-item :value="3">
+        <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
+
         <section class="card" style="margin-top: 40px">
           <v-form ref="form">
             <v-badge class="mb-5" offset-x="-5px">
@@ -462,15 +693,22 @@
       >
 
       <v-btn
-        v-if="windowStep < 2"
+        v-if="windowStep === 1"
         class="btn"
-        @click="windowStep = 2"
+        @click="windowStep++"
+        >Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn
+      >
+
+      <v-btn
+        v-if="windowStep === 2 "
+        class="btn"
+        @click="windowStep++"
         :disabled="!formInvalid"
         >Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn
       >
 
       <v-btn
-        v-if="windowStep === 2 && reviewState === false"
+        v-if="windowStep === 3 && reviewState === false"
         :disabled="previewInfo"
         class="btn"
         @click="scrollToTop()"
@@ -479,7 +717,7 @@
       >
 
       <v-btn
-        v-if="windowStep === 2 && reviewState === true"
+        v-if="windowStep === 3 && reviewState === true"
         class="btn width100"
         :loading="btnSave"
         @click="dialogSure = true"
@@ -896,12 +1134,12 @@ export default {
       if (this.reviewState === true) {
         this.reviewState = false
       } else if (this.reviewState === false) {
-        this.windowStep = 1
+        this.windowStep--
       }
     },
     validateForm() {
       this.formInvalid =
-        !!this.formTier.nft_name &&
+        // !!this.formTier.nft_name &&
         !!this.formTier.description &&
         !!this.formTier.price &&
         !!this.formTier.song &&

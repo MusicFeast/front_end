@@ -77,14 +77,14 @@
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>New Collection</h4>
-          <v-btn class="btn">Start</v-btn>
+          <v-btn class="btn" @click="dialogNewCollection = true">Start</v-btn>
         </v-card>
       </v-col>
 
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Edit Collection</h4>
-          <v-btn class="btn" @click="dialogTier = true">Start</v-btn>
+          <v-btn class="btn" @click="dialogEditTier = true">Start</v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -350,12 +350,12 @@
 
     <!-- Dialogsss -->
     <v-dialog
-      v-model="dialogTier"
+      v-model="dialogNewCollection"
       max-width="500px"
       content-class="nft-dialog"
       persistent
     >
-      <v-btn icon class="close" @click="dialogTier = false">
+      <v-btn icon class="close" @click="dialogNewCollection = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
 
@@ -364,12 +364,38 @@
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Quick Tip Help</h4>
-          <v-btn class="btn">Start</v-btn>
+          <v-btn class="btn" @click="$router.push('quick-tip-help-form')">Start</v-btn>
+        </div>
+
+        <div class="card center divcol card-background-padding">
+          <h4 class="tcenter">Start</h4>
+          <v-btn class="btn" @click="$router.push('form-nft-tier1')">Go</v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
+
+    <!-- Dialog edit tier -->
+    <v-dialog
+      v-model="dialogEditTier"
+      max-width="500px"
+      content-class="nft-dialog"
+      persistent
+    >
+      <v-btn icon class="close" @click="dialogEditTier = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+
+      <v-card id="modalBuy" class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6">
+        <!-- <h2 class="center" style="--fs: 1.6em">Example text</h2> -->
+
+        <div class="card center divcol card-background-padding">
+          <h4 class="tcenter">Quick Tip Help</h4>
+          <v-btn class="btn" @click="$router.push('quick-tip-help-form')">Start</v-btn>
         </div>
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Upload Track <br> (Tier 1)</h4>
-          <v-btn class="btn">Start</v-btn>
+          <v-btn class="btn" @click="dialogEditTier = false;dialogSelectYourNft = true">Start</v-btn>
         </div>
 
         <div class="card center divcol card-background-padding">
@@ -378,10 +404,40 @@
         </div>
       </v-card>
     </v-dialog>
+    <!-- Dialog select your nft -->
+    <v-dialog
+      v-model="dialogSelectYourNft"
+      max-width="500px"
+      content-class="nft-dialog"
+      persistent
+    >
+      <v-btn icon class="close" @click="dialogSelectYourNft = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+
+      <v-card id="modalBuy" class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6">
+        <h2 class="center" style="--fs: 1.6em">Select Your Collection</h2>
+
+        <v-select
+          id="country"
+          v-model="valueNft"
+          :items="dataNfts" 
+          item-text="title"
+          item-value="id"
+          solo
+          :rules="[v => !!v || 'required field']"
+          placeholder="Select one of your available token"
+          style="--fs-place: 16px; flex-grow: 0"
+        ></v-select>
+
+        <v-btn class="btn" @click="$router.push('update-nft-form')">Edit <v-icon class="ml-2">mdi-pencil-outline</v-icon></v-btn>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import { VueEditor } from 'vue2-editor'
 import computeds from '~/mixins/computeds'
 const { getAllCountries } = require('countries-and-timezones')
@@ -394,10 +450,14 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      dataNfts: [],
+      valueNft: null,
       userExist: undefined,
       imgBanner: undefined,
       imgAvatar: undefined,
-      dialogTier: false,
+      dialogEditTier: false,
+      dialogSelectYourNft: false,
+      dialogNewCollection: false,
       avatar_model: [],
       banner_model: [],
       form: {
@@ -489,8 +549,59 @@ export default {
     const countries = getAllCountries()
     this.dataCountries = Object.values(countries)
     this.EnterKeyboardListener()
+    this.getDataNfts()
   },
   methods: {
+    async getDataNfts() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $owner_id: String, $serie_id: String) {
+          nfts(
+            where: {owner_id: $owner_id, artist_id: $artist_id, serie_id: $serie_id}
+          ) {
+            typetoken_id
+            serie_id
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
+          }
+        }
+      `;
+
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {artist_id: String(this.nft.artist_id), owner_id: this.$ramper.getAccountId(), serie_id: String(this.nft.type_id)},
+      })
+
+      console.log(String(this.nft.artist_id))
+      console.log(this.$ramper.getAccountId())
+      console.log(String(this.nft.type_id))
+
+      const data = res.data.nfts
+
+      for (let i = 0; i < data.length; i++) {
+        data[i].extra = data[i].metadata.extra
+        data[i].media = data[i].metadata.media
+        data[i].reference = data[i].metadata.reference
+        data[i].description = data[i].metadata.description
+        data[i].title = data[i].metadata.title
+      }
+
+      this.dataNfts = data
+      console.log(this.dataNfts, 'Dataaaaa array')
+    },
     async getData() {
       const accountId = this.$ramper.getAccountId()
       // get data user

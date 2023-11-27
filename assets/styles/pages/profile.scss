@@ -337,10 +337,16 @@ input{
     .card-background-padding{
       background-color: rgba(0, 0, 0, .6)!important;
       padding-block: 30px!important;
+      min-width: 100%!important;
     
       .btn{
         width: 150px!important;
       }
+    }
+
+    .btn{
+      width: 150px!important;
+      margin-inline: auto;
     }
   }
 }
