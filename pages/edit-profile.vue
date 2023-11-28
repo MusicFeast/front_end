@@ -258,12 +258,12 @@
         ></v-text-field>
 
         <label for="bio">Description</label>
-        <!-- <v-textarea
+        <!-- comentario zona vieja empieza aqui <v-textarea
           id="bio"
           v-model="form.bio"
           placeholder="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
           no-resize
-        ></v-textarea> -->
+        ></v-textarea> termina aqui comentario -->
         <vue-editor v-model="form.description" class="mt-4 mb-4"></vue-editor>
 
         <label for="bio">About</label>
@@ -395,12 +395,12 @@
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Upload Track <br> (Tier 1)</h4>
-          <v-btn class="btn" @click="dialogEditTier = false;dialogSelectYourNft = true">Start</v-btn>
+          <v-btn class="btn" @click="dialogEditTier = false; dialogSelectYourNft = true">Start</v-btn>
         </div>
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Upload Video <br> (Tier 2)</h4>
-          <v-btn class="btn">Start</v-btn>
+          <v-btn class="btn" @click="dialogEditTier = false; dialogSelectYourNft = true">Start</v-btn>
         </div>
       </v-card>
     </v-dialog>

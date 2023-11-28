@@ -7,7 +7,6 @@
         <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
           <div
             class="relative background-upload-div-banner"
-            style="max-height: 250px; min-height: 250px"
           >
             <span class="absolute-font-banner">1180 x 401.5 pixels <br> .jpg or .png</span>
 
@@ -225,6 +224,60 @@
             </div>
           </div> -->
       </section>
+
+      <v-row style="margin-top: 40px">
+        <v-col
+          xl="3"
+          lg="3"
+          md="3"
+          sm="4"
+          cols="12"
+          class="center"
+          style="position: relative !important"
+        >
+          <div class="nft-upload-div">
+            <img :src="selectedImageNft" alt="" class="imgNft" />
+          </div>
+        </v-col>
+
+        <v-col xl="9" lg="9" md="9" sm="8" cols="12">
+          <section class="card">
+            <label for="nft-name">Description</label>
+            <v-text-field
+              id="description"
+              v-model="formTier.description"
+              disabled
+              placeholder="Tier 1 description"
+            ></v-text-field>
+
+            <label for="nft-name">Price (USD)</label>
+            <v-text-field
+              id="Price"
+              v-model="formTier.price"
+              disabled
+              type="number"
+              placeholder="Price"
+            ></v-text-field>
+
+            <label for="nft-name"
+              >Track Audio
+              <v-icon v-if="showItem && track" @click="trackSong()"
+                >mdi-pause</v-icon
+              ><v-icon v-if="showItem && !track" @click="trackSong()"
+                >mdi-play</v-icon
+              ></label
+            >
+            <v-file-input
+              id="song"
+              truncate-length="100"
+              v-model="formTier.song"
+              disabled
+              accept="audio/*"
+              placeholder="Only .WAV, .MP3 or .MP4 files"
+            ></v-file-input>
+          </section>
+        </v-col>
+      </v-row>
     </template>
 
     <v-window v-model="windowStep">
@@ -235,7 +288,6 @@
           <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
             <div
               class="relative background-upload-div-banner"
-              style="max-height: 250px; min-height: 250px"
             >
               <span class="absolute-font-banner">1180 x 401.5 pixels <br> .jpg or .png</span>
 
