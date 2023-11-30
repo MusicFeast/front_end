@@ -1,7 +1,7 @@
 <template>
   <div id="form">
     <template v-if="reviewState">
-      <h2 id="block-artist" class="Title tup lines">FORM ARTIST</h2>
+      <h2 id="block-artist" class="Title tup lines">ARTIST PROFILE</h2>
       <v-row style="margin-top: 40px">
         <v-col cols="12" class="jcenter">
         <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
@@ -118,7 +118,7 @@
         ></v-text-field> -->
 
         <label for="name-artist"
-          >Name <label for="name-artist" style="color: red">*</label></label
+          >Artist / Band Name <label for="name-artist" style="color: red">*</label></label
         >
         <v-text-field
           id="name-artist"
@@ -144,7 +144,7 @@
         ></v-text-field> -->
 
         <label for="about-artist"
-          >Description -
+          >Bio -
           <span class="underline" @click="textExampleDialog = true"
             >Text Example</span
           >
@@ -156,7 +156,7 @@
           class="mt-4 mb-4"
         ></vue-editor>
 
-        <label for="about-artist"
+        <!-- <label for="about-artist"
           >About
           <label for="name-artist" style="color: red">*</label>
         </label>
@@ -164,7 +164,7 @@
           :disabled="formArtistItem || showItem"
           v-model="formArtist.about"
           class="mt-4 mb-4"
-        ></vue-editor>
+        ></vue-editor> -->
 
         <!-- <v-text-field
           id="about-artist"
@@ -282,7 +282,7 @@
 
     <v-window v-model="windowStep">
       <v-window-item :value="1">
-        <h2 id="block-artist" class="Title tup lines">FORM ARTIST</h2>
+        <h2 id="block-artist" class="Title tup lines">ARTIST PROFILE</h2>
         <v-row style="margin-top: 40px">
           <v-col cols="12" class="jcenter">
           <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
@@ -399,7 +399,7 @@
           ></v-text-field> -->
 
           <label for="name-artist"
-            >Name <label for="name-artist" style="color: red">*</label></label
+            >Artist / Band Name <label for="name-artist" style="color: red">*</label></label
           >
           <v-text-field
             id="name-artist"
@@ -425,7 +425,7 @@
           ></v-text-field> -->
 
           <label for="about-artist"
-            >Description -
+            >Bio -
             <span class="underline" @click="textExampleDialog = true"
               >Text Example</span
             >
@@ -437,7 +437,7 @@
             class="mt-4 mb-4"
           ></vue-editor>
 
-          <label for="about-artist"
+          <!-- <label for="about-artist"
             >About
             <label for="name-artist" style="color: red">*</label>
           </label>
@@ -445,7 +445,7 @@
             :disabled="formArtistItem || showItem"
             v-model="formArtist.about"
             class="mt-4 mb-4"
-          ></vue-editor>
+          ></vue-editor> -->
 
           <!-- <v-text-field
             id="about-artist"
@@ -508,7 +508,7 @@
       </v-window-item>
 
       <v-window-item :value="2">
-        <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
+        <h2 class="Title tup lines" id="section-form-nft">Community Access Pass</h2>
 
         <v-row style="margin-top: 40px">
           <v-col
@@ -540,7 +540,7 @@
                 class="btn btn-input-file"
                 :disabled="showItem"
                 @click="openFileInputNft"
-                >Upload Image</v-btn
+                >Upload Covert Art</v-btn
               >
             </div>
           </v-col>
@@ -567,7 +567,7 @@
                   placeholder="Select Your Tier"
                 ></v-select> -->
 
-              <label for="nft-name">Description</label>
+              <label for="nft-name">Song Description</label>
               <v-text-field
                 id="description"
                 v-model="formTier.description"
@@ -587,7 +587,7 @@
               ></v-text-field>
 
               <label for="nft-name"
-                >Track Audio
+                >Song
                 <v-icon v-if="showItem && track" @click="trackSong()"
                   >mdi-pause</v-icon
                 ><v-icon v-if="showItem && !track" @click="trackSong()"
@@ -606,7 +606,7 @@
                 v-model="formTier.song"
                 :disabled="showItem"
                 accept="audio/*"
-                placeholder="Only .WAV, .MP3 or .MP4 files"
+                placeholder="Only Accept Wav, AIFF or FLAC files"
                 @change="validateForm()"
               ></v-file-input>
             </section>
@@ -615,7 +615,7 @@
       </v-window-item>
 
       <v-window-item :value="3">
-        <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
+        <h2 class="Title tup lines" id="section-form-nft">Revenue</h2>
 
         <section class="card" style="margin-top: 40px">
           <v-form ref="form">
@@ -625,7 +625,64 @@
                   >mdi-information-symbol</v-icon
                 >
               </template>
-              <span class="span-badge">Royalties</span>
+              <span class="span-badge">Split Revenue</span>
+              <span style="margin-left: 10px; color: white"
+                >Available: ({{ splitAvailable }}%)</span
+              >
+            </v-badge>
+
+            <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
+              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
+                <label for="near-account">Wallet Address</label>
+                <v-text-field
+                  id="near-account"
+                  v-model="item.account"
+                  :disabled="i == 0 ? true : showItem"
+                  placeholder="nearaccount.testnet"
+                  @input="inputAccount(item)"
+                  :rules="rules.required"
+                ></v-text-field>
+              </v-col>
+              <v-col xl="2" lg="2" md="2" sm="4" cols="4">
+                <v-text-field
+                  v-model="item.percentage"
+                  type="number"
+                  @input="inputPercentSplit()"
+                  @change="inputPercentSplit()"
+                  :disabled="showItem"
+                  placeholder="%"
+                  :rules="rulesSplit"
+                ></v-text-field>
+              </v-col>
+              <v-col style="align-self: center !important">
+                <v-icon
+                  v-if="i != 0"
+                  color="var(--primary)"
+                  @click="remove1(i)"
+                  :disabled="showItem"
+                  class="mr-2"
+                  style="font-size: 26px"
+                  >mdi-delete</v-icon
+                >
+              </v-col>
+            </v-row>
+            <v-row class="aend">
+              <v-btn
+                class="btn ml-3"
+                :disabled="showItem"
+                @click="dataSplit.push({ account: '', percentage: null })"
+                style="--fw: 700; --w: 150px; --br: 0px"
+                >Add Collaborator</v-btn
+              >
+            </v-row>
+
+            <v-badge class="mb-5 mt-10" offset-x="-5px">
+              <template #badge>
+                <v-icon color="var(--primary)" style="font-size: 25px"
+                  >mdi-information-symbol</v-icon
+                >
+              </template>
+              <span class="span-badge">Resale Revenue</span>
               <span style="margin-left: 10px; color: white"
                 >Available: ({{ royalAvaibable }}%)</span
               >
@@ -633,7 +690,7 @@
 
             <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
               <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-                <label for="near-account">Near Account</label>
+                <label for="near-account">Wallet Address</label>
                 <v-text-field
                   id="near-account"
                   v-model="item.account"
@@ -675,63 +732,6 @@
                 @click="dataRoyalties.push({ account: '', percentage: null })"
                 style="--fw: 700; --w: 150px; --br: 0px"
                 >Add Royalties</v-btn
-              >
-            </v-row>
-
-            <v-badge class="mb-5 mt-14" offset-x="-5px">
-              <template #badge>
-                <v-icon color="var(--primary)" style="font-size: 25px"
-                  >mdi-information-symbol</v-icon
-                >
-              </template>
-              <span class="span-badge">Split Revenue</span>
-              <span style="margin-left: 10px; color: white"
-                >Available: ({{ splitAvailable }}%)</span
-              >
-            </v-badge>
-
-            <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
-              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-                <label for="near-account">Near Account</label>
-                <v-text-field
-                  id="near-account"
-                  v-model="item.account"
-                  :disabled="i == 0 ? true : showItem"
-                  placeholder="nearaccount.testnet"
-                  @input="inputAccount(item)"
-                  :rules="rules.required"
-                ></v-text-field>
-              </v-col>
-              <v-col xl="2" lg="2" md="2" sm="4" cols="4">
-                <v-text-field
-                  v-model="item.percentage"
-                  type="number"
-                  @input="inputPercentSplit()"
-                  @change="inputPercentSplit()"
-                  :disabled="showItem"
-                  placeholder="%"
-                  :rules="rulesSplit"
-                ></v-text-field>
-              </v-col>
-              <v-col style="align-self: center !important">
-                <v-icon
-                  v-if="i != 0"
-                  color="var(--primary)"
-                  @click="remove1(i)"
-                  :disabled="showItem"
-                  class="mr-2"
-                  style="font-size: 26px"
-                  >mdi-delete</v-icon
-                >
-              </v-col>
-            </v-row>
-            <v-row class="aend">
-              <v-btn
-                class="btn ml-3"
-                :disabled="showItem"
-                @click="dataSplit.push({ account: '', percentage: null })"
-                style="--fw: 700; --w: 150px; --br: 0px"
-                >Add Split</v-btn
               >
             </v-row>
           </v-form>

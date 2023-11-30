@@ -66,7 +66,7 @@
       </template>
     </v-img>
 
-    <v-row class="mt-6">
+    <v-row class="mt-6" justify="center">
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Set Address</h4>
@@ -76,7 +76,7 @@
 
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
-          <h4>New Collection</h4>
+          <h4>Add Track</h4>
           <v-btn class="btn" @click="dialogNewCollection = true">Start</v-btn>
         </v-card>
       </v-col>

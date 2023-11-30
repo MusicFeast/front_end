@@ -69,26 +69,6 @@
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
             <!-- info profile content -->
-            <v-list-item disabled class="divcol" style="gap: 3px">
-              <div class="space gap1 fill_w">
-                <span class="bold">NEAR</span>
-                <span class="semibold" style="--c: var(--accent)"
-                  >{{ balanceNear }} N</span
-                >
-              </div>
-
-              <!-- <div class="space gap1 fill_w">
-                <span class="bold">MF</span>
-                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
-              </div> -->
-            </v-list-item>
-
-            <v-list-item :ripple="false" @click="$ramper.openWallet()">
-              <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                Open Wallet
-              </v-list-item-title>
-            </v-list-item>
-
             <!-- <v-list-item :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload My NFT
@@ -117,7 +97,7 @@
               "
             >
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                {{ item.title }}
+                <!-- {{ item.title }} --> Dashboard / Add Track
                 <!-- <v-chip
                   v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
                   :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip> -->
@@ -136,6 +116,25 @@
               </v-list-item-title>
             </v-list-item>
 
+            <v-list-item disabled class="divcol" style="gap: 3px">
+              <div class="space gap1 fill_w">
+                <span class="bold">NEAR</span>
+                <span class="semibold" style="--c: var(--accent)"
+                  >{{ balanceNear }} N</span
+                >
+              </div>
+
+              <!-- <div class="space gap1 fill_w">
+                <span class="bold">MF</span>
+                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
+              </div> -->
+            </v-list-item>
+
+            <v-list-item :ripple="false" @click="$ramper.openWallet()">
+              <v-list-item-title class="tcap" :class="{ not_transform: false }">
+                Open Wallet
+              </v-list-item-title>
+            </v-list-item>
             <!-- button logout -->
             <v-btn
               :ripple="false"

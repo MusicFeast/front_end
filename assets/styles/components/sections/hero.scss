@@ -11,7 +11,7 @@
     max-height: var(--height-desktop);
     .btn-carousel-absolute{
       position: absolute;
-      top: 450px;
+      // top: 450px;
       left: 60px;
       right: 0;
       max-width: 200px;
@@ -20,6 +20,10 @@
       --fw: 700!important;
       padding: .5em clamp(1em, 3vw, 2.5em);
       box-shadow: 3px 3px 10px 6px rgba(0,0,0,.3);
+      @include media(min, 2100px){top: 700px;}
+      @include media(min, 2500px){top: 750px;}
+      @include media(min, 2700px){top: 850px;}
+      @include media(max, 2100px){top: 700px;}
       @include media(max, 1900px){top: 600px;}
       @include media(max, 1600px){top: 450px;}
       @include media(max, 1250px){top: 400px;}

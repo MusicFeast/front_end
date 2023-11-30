@@ -39,26 +39,6 @@
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
             <!-- info profile content -->
-            <v-list-item disabled class="divcol" style="gap:3px">
-              <div class="space gap1 fill_w">
-                <span class="bold">NEAR</span>
-                <span class="semibold" style="--c:var(--accent)">{{balanceNear}} N</span>
-              </div>
-              
-              <!-- <div class="space gap1 fill_w">
-                <span class="bold">MF</span>
-                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
-              </div> -->
-            </v-list-item>
-
-            <v-list-item
-              :ripple="false"
-              @click="$ramper.openWallet()">
-              <v-list-item-title class="tcap" :class="{not_transform: false}">
-                Open Wallet
-              </v-list-item-title>
-            </v-list-item>
-            
             <v-list-item
               v-for="(item,i) in $parent.dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
               :ripple="false" :class="{active: item.to === $route.path}" class="deletemobile"
@@ -80,6 +60,26 @@
             <v-list-item v-if="isAdmin" :ripple="false" @click="$router.push('/form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Admin Approve
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item disabled class="divcol" style="gap:3px">
+              <div class="space gap1 fill_w">
+                <span class="bold">NEAR</span>
+                <span class="semibold" style="--c:var(--accent)">{{balanceNear}} N</span>
+              </div>
+              
+              <!-- <div class="space gap1 fill_w">
+                <span class="bold">MF</span>
+                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
+              </div> -->
+            </v-list-item>
+
+            <v-list-item
+              :ripple="false"
+              @click="$ramper.openWallet()">
+              <v-list-item-title class="tcap" :class="{not_transform: false}">
+                Open Wallet
               </v-list-item-title>
             </v-list-item>
 
