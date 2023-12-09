@@ -232,7 +232,8 @@
       /> -->
     </h2>
 
-    <section class="container-collections grid">
+    <!-- TODO evaluate when show [ownCollection] based on current artist -->
+    <section class="container-collections grid" :class="{ownCollection: true}">
       <template v-for="(item,i) in dataCollections_pagination">
         <v-card
           v-if="!item.state" :key="i"
@@ -254,7 +255,13 @@
               <v-skeleton-loader type="card" />
             </template>
           </v-img>
-          
+
+          <!-- TODO put location to router or whatever logic needed here -->
+          <v-btn
+            :ripple="false"
+            class="btn activeBtn editBtn"
+          >Edit Profile</v-btn>
+
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
               <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
@@ -285,6 +292,14 @@
               <v-skeleton-loader type="card" />
             </template>
           </v-img>
+
+          <!-- TODO put location to router or whatever logic needed here -->
+          <v-btn
+            :ripple="false"
+            class="btn activeBtn editBtn"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
           
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
