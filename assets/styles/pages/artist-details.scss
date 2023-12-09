@@ -192,27 +192,4 @@
       font-size: 15px!important;
     }
   }
-
-  .ownCollection .v-card.custome {
-
-    .editBtn {
-      $distance: .5em;
-      $size: 35px;
-      position: absolute;
-      top: $distance;
-      left: $distance;
-      opacity: 0;
-      border-radius: 50% !important;
-      padding: 0 !important;
-      width: $size !important;
-      height: $size !important;
-      translate: 0 -10px;
-      transition: .2s ease;
-    }
-
-    &:hover .editBtn {
-      opacity: 1;
-      translate: 0 0;
-    }
-  }
 }

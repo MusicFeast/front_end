@@ -232,8 +232,7 @@
       /> -->
     </h2>
 
-    <!-- TODO evaluate when show [ownCollection] based on current artist -->
-    <section class="container-collections grid" :class="{ownCollection: true}">
+    <section class="container-collections grid">
       <template v-for="(item,i) in dataCollections_pagination">
         <v-card
           v-if="!item.state" :key="i"
@@ -255,12 +254,6 @@
               <v-skeleton-loader type="card" />
             </template>
           </v-img>
-
-          <!-- TODO put location to router or whatever logic needed here -->
-          <v-btn
-            :ripple="false"
-            class="btn activeBtn editBtn"
-          >Edit Profile</v-btn>
 
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
@@ -292,14 +285,6 @@
               <v-skeleton-loader type="card" />
             </template>
           </v-img>
-
-          <!-- TODO put location to router or whatever logic needed here -->
-          <v-btn
-            :ripple="false"
-            class="btn activeBtn editBtn"
-          >
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
           
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
@@ -327,12 +312,12 @@
       :current-page="currentPage"
       @pagechanged="(page) => currentPage = page"
     />
-
+<!-- 
     <h2 class="Title tup">chats</h2>
     <center><p class="mb-8 mt-8 font20">Welcome to the Music Feast Chat! In order to participate in the chat and interact with the community, please make sure you are logged in to your account. Logging in allows us to provide you with a secure and personalized chat experience. If you don't have an account yet, you can easily create one by clicking on the 'Log In' button. Thank you for choosing Music Feast and we look forward to chatting with you!</p></center>
     <center><a href="quick-tip-help-chat" target="_blank"><p class="mb-8 mt-8 font20">Learn here how the chat works</p></a></center>
 
-    <ComunityLayout></ComunityLayout>
+    <ComunityLayout></ComunityLayout> -->
 
     <!-- <v-container v-if="server_dc">
     <v-row no-gutters>
@@ -464,9 +449,9 @@ export default {
       ],
       currentPage: 1,
       itemsPerPage: 10,
-      dataChats: [
-        { icon: "discord", chat: "discord" },
-      ],
+      // dataChats: [
+      //   { icon: "discord", chat: "discord" },
+      // ],
       isCreator: false,
       tiersComing: {
         tierOne: false,

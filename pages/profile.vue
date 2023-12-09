@@ -277,19 +277,9 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <h2 class="Title tup">chats</h2>
+    <!-- <h2 class="Title tup">chats</h2>
     <center><p class="mb-8 mt-8 font20">Welcome to the Music Feast Chat! In order to participate in the chat and interact with the community, please make sure you are logged in to your account. Logging in allows us to provide you with a secure and personalized chat experience. If you don't have an account yet, you can easily create one by clicking on the 'Log In' button. Thank you for choosing Music Feast and we look forward to chatting with you!</p></center>
     <center><a href="quick-tip-help-chat" target="_blank"><p class="mb-8 mt-8 font20">Learn here how the chat works</p></a></center>
-    <!-- <v-expansion-panels class="custome-expansion" style="margin-bottom: 6em">
-      <v-expansion-panel v-for="(item,i) in dataChats" :key="i">
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold" @click="toLink()">
-          <div class="acenter" style="gap:.5em" href="https://discord.gg/9KB3gjJkWJ" target="_blank">
-            <v-icon size="1.5em">{{item.icon}}</v-icon>
-            <span class="tcap">{{item.chat}}</span>
-          </div>
-        </v-expansion-panel-header>
-      </v-expansion-panel>
-    </v-expansion-panels> -->
    <v-container v-if="server_dc">
     <v-row no-gutters>
       <v-col
@@ -309,7 +299,7 @@
    </v-col>
     </v-row>
     </v-container>
-    <ComunityLayout></ComunityLayout>
+    <ComunityLayout></ComunityLayout> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script> -->
   </div>
 </template>
@@ -409,11 +399,9 @@ export default {
       ],
       currentPage: 1,
       itemsPerPage: 10,
-      dataChats: [
-        { icon: "discord", chat: "Chats Artists" },
-        // { icon: "discord", chat: "discord artist name 2" },
-        // { icon: "discord", chat: "discord artist name 3" },
-      ],
+      // dataChats: [
+      //   { icon: "discord", chat: "Chats Artists" },
+      // ],
       tableHeadersOffers: [
         { value: "nft_media", text: "NFT", align: "start", sortable: false },
         { value: "nft_title", text: "NFT NAME", align: "start", sortable: false },

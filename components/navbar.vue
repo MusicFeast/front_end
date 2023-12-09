@@ -208,6 +208,7 @@ export default {
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },
         // { name: 'Drops', to: '/drops' },
+        { name: 'chat', to: '/chat' },
         { name: 'profile', to: '/profile' },
       ],
     }
