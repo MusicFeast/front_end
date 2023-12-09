@@ -1,9 +1,9 @@
 <template>
   <div id="profile" class="divcol">
-    <v-img
-      :src="imgBanner"
-      transition="fade-transition"
-      class="header"
+    <v-row
+      id="profile-banner"
+      class="mt-6"
+      justify="center"
       :style="`
         --tag-tier: '${
           user.tier === 1
@@ -20,51 +20,97 @@
             ? 'uranium'
             : 'user'
         }'
-      `"
-    >
-      <template #default>
-        <v-avatar
-          width="var(--size)"
-          height="var(--size)"
-          style="--size: 13.954375em"
-          @mouseenter="showTag()"
-          @mouseleave="hideTag()"
-        >
-          <label for="avatar" title="change avatar">
+      `">
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>Set Banner</h4>
+          <label for="banner">
             <v-img
-              :src="imgAvatar"
-              alt="avatar image"
+              class="banner"
+              :class="{active: imgBanner}"
+              :src="imgBanner"
               transition="fade-transition"
             >
               <template #placeholder>
-                <v-skeleton-loader type="avatar" />
+                <v-sheet class="placeholder">
+                  <span>1180 x 401.5 pixels <br> .jpg or .png</span>
+                </v-sheet>
               </template>
             </v-img>
           </label>
-        </v-avatar>
-        <v-file-input
-          id="avatar"
-          v-model="avatar_model"
-          style="display: none"
-          accept="image/png, image/jpeg"
-          @change="previewFile('avatar', avatar_model)"
-        ></v-file-input>
 
-        <label for="bannerBtn" class="btn activeBtn" style="--p: 0 2em"
-          >Upload</label
-        >
-        <v-file-input
-          id="bannerBtn"
-          v-model="banner_model"
-          style="display: none"
-          accept="image/png, image/jpeg"
-          @change="previewFile('banner', banner_model)"
-        ></v-file-input>
-      </template>
-      <template #placeholder>
-        <v-skeleton-loader v-show="imgBanner" type="card" />
-      </template>
-    </v-img>
+          <v-file-input
+            id="banner"
+            v-model="banner_model"
+            style="display: none"
+            accept="image/png, image/jpeg"
+            @change="previewFile('banner', banner_model)"
+          ></v-file-input>
+        </v-card>
+      </v-col>
+      
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>Set Banner Mobile</h4>
+
+          <label for="bannerMobile">
+            <v-img
+              class="bannerMobile"
+              :class="{active: imgBannerMobile}"
+              :src="imgBannerMobile"
+              transition="fade-transition"
+            >
+              <template #placeholder>
+                <v-sheet class="placeholder">
+                  <span>135.5 x 271 pixels <br>.jpg or .png</span>
+                </v-sheet>
+              </template>
+            </v-img>
+          </label>
+
+          <v-file-input
+            id="bannerMobile"
+            v-model="banner_mobile_model"
+            style="display: none"
+            accept="image/png, image/jpeg"
+            @change="previewFile('bannerMobile', banner_mobile_model)"
+          ></v-file-input>
+        </v-card>
+      </v-col>
+      
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>Set Avatar</h4>
+
+          <v-avatar
+            class="avatar"
+            :class="{active: imgAvatar}"
+          >
+            <label for="avatar" title="change avatar">
+              <v-img
+                :src="imgAvatar"
+                alt="avatar image"
+                transition="fade-transition"
+              >
+                <template #placeholder>
+                  <v-sheet class="placeholder">
+                    <span>307 x 307</span>
+                  </v-sheet>
+                </template>
+              </v-img>
+            </label>
+          </v-avatar>
+          <v-file-input
+            id="avatar"
+            v-model="avatar_model"
+            style="display: none"
+            accept="image/png, image/jpeg"
+            @change="previewFile('avatar', avatar_model)"
+          ></v-file-input>
+        </v-card>
+      </v-col>
+    </v-row>
+
 
     <v-row class="mt-6" justify="center">
       <v-col xl="4" lg="4" md="4" cols="12">
@@ -454,12 +500,14 @@ export default {
       valueNft: null,
       userExist: undefined,
       imgBanner: undefined,
+      imgBannerMobile: undefined,
       imgAvatar: undefined,
       dialogEditTier: false,
       dialogSelectYourNft: false,
       dialogNewCollection: false,
       avatar_model: [],
       banner_model: [],
+      banner_mobile_model: [],
       form: {
         avatar: '',
         banner: '',
@@ -740,18 +788,19 @@ export default {
       // this.$alert("success", {desc: "Your data has been saved successfully."})
       // setTimeout(() => this.$alert({title: "Success!", desc: "Your data has been saved successfully."}), 500);
     },
-    showTag() {
-      document.querySelector('.header').classList.add('hover')
-    },
-    hideTag() {
-      document.querySelector('.header').classList.remove('hover')
-    },
     previewFile(key, file) {
       this.form[key] = file
-      if (key === 'avatar') {
-        this.imgAvatar = URL.createObjectURL(file)
-      } else {
-        this.imgBanner = URL.createObjectURL(file)
+
+      switch (key) {
+        case 'avatar':
+          this.imgAvatar = URL.createObjectURL(file)
+          break;
+        case 'banner':
+          this.imgBanner = URL.createObjectURL(file)
+          break;
+        case 'bannerMobile':
+          this.imgBannerMobile = URL.createObjectURL(file)
+          break;
       }
     },
     openFileInputNft() {

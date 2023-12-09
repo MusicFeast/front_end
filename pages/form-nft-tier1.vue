@@ -2,9 +2,8 @@
   <div id="form">
     <template v-if="reviewState">
       <h2 id="block-artist" class="Title tup lines">ARTIST PROFILE</h2>
-      <v-row style="margin-top: 40px">
+      <!-- <v-row style="margin-top: 40px">
         <v-col cols="12" class="jcenter">
-        <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
           <div
             class="relative background-upload-div-banner"
           >
@@ -63,7 +62,6 @@
         </v-col>
 
         <v-col cols="12" class="jcenter">
-        <!-- <v-col xl="2" lg="2" md="3" sm="4" cols="12"> -->
           <div
             class="relative background-upload-div-mobile"
             style="max-height: 250px; min-height: 250px"
@@ -100,7 +98,7 @@
             </span>
           </div>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <section class="card" style="margin-top: 40px">
         <!-- <label for="nft-name"
@@ -283,9 +281,8 @@
     <v-window v-model="windowStep">
       <v-window-item :value="1">
         <h2 id="block-artist" class="Title tup lines">ARTIST PROFILE</h2>
-        <v-row style="margin-top: 40px">
+        <!-- <v-row style="margin-top: 40px">
           <v-col cols="12" class="jcenter">
-          <!-- <v-col xl="10" lg="10" md="9" sm="8" cols="12"> -->
             <div
               class="relative background-upload-div-banner"
             >
@@ -344,7 +341,6 @@
           </v-col>
 
           <v-col cols="12" class="jcenter">
-          <!-- <v-col xl="2" lg="2" md="3" sm="4" cols="12"> -->
             <div
               class="relative background-upload-div-mobile"
               style="max-height: 250px; min-height: 250px"
@@ -381,7 +377,7 @@
               </span>
             </div>
           </v-col>
-        </v-row>
+        </v-row> -->
 
         <section class="card" style="margin-top: 40px">
           <!-- <label for="nft-name"

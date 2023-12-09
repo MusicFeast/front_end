@@ -6,6 +6,75 @@
   padding-inline: var(--margin-global);
   padding-bottom: 4em;
 
+  &-banner {
+
+    .v-card {
+      height: 100% !important;
+      justify-content: flex-start;
+    }
+
+    .active {
+      border: 2px solid var(--primary) !important;
+    }
+
+    .placeholder {
+      background-color: rgba(255, 255, 255, .4);
+      border-radius: inherit;
+      border: 2px dashed #fff;
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      span {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        display: grid;
+        place-content: center;
+        text-align: center;
+      }
+    }
+
+    .banner {
+      cursor: pointer !important;
+      width: 150px;
+      height: 100px;
+    }
+
+    .bannerMobile {
+      cursor: pointer !important;
+      --size: 150px;
+      width: 100px;
+      height: 150px;
+    }
+
+    .avatar {
+      --size: 128px;
+      width: var(--size) !important;
+      height: var(--size) !important;
+
+      isolation: isolate;
+      position: relative;
+      overflow: visible;
+      * { border-radius: 50%; }
+
+      label {
+        cursor: pointer !important;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      img {
+        @include absoluteCenter;
+        --w: 100%;
+        --h: 100%;
+        --br: 50%;
+        --of: cover;
+      }
+    }
+  }
+
+
   .header {
     --bg: hsl(0, 0%, 62%, .4);
     --w: 100vw;
