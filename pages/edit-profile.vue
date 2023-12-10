@@ -2,7 +2,9 @@
   <div id="profile" class="divcol">
     <ModalsPreviewImage
       ref="modalPreviewImage"
-      @change="file => $log(file)"
+      :type="selectedPreview"
+      @confirm="event => onPreview(event)"
+      @close="selectedPreview = undefined"
     ></ModalsPreviewImage>
 
     <v-row
@@ -35,7 +37,7 @@
             :class="{active: imgBanner}"
             :src="imgBanner"
             transition="fade-transition"
-            @click="$refs.modalPreviewImage.model = true"
+            @click="selectPreview('banner')"
           >
             <template #placeholder>
               <v-sheet class="placeholder">
@@ -50,28 +52,19 @@
         <v-card class="card center divcol card-background-padding">
           <h4>Set Banner Mobile</h4>
 
-          <label for="bannerMobile">
-            <v-img
-              class="bannerMobile"
-              :class="{active: imgBannerMobile}"
-              :src="imgBannerMobile"
-              transition="fade-transition"
-            >
-              <template #placeholder>
-                <v-sheet class="placeholder">
-                  <span>135.5 x 271 pixels <br>.jpg or .png</span>
-                </v-sheet>
-              </template>
-            </v-img>
-          </label>
-
-          <v-file-input
-            id="bannerMobile"
-            v-model="banner_mobile_model"
-            style="display: none"
-            accept="image/png, image/jpeg"
-            @change="previewFile('bannerMobile', banner_mobile_model)"
-          ></v-file-input>
+          <v-img
+            class="bannerMobile"
+            :class="{active: imgBannerMobile}"
+            :src="imgBannerMobile"
+            transition="fade-transition"
+            @click="selectPreview('bannerMobile')"
+          >
+            <template #placeholder>
+              <v-sheet class="placeholder">
+                <span>135.5 x 271 pixels <br>.jpg or .png</span>
+              </v-sheet>
+            </template>
+          </v-img>
         </v-card>
       </v-col>
       
@@ -82,28 +75,20 @@
           <v-avatar
             class="avatar"
             :class="{active: imgAvatar}"
+            @click="selectPreview('avatar')"
           >
-            <label for="avatar" title="change avatar">
-              <v-img
-                :src="imgAvatar"
-                alt="avatar image"
-                transition="fade-transition"
-              >
-                <template #placeholder>
-                  <v-sheet class="placeholder">
-                    <span>307 x 307</span>
-                  </v-sheet>
-                </template>
-              </v-img>
-            </label>
+            <v-img
+              :src="imgAvatar"
+              alt="avatar image"
+              transition="fade-transition"
+            >
+              <template #placeholder>
+                <v-sheet class="placeholder">
+                  <span>307 x 307</span>
+                </v-sheet>
+              </template>
+            </v-img>
           </v-avatar>
-          <v-file-input
-            id="avatar"
-            v-model="avatar_model"
-            style="display: none"
-            accept="image/png, image/jpeg"
-            @change="previewFile('avatar', avatar_model)"
-          ></v-file-input>
         </v-card>
       </v-col>
     </v-row>
@@ -885,6 +870,7 @@ export default {
         ],
       },
       
+      selectedPreview: undefined,
       isCreator: false,
       slider: 0,
       currentPage: 1,
@@ -982,6 +968,13 @@ export default {
     await this.getCurrentArtist()
   },
   methods: {
+    selectPreview(value) {
+      this.selectedPreview = value
+      this.$refs.modalPreviewImage.model = true;
+    },
+    onPreview({ type, file }) {
+      console.log(type, file);
+    },
     async getDataNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
