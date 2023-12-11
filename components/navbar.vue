@@ -110,11 +110,11 @@
               </v-list-item-title>
             </v-list-item> -->
 
-            <v-list-item v-if="isAdmin" :ripple="false" @click="$router.push('form-nft')">
+            <!-- <v-list-item v-if="isAdmin" :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Admin Approve
               </v-list-item-title>
-            </v-list-item>
+            </v-list-item> -->
 
             <v-list-item disabled class="divcol" style="gap: 3px">
               <div class="space gap1 fill_w">

@@ -95,12 +95,12 @@
 
 
     <v-row class="mt-6" justify="center">
-      <v-col xl="4" lg="4" md="4" cols="12">
+      <!-- <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Set Address</h4>
           <v-btn class="btn" @click="$router.push('edit-address')">Start</v-btn>
         </v-card>
-      </v-col>
+      </v-col> -->
 
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
@@ -108,13 +108,13 @@
           <v-btn class="btn" @click="dialogNewCollection = true">Start</v-btn>
         </v-card>
       </v-col>
-
+<!-- 
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Edit Collection</h4>
           <v-btn class="btn" @click="dialogEditTier = true">Start</v-btn>
         </v-card>
-      </v-col>
+      </v-col> -->
     </v-row>
 
     
@@ -975,56 +975,7 @@ export default {
     onPreview({ type, file }) {
       console.log(type, file);
     },
-    async getDataNfts() {
-      const clientApollo = this.$apollo.provider.clients.defaultClient
-      const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $owner_id: String, $serie_id: String) {
-          nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, serie_id: $serie_id}
-          ) {
-            typetoken_id
-            serie_id
-            owner_id
-            is_objects
-            id
-            fecha
-            collection
-            artist_id
-            metadata {
-              extra
-              id
-              media
-              title
-              reference
-              description
-            }
-          }
-        }
-      `;
-
-
-      const res = await clientApollo.query({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.nft.artist_id), owner_id: this.$ramper.getAccountId(), serie_id: String(this.nft.type_id)},
-      })
-
-      console.log(String(this.nft.artist_id))
-      console.log(this.$ramper.getAccountId())
-      console.log(String(this.nft.type_id))
-
-      const data = res.data.nfts
-
-      for (let i = 0; i < data.length; i++) {
-        data[i].extra = data[i].metadata.extra
-        data[i].media = data[i].metadata.media
-        data[i].reference = data[i].metadata.reference
-        data[i].description = data[i].metadata.description
-        data[i].title = data[i].metadata.title
-      }
-
-      this.dataNfts = data
-      console.log(this.dataNfts, 'Dataaaaa array')
-    },
+    
     async getData() {
       const accountId = this.$ramper.getAccountId()
       // get data user

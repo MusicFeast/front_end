@@ -110,13 +110,31 @@
           :class="{
             active: active
           }">
-          <v-img
+          <!-- <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
             :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
+          </v-img> -->
+
+          <v-img 
+          :src="item.img"
+          :alt="`${item.name} image`"
+          transition="fade-transition"
+          >
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+            <v-btn 
+            class="btn" 
+            style="position: absolute!important; right: 5px; top: 5px;"
+            :disabled="item.tier != 1 && item.tier != 2"
+            @click="goToForm(item)"
+            >Edit this Tier</v-btn>
           </v-img>
+
+          
           
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
@@ -147,13 +165,13 @@
         </div>
 
         <div class="container-actions divcol">
-          <v-tooltip v-if="isCreator" :disabled="item.tier != 1 && item.tier != 2"
+          <!-- <v-tooltip v-if="isCreator" :disabled="item.tier != 1 && item.tier != 2"
             right color="rgba(0, 0, 0, .4)">
             <template #activator="{ on, attrs}">
               <v-icon :disabled="item.tier != 1 && item.tier != 2" class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
             </template>
             <span>Update Tier</span>
-          </v-tooltip>
+          </v-tooltip> -->
           <a v-if="!item.validate" @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
           <a v-else>More Details</a>
           <v-btn
