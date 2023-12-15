@@ -156,13 +156,13 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <v-btn
+    <!-- <v-btn
       v-if="isCreator"
       class="btn mb-14"
       style="max-width: 200px !important; align-self: flex-end !important"
       @click="$router.push('form-nft')"
       >Add New Collection</v-btn
-    >
+    > -->
 
     <v-slide-group
       id="custome-slider"
