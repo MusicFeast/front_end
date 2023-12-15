@@ -3,7 +3,7 @@
     <ModalsPreviewImage
       ref="modalPreviewImage"
       :type="selectedPreview"
-      @confirm="event => onPreview(event)"
+      @confirm="(event) => onPreview(event)"
       @close="selectedPreview = undefined"
     ></ModalsPreviewImage>
 
@@ -27,54 +27,58 @@
             ? 'uranium'
             : 'user'
         }'
-      `">
+      `"
+    >
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Set Banner</h4>
 
           <v-img
             class="banner"
-            :class="{active: imgBanner}"
+            :class="{ active: imgBanner }"
             :src="imgBanner"
             transition="fade-transition"
             @click="selectPreview('banner')"
           >
             <template #placeholder>
               <v-sheet class="placeholder">
-                <span>1180 x 401.5 pixels <br> .jpg or .png</span>
+                <span
+                  >1180 x 401.5 pixels <br />
+                  .jpg or .png</span
+                >
               </v-sheet>
             </template>
           </v-img>
         </v-card>
       </v-col>
-      
+
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Set Banner Mobile</h4>
 
           <v-img
             class="bannerMobile"
-            :class="{active: imgBannerMobile}"
+            :class="{ active: imgBannerMobile }"
             :src="imgBannerMobile"
             transition="fade-transition"
             @click="selectPreview('bannerMobile')"
           >
             <template #placeholder>
               <v-sheet class="placeholder">
-                <span>135.5 x 271 pixels <br>.jpg or .png</span>
+                <span>135.5 x 271 pixels <br />.jpg or .png</span>
               </v-sheet>
             </template>
           </v-img>
         </v-card>
       </v-col>
-      
+
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Set Profile Picture</h4>
 
           <v-avatar
             class="avatar"
-            :class="{active: imgAvatar}"
+            :class="{ active: imgAvatar }"
             @click="selectPreview('avatar')"
           >
             <v-img
@@ -93,7 +97,6 @@
       </v-col>
     </v-row>
 
-
     <v-row class="mt-6" justify="center">
       <!-- <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
@@ -108,7 +111,7 @@
           <v-btn class="btn" @click="dialogNewCollection = true">Start</v-btn>
         </v-card>
       </v-col>
-<!-- 
+      <!-- 
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Edit Collection</h4>
@@ -117,34 +120,35 @@
       </v-col> -->
     </v-row>
 
-    
     <section class="container-profit bold fwrap">
       <v-sheet color="transparent" class="divcol center">
         <span>Total NFTs</span>
-        <span>{{dataProfits.nfts}}</span>
+        <span>{{ dataProfits.nfts }}</span>
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
         <span>Owners</span>
-        <span>{{dataProfits.owners}}</span>
+        <span>{{ dataProfits.owners }}</span>
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
         <span>Total Events</span>
-        <span>{{dataProfits.events}}</span>
+        <span>{{ dataProfits.events }}</span>
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
         <span>All Collections</span>
-        <span>{{dataProfits.collections}}</span>
+        <span>{{ dataProfits.collections }}</span>
       </v-sheet>
       <v-sheet color="transparent" class="divcol center">
         <span>All Time High</span>
-        <span v-if="dataProfits.high === '---'">{{dataProfits.high}}</span>
-        <span v-else>$ {{dataProfits.high}}</span>
+        <span v-if="dataProfits.high === '---'">{{ dataProfits.high }}</span>
+        <span v-else>$ {{ dataProfits.high }}</span>
       </v-sheet>
     </section>
 
     <v-expansion-panels id="artist-about" class="custome-expansion">
       <v-expansion-panel>
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold">Nutritional Facts</v-expansion-panel-header>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
+          >Nutritional Facts</v-expansion-panel-header
+        >
 
         <v-expansion-panel-content>
           <p v-html="artist.about" />
@@ -152,154 +156,226 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
+    <v-btn
+      v-if="isCreator"
+      class="btn mb-14"
+      style="max-width: 200px !important; align-self: flex-end !important"
+      @click="$router.push('form-nft')"
+      >Add New Collection</v-btn
+    >
 
-  <v-btn v-if="isCreator" class="btn mb-14" style="max-width: 200px!important; align-self: flex-end!important;" @click="$router.push('form-nft')">Add New Collection</v-btn>
+    <v-slide-group
+      id="custome-slider"
+      v-model="slider"
+      mandatory
+      show-arrows
+      center-active
+    >
+      <v-slide-item
+        v-for="(item, i) in dataSlider"
+        :key="i"
+        v-slot="{ active, toggle }"
+      >
+        <v-sheet
+          :key="i"
+          color="rgba(0, 0, 0, .4)"
+          class="divcol"
+          @click="toggle"
+        >
+          <v-card
+            v-if="!item.validate"
+            class="card divcol custome"
+            :class="{
+              active: active,
+            }"
+            @click="
+              $store.dispatch('goTo', { key: 'nft', item, event: $event })
+            "
+          >
+            <v-img
+              :src="item.img"
+              :alt="`${item.name} image`"
+              transition="fade-transition"
+              :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+            >
+              <template #placeholder>
+                <v-skeleton-loader type="card" />
+              </template>
+            </v-img>
 
-  <v-slide-group
-    id="custome-slider"
-    v-model="slider"
-    mandatory
-    show-arrows
-    center-active
-  >
-    <v-slide-item v-for="(item,i) in dataSlider" :key="i" v-slot="{ active, toggle }">
-      <v-sheet :key="i" color="rgba(0, 0, 0, .4)" class="divcol" @click="toggle">
-        <v-card
-          v-if="!item.validate"
-          class="card divcol custome"
-          :class="{
-            active: active
-          }"
-          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
-          <v-img
-            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
-            <template #placeholder>
-              <v-skeleton-loader type="card" />
-            </template>
-          </v-img>
-          
-          <div class="container-content tcenter">
-            <v-avatar style="border: 2px solid #fff">
-              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
-                <template #placeholder>
-                  <v-skeleton-loader type="avatar" />
-                </template>
-              </v-img>
-            </v-avatar>
-            <a>{{item.name}}</a>
-            <p>{{item.desc}}</p>
+            <div class="container-content tcenter">
+              <v-avatar style="border: 2px solid #fff">
+                <v-img
+                  :src="item.avatar"
+                  :alt="`${item.artist} image`"
+                  transition="fade-transition"
+                >
+                  <template #placeholder>
+                    <v-skeleton-loader type="avatar" />
+                  </template>
+                </v-img>
+              </v-avatar>
+              <a>{{ item.name }}</a>
+              <p>{{ item.desc }}</p>
 
-            <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: $ {{Number(item.price)?.toFixed(2)}}</span>
-              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
+              <div class="center" style="gap: 6.4px">
+                <span class="floor" style="--c: var(--accent)"
+                  >Price: $ {{ Number(item.price)?.toFixed(2) }}</span
+                >
+                <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
+              </div>
+              <span class="floor" style="--c: var(--accent)"
+                >Editions: {{ item.editions }}</span
+              >
             </div>
-            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
-          </div>
-        </v-card>
+          </v-card>
 
-        <v-card
-          v-else
-          class="card divcol custome"
-          :class="{
-            active: active
-          }">
-          <v-img
-            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
-            <template #placeholder>
-              <v-skeleton-loader type="card" />
-            </template>
-          </v-img>
-          
-          <div class="container-content tcenter">
-            <v-avatar style="border: 2px solid #fff">
-              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
-                <template #placeholder>
-                  <v-skeleton-loader type="avatar" />
-                </template>
-              </v-img>
-            </v-avatar>
-            <a>{{item.name}}</a>
-            <p>{{item.desc}}</p>
-
-            <div class="center" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
-              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
-            </div>
-            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
-          </div>
-        </v-card>
-
-        <div class="tier-desc divcol">
-          <a class="tup bold" style="cursor:default">{{item.name}}</a>
-          <ul>
-            <li v-show="item.description" v-html="item.description.limitString(110)"></li>
-            <!-- <li v-show="item.tier">Access to special membership perks.</li>
-            <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
-          </ul>
-        </div>
-
-        <div class="container-actions divcol">
-          <v-tooltip v-if="isCreator" :disabled="item.tier != 1 && item.tier != 2"
-            right color="rgba(0, 0, 0, .4)">
-            <template #activator="{ on, attrs}">
-              <v-icon :disabled="item.tier != 1 && item.tier != 2" class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
-            </template>
-            <span>Update Tier</span>
-          </v-tooltip>
-          <a v-if="!item.validate" @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">More Details</a>
-          <a v-else>More Details</a>
-          <v-btn
-            v-if="!item.state" 
-            :disabled="item.validate"
-            :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event, buyDirect: true})">Go to Buy Page</v-btn>
-            <v-btn
-            v-else-if="item.state === 'coming soon'" 
-            disabled
-            :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            >Go to Buy page</v-btn>
-            <v-btn
+          <v-card
             v-else
-            :disabled="item.validate"
-            :ripple="false" class="btn activeBtn align" style="--w: calc(100% - 1em)"
-            @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">Go to Buy Page</v-btn>
-        </div>
-      </v-sheet>
-    </v-slide-item>
-    
-    <template #prev="{ on, attrs}">
-      <v-btn
-        icon
-        class="reverse"
-        v-bind="attrs"
-        v-on="on"
-      >
-        <v-icon x-large>mdi-play</v-icon>
-      </v-btn>
-    </template>
+            class="card divcol custome"
+            :class="{
+              active: active,
+            }"
+          >
+            <v-img
+              :src="item.img"
+              :alt="`${item.name} image`"
+              transition="fade-transition"
+              :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+            >
+              <template #placeholder>
+                <v-skeleton-loader type="card" />
+              </template>
+            </v-img>
 
-    <template #next="{on, attrs}">
-      <v-btn
-        icon
-        v-bind="attrs"
-        v-on="on"
-      >
-        <v-icon x-large>mdi-play</v-icon>
-      </v-btn>
-    </template>
-  </v-slide-group>
+            <div class="container-content tcenter">
+              <v-avatar style="border: 2px solid #fff">
+                <v-img
+                  :src="item.avatar"
+                  :alt="`${item.artist} image`"
+                  transition="fade-transition"
+                >
+                  <template #placeholder>
+                    <v-skeleton-loader type="avatar" />
+                  </template>
+                </v-img>
+              </v-avatar>
+              <a>{{ item.name }}</a>
+              <p>{{ item.desc }}</p>
 
+              <div class="center" style="gap: 6.4px">
+                <span class="floor" style="--c: var(--accent)"
+                  >Price: {{ item.price }} $</span
+                >
+                <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
+              </div>
+              <span class="floor" style="--c: var(--accent)"
+                >Editions: {{ item.editions }}</span
+              >
+            </div>
+          </v-card>
+
+          <div class="tier-desc divcol">
+            <a class="tup bold" style="cursor: default">{{ item.name }}</a>
+            <ul>
+              <li
+                v-show="item.description"
+                v-html="item.description.limitString(110)"
+              ></li>
+              <!-- <li v-show="item.tier">Access to special membership perks.</li>
+            <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
+            </ul>
+          </div>
+
+          <div class="container-actions divcol">
+            <v-tooltip
+              v-if="isCreator"
+              :disabled="item.tier != 1 && item.tier != 2"
+              right
+              color="rgba(0, 0, 0, .4)"
+            >
+              <template #activator="{ on, attrs }">
+                <v-icon
+                  :disabled="item.tier != 1 && item.tier != 2"
+                  class="config"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="goToForm(item)"
+                  >mdi-cog</v-icon
+                >
+              </template>
+              <span>Update Tier</span>
+            </v-tooltip>
+            <a
+              v-if="!item.validate"
+              @click="
+                $store.dispatch('goTo', { key: 'nft', item, event: $event })
+              "
+              >More Details</a
+            >
+            <a v-else>More Details</a>
+            <v-btn
+              v-if="!item.state"
+              :disabled="item.validate"
+              :ripple="false"
+              class="btn activeBtn align"
+              style="--w: calc(100% - 1em)"
+              @click="
+                $store.dispatch('goTo', {
+                  key: 'nft',
+                  item,
+                  event: $event,
+                  buyDirect: true,
+                })
+              "
+              >Go to Buy Page</v-btn
+            >
+            <v-btn
+              v-else-if="item.state === 'coming soon'"
+              disabled
+              :ripple="false"
+              class="btn activeBtn align"
+              style="--w: calc(100% - 1em)"
+              >Go to Buy page</v-btn
+            >
+            <v-btn
+              v-else
+              :disabled="item.validate"
+              :ripple="false"
+              class="btn activeBtn align"
+              style="--w: calc(100% - 1em)"
+              @click="
+                $store.dispatch('goTo', { key: 'nft', item, event: $event })
+              "
+              >Go to Buy Page</v-btn
+            >
+          </div>
+        </v-sheet>
+      </v-slide-item>
+
+      <template #prev="{ on, attrs }">
+        <v-btn icon class="reverse" v-bind="attrs" v-on="on">
+          <v-icon x-large>mdi-play</v-icon>
+        </v-btn>
+      </template>
+
+      <template #next="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-icon x-large>mdi-play</v-icon>
+        </v-btn>
+      </template>
+    </v-slide-group>
 
     <h2 class="Title tup">events</h2>
 
     <v-expansion-panels class="custome-expansion">
-      <v-expansion-panel v-for="(item,i) in dataEvents" :key="i">
+      <v-expansion-panel v-for="(item, i) in dataEvents" :key="i">
         <v-expansion-panel-header
-          expand-icon="mdi-menu-down" class="bold tcap"
-          @click="$store.dispatch('goTo', {key: 'event', item})">
-          {{item.name}}
+          expand-icon="mdi-menu-down"
+          class="bold tcap"
+          @click="$store.dispatch('goTo', { key: 'event', item })"
+        >
+          {{ item.name }}
         </v-expansion-panel-header>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -312,8 +388,8 @@
         :hide="[3]"
         :search="search"
         :filter-a="filterA.list"
-        @search="(model) => search = model"
-        @filterA="(model) => filterA.model = model"
+        @search="(model) => (search = model)"
+        @filterA="(model) => (filterA.model = model)"
       />
       <!-- <Filters
         :search="search"
@@ -327,90 +403,108 @@
     </h2>
 
     <!-- TODO evaluate when show [ownCollection] based on current artist -->
-    <section class="container-collections grid" :class="{ownCollection: true}">
-      <template v-for="(item,i) in dataCollections_pagination">
+    <section
+      class="container-collections grid"
+      :class="{ ownCollection: true }"
+    >
+      <template v-for="(item, i) in dataCollections_pagination">
         <v-card
-          v-if="!item.state" :key="i"
+          v-if="!item.state"
+          :key="i"
           class="card divcol custome"
           :class="{
-            uranium: item.tier===6,
-            diamond: item.tier===5,
-            platinum: item.tier===4,
-            gold: item.tier===3,
-            silver: item.tier===2,
-            bronze: item.tier===1,
+            uranium: item.tier === 6,
+            diamond: item.tier === 5,
+            platinum: item.tier === 4,
+            gold: item.tier === 3,
+            silver: item.tier === 2,
+            bronze: item.tier === 1,
           }"
-          @click="$store.dispatch('goTo', {key: 'nft', item, event: $event})">
+          @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
+        >
           <v-img
-            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`
-            ">
+            :src="item.img"
+            :alt="`${item.name} image`"
+            transition="fade-transition"
+            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+          >
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
           </v-img>
 
           <!-- TODO put location to router or whatever logic needed here -->
-          <v-btn
-            :ripple="false"
-            class="btn activeBtn editBtn"
-          >Edit Profile</v-btn>
+          <v-btn :ripple="false" class="btn activeBtn editBtn"
+            >Edit Profile</v-btn
+          >
 
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
-              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <v-img
+                :src="item.avatar"
+                :alt="`${item.artist} image`"
+                transition="fade-transition"
+              >
                 <template #placeholder>
                   <v-skeleton-loader type="avatar" />
                 </template>
               </v-img>
             </v-avatar>
-            <a>{{item.name}}</a>
-            <p>{{item.desc}}</p>
+            <a>{{ item.name }}</a>
+            <p>{{ item.desc }}</p>
 
             <div class="center bold" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <span class="floor" style="--c: var(--accent)"
+                >Price: {{ item.price }} $</span
+              >
               <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
             </div>
-            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
+            <span class="floor" style="--c: var(--accent)"
+              >Editions: {{ item.editions }}</span
+            >
           </div>
         </v-card>
-        <v-card
-          v-else :key="i"
-          class="card divcol custome"
-          >
+        <v-card v-else :key="i" class="card divcol custome">
           <v-img
-            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`
-            ">
+            :src="item.img"
+            :alt="`${item.name} image`"
+            transition="fade-transition"
+            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+          >
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
           </v-img>
 
           <!-- TODO put location to router or whatever logic needed here -->
-          <v-btn
-            :ripple="false"
-            class="btn activeBtn editBtn"
-          >
+          <v-btn :ripple="false" class="btn activeBtn editBtn">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          
+
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
-              <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+              <v-img
+                :src="item.avatar"
+                :alt="`${item.artist} image`"
+                transition="fade-transition"
+              >
                 <template #placeholder>
                   <v-skeleton-loader type="avatar" />
                 </template>
               </v-img>
             </v-avatar>
-            <a>{{item.name}}</a>
-            <p>{{item.desc}}</p>
+            <a>{{ item.name }}</a>
+            <p>{{ item.desc }}</p>
 
             <div class="center bold" style="gap: 6.4px">
-              <span class="floor" style="--c: var(--accent)">Price: {{item.price}} $</span>
+              <span class="floor" style="--c: var(--accent)"
+                >Price: {{ item.price }} $</span
+              >
               <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
             </div>
-            <span class="floor" style="--c: var(--accent)">Editions: {{item.editions}}</span>
+            <span class="floor" style="--c: var(--accent)"
+              >Editions: {{ item.editions }}</span
+            >
           </div>
         </v-card>
       </template>
@@ -419,9 +513,8 @@
     <Pagination
       :total-pages="pagination_per_page"
       :current-page="currentPage"
-      @pagechanged="(page) => currentPage = page"
+      @pagechanged="(page) => (currentPage = page)"
     />
-
 
     <!-- <h2 class="tup p mt-16">Artist banner</h2>
 
@@ -526,7 +619,12 @@
       </v-col>
     </v-row> -->
 
-    <v-form ref="form" class="grid" @submit.prevent="saveForm()" style="display: none;">
+    <v-form
+      ref="form"
+      class="grid"
+      @submit.prevent="saveForm()"
+      style="display: none"
+    >
       <h2 class="tup p">Basic information</h2>
 
       <section class="card">
@@ -693,12 +791,17 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
 
-      <v-card id="modalBuy" class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6">
+      <v-card
+        id="modalBuy"
+        class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6"
+      >
         <!-- <h2 class="center" style="--fs: 1.6em">Example text</h2> -->
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Quick Tip Help</h4>
-          <v-btn class="btn" @click="$router.push('quick-tip-help-form')">Start</v-btn>
+          <v-btn class="btn" @click="$router.push('quick-tip-help-form')"
+            >Start</v-btn
+          >
         </div>
 
         <div class="card center divcol card-background-padding">
@@ -719,22 +822,47 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
 
-      <v-card id="modalBuy" class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6">
+      <v-card
+        id="modalBuy"
+        class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6"
+      >
         <!-- <h2 class="center" style="--fs: 1.6em">Example text</h2> -->
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Quick Tip Help</h4>
-          <v-btn class="btn" @click="$router.push('quick-tip-help-form')">Start</v-btn>
+          <v-btn class="btn" @click="$router.push('quick-tip-help-form')"
+            >Start</v-btn
+          >
         </div>
 
         <div class="card center divcol card-background-padding">
-          <h4 class="tcenter">Upload Track <br> (Tier 1)</h4>
-          <v-btn class="btn" @click="dialogEditTier = false; dialogSelectYourNft = true">Start</v-btn>
+          <h4 class="tcenter">
+            Upload Track <br />
+            (Tier 1)
+          </h4>
+          <v-btn
+            class="btn"
+            @click="
+              dialogEditTier = false
+              dialogSelectYourNft = true
+            "
+            >Start</v-btn
+          >
         </div>
 
         <div class="card center divcol card-background-padding">
-          <h4 class="tcenter">Upload Video <br> (Tier 2)</h4>
-          <v-btn class="btn" @click="dialogEditTier = false; dialogSelectYourNft = true">Start</v-btn>
+          <h4 class="tcenter">
+            Upload Video <br />
+            (Tier 2)
+          </h4>
+          <v-btn
+            class="btn"
+            @click="
+              dialogEditTier = false
+              dialogSelectYourNft = true
+            "
+            >Start</v-btn
+          >
         </div>
       </v-card>
     </v-dialog>
@@ -749,22 +877,27 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
 
-      <v-card id="modalBuy" class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6">
+      <v-card
+        id="modalBuy"
+        class="nft-dialog--content quick-help-card divcol pt-14 pb-4 pl-6 pr-6"
+      >
         <h2 class="center" style="--fs: 1.6em">Select Your Collection</h2>
 
         <v-select
           id="country"
           v-model="valueNft"
-          :items="dataNfts" 
+          :items="dataNfts"
           item-text="title"
           item-value="id"
           solo
-          :rules="[v => !!v || 'required field']"
+          :rules="[(v) => !!v || 'required field']"
           placeholder="Select one of your available token"
           style="--fs-place: 16px; flex-grow: 0"
         ></v-select>
 
-        <v-btn class="btn" @click="$router.push('update-nft-form')">Edit <v-icon class="ml-2">mdi-pencil-outline</v-icon></v-btn>
+        <v-btn class="btn" @click="$router.push('update-nft-form')"
+          >Edit <v-icon class="ml-2">mdi-pencil-outline</v-icon></v-btn
+        >
       </v-card>
     </v-dialog>
   </div>
@@ -869,7 +1002,7 @@ export default {
             'Telegram account is already used',
         ],
       },
-      
+
       selectedPreview: undefined,
       isCreator: false,
       slider: 0,
@@ -902,18 +1035,25 @@ export default {
         // { event: "miami" },
         // { event: "madrid" },
       ],
-      search: "",
+      search: '',
       filter: {
-        model: "",
+        model: '',
         list: [6, 5, 4, 3, 2, 1],
       },
       filterA: {
-        model: "",
+        model: '',
         list: [6, 5, 4, 3, 2],
       },
       filterB: {
-        model: "",
-        list: ["lastest releases", "newest", "oldest", "coming soon", "lorem ipsum", "lorem ipsum"],
+        model: '',
+        list: [
+          'lastest releases',
+          'newest',
+          'oldest',
+          'coming soon',
+          'lorem ipsum',
+          'lorem ipsum',
+        ],
       },
       dataCollections: [
         // {
@@ -946,13 +1086,16 @@ export default {
   computed: {
     dataCollections_pagination() {
       return this.$store.getters.pagination({
-        items: this.dataCollections, currentPage: this.currentPage, itemsPerPage: this.itemsPerPage,
-        search: this.search, filterA: this.filterA.model
+        items: this.dataCollections,
+        currentPage: this.currentPage,
+        itemsPerPage: this.itemsPerPage,
+        search: this.search,
+        filterA: this.filterA.model,
       })
     },
     pagination_per_page() {
       return Math.ceil(this.dataCollections.length / this.itemsPerPage)
-    }
+    },
   },
   created() {
     this.getData()
@@ -962,34 +1105,90 @@ export default {
     const countries = getAllCountries()
     this.dataCountries = Object.values(countries)
     this.EnterKeyboardListener()
-    this.getDataNfts()
     // TODO get artist here
-    this.artistId = 1
+    // this.artistId = 1
     await this.getCurrentArtist()
   },
   methods: {
     selectPreview(value) {
       this.selectedPreview = value
-      this.$refs.modalPreviewImage.model = true;
+      this.$refs.modalPreviewImage.model = true
     },
     onPreview({ type, file }) {
-      console.log(type, file);
+      if (type === 'banner') {
+        this.form.banner = file
+        this.form.banner_artist = file
+      }
+
+      if (type === 'bannerMobile') {
+        this.form.banner_mobile = file
+      }
+
+      if (type === 'avatar') {
+        this.form.avatar = file
+      }
+
+      // save form ✔️
+      if (this.userExist) {
+        this.$axios
+          .put(
+            `${this.baseUrl}api/v1/perfil/${this.form.id}/`,
+            this.$formData(this.form)
+          )
+          .then(() => {
+            this.selectedPreview = undefined
+            this.getData()
+            this.$alert({
+              title: 'Profile updated successfully!',
+              desc: 'Your information has been successfully modified.',
+            })
+          })
+          .catch((err) => {
+            // this.$alert("cancel", {desc: err.message})
+            console.error(err)
+          })
+      } else {
+        this.$axios
+          .post(`${this.baseUrl}api/v1/perfil/`, this.$formData(this.form))
+          .then(() => {
+            this.selectedPreview = undefined
+            this.getData()
+            this.$alert({
+              title: 'Profile updated successfully!',
+              desc: 'Your information has been successfully modified.',
+            })
+          })
+          .catch((err) => {
+            this.$alert({
+              title: 'ERROR',
+              desc: 'SOMETHING GONE WRONG',
+              icon: 'close',
+              color: 'hsl(0, 84%, 58%)',
+            })
+            // this.$alert("cancel", {desc: err.message})
+            console.error(err)
+          })
+      }
     },
-    
+
     async getData() {
       const accountId = this.$ramper.getAccountId()
       // get data user
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
         .then((result) => {
+          console.log('RESULT', result.data[0])
           const data = result.data[0]
-          console.log(data)
+
           if (result.data[0]) {
-            this.$equalData(this.form, data)
-            this.form.id = data.id
+            // this.$equalData(this.form, data)
+            this.form = data
             this.imgBanner = data.banner
               ? this.baseUrl + data.banner
               : this.user.banner
+            this.imgBannerMobile = data.banner_mobile
+              ? this.baseUrl + data.banner_mobile
+              : this.user.banner_mobile
             this.imgAvatar = data.avatar
               ? this.baseUrl + data.avatar
               : this.user.avatar
@@ -1007,6 +1206,7 @@ export default {
           } else {
             this.form.wallet = accountId
             this.imgBanner = this.user.banner
+            this.imgBannerMobile = this.user.banner_mobile
             this.imgAvatar = this.user.avatar
             this.userExist = false
           }
@@ -1019,7 +1219,7 @@ export default {
             color: 'hsl(0, 84%, 58%)',
           })
           // this.$alert("cancel", {desc: err.message})
-          console.error(err)
+          console.error('AQUI ERRRORRR', err)
         })
     },
     clearRepeted(key) {
@@ -1057,17 +1257,17 @@ export default {
 
           // if (!this.$refs.form.validate()) return this.$alert( {title: "Failed request", desc: "Need fill all required fields", icon:"close", color:"hsl(0, 84%, 58%)"})
 
-          if (this.imageBanner) {
-            this.form.banner_artist = this.imageBanner
-          }
+          // if (this.imageBanner) {
+          //   this.form.banner_artist = this.imageBanner
+          // }
 
-          if (this.imageAvatar) {
-            this.form.image = this.imageAvatar
-          }
+          // if (this.imageAvatar) {
+          //   this.form.image = this.imageAvatar
+          // }
 
-          if (this.imageMobile) {
-            this.form.banner_mobile = this.imageMobile
-          }
+          // if (this.imageMobile) {
+          //   this.form.banner_mobile = this.imageMobile
+          // }
 
           // save form ✔️
           if (this.userExist) {
@@ -1084,7 +1284,9 @@ export default {
           } else {
             this.$axios
               .post(`${this.baseUrl}api/v1/perfil/`, this.$formData(this.form))
-              .then(() => this.goBack())
+              .then(() => {
+                this.goBack()
+              })
               .catch((err) => {
                 this.$alert({
                   title: 'ERROR',
@@ -1120,13 +1322,13 @@ export default {
       switch (key) {
         case 'avatar':
           this.imgAvatar = URL.createObjectURL(file)
-          break;
+          break
         case 'banner':
           this.imgBanner = URL.createObjectURL(file)
-          break;
+          break
         case 'bannerMobile':
           this.imgBannerMobile = URL.createObjectURL(file)
-          break;
+          break
       }
     },
     openFileInputNft() {
@@ -1202,78 +1404,90 @@ export default {
       this.createImageMobile(file)
     },
 
-
-    goToForm(item){
+    goToForm(item) {
       // localStorage.setItem("tier-form", tier)
       this.$router.push('update-nft-form?token_id=' + item.token_id)
     },
     getTiersComing() {
       console.log(this.artistId)
-      this.$axios.post(`${this.baseUrl}api/v1/get-tiers-coming/`, {"id": Number(this.artistId)})
-        .then(response => {
+      this.$axios
+        .post(`${this.baseUrl}api/v1/get-tiers-coming/`, {
+          id: Number(this.artistId),
+        })
+        .then((response) => {
           // console.log(response.data)
           this.tiersComing = response.data
-        }).catch(err => {
+        })
+        .catch((err) => {
           // this.$alert("cancel", {desc: err.message})
-          console.error(err);
+          console.error(err)
         })
     },
     getEventsArtist() {
-      this.$axios.post(`${this.baseUrl}api/v1/get-events/`, {"artist_id": Number(this.artist.id_collection)})
-        .then(response => {
+      this.$axios
+        .post(`${this.baseUrl}api/v1/get-events/`, {
+          artist_id: Number(this.artist.id_collection),
+        })
+        .then((response) => {
           // console.log("EVENTS",response.data)
           // this.dataEvents = response.data.reverse()
-          
+
           if (response.data[0]) {
             const data = []
             for (let i = 0; i < response.data.length; i++) {
               const item = response.data[i]
               item.artist_data = this.artist
-              item.img = this.baseUrl+item.img;
+              item.img = this.baseUrl + item.img
               data.push(item)
             }
             this.dataEvents = data
           }
           this.dataProfits.events = this.dataEvents.length
-        }).catch(err => {
-          this.$alert("cancel", {desc: err.message})
-          console.error(err);
+        })
+        .catch((err) => {
+          this.$alert('cancel', { desc: err.message })
+          console.error(err)
         })
     },
     getCurrentArtist() {
-      console.log(this.artistId)
-      this.$axios.post(`${this.baseUrl}api/v1/get-artist/`, {"id": Number(this.artistId)})
-        .then(async response => {
-          const data = response.data[0]
+      this.$axios
+        .post(`${this.baseUrl}api/v1/get-artist-by-wallet/`, {
+          wallet: this.$ramper.getAccountId(),
+        })
+        .then(async (response) => {
+          const data = response.data
           if (data) {
             this.isCreator = data.creator_id === this.$ramper.getAccountId()
             this.artist = data
-            this.artist.banner = this.baseUrl+this.artist.banner;
-            this.artist.banner_mobile = this.baseUrl+this.artist.banner_mobile;
-            this.artist.image = this.artist.image ? this.baseUrl+this.artist.image : require('~/assets/sources/avatars/avatar.png');
+            this.artist.banner = this.baseUrl + this.artist.banner
+            this.artist.banner_mobile = this.baseUrl + this.artist.banner_mobile
+            this.artist.image = this.artist.image
+              ? this.baseUrl + this.artist.image
+              : require('~/assets/sources/avatars/avatar.png')
 
             await this.getDataArtist()
-            await this.validateTiers()
-            await this.getTiersComing()
-            await this.getOwners()
-            
+            // // await this.validateTiers()
+            // // await this.getTiersComing()
+            // // await this.getOwners()
+
             await this.getTierOne()
-        
-            this.getEventsArtist()
+
+            // this.getEventsArtist()
           } else {
             // this.$alert("cancel", {desc: "The artist does not exist"})
             // this.$router.push(this.localePath("/artists"))
           }
-        }).catch(err => {
+        })
+        .catch((err) => {
           // this.$alert("cancel", {desc: err.message})
-          console.error(err);
+          console.error(err)
         })
     },
     async getOwners() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String) {
-          nfts(where: {artist_id: $artist_id}) {
+          nfts(where: { artist_id: $artist_id }) {
             typetoken_id
             serie_id
             owner_id
@@ -1292,32 +1506,38 @@ export default {
             }
           }
         }
-      `;
+      `
 
-      await clientApollo.watchQuery({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection)},
-        pollInterval: 3000
-      }).subscribe((res) => {
-        const data = res.data.nfts
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: { artist_id: String(this.artist.id_collection) },
+          pollInterval: 3000,
+        })
+        .subscribe((res) => {
+          const data = res.data.nfts
 
-        const ownersArray = []
+          const ownersArray = []
 
-        for (let i = 0; i < data.length; i++) {
-          ownersArray.push(data[i].owner_id)
-        }
+          for (let i = 0; i < data.length; i++) {
+            ownersArray.push(data[i].owner_id)
+          }
 
-        const owners = Array.from(new Set(ownersArray));
+          const owners = Array.from(new Set(ownersArray))
 
-        this.dataProfits.owners = owners.length
-      })
+          this.dataProfits.owners = owners.length
+        })
     },
     async validateTierOne() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $owner_id: String) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: "1"}}
+            where: {
+              owner_id: $owner_id
+              artist_id: $artist_id
+              metadata_: { reference: "1" }
+            }
           ) {
             typetoken_id
             serie_id
@@ -1337,26 +1557,31 @@ export default {
             }
           }
         }
-      `;
+      `
 
-      await clientApollo.watchQuery({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection), owner_id: this.$ramper.getAccountId()},
-        pollInterval: 3000
-      }).subscribe((res) => {
-        const data = res.data.nfts
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: {
+            artist_id: String(this.artist.id_collection),
+            owner_id: this.$ramper.getAccountId(),
+          },
+          pollInterval: 3000,
+        })
+        .subscribe((res) => {
+          const data = res.data.nfts
 
-        if (data.length > 0) {
-          this.validateTier = false
-        } else {
-          this.validateTier = true
-        }
-      })
+          if (data.length > 0) {
+            this.validateTier = false
+          } else {
+            this.validateTier = true
+          }
+        })
     },
     async validateTiers() {
       for (let i = 0; i < this.tiers.length; i++) {
         if (this.tiers[i].tier === '1') {
-          this.tiers[i].validate = await this.validateTierFn(i+1, "1")
+          this.tiers[i].validate = await this.validateTierFn(i + 1, '1')
           if (this.tiers[i].validate) {
             this.ownerTiers.push(this.tiers[i].tier)
           }
@@ -1367,7 +1592,10 @@ export default {
             this.validateTier = true
           }
         } else {
-          this.tiers[i].validate = await this.validateTierFn(i+1, this.collectionNow)
+          this.tiers[i].validate = await this.validateTierFn(
+            i + 1,
+            this.collectionNow
+          )
           if (this.tiers[i].validate) {
             this.ownerTiers.push(this.tiers[i].tier)
           }
@@ -1378,9 +1606,20 @@ export default {
     async getDataNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $typetoken: [String], $collection: String) {
+        query QUERY_APOLLO(
+          $artist_id: String
+          $typetoken: [String]
+          $collection: String
+        ) {
           series(
-            where: {artist_id: $artist_id, typetoken_id_in: $typetoken, is_objects_not: true, collection_lt: $collection} orderBy: collection orderDirection: asc
+            where: {
+              artist_id: $artist_id
+              typetoken_id_in: $typetoken
+              is_objects_not: true
+              collection_lt: $collection
+            }
+            orderBy: collection
+            orderDirection: asc
           ) {
             title
             typetoken_id
@@ -1401,97 +1640,113 @@ export default {
             artist_id
           }
         }
-      `;
+      `
+      console.log(String(this.artist.id_collection))
+      console.log(this.collectionNow)
 
-      await clientApollo.watchQuery({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection), typetoken: ['2', '3', '4', '5', '6'], collection: this.collectionNow},
-        pollInterval: 3000
-      }).subscribe((res) => {
-        // console.log(this.artist.id_collection, this.collectionNow)
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: {
+            artist_id: String(this.artist.id_collection),
+            typetoken: ['1', '2', '3', '4', '5', '6'],
+            collection: this.collectionNow,
+          },
+          pollInterval: 3000,
+        })
+        .subscribe((res) => {
+          // console.log(this.artist.id_collection, this.collectionNow)
 
-        const data = res.data.series
+          const data = res.data.series
 
-        console.log("DATANFTS2222222", data)
+          console.log('DATAAA AQUII', data)
 
+          this.dataCollections = []
 
-        this.dataCollections = []
+          for (let i = 0; i < data.length; i++) {
+            const item = {
+              token_id: data[i].id,
+              artist: this.artist.name,
+              img: data[i].media,
+              avatar: this.artist.image,
+              name: data[i].title,
+              name_sell: data[i].title,
+              desc: data[i].description,
+              floor_price: data[i].price,
+              price: data[i].price,
+              copies: data[i].copies || 0,
+              editions: data[i].copies || 'Multi',
+              supply: data[i].supply,
+              artist_id: data[i].artist_id,
+              // state: "live",
+              state: null,
+              activate: false,
+              type: 'nft',
+              tier: Number(data[i].typetoken_id),
+              type_id: data[i].id,
+              validate: this.validateTier,
+            }
 
-        for (let i = 0; i < data.length; i++) {
-          const item = {
-            token_id: data[i].id,
-            artist: this.artist.name,
-            img: data[i].media,
-            avatar: this.artist.image,
-            name: data[i].title,
-            name_sell: data[i].title,
-            desc: data[i].description,
-            floor_price: data[i].price,
-            price: data[i].price,
-            copies: data[i].copies || 0,
-            editions: data[i].copies || "Multi",
-            supply: data[i].supply,
-            artist_id: data[i].artist_id,
-            // state: "live",
-            state: null,
-            activate: false,
-            type: "nft",
-            tier: Number(data[i].typetoken_id),
-            type_id: data[i].id,
-            validate: this.validateTier
+            if (item.tier === 7) {
+              item.tier = 3
+            } else if (item.tier === 8) {
+              item.tier = 4
+            } else if (item.tier === 9) {
+              item.tier = 5
+            } else if (item.tier === 10) {
+              item.tier = 2
+            } else if (item.tier === 11) {
+              item.tier = 2
+            }
+
+            if (item.validate && item.tier !== 1) {
+              item.state = 'locked'
+            }
+
+            // if (item.tier === 2) {
+            //   if (this.tiers[1].validate === false) {
+            //     item.state = "locked"
+            //     item.activate = true
+            //   }
+            // } else if (item.tier === 3) {
+            //   if (this.tiers[2].validate === false) {
+            //     item.state = "locked"
+            //     item.activate = true
+            //   }
+            // } else if (item.tier === 4) {
+            //   if (this.tiers[3].validate === false) {
+            //     item.state = "locked"
+            //     item.activate = true
+            //   }
+            // } else if (item.tier === 5) {
+            //   if (this.tiers[4].validate === false) {
+            //     item.state = "locked"
+            //     item.activate = true
+            //   }
+            // }
+
+            console.log('ITEM', item)
+
+            this.dataCollections.push(item)
           }
-
-          if (item.tier === 7) {
-            item.tier = 3
-          } else if (item.tier === 8) {
-            item.tier = 4
-          } else if (item.tier === 9) {
-            item.tier = 5
-          } else if (item.tier === 10) {
-            item.tier = 2
-          } else if (item.tier === 11) {
-            item.tier = 2
-          }
-          
-
-          if (item.validate && item.tier !== 1) {
-            item.state = "locked"
-          }
-
-          // if (item.tier === 2) {
-          //   if (this.tiers[1].validate === false) {
-          //     item.state = "locked"
-          //     item.activate = true
-          //   }
-          // } else if (item.tier === 3) {
-          //   if (this.tiers[2].validate === false) {
-          //     item.state = "locked"
-          //     item.activate = true
-          //   }
-          // } else if (item.tier === 4) {
-          //   if (this.tiers[3].validate === false) {
-          //     item.state = "locked"
-          //     item.activate = true
-          //   }
-          // } else if (item.tier === 5) {
-          //   if (this.tiers[4].validate === false) {
-          //     item.state = "locked"
-          //     item.activate = true
-          //   }
-          // }
-
-          console.log("ITEM", item)
-
-          this.dataCollections.push(item)
-        }
-      })
+        })
     },
     async validateTierFn(tierId, collectionNow) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String, $collection: String) {
+        query QUERY_APOLLO(
+          $artist_id: String
+          $owner_id: String
+          $reference: String
+          $collection: String
+        ) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}, collection: $collection}
+            where: {
+              owner_id: $owner_id
+              artist_id: $artist_id
+              metadata_: { reference: $reference }
+              collection: $collection
+            }
           ) {
             typetoken_id
             serie_id
@@ -1511,11 +1766,16 @@ export default {
             }
           }
         }
-      `;
+      `
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection), owner_id: this.$ramper.getAccountId(), reference: String(tierId), collection: collectionNow},
+        variables: {
+          artist_id: String(this.artist.id_collection),
+          owner_id: this.$ramper.getAccountId(),
+          reference: String(tierId),
+          collection: collectionNow,
+        },
       })
 
       const data = res.data.nfts
@@ -1540,31 +1800,42 @@ export default {
             collection
           }
         }
-      `;
+      `
 
-      this.dataProfits.owners = "---"
-      this.dataProfits.high = "---"
+      this.dataProfits.owners = '---'
+      this.dataProfits.high = '---'
 
-      await clientApollo.watchQuery({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection)},
-        pollInterval: 3000
-      }).subscribe((res) => {
-        const data = res.data.artist
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: { artist_id: String(this.artist.id_collection) },
+          pollInterval: 3000,
+        })
+        .subscribe(async (res) => {
+          const data = res.data.artist
 
-        // console.log("DATAAA", data, this.artist.id_collection)
+          console.log('DATAAA', data, this.artist.id_collection)
 
-        this.collectionNow = data.collection
+          this.collectionNow = data.collection
 
-        this.dataProfits.nfts = data.total_nft
-        this.dataProfits.collections = data.collection
-      })
+          this.dataProfits.nfts = data.total_nft
+          this.dataProfits.collections = data.collection
+
+          await this.getDataNfts()
+        })
     },
     async getTierOne() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String) {
-          series(where: {artist_id: $artist_id, typetoken_id: "1", collection: "1", is_objects: false}) {
+        query QUERY_APOLLO($artist_id: String, $collection: String) {
+          series(
+            where: {
+              artist_id: $artist_id
+              typetoken_id: "1"
+              collection: $collection
+              is_objects: false
+            }
+          ) {
             id
             collection
             media
@@ -1583,76 +1854,91 @@ export default {
             desc_series
           }
         }
-      `;
+      `
 
-      await clientApollo.watchQuery({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection)},
-        pollInterval: 3000
-      }).subscribe(async (res) => {
-        this.dataSliderPreview = []
-        const data = res.data.series
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: {
+            artist_id: String(this.artist.id_collection),
+            collection: String(this.collectionNow),
+          },
+          pollInterval: 3000,
+        })
+        .subscribe(async (res) => {
+          this.dataSliderPreview = []
+          const data = res.data.series
 
-        // console.log("DATA", data)
+          // console.log("DATA", data)
 
-        for (let i = 0; i < data.length; i++) {
-          const item = {
-            collection: data[i].collection,
-            img: data[i].media,
-            avatar: this.artist.image,
-            name: data[i].title.toUpperCase(),
-            artist: this.artist.name,
-            artist_id: data[i].artist_id,
-            desc: this.artist.name,
-            description: data[i].description,
-            floor_price: data[i].price_near,
-            price: data[i].price,
-            editions: data[i].copies || "Multi",
-            tier: Number(data[i].reference),
-            type_id: data[i].id,
-            type: "nft",
-            token_id: data[i].id,
-            supply: data[i].supply,
-            copies: data[i].copies || 0,
-            state: null,
-            validate: this.validateTier
-          }
-
-          if (this.tiersComing.tierOne) {
-              item.state = "coming soon"
-              item.validate = true
+          for (let i = 0; i < data.length; i++) {
+            const item = {
+              collection: data[i].collection,
+              img: data[i].media,
+              avatar: this.artist.image,
+              name: data[i].title.toUpperCase(),
+              artist: this.artist.name,
+              artist_id: data[i].artist_id,
+              desc: this.artist.name,
+              description: data[i].description,
+              floor_price: data[i].price_near,
+              price: data[i].price,
+              editions: data[i].copies || 'Multi',
+              tier: Number(data[i].reference),
+              type_id: data[i].id,
+              type: 'nft',
+              token_id: data[i].id,
+              supply: data[i].supply,
+              copies: data[i].copies || 0,
+              state: null,
+              validate: this.validateTier,
             }
 
-          if (item.validate && item.tier !== 1) {
-            item.state = "locked"
-          }
+            // if (this.tiersComing.tierOne) {
+            //   item.state = 'coming soon'
+            //   item.validate = true
+            // }
 
-          if (item.tier === 1) {
-            item.validate = false
-          }
+            // if (item.validate && item.tier !== 1) {
+            //   item.state = 'locked'
+            // }
 
-          if (item.tier === 1) {
-            if (this.tiers[0].validate === true) {
-              item.state = "owned"
-              item.activate = false
-            }
-          }
-          if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
-            item.state = "sold out"
-          }
-          this.dataSliderPreview.push(item)
+            // if (item.tier === 1) {
+            //   item.validate = false
+            // }
 
-          await this.getTiers()
+            // if (item.tier === 1) {
+            //   if (this.tiers[0].validate === true) {
+            //     item.state = 'owned'
+            //     item.activate = false
+            //   }
+            // }
+            // if (
+            //   item.copies !== 0 &&
+            //   Number(item.supply) >= Number(item.copies)
+            // ) {
+            //   item.state = 'sold out'
+            // }
+            this.dataSliderPreview.push(item)
 
-          // console.log("DATASLIDER",this.dataSliderPreview)
-        }
-      })
+            await this.getTiers()
+
+            // console.log("DATASLIDER",this.dataSliderPreview)
+          }
+        })
     },
     async getTiers() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO($artist_id: String, $collection: String) {
-          series(where: {artist_id: $artist_id, typetoken_id_in: ["2", "3", "4", "5", "6"], collection: $collection, is_objects: false}) {
+          series(
+            where: {
+              artist_id: $artist_id
+              typetoken_id_in: ["2", "3", "4", "5", "6"]
+              collection: $collection
+              is_objects: false
+            }
+          ) {
             id
             collection
             media
@@ -1672,102 +1958,110 @@ export default {
             is_objects
           }
         }
-      `;
+      `
 
       // console.log("COLEEc", this.collectionNow)
 
-      await clientApollo.watchQuery({
-        query: QUERY_APOLLO,
-        variables: {artist_id: String(this.artist.id_collection), collection: String(this.collectionNow)},
-        pollInterval: 3000
-      }).subscribe((res) => {
-        const data = res.data.series
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: {
+            artist_id: String(this.artist.id_collection),
+            collection: String(this.collectionNow),
+          },
+          pollInterval: 3000,
+        })
+        .subscribe((res) => {
+          const data = res.data.series
 
-        // console.log("DATANEW", data)
-        this.dataSlider = []
+          // console.log("DATANEW", data)
+          this.dataSlider = []
 
-        // console.log("SKU",data)
+          // console.log("SKU",data)
 
-        for (let i = 0; i < data.length; i++) {
-          const item = {
-            collection: data[i].collection,
-            img: data[i].media,
-            avatar: this.artist.image,
-            name: data[i].title.toUpperCase(),
-            artist: this.artist.name,
-            artist_id: data[i].artist_id,
-            desc: this.artist.name,
-            description: data[i].description,
-            floor_price: data[i].price_near,
-            price: data[i].price,
-            editions: data[i].copies || "Multi",
-            tier: Number(data[i].reference),
-            type_id: data[i].id,
-            type: "nft",
-            token_id: data[i].id,
-            supply: data[i].supply,
-            copies: data[i].copies || 0,
-            state: null,
-            validate: this.validateTier
+          for (let i = 0; i < data.length; i++) {
+            const item = {
+              collection: data[i].collection,
+              img: data[i].media,
+              avatar: this.artist.image,
+              name: data[i].title.toUpperCase(),
+              artist: this.artist.name,
+              artist_id: data[i].artist_id,
+              desc: this.artist.name,
+              description: data[i].description,
+              floor_price: data[i].price_near,
+              price: data[i].price,
+              editions: data[i].copies || 'Multi',
+              tier: Number(data[i].reference),
+              type_id: data[i].id,
+              type: 'nft',
+              token_id: data[i].id,
+              supply: data[i].supply,
+              copies: data[i].copies || 0,
+              state: null,
+              validate: this.validateTier,
+            }
+
+            // if (item.validate && item.tier !== 1) {
+            //   item.state = 'locked'
+            // }
+
+            // if (item.tier === 2) {
+            //   if (this.tiersComing.tierTwo) {
+            //     item.state = 'coming soon'
+            //     item.validate = true
+            //   }
+            //   if (this.tiers[1].validate === true) {
+            //     item.state = 'owned'
+            //     item.activate = false
+            //   }
+            // } else if (item.tier === 3) {
+            //   if (this.tiersComing.tierThree) {
+            //     item.state = 'coming soon'
+            //     item.validate = true
+            //   }
+            //   if (this.tiers[2].validate === true) {
+            //     item.state = 'owned'
+            //     item.activate = false
+            //   }
+            // } else if (item.tier === 4) {
+            //   if (this.tiersComing.tierFour) {
+            //     item.state = 'coming soon'
+            //     item.validate = true
+            //   }
+            //   if (this.tiers[3].validate === true) {
+            //     item.state = 'owned'
+            //     item.activate = false
+            //   }
+            // } else if (item.tier === 5) {
+            //   if (this.tiersComing.tierFive) {
+            //     item.state = 'coming soon'
+            //     item.validate = true
+            //   }
+            //   if (this.tiers[4].validate === true) {
+            //     item.state = 'owned'
+            //     item.activate = false
+            //   }
+            // } else if (item.tier === 6) {
+            //   if (this.tiersComing.tierSix) {
+            //     item.state = 'coming soon'
+            //     item.validate = true
+            //   }
+            //   if (this.tiers[5].validate === true) {
+            //     item.state = 'owned'
+            //     item.activate = false
+            //   }
+            // }
+            // if (
+            //   item.copies !== 0 &&
+            //   Number(item.supply) >= Number(item.copies)
+            // ) {
+            //   item.state = 'sold out'
+            // }
+            this.dataSliderPreview.push(item)
           }
-
-          if (item.validate && item.tier !== 1) {
-            item.state = "locked"
-          }
-
-          if (item.tier === 2) {
-            if (this.tiersComing.tierTwo) {
-              item.state = "coming soon"
-              item.validate = true
-            }
-            if (this.tiers[1].validate === true) {
-              item.state = "owned"
-              item.activate = false
-            }
-          } else if (item.tier === 3) {
-            if (this.tiersComing.tierThree) {
-              item.state = "coming soon"
-              item.validate = true
-            }
-            if (this.tiers[2].validate === true) {
-              item.state = "owned"
-              item.activate = false
-            }
-          } else if (item.tier === 4) {
-            if (this.tiersComing.tierFour) {
-              item.state = "coming soon"
-              item.validate = true
-            }
-            if (this.tiers[3].validate === true) {
-              item.state = "owned"
-              item.activate = false
-            }
-          } else if (item.tier === 5) {
-            if (this.tiersComing.tierFive) {
-              item.state = "coming soon"
-              item.validate = true
-            }
-            if (this.tiers[4].validate === true) {
-              item.state = "owned"
-              item.activate = false
-            }
-          } else if (item.tier === 6) {
-            if (this.tiersComing.tierSix) {
-              item.state = "coming soon"
-              item.validate = true
-            }
-            if (this.tiers[5].validate === true) {
-              item.state = "owned"
-              item.activate = false
-            }
-          }
-          if (item.copies !== 0 && Number(item.supply) >= Number(item.copies)) {
-            item.state = "sold out"
-          }
-          this.dataSliderPreview.push(item)
-        }
-        this.dataSlider = this.dataSliderPreview
-      })
+          this.dataSlider = this.dataSliderPreview
+        })
     },
   },
 }

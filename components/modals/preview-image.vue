@@ -1,34 +1,46 @@
 <template>
   <v-dialog v-if="model" v-model="model" content-class="modal-preview-image">
     <v-card>
-      <v-icon
-        class="close-btn"
-        @click="model = false"
-      >
-        mdi-close
-      </v-icon>
+      <v-icon class="close-btn" @click="model = false"> mdi-close </v-icon>
 
       <h3 class="text-center">Preview Image</h3>
 
       <v-form ref="form" v-model="formValid" @submit="onConfirm">
-        <label for="preview" >
+        <label for="preview">
           <v-img
             :src="img"
             transition="fade-transition"
             class="preview"
             :class="{
               active: img,
-              avatar: type === 'avatar'
+              avatar: type === 'avatar',
             }"
             :style="`
-              --w: ${type === 'banner' ? '1180px' : type === 'bannerMobile' ? '135.5px' : '307px'};
-              --h: ${type === 'banner' ? '401.5px' : type === 'bannerMobile' ? '271px' : '307px'};
+              --w: ${
+                type === 'banner'
+                  ? '1180px'
+                  : type === 'bannerMobile'
+                  ? '135.5px'
+                  : '307px'
+              };
+              --h: ${
+                type === 'banner'
+                  ? '401.5px'
+                  : type === 'bannerMobile'
+                  ? '271px'
+                  : '307px'
+              };
             `"
           >
             <template #placeholder>
               <v-sheet class="placeholder">
-                <span v-if="type === 'banner'">1180 x 401.5 pixels <br> .jpg or .png</span>
-                <span v-if="type === 'bannerMobile'">135.5 x 271 pixels <br>.jpg or .png</span>
+                <span v-if="type === 'banner'"
+                  >1180 x 401.5 pixels <br />
+                  .jpg or .png</span
+                >
+                <span v-if="type === 'bannerMobile'"
+                  >135.5 x 271 pixels <br />.jpg or .png</span
+                >
                 <span v-if="type === 'avatar'">307 x 307</span>
               </v-sheet>
             </template>
@@ -40,15 +52,13 @@
           v-model="file"
           style="display: none"
           accept="image/png, image/jpeg"
-          :rules="[v => !!v || 'Field required']"
+          :rules="[(v) => !!v || 'Field required']"
           @change="previewFile"
         ></v-file-input>
 
-        <v-btn
-          class="btn mx-auto"
-          :disabled="!formValid"
-          @click="onConfirm"
-        >Confirm</v-btn>
+        <v-btn class="btn mx-auto" :disabled="!formValid" @click="onConfirm"
+          >Confirm</v-btn
+        >
       </v-form>
     </v-card>
   </v-dialog>
@@ -60,7 +70,7 @@ export default {
     type: {
       type: String,
       default: undefined,
-    }
+    },
   },
   data() {
     return {
@@ -76,7 +86,7 @@ export default {
 
       this.clearPreview()
       this.$emit('close')
-    }
+    },
   },
   methods: {
     previewFile() {
@@ -87,11 +97,11 @@ export default {
       this.file = undefined
     },
     async onConfirm() {
-      if (!await this.$refs.form.validate()) return
+      if (!(await this.$refs.form.validate())) return
 
       this.model = false
-      this.$emit('confirm', {type: this.type, file: this.file})
-    }
+      this.$emit('confirm', { type: this.type, file: this.file })
+    },
   },
 }
 </script>
@@ -130,7 +140,7 @@ export default {
   }
 
   .placeholder {
-    background-color: rgba(255, 255, 255, .4);
+    background-color: rgba(255, 255, 255, 0.4);
     border-radius: inherit;
     border: 2px dashed #fff;
     height: 100%;
@@ -163,7 +173,9 @@ export default {
     &.avatar {
       border-radius: 50%;
 
-      * { border-radius: 50% }
+      * {
+        border-radius: 50%;
+      }
     }
   }
 }

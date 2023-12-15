@@ -862,6 +862,7 @@ export default {
         })
         .then((result) => {
           const data = result.data
+          console.log("DATAAAAAAA", data)
           if (data.media) {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media

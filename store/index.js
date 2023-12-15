@@ -19,7 +19,7 @@ export const state = () => ({
     balance: 0,
     dataSocial: [],
   },
-  isAdmin: "false",
+  isAdmin: 'false',
   buyDirect: null,
   artistSelect: null,
   chatSelect: null,
