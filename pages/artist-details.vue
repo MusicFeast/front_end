@@ -74,13 +74,13 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <v-btn
+    <!-- <v-btn
       v-if="isCreator"
       class="btn mb-14"
       style="max-width: 200px !important; align-self: flex-end !important"
       @click="$router.push('form-nft-tier1')"
       >Add New Collection</v-btn
-    >
+    > -->
 
     <v-slide-group
       id="custome-slider"
@@ -155,15 +155,15 @@
               active: active,
             }"
           >
-            <!-- <v-img
+            <v-img
             :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
             :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
             <template #placeholder>
               <v-skeleton-loader type="card" />
             </template>
-          </v-img> -->
+          </v-img>
 
-            <v-img
+            <!-- <v-img
               :src="item.img"
               :alt="`${item.name} image`"
               transition="fade-transition"
@@ -179,7 +179,7 @@
                 @click="goToForm(item)"
                 >Edit this Tier</v-btn
               >
-            </v-img>
+            </v-img> -->
 
             <div class="container-content tcenter">
               <v-avatar style="border: 2px solid #fff">
@@ -330,14 +330,6 @@
           v-if="!item.state"
           :key="i"
           class="card divcol custome"
-          :class="{
-            uranium: item.tier === 6,
-            diamond: item.tier === 5,
-            platinum: item.tier === 4,
-            gold: item.tier === 3,
-            silver: item.tier === 2,
-            bronze: item.tier === 1,
-          }"
           @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
         >
           <v-img
@@ -364,7 +356,7 @@
               </v-img>
             </v-avatar>
             <a>{{ item.name }}</a>
-            <p>{{ item.desc }}</p>
+            <p v-html="item.desc"></p>
 
             <div class="center bold" style="gap: 6.4px">
               <span class="floor" style="--c: var(--accent)"
@@ -402,7 +394,7 @@
               </v-img>
             </v-avatar>
             <a>{{ item.name }}</a>
-            <p>{{ item.desc }}</p>
+            <p v-html="item.desc"></p>
 
             <div class="center bold" style="gap: 6.4px">
               <span class="floor" style="--c: var(--accent)"
