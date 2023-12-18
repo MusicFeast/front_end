@@ -22,6 +22,8 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+/dist
+
 # nyc test coverage
 .nyc_output
 
@@ -72,10 +74,6 @@ typings/
 # nuxt.js build output
 .nuxt
 
-# Nuxt generate
-dist
-.dist
-/dist
 # vuepress build output
 .vuepress/dist
 
