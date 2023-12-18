@@ -3,7 +3,8 @@
     <v-menu
       activator="#emojiPickerBtn"
       :close-on-content-click="false"
-      top left
+      top
+      left
     >
       <VEmojiPicker id="emojiPicker" @select="selectEmoji" />
     </v-menu>
@@ -17,7 +18,6 @@
       </v-btn>
     </aside> -->
 
-
     <section id="comunity__chat-body" class="d-flex flex-grow-1">
       <!-- <ComunityMessage answered /> -->
 
@@ -26,27 +26,40 @@
       <ComunityMessage :messages="messages" @show-answered="answered = true" />
     </section>
 
-
     <aside id="comunity__chat-input">
       <div
         id="comunity__chat-input-answered"
         class="d-flex"
-        :class="{answer: answered}"
-        style="gap: 10px;"
+        :class="{ answer: answered }"
+        style="gap: 10px"
       >
         <span class="text-labeled">answer to</span>
 
-        <img src="@/assets/sources/icons/arrow-answered-simple.svg" alt="arrow icon">
+        <img
+          src="@/assets/sources/icons/arrow-answered-simple.svg"
+          alt="arrow icon"
+        />
 
         <h6 v-show="search" class="mb-0">Artist name 🤘</h6>
 
         <v-icon size="18" @click="answered = false">mdi-close</v-icon>
       </div>
 
-      <v-text-field :disabled="!getChatSelect || !$ramper.getAccountId()" v-model="messageContent" solo hide-details class="flex-grow-0" @keydown.enter="sendMessage">
+      <v-text-field
+        :disabled="!getChatSelect || !$ramper.getAccountId()"
+        v-model="messageContent"
+        solo
+        hide-details
+        class="flex-grow-0"
+        @keydown.enter="sendMessage"
+      >
         <template #append>
-          <v-icon :disabled="!messageContent" @click="sendMessage()">mdi-send</v-icon>
-          <v-icon id="emojiPickerBtn" class="pointer">mdi-emoticon-outline</v-icon>
+          <v-icon :disabled="!messageContent" @click="sendMessage()"
+            >mdi-send</v-icon
+          >
+          <v-icon id="emojiPickerBtn" class="pointer"
+            >mdi-emoticon-outline</v-icon
+          >
         </template>
       </v-text-field>
     </aside>
@@ -54,14 +67,14 @@
 </template>
 
 <script>
-import { VEmojiPicker } from 'v-emoji-picker';
+import { VEmojiPicker } from 'v-emoji-picker'
 import computeds from '~/mixins/computeds'
 
 export default {
-  name: "ComunityChat",
+  name: 'ComunityChat',
   mixins: [computeds],
   components: {
-    VEmojiPicker
+    VEmojiPicker,
   },
   computed: {
     getChatSelect() {
@@ -69,10 +82,10 @@ export default {
       if (this.$store.getters.getChatSelect) {
         this.getMessages(this.$store.getters.getChatSelect)
       }
-      return this.$store.getters.getChatSelect;
+      return this.$store.getters.getChatSelect
     },
     artistSelect() {
-      return this.$store.getters.getArtistSelect;
+      return this.$store.getters.getArtistSelect
     },
     search() {
       console.log(this.$store.getters.getSearch)
@@ -82,12 +95,12 @@ export default {
   },
   data() {
     return {
-      messageContent: "",
+      messageContent: '',
       answered: false,
       messages: [],
       messagesData: [],
       chatSelect: null,
-      searchItem: "",
+      searchItem: '',
     }
   },
   // mounted() {
@@ -101,7 +114,11 @@ export default {
       this.timer = setTimeout(this.inputSearch, 500)
     },
     inputSearch() {
-      this.messages = this.messagesData.filter((item) => {return item.content?.toLowerCase().includes(this.searchItem.toLowerCase())})
+      this.messages = this.messagesData.filter((item) => {
+        return item.content
+          ?.toLowerCase()
+          .includes(this.searchItem.toLowerCase())
+      })
     },
     sendMessage() {
       if (this.messageContent) {
@@ -111,11 +128,17 @@ export default {
           avatar: this.user.avatar,
           content: this.messageContent,
           created: Date.now(),
-        };
-        
-        this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(this.chatSelect.id).collection("MESSAGES").add(messageInfo)
+        }
 
-        this.messageContent = ""
+        this.$fire.firestore
+          .collection('ARTISTS')
+          .doc(this.artistSelect?.id)
+          .collection('CHATS')
+          .doc(this.chatSelect.id)
+          .collection('MESSAGES')
+          .add(messageInfo)
+
+        this.messageContent = ''
       }
     },
     selectEmoji(event) {
@@ -123,24 +146,34 @@ export default {
     },
     getMessages(item) {
       this.chatSelect = item
-      this.$fire.firestore.collection('ARTISTS').doc(this.artistSelect?.id).collection("CHATS").doc(item.id).collection("MESSAGES").orderBy("created").onSnapshot((snapshot) => {
-        const postData = [];
-    
-        snapshot.forEach((doc) => {
-          const item = { ...doc.data(), id: doc.id, active: false }
-          postData.push(item)
+      this.$fire.firestore
+        .collection('ARTISTS')
+        .doc(this.artistSelect?.id)
+        .collection('CHATS')
+        .doc(item.id)
+        .collection('MESSAGES')
+        .orderBy('created')
+        .onSnapshot((snapshot) => {
+          const postData = []
 
-        });
-        this.messagesData = postData
+          snapshot.forEach((doc) => {
+            const item = { ...doc.data(), id: doc.id, active: false }
+            postData.push(item)
+          })
+          this.messagesData = postData
 
-        if (this.searchItem) {
-          this.messages = this.messagesData.filter((item) => {return item.content?.toLowerCase().includes(this.searchItem.toLowerCase())})
-        } else {
-          this.messages = postData
-        }
-      });
-    }
-  }
+          if (this.searchItem) {
+            this.messages = this.messagesData.filter((item) => {
+              return item.content
+                ?.toLowerCase()
+                .includes(this.searchItem.toLowerCase())
+            })
+          } else {
+            this.messages = postData
+          }
+        })
+    },
+  },
 }
 </script>
 
@@ -165,24 +198,26 @@ export default {
     justify-content: space-between;
     padding-inline: 16px;
     z-index: 2;
-    animation: moveBanishDown .2s ease;
+    animation: moveBanishDown 0.2s ease;
 
     span {
       font-size: 15px !important;
       font-weight: 600 !important;
     }
 
-    .v-btn { border-radius: 10px !important }
+    .v-btn {
+      border-radius: 10px !important;
+    }
   }
-
 
   &-body {
     flex-direction: column-reverse;
-    height: calc(var(--chat-height) - (var(--header-height) + (52px + 24px))); // <-- input height
+    height: calc(
+      var(--chat-height) - (var(--header-height) + (52px + 24px))
+    ); // <-- input height
     overflow-y: auto;
     scrollbar-gutter: stable;
   }
-
 
   &-input {
     position: relative;
@@ -193,10 +228,10 @@ export default {
       margin-inline: 12px 24px;
       margin-top: 12px;
       padding-bottom: 12px;
-      
+
       padding-inline: 16px;
       padding-top: 10px;
-      background-color: hsl(222, 8%, 23%, .9);
+      background-color: hsl(222, 8%, 23%, 0.9);
       backdrop-filter: blur(5px);
       max-width: max-content;
       border-radius: 8px;
@@ -204,7 +239,7 @@ export default {
 
       &.answer {
         opacity: 1;
-        animation: moveBanishDown .2s ease;
+        animation: moveBanishDown 0.2s ease;
       }
 
       h6 {
@@ -213,7 +248,6 @@ export default {
         width: max-content;
       }
     }
-
 
     .v-input {
       margin-inline: 12px 24px;
@@ -226,12 +260,18 @@ export default {
         border-radius: 8px !important;
       }
 
-      input { font-size: 16px !important }
+      input {
+        font-size: 16px !important;
+      }
 
       &__append-inner {
         gap: 8px;
 
-        *, :before, ::after { color: var(--labeled) !important }
+        *,
+        :before,
+        ::after {
+          color: var(--labeled) !important;
+        }
       }
     }
   }

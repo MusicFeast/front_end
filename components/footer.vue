@@ -4,12 +4,22 @@
       <!-- content -->
       <section class="fill_w space gap2 divcolmobile">
         <aside class="left divcol gap1" style="width: min(100%, 12em)">
-          <img src="~/assets/sources/logos/logo-footer.jpg" alt="Logo" class="alignmobile" style="--w:100%">
+          <img
+            src="~/assets/sources/logos/logo-footer.jpg"
+            alt="Logo"
+            class="alignmobile"
+            style="--w: 100%"
+          />
 
           <div class="gap1 space deletemobile">
             <v-btn
-              v-for="(item,i) in dataRedes" :key="i" icon :href="item.to" target="_blank">
-              <v-icon size="2em">{{item.icon}}</v-icon>
+              v-for="(item, i) in dataRedes"
+              :key="i"
+              icon
+              :href="item.to"
+              target="_blank"
+            >
+              <v-icon size="2em">{{ item.icon }}</v-icon>
             </v-btn>
           </div>
         </aside>
@@ -25,12 +35,28 @@
         </aside> -->
       </section>
 
-      <section id="container-copyright" class="fill_w space tcenter divcol_invmobile gap2">
+      <section
+        id="container-copyright"
+        class="fill_w space tcenter divcol_invmobile gap2"
+      >
         <span class="h10_em">&copy; 2023 Everyone Eats Entertainment LP.</span>
-        <span class="h10_em">Cookie statement <span class="pointer semibold" @click="$router.push(localePath('/terms-and-conditions'))">Terms &amp; Conditions</span> Privacy Policy</span>
+        <span class="h10_em"
+          >Cookie statement
+          <span
+            class="pointer semibold"
+            @click="$router.push(localePath('/terms-and-conditions'))"
+            >Terms &amp; Conditions</span
+          >
+          Privacy Policy</span
+        >
       </section>
 
-      <a class="h10_em alignr mt-3 pr-8" href="https://www.dvconsultores.com/#/" target="_blank">Powered by GlobalDv</a>
+      <a
+        class="h10_em alignr mt-3 pr-8"
+        href="https://www.dvconsultores.com/#/"
+        target="_blank"
+        >Powered by GlobalDv</a
+      >
     </v-row>
   </v-footer>
 </template>
@@ -38,7 +64,7 @@
 <script>
 import computeds from '~/mixins/computeds'
 export default {
-  name: "FooterComponent",
+  name: 'FooterComponent',
   mixins: [computeds],
   data() {
     return {
@@ -50,30 +76,30 @@ export default {
       ],
       dataFooter: [
         {
-          title: "Explore",
+          title: 'Explore',
           links: [
-            { link: "Help", to: "/" },
-            { link: "Terms", to: "/" },
-            { link: "Guildlines", to: "/" },
-            { link: "White Paper", to: "/" },
-          ]
+            { link: 'Help', to: '/' },
+            { link: 'Terms', to: '/' },
+            { link: 'Guildlines', to: '/' },
+            { link: 'White Paper', to: '/' },
+          ],
         },
         {
-          title: "Explore",
+          title: 'Explore',
           links: [
-            { link: "Lorem", to: "/" },
-            { link: "Lorem Ipsum", to: "/" },
-            { link: "Lorem ips", to: "/" },
-            { link: "Lorem ipsum", to: "/" },
-          ]
+            { link: 'Lorem', to: '/' },
+            { link: 'Lorem Ipsum', to: '/' },
+            { link: 'Lorem ips', to: '/' },
+            { link: 'Lorem ipsum', to: '/' },
+          ],
         },
         {
-          title: "More",
+          title: 'More',
           links: [
-            { link: "Advertise", to: "/" },
-            { link: "Integrations", to: "/" },
-            { link: "Careers", to: "/" },
-          ]
+            { link: 'Advertise', to: '/' },
+            { link: 'Integrations', to: '/' },
+            { link: 'Careers', to: '/' },
+          ],
         },
       ],
     }
@@ -83,44 +109,46 @@ export default {
   },
   methods: {
     async getDataSocial() {
-      await this.$axios.get(`${this.baseUrl}api/v1/get-info-mf`)
-      .then(result => {
-        const data = result.data
-        if (data[0]) {
-          const datos = []
-          if (data[0].instagram_icon && data[0].instagram_link) {
-            datos.push({ 
-                icon: data[0].instagram_icon, 
+      await this.$axios
+        .get(`${this.baseUrl}api/v1/get-info-mf`)
+        .then((result) => {
+          const data = result.data
+          if (data[0]) {
+            const datos = []
+            if (data[0].instagram_icon && data[0].instagram_link) {
+              datos.push({
+                icon: data[0].instagram_icon,
                 to: data[0].instagram_link,
-            })
-          }
-          if (data[0].twitter_icon && data[0].twitter_link) {
-            datos.push({ 
-                icon: data[0].twitter_icon, 
+              })
+            }
+            if (data[0].twitter_icon && data[0].twitter_link) {
+              datos.push({
+                icon: data[0].twitter_icon,
                 to: data[0].twitter_link,
-            })
-          }
-          if (data[0].facebook_icon && data[0].facebook_link) {
-            datos.push({ 
-                icon: data[0].facebook_icon, 
+              })
+            }
+            if (data[0].facebook_icon && data[0].facebook_link) {
+              datos.push({
+                icon: data[0].facebook_icon,
                 to: data[0].facebook_link,
-            })
-          }
-          if (data[0].discord_icon && data[0].discord_link) {
-            datos.push({ 
-                icon: data[0].discord_icon, 
+              })
+            }
+            if (data[0].discord_icon && data[0].discord_link) {
+              datos.push({
+                icon: data[0].discord_icon,
                 to: data[0].discord_link,
-            })
+              })
+            }
+            this.dataRedes = datos
           }
-          this.dataRedes = datos
-        }
-        // console.log(data)
-      }).catch(err => {
-        // this.$alert("cancel", {desc: err.message})
-        console.error(err);
-      })
+          // console.log(data)
+        })
+        .catch((err) => {
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
     },
-  }
+  },
 }
 </script>
 

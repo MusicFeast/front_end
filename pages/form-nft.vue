@@ -51,7 +51,9 @@
               class="divcol center span-image"
               style="color: #000; font-size: 12px"
             >
-              <span style="color: rgba(0,0,0,0.6); font-size: 12px">307 x 307</span>
+              <span style="color: rgba(0, 0, 0, 0.6); font-size: 12px"
+                >307 x 307</span
+              >
               <br />
               <div class="mt-3">Profile Picture</div>
             </span>
@@ -141,10 +143,15 @@
 
       <label for="about-artist"
         >Description -
-        <span class="underline" @click="textExampleDialog = true">Text Example</span>
+        <span class="underline" @click="textExampleDialog = true"
+          >Text Example</span
+        >
         <label for="name-artist" style="color: red">*</label>
       </label>
-      <vue-editor v-model="formArtist.description" class="mt-4 mb-4"></vue-editor>
+      <vue-editor
+        v-model="formArtist.description"
+        class="mt-4 mb-4"
+      ></vue-editor>
 
       <label for="about-artist"
         >About
@@ -214,7 +221,15 @@
     <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
 
     <v-row style="margin-top: 40px">
-      <v-col xl="3" lg="3" md="3" sm="4" cols="12" class="center" style="position: relative !important">
+      <v-col
+        xl="3"
+        lg="3"
+        md="3"
+        sm="4"
+        cols="12"
+        class="center"
+        style="position: relative !important"
+      >
         <div class="nft-upload-div">
           <v-file-input
             ref="fileInputNft"
@@ -225,7 +240,9 @@
             @change="onFileChangeNft"
           ></v-file-input>
 
-          <span class="absolute-font" style="left: 20px;">255 Width x 255 Height</span>
+          <span class="absolute-font" style="left: 20px"
+            >255 Width x 255 Height</span
+          >
 
           <img :src="selectedImageNft" alt="" class="imgNft" />
 
@@ -259,41 +276,48 @@
               placeholder="Select Your Tier"
             ></v-select> -->
 
-            <label for="nft-name">Description</label>
-            <v-text-field
-              id="description"
-              v-model="formTier.description"
-              :disabled="showItem"
-              @input="inputSave()"
-              placeholder="Tier 1 description"
-            ></v-text-field>
+          <label for="nft-name">Description</label>
+          <v-text-field
+            id="description"
+            v-model="formTier.description"
+            :disabled="showItem"
+            @input="inputSave()"
+            placeholder="Tier 1 description"
+          ></v-text-field>
 
-            <label for="nft-name">Price (USD)</label>
-            <v-text-field
-              id="Price"
-              v-model="formTier.price"
-              :disabled="showItem"
-              type="number"
-              @input="inputSave()"
-              placeholder="Price"
-            ></v-text-field>
+          <label for="nft-name">Price (USD)</label>
+          <v-text-field
+            id="Price"
+            v-model="formTier.price"
+            :disabled="showItem"
+            type="number"
+            @input="inputSave()"
+            placeholder="Price"
+          ></v-text-field>
 
-            <label for="nft-name">Track Audio <v-icon v-if="showItem && track" @click="trackSong()">mdi-pause</v-icon><v-icon v-if="showItem && !track" @click="trackSong()">mdi-play</v-icon></label>
-            <!-- <v-text-field
+          <label for="nft-name"
+            >Track Audio
+            <v-icon v-if="showItem && track" @click="trackSong()"
+              >mdi-pause</v-icon
+            ><v-icon v-if="showItem && !track" @click="trackSong()"
+              >mdi-play</v-icon
+            ></label
+          >
+          <!-- <v-text-field
                   id="song"
                   v-model="formTier.song"
                   @input="inputSave()"
                   placeholder="Song"
                 ></v-text-field> -->
-            <v-file-input
-              id="song"
-              class="no-icon"
-              v-model="formTier.song"
-              :disabled="showItem"
-              accept="audio/*"
-              placeholder="Only .WAV, .MP3 or .MP4 files"
-              @change="inputSave()"
-            ></v-file-input>
+          <v-file-input
+            id="song"
+            class="no-icon"
+            v-model="formTier.song"
+            :disabled="showItem"
+            accept="audio/*"
+            placeholder="Only .WAV, .MP3 or .MP4 files"
+            @change="inputSave()"
+          ></v-file-input>
         </section>
       </v-col>
     </v-row>
@@ -639,31 +663,35 @@
       </v-btn>
 
       <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
-        <h2 class="center" style="--fs: 1.6em;">
-          Example text
-        </h2>
-        
+        <h2 class="center" style="--fs: 1.6em">Example text</h2>
+
         <p>
-          Name: ClassiQ <br>
-          <br>Origin: Bauchi, Nigeria<br>
-          <br>Genre: Hip Hop / Hausa Trap<br>
-          <br>Ingredients: Witty Lyricism, Youth Consciousness, Groovy Vibes<br>
+          Name: ClassiQ <br />
+          <br />Origin: Bauchi, Nigeria<br />
+          <br />Genre: Hip Hop / Hausa Trap<br />
+          <br />Ingredients: Witty Lyricism, Youth Consciousness, Groovy
+          Vibes<br />
         </p>
 
-        <a @click="goToArtistDetails()" target="_blank" style="text-decoration: underline;">Check the example description here</a>
+        <a
+          @click="goToArtistDetails()"
+          target="_blank"
+          style="text-decoration: underline"
+          >Check the example description here</a
+        >
       </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor"
+import { VueEditor } from 'vue2-editor'
 import computeds from '~/mixins/computeds'
 //   import styles from '~/mixins/styles'
 
 export default {
   components: {
-    VueEditor
+    VueEditor,
   },
   name: 'FormPage',
   // mixins: [computeds, styles],
@@ -798,7 +826,7 @@ export default {
       royalBool: false,
       splitBool: false,
       errorWalletArtist: false,
-      errorMessage: "",
+      errorMessage: '',
       track: false,
       artistAboutValue: 'artist-about',
       rulesRoyal: [
@@ -846,22 +874,22 @@ export default {
     this.returnHome()
   },
   methods: {
-    returnHome(){
-      if (this.isAdmin !== true){
+    returnHome() {
+      if (this.isAdmin !== true) {
         this.$router.push('/')
       }
     },
     scrollToForm() {
-      const section = document.getElementById("section-form-nft");
+      const section = document.getElementById('section-form-nft')
       if (section) {
         section.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+          behavior: 'smooth',
+          block: 'start',
+        })
       }
     },
-    goToArtistDetails(){
-      localStorage.setItem("artist-about", this.artistAboutValue)
+    goToArtistDetails() {
+      localStorage.setItem('artist-about', this.artistAboutValue)
       this.$router.push({ path: 'artist-details?artist=2' })
     },
     trackSong() {
@@ -880,10 +908,10 @@ export default {
 
       if (validate) {
         this.errorWalletArtist = false
-        this.errorMessage = ""
+        this.errorMessage = ''
       } else {
         this.errorWalletArtist = true
-        this.errorMessage = "Account invalidate"
+        this.errorMessage = 'Account invalidate'
       }
     },
     async inputAccount(item) {
@@ -896,7 +924,7 @@ export default {
         item.errorMessage = null
       } else {
         item.error = true
-        item.errorMessage = "Account invalidate"
+        item.errorMessage = 'Account invalidate'
       }
       console.log(item)
     },
@@ -987,12 +1015,12 @@ export default {
       this.showItem = item
       const srcAudio = this.baseUrlSlash + this.showItem.tierItem.audio
 
-      const sonido = document.createElement("audio");
-      sonido.src = srcAudio;
-      sonido.setAttribute("preload", "auto");
-      sonido.setAttribute("controls", "none");
-      sonido.style.display = "none"; // <-- oculto
-      document.body.appendChild(sonido);
+      const sonido = document.createElement('audio')
+      sonido.src = srcAudio
+      sonido.setAttribute('preload', 'auto')
+      sonido.setAttribute('controls', 'none')
+      sonido.style.display = 'none' // <-- oculto
+      document.body.appendChild(sonido)
 
       this.showItem.track = sonido
 
@@ -1155,24 +1183,12 @@ export default {
     inputSave() {
       // this.disabledSave = false
       if (this.formArtistItem) {
-        console.log("HOLA")
-        console.log(
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
         if (this.validateFormTier() && this.royalBool && this.splitBool) {
           this.disabledSave = false
         } else {
           this.disabledSave = true
         }
       } else if (!this.formArtistItem) {
-        console.log(
-          this.validateFormArtist(),
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
         if (
           this.validateFormArtist() &&
           this.validateFormTier() &&
@@ -1209,10 +1225,10 @@ export default {
       ) {
         console.log(this.selectedTier)
         if (this.formTier.song) {
-            return true
-          } else {
-            return false
-          }
+          return true
+        } else {
+          return false
+        }
         // if (this.selectedTier === 'Tier 1') {
         //   if (this.formTier.song) {
         //     return true
@@ -1240,38 +1256,29 @@ export default {
       }
     },
     async saveNewCollection() {
-      console.log("NEW COLLECITON")
+      console.log('NEW COLLECITON')
       this.btnSave = true
       if (this.$refs.form.validate() && this.isApprove && !this.isApprove) {
-        console.log("ENTRO")
+        console.log('ENTRO')
         console.log(this.formArtistItem)
         const itemIpfs = await this.uploadIpfs(this.imageNft)
 
         const formDataNft = new FormData()
         formDataNft.append('wallet', this.$ramper.getAccountId())
         formDataNft.append('id_collection', this.formArtistItem.id_collection)
-        formDataNft.append(
-          'tierNumber',
-          1
-        )
+        formDataNft.append('tierNumber', 1)
         formDataNft.append('nft_name', this.formTier.nft_name)
         formDataNft.append('description', this.formTier.description)
         formDataNft.append('price', this.formTier.price)
         formDataNft.append(
           'image',
-          "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+          'https://' + itemIpfs.cid + '.ipfs.nftstorage.link/' + itemIpfs.name
         )
-        formDataNft.append(
-          'royalties',
-          JSON.stringify(this.dataRoyalties)
-        )
-        formDataNft.append(
-          'royalties_split',
-          JSON.stringify(this.dataSplit)
-        )
+        formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
+        formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
 
         formDataNft.append('audio', this.formTier.song)
-    
+
         this.$axios
           .post(`${this.baseUrl}api/v1/new-collection/`, formDataNft)
           .then(() => {
@@ -1312,16 +1319,16 @@ export default {
               console.log(result.data)
               const formDataNft = new FormData()
               formDataNft.append('artist_proposal', result.data.id)
-              formDataNft.append(
-                'tierNumber',
-                1
-              )
+              formDataNft.append('tierNumber', 1)
               formDataNft.append('nft_name', this.formTier.nft_name)
               formDataNft.append('description', this.formTier.description)
               formDataNft.append('price', this.formTier.price)
               formDataNft.append(
                 'image',
-                "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+                'https://' +
+                  itemIpfs.cid +
+                  '.ipfs.nftstorage.link/' +
+                  itemIpfs.name
               )
               formDataNft.append(
                 'royalties',
@@ -1364,16 +1371,13 @@ export default {
 
           const formDataNft = new FormData()
           formDataNft.append('artist_proposal', this.formArtistItem.id)
-          formDataNft.append(
-            'tierNumber',
-            1
-          )
+          formDataNft.append('tierNumber', 1)
           formDataNft.append('nft_name', this.formTier.nft_name)
           formDataNft.append('description', this.formTier.description)
           formDataNft.append('price', this.formTier.price)
           formDataNft.append(
             'image',
-            "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+            'https://' + itemIpfs.cid + '.ipfs.nftstorage.link/' + itemIpfs.name
           )
           formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
           formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
@@ -1396,10 +1400,9 @@ export default {
               console.log(err)
             })
         }
-      } else{
+      } else {
         this.btnSave = false
       }
-      
     },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
@@ -1442,7 +1445,8 @@ export default {
         if (resp.data.value?.cid && resp.data.value?.files[0]?.name) {
           return {
             cid: resp.data.value.cid,
-            name: resp.data.value.files[0].name}
+            name: resp.data.value.files[0].name,
+          }
         } else {
           return false
         }

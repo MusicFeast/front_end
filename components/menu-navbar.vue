@@ -5,34 +5,60 @@
       id="drawer-toggle"
       v-model="drawer"
       height="100%"
-      fixed left
+      fixed
+      left
       temporary
       :overlay-opacity="$store.state.overlay.opacity"
       :overlay-color="$store.state.overlay.color"
       class="font2"
     >
       <section class="v-navigation-drawer__content--header divcol center gap2">
-        <v-btn icon class="close" style="--top: 8px; --right: 8px" @click="drawer=false">
+        <v-btn
+          icon
+          class="close"
+          style="--top: 8px; --right: 8px"
+          @click="drawer = false"
+        >
           <v-icon>mdi-close</v-icon>
         </v-btn>
 
-        <a class="center" @click="$router.push(localePath('/')); $scrollTo('home')">
-          <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: 8em">
+        <a
+          class="center"
+          @click="
+            $router.push(localePath('/'))
+            $scrollTo('home')
+          "
+        >
+          <img
+            src="~/assets/sources/logos/logo.svg"
+            alt="logo"
+            style="--w: 8em"
+          />
         </a>
         <v-btn
           v-if="!isLogged"
           class="btn activeBtn"
-          style="--w:75%; --min-h: 30px; --p: .5em 2em"
-          :ripple="false" @click="$parent.$parent.$parent.$refs.connect.modalConnect = true">Log In</v-btn>
+          style="--w: 75%; --min-h: 30px; --p: 0.5em 2em"
+          :ripple="false"
+          @click="$parent.$parent.$parent.$refs.connect.modalConnect = true"
+          >Log In</v-btn
+        >
 
-        <v-menu v-else v-model="menuProfile" bottom offset-y :close-on-content-click="false"> 
-          <template #activator="{ on, attrs}">
+        <v-menu
+          v-else
+          v-model="menuProfile"
+          bottom
+          offset-y
+          :close-on-content-click="false"
+        >
+          <template #activator="{ on, attrs }">
             <v-btn
               class="btn activeBtn"
-              style="--w:75%; --min-h: 30px; --p: .5em"
+              style="--w: 75%; --min-h: 30px; --p: 0.5em"
               :ripple="false"
               v-bind="attrs"
-              v-on="on">{{user.username || account}}
+              v-on="on"
+              >{{ user.username || account }}
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -40,14 +66,31 @@
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
             <!-- info profile content -->
             <v-list-item
-              v-for="(item,i) in $parent.dataMenuProfile" :key="i" :disabled="item.to === '/marketplace-vip' && user.tier < 3 ? true : false"
-              :ripple="false" :class="{active: item.to === $route.path}" class="deletemobile"
-              @click="menuProfile = false; drawer = false; $router.push(localePath(item.to))">
-              <v-list-item-title class="tcap" :class="{not_transform: item.to === '/marketplace-vip'}">
-                {{item.title}}
+              v-for="(item, i) in $parent.dataMenuProfile"
+              :key="i"
+              :disabled="
+                item.to === '/marketplace-vip' && user.tier < 3 ? true : false
+              "
+              :ripple="false"
+              :class="{ active: item.to === $route.path }"
+              class="deletemobile"
+              @click="
+                menuProfile = false
+                drawer = false
+                $router.push(localePath(item.to))
+              "
+            >
+              <v-list-item-title
+                class="tcap"
+                :class="{ not_transform: item.to === '/marketplace-vip' }"
+              >
+                {{ item.title }}
                 <v-chip
-                  v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
-                  :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip>
+                  v-show="item.to === '/marketplace-vip'"
+                  style="margin-left: 5px; border-radius: 5px"
+                  :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'"
+                  >{{ user.tier >= 3 ? 'Activated' : 'disabled' }}</v-chip
+                >
               </v-list-item-title>
             </v-list-item>
 
@@ -63,22 +106,22 @@
               </v-list-item-title>
             </v-list-item> -->
 
-            <v-list-item disabled class="divcol" style="gap:3px">
+            <v-list-item disabled class="divcol" style="gap: 3px">
               <div class="space gap1 fill_w">
                 <span class="bold">NEAR</span>
-                <span class="semibold" style="--c:var(--accent)">{{balanceNear}} N</span>
+                <span class="semibold" style="--c: var(--accent)"
+                  >{{ balanceNear }} N</span
+                >
               </div>
-              
+
               <!-- <div class="space gap1 fill_w">
                 <span class="bold">MF</span>
                 <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
               </div> -->
             </v-list-item>
 
-            <v-list-item
-              :ripple="false"
-              @click="$ramper.openWallet()">
-              <v-list-item-title class="tcap" :class="{not_transform: false}">
+            <v-list-item :ripple="false" @click="$ramper.openWallet()">
+              <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Open Wallet
               </v-list-item-title>
             </v-list-item>
@@ -87,16 +130,29 @@
             <v-btn
               :ripple="false"
               class="btn activeBtn bold"
-              style="--fs: 15px;--w:calc(100% - (1em * 2)); margin: 1em"
-              @click="$store.commit('signOut'); menuProfile = false; drawer = false">Log out</v-btn>
+              style="--fs: 15px; --w: calc(100% - (1em * 2)); margin: 1em"
+              @click="
+                $store.commit('signOut')
+                menuProfile = false
+                drawer = false
+              "
+              >Log out</v-btn
+            >
 
             <span v-show="user.tier !== 0" class="tag">{{
-              user.tier===1 ? 'bronze' :
-              user.tier===2 ? 'silver' :
-              user.tier===3 ? 'gold' :
-              user.tier===4 ? 'platinum' :
-              user.tier===5 ? 'diamond' :
-              user.tier===6 ? 'uranium' : 'user'
+              user.tier === 1
+                ? 'bronze'
+                : user.tier === 2
+                ? 'silver'
+                : user.tier === 3
+                ? 'gold'
+                : user.tier === 4
+                ? 'platinum'
+                : user.tier === 5
+                ? 'diamond'
+                : user.tier === 6
+                ? 'uranium'
+                : 'user'
             }}</span>
           </v-list>
         </v-menu>
@@ -105,8 +161,16 @@
       <section class="v-navigation-drawer__content--content divcol jspace gap2">
         <v-list class="fill_w">
           <v-list-item
-            v-for="(item,i) in $parent.dataNavbar" :key="i" :ripple="false" link :class="{active: item.to === $route.path}"
-            @click="drawer = false; $router.push(localePath(item.to))">
+            v-for="(item, i) in $parent.dataNavbar"
+            :key="i"
+            :ripple="false"
+            link
+            :class="{ active: item.to === $route.path }"
+            @click="
+              drawer = false
+              $router.push(localePath(item.to))
+            "
+          >
             <v-list-item-title class="conttitle acenter gap1 h10_em">
               <span style="max-width: max-content" class="tcap">
                 {{ item.name }}
@@ -125,12 +189,20 @@
           </v-list-item> -->
         </v-list>
 
-        <section class="v-navigation-drawer__content--footer divcol center gap1">
+        <section
+          class="v-navigation-drawer__content--footer divcol center gap1"
+        >
           <span class="h10_em">Join us on:</span>
 
           <div class="center gap2">
-            <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.url" target="_blank">
-              <v-icon>{{item.icon}}</v-icon>
+            <v-btn
+              v-for="(item, i) in dataSocial"
+              :key="i"
+              icon
+              :href="item.url"
+              target="_blank"
+            >
+              <v-icon>{{ item.icon }}</v-icon>
             </v-btn>
           </div>
         </section>
@@ -145,7 +217,7 @@ import computeds from '~/mixins/computeds'
 const { Contract } = nearAPI
 
 export default {
-  name: "NavbarMenuComponent",
+  name: 'NavbarMenuComponent',
   mixins: [computeds],
   data() {
     return {
@@ -161,7 +233,7 @@ export default {
         // { icon:"mdi-facebook", url:"#" },
         // { icon:"discord", url:"#" }
       ],
-    };
+    }
   },
   // created() {
   //   const theme = localStorage.getItem("theme");
@@ -171,30 +243,40 @@ export default {
     this.isAdmin = await this.getIsAdmin()
     // this.$store.commit('priceNEAR')
     await this.getPriceNear()
-    const queryString = window.location.search; // tomo mi url
-    const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+    const queryString = window.location.search // tomo mi url
+    const urlParams = new URLSearchParams(queryString) // tomo los paramtros de url
 
-    if (urlParams.get("account_id") !== null && urlParams.get("all_keys") !== null) {
-      localStorage.setItem("ramper_loggedInUser", JSON.stringify({
-        UID: "near_wallet",
-        signupSource: "near_wallet",
-        wallets: {
-          near: {
-            blockchain: "near",
-            creationDate: "",
-            provider: "near_wallet",
-            publicKey: urlParams.get("account_id"),
-            walletId: urlParams.get("all_keys")
-          }
-        }
-      }))
-      history.replaceState(null, location.href.split("?")[0], window.location.pathname);
+    if (
+      urlParams.get('account_id') !== null &&
+      urlParams.get('all_keys') !== null
+    ) {
+      localStorage.setItem(
+        'ramper_loggedInUser',
+        JSON.stringify({
+          UID: 'near_wallet',
+          signupSource: 'near_wallet',
+          wallets: {
+            near: {
+              blockchain: 'near',
+              creationDate: '',
+              provider: 'near_wallet',
+              publicKey: urlParams.get('account_id'),
+              walletId: urlParams.get('all_keys'),
+            },
+          },
+        })
+      )
+      history.replaceState(
+        null,
+        location.href.split('?')[0],
+        window.location.pathname
+      )
       location.reload()
     }
     const act = this.$ramper.getAccountId()
 
     if (act) {
-      this.account = act.substring(0, 20) + "..."
+      this.account = act.substring(0, 20) + '...'
     }
     this.getDataSocial()
     this.getBalance()
@@ -217,71 +299,71 @@ export default {
           })
       }
     },
-    async getPriceNear () {
-      const account = await this.$near.account(this.$ramper.getAccountId());
+    async getPriceNear() {
+      const account = await this.$near.account(this.$ramper.getAccountId())
       const contract = new Contract(account, process.env.CONTRACT_NFT, {
-      viewMethods: ["get_tasa"],
-      sender: account,
-    })
+        viewMethods: ['get_tasa'],
+        sender: account,
+      })
 
-    const price = await contract.get_tasa()
+      const price = await contract.get_tasa()
 
-    localStorage.setItem("priceNear", price)
-    
+      localStorage.setItem('priceNear', price)
     },
     async getDataSocial() {
-      await this.$axios.get(`${this.baseUrl}api/v1/get-info-mf`)
-      .then(result => {
-        const data = result.data
-        if (data[0]) {
-          const datos = []
-          if (data[0].instagram_icon && data[0].instagram_link) {
-            datos.push({ 
-                icon: data[0].instagram_icon, 
+      await this.$axios
+        .get(`${this.baseUrl}api/v1/get-info-mf`)
+        .then((result) => {
+          const data = result.data
+          if (data[0]) {
+            const datos = []
+            if (data[0].instagram_icon && data[0].instagram_link) {
+              datos.push({
+                icon: data[0].instagram_icon,
                 to: data[0].instagram_link,
-            })
-          }
-          if (data[0].twitter_icon && data[0].twitter_link) {
-            datos.push({ 
-                icon: data[0].twitter_icon, 
+              })
+            }
+            if (data[0].twitter_icon && data[0].twitter_link) {
+              datos.push({
+                icon: data[0].twitter_icon,
                 to: data[0].twitter_link,
-            })
-          }
-          if (data[0].facebook_icon && data[0].facebook_link) {
-            datos.push({ 
-                icon: data[0].facebook_icon, 
+              })
+            }
+            if (data[0].facebook_icon && data[0].facebook_link) {
+              datos.push({
+                icon: data[0].facebook_icon,
                 to: data[0].facebook_link,
-            })
-          }
-          if (data[0].discord_icon && data[0].discord_link) {
-            datos.push({ 
-                icon: data[0].discord_icon, 
+              })
+            }
+            if (data[0].discord_icon && data[0].discord_link) {
+              datos.push({
+                icon: data[0].discord_icon,
                 to: data[0].discord_link,
-            })
+              })
+            }
+            this.dataSocial = datos
           }
-          this.dataSocial = datos
-        }
-        // console.log(data)
-      }).catch(err => {
-        // this.$alert("cancel", {desc: err.message})
-        console.error(err);
-      })
+          // console.log(data)
+        })
+        .catch((err) => {
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
     },
-    async getBalance () {
+    async getBalance() {
       try {
         if (this.$ramper.getUser()) {
-          const account = await this.$near.account(this.$ramper.getAccountId());
-          const response = await account.state();
+          const account = await this.$near.account(this.$ramper.getAccountId())
+          const response = await account.state()
           const valueStorage = Math.pow(10, 19)
           const valueYocto = Math.pow(10, 24)
 
-          const storage = (response.storage_usage * valueStorage) / valueYocto 
-          this.balanceNear = ((response.amount / valueYocto) - storage).toFixed(2)
+          const storage = (response.storage_usage * valueStorage) / valueYocto
+          this.balanceNear = (response.amount / valueYocto - storage).toFixed(2)
         }
       } catch (error) {
-        return "0"
+        return '0'
       }
-      
     },
     // isScrollTop() {
     //   if (this.$route.path === this.localePath('/') {
@@ -302,7 +384,7 @@ export default {
     //   }
     // },
   },
-};
+}
 </script>
 
 <style src="~/assets/styles/components/navbar.scss" lang="scss" />

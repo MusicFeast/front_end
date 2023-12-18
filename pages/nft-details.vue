@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="nft-details"
-    class="divcol"
-  >
+  <div id="nft-details" class="divcol">
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
@@ -70,7 +67,7 @@
         <iframe
           v-if="media == 'video' && mediaUrl"
           :src="mediaUrl"
-          height="100%" 
+          height="100%"
           width="100%"
           frameborder="0"
           allow="autoplay; fullscreen"
@@ -232,7 +229,15 @@
 
         <p class="p font20" v-html="nft_main.description"></p>
 
-        <span class="font20">Learn More About Community Access: <a href="quick-tip-help" target="_blank" style="text-decoration: underline;">Quick Tip Help</a></span>
+        <span class="font20"
+          >Learn More About Community Access:
+          <a
+            href="quick-tip-help"
+            target="_blank"
+            style="text-decoration: underline"
+            >Quick Tip Help</a
+          ></span
+        >
       </article>
     </section>
 
@@ -440,19 +445,28 @@
     </v-expansion-panels>
 
     <!-- Dialog Quick Help -->
-    <v-dialog v-model="dialogHelp" max-width="500px" content-class="nft-dialog" persistent>
+    <v-dialog
+      v-model="dialogHelp"
+      max-width="500px"
+      content-class="nft-dialog"
+      persistent
+    >
       <v-btn icon class="close" @click="dialogHelp = false">
         <v-icon large>mdi-close</v-icon>
       </v-btn>
 
       <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
-        <h2 class="p center" style="--fs: 1.8em;">
-          Quick Tip Help
-        </h2>
-        <a @click="$router.push('quick-tip-help')">Purchase - Why Purchase and Where</a>
+        <h2 class="p center" style="--fs: 1.8em">Quick Tip Help</h2>
+        <a @click="$router.push('quick-tip-help')"
+          >Purchase - Why Purchase and Where</a
+        >
         <a @click="$router.push('quick-tip-help')">Redeem - What Is This</a>
-        <a @click="$router.push('quick-tip-help')">Hold NFT - How Does This Work</a>
-        <a @click="$router.push('quick-tip-help')">Transfer - How Does This Work</a>
+        <a @click="$router.push('quick-tip-help')"
+          >Hold NFT - How Does This Work</a
+        >
+        <a @click="$router.push('quick-tip-help')"
+          >Transfer - How Does This Work</a
+        >
       </v-card>
     </v-dialog>
   </div>
@@ -571,7 +585,7 @@ export default {
     if (isFirefox) setTimeout(() => window.scrollTo(0, 1), 0)
   },
   async mounted() {
-    this.$gtag.pageview({ page_path: this.$route.path }); // Google Analytics
+    this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
     this.nft_main = this.nft
     // console.log("BRRRRRR",this.nft_main)
     this.nft_main.price_near = this.dollarConversion(this.nft_main.price)
@@ -761,7 +775,7 @@ export default {
             where: {
               owner_id: $owner_id
               artist_id: $artist_id
-              metadata_: {reference: $reference}
+              metadata_: { reference: $reference }
             }
           ) {
             typetoken_id
@@ -853,21 +867,25 @@ export default {
       }
     },
     async getMedia(media) {
-      console.log( String(media), Number(this.nft_main.artist_id), Number(this.nft_main.collection))
+      console.log(
+        String(media),
+        Number(this.nft_main.artist_id),
+        Number(this.nft_main.collection)
+      )
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-media/`, {
           media: String(media),
           artist: Number(this.nft_main.artist_id),
-          number_collection: Number(this.nft_main.collection)
+          number_collection: Number(this.nft_main.collection),
         })
         .then((result) => {
           const data = result.data
-          console.log("DATAAAAAAA", data)
+          console.log('DATAAAAAAA', data)
           if (data.media) {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
-              this.mediaUrl = "https://player.vimeo.com/video/" + data.media
+              this.mediaUrl = 'https://player.vimeo.com/video/' + data.media
             }
             // console.log("MEDIA1", this.mediaUrl)
           }
@@ -1236,7 +1254,7 @@ export default {
                 'transaction_data',
                 JSON.stringify({
                   state: 'success',
-                  title: 'Success', 
+                  title: 'Success',
                   tier: 'tier1',
                   desc: "You Have Now Successfully Acquired Your Community Access Pass. A Community Access Pass Allows You To Gain Entrance Into The Artist's Exclusive Community. This Is Where You Will Be Able To Hear New Music, Chat With The Artist, and Get Exclusive Access For Subscribers Only. The Community Chat Can Now Be Found On The Artist Page. ",
                   hash: res.txHashes[0],

@@ -23,7 +23,7 @@
           v-for="(item, i) in dataNavbar"
           :key="i"
           class="tup"
-          :class="{'showmobile': item.name === 'profile'}"
+          :class="{ showmobile: item.name === 'profile' }"
           @click="goTo(item.to)"
           >{{ item.name }}</a
         >
@@ -97,7 +97,8 @@
               "
             >
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                <!-- {{ item.title }} --> Dashboard / Add Track
+                <!-- {{ item.title }} -->
+                Dashboard / Add Track
                 <!-- <v-chip
                   v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
                   :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip> -->
@@ -305,14 +306,18 @@ export default {
     },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
-        await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
-          .then(result => {
+        await this.$axios
+          .post(`${this.baseUrl}api/v1/is-admin/`, {
+            admin: this.$ramper.getAccountId(),
+          })
+          .then((result) => {
             console.log(result.data)
-            this.$store.commit("setIsAdmin", result.data);
+            this.$store.commit('setIsAdmin', result.data)
             this.isAdmin = result.data
-          }).catch(err => {
+          })
+          .catch((err) => {
             // this.$alert("cancel", {desc: err.message})
-            console.error(err);
+            console.error(err)
           })
       }
     },
