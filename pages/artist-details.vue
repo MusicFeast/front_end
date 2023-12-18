@@ -101,7 +101,7 @@
           @click="toggle"
         >
           <v-card
-            v-if="!item.validate"
+            v-if="!item.disabled"
             class="card divcol custome"
             :class="{
               active: active,
@@ -233,7 +233,7 @@
             <span>Update Tier</span>
           </v-tooltip> -->
             <a
-              v-if="!item.validate"
+              v-if="!item.disabled"
               @click="
                 $store.dispatch('goTo', { key: 'nft', item, event: $event })
               "
@@ -241,8 +241,7 @@
             >
             <a v-else>More Details</a>
             <v-btn
-              v-if="!item.state"
-              :disabled="item.validate"
+              :disabled="item.disabled"
               :ripple="false"
               class="btn activeBtn align"
               style="--w: calc(100% - 1em)"
@@ -251,27 +250,7 @@
                   key: 'nft',
                   item,
                   event: $event,
-                  buyDirect: true,
                 })
-              "
-              >Go to Buy Page</v-btn
-            >
-            <v-btn
-              v-else-if="item.state === 'coming soon'"
-              disabled
-              :ripple="false"
-              class="btn activeBtn align"
-              style="--w: calc(100% - 1em)"
-              >Go to Buy page</v-btn
-            >
-            <v-btn
-              v-else
-              :disabled="item.validate"
-              :ripple="false"
-              class="btn activeBtn align"
-              style="--w: calc(100% - 1em)"
-              @click="
-                $store.dispatch('goTo', { key: 'nft', item, event: $event })
               "
               >Go to Buy Page</v-btn
             >
@@ -330,16 +309,14 @@
 
     <section class="container-collections grid">
       <template v-for="(item, i) in dataCollections_pagination">
-        <v-sheet
-          :key="i"
-          color="rgba(0, 0, 0, .4)"
-          class="divcol"
-        >
+        <v-sheet :key="i" color="rgba(0, 0, 0, .4)" class="divcol">
           <v-card
             v-if="!item.state"
             :key="i"
             class="card divcol custome"
-            @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
+            @click="
+              $store.dispatch('goTo', { key: 'nft', item, event: $event })
+            "
           >
             <v-img
               v-if="isCreator"
@@ -437,7 +414,7 @@
                 <v-skeleton-loader type="card" />
               </template>
             </v-img>
-            
+
             <!-- <v-img
               :src="item.img"
               :alt="`${item.name} image`"
@@ -479,20 +456,33 @@
           <div class="tier-desc divcol">
             <a class="tup bold" style="cursor: default">{{ item.name }}</a>
             <ul>
-              <li
-                v-show="item.desc"
-                v-html="item.desc.limitString(110)"
-              ></li>
+              <li v-show="item.desc" v-html="item.desc.limitString(110)"></li>
             </ul>
           </div>
 
           <div class="container-actions divcol">
-            <a>More Details</a>
+            <a
+              v-if="!item.disabled"
+              @click="
+                $store.dispatch('goTo', { key: 'nft', item, event: $event })
+              "
+              >More Details</a
+            >
+            <a v-else>More Details</a>
             <v-btn
+              :disabled="item.disabled"
               :ripple="false"
               class="btn activeBtn align"
               style="--w: calc(100% - 1em)"
-              >Go to Buy page</v-btn>
+              @click="
+                $store.dispatch('goTo', {
+                  key: 'nft',
+                  item,
+                  event: $event,
+                })
+              "
+              >Go to Buy Page</v-btn
+            >
           </div>
         </v-sheet>
       </template>
@@ -1005,6 +995,7 @@ export default {
               tier: Number(data[i].typetoken_id),
               type_id: data[i].id,
               validate: this.validateTier,
+              disabled: true,
             }
 
             if (item.tier === 7) {
@@ -1031,16 +1022,20 @@ export default {
               case true:
                 if (item.tier === 1) {
                   item.state = 'owned'
+                  item.disabled = false
                 } else {
                   item.state = ''
+                  item.disabled = false
                 }
                 break
 
               default:
                 if (item.tier === 1) {
                   item.state = ''
+                  item.disabled = false
                 } else {
                   item.state = 'locked'
+                  item.disabled = true
                 }
                 break
             }
@@ -1052,20 +1047,26 @@ export default {
 
             if (tiersComing && tiersComing.tierOne && item.tier === 1) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierTwo && item.tier === 2) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (
               tiersComing &&
               tiersComing.tierThree &&
               item.tier === 3
             ) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierFour && item.tier === 4) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierFive && item.tier === 5) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierSix && item.tier === 6) {
               item.state = 'coming soon'
+              item.disabled = true
             }
 
             if (item.tier !== 1) {
@@ -1085,6 +1086,7 @@ export default {
               Number(item.supply) >= Number(item.copies)
             ) {
               item.state = 'sold out'
+              item.disabled = true
             }
 
             // if (item.validate && item.tier !== 1) {
@@ -1421,10 +1423,7 @@ export default {
 
           const data = res.data.series
 
-          console.log('DATANEW', data)
           this.dataSlider = []
-
-          console.log('SKU', data)
 
           for (let i = 0; i < data.length; i++) {
             const item = {
@@ -1446,23 +1445,28 @@ export default {
               supply: data[i].supply,
               copies: data[i].copies || 0,
               state: null,
-              validate: this.validateTier,
+              validate: true,
+              disabled: true,
             }
 
             switch (tierOwner) {
               case true:
                 if (item.tier === 1) {
                   item.state = 'owned'
+                  item.disabled = false
                 } else {
                   item.state = ''
+                  item.disabled = false
                 }
                 break
 
               default:
                 if (item.tier === 1) {
                   item.state = ''
+                  item.disabled = false
                 } else {
                   item.state = 'locked'
+                  item.disabled = true
                 }
                 break
             }
@@ -1474,20 +1478,26 @@ export default {
 
             if (tiersComing && tiersComing.tierOne && item.tier === 1) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierTwo && item.tier === 2) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (
               tiersComing &&
               tiersComing.tierThree &&
               item.tier === 3
             ) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierFour && item.tier === 4) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierFive && item.tier === 5) {
               item.state = 'coming soon'
+              item.disabled = true
             } else if (tiersComing && tiersComing.tierSix && item.tier === 6) {
               item.state = 'coming soon'
+              item.disabled = true
             }
 
             if (item.tier !== 1) {
@@ -1507,6 +1517,7 @@ export default {
               Number(item.supply) >= Number(item.copies)
             ) {
               item.state = 'sold out'
+              item.disabled = true
             }
 
             this.dataSliderPreview.push(item)
