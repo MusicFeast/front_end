@@ -156,18 +156,7 @@
             }"
           >
             <v-img
-<<<<<<< HEAD
               v-if="isCreator"
-=======
-            :src="item.img" :alt="`${item.name} image`" transition="fade-transition"
-            :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`">
-            <template #placeholder>
-              <v-skeleton-loader type="card" />
-            </template>
-          </v-img>
-
-            <!-- <v-img
->>>>>>> 97e0257231de23043bb1723f50025b4fcc72e983
               :src="item.img"
               :alt="`${item.name} image`"
               transition="fade-transition"
@@ -182,7 +171,7 @@
                 @click="goToForm(item)"
                 >Edit this Tier</v-btn
               >
-            </v-img> -->
+            </v-img>
 
             <v-img
               v-else
