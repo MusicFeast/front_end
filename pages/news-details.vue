@@ -3,10 +3,7 @@
     <h2 class="Title tup">press &amp; news</h2>
 
     <section class="container-press-and-news grid">
-      <v-img
-        :src="dataNews.image"
-        transition="fade-transition"
-      >
+      <v-img :src="dataNews.image" transition="fade-transition">
         <template #placeholder>
           <v-skeleton-loader type="card" />
         </template>
@@ -105,17 +102,17 @@ export default {
         { icon: 'mdi-instagram', link: '#' },
         { icon: 'mdi-twitter', link: '#' },
         { icon: 'mdi-facebook', link: '#' },
-        { icon: 'discord', link: '#' }
+        { icon: 'discord', link: '#' },
       ],
       slider: null,
       dataNews: [],
-      dataOtherNews: []
+      dataOtherNews: [],
     }
   },
   head() {
     const title = 'News Details'
     return {
-      title
+      title,
     }
   },
   mounted() {
@@ -128,8 +125,8 @@ export default {
   },
   methods: {
     async getData() {
-      const queryString = window.location.search;
-		  const urlParams = new URLSearchParams(queryString);
+      const queryString = window.location.search
+      const urlParams = new URLSearchParams(queryString)
       const slug = urlParams.get('title')
       const title = slug === null ? '' : slug.replace(/-/g, ' ')
       // console.log('title', title)
@@ -148,8 +145,8 @@ export default {
             this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           }
           this.navigateWithQueryParams()
-          if(title!==null){
-            this.getDataAll();
+          if (title !== null) {
+            this.getDataAll()
           }
           // console.log('nameee', this.dataNews.title)
         })
@@ -189,10 +186,10 @@ export default {
     navigateWithQueryParams() {
       const itemName = this.dataNews.title.replace(/ /g, '-')
       this.$router.push({
-        path: `/news-details/?title=${itemName}`
+        path: `/news-details/?title=${itemName}`,
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

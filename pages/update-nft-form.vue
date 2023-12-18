@@ -733,12 +733,6 @@ export default {
           this.disabledSave = true
         }
       } else if (!this.formArtistItem) {
-        console.log(
-          this.validateFormArtist(),
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
         if (
           this.validateFormArtist() &&
           this.validateFormTier() &&
@@ -774,7 +768,6 @@ export default {
         this.formTier.price &&
         this.formTier.copies
       ) {
-        console.log(this.selectedTier)
         if (this.selectedTier === 'Tier 1') {
           if (this.formTier.song) {
             return true
@@ -804,7 +797,6 @@ export default {
     async updateNft() {
       this.btnSave = true
       if (this.$refs.form.validate()) {
-        console.log(this.$refs.form.validate())
         if (this.selectedImageNft) {
           const itemIpfs = await this.uploadIpfs(this.imageNft)
           if (itemIpfs) {
@@ -849,7 +841,6 @@ export default {
         this.$axios
           .post(`${process.env.NODE_URL}/update-nft/`, formDataNft)
           .then((res) => {
-            console.log(res)
             this.btnSave = false
             this.dialogSuccess = true
           })
@@ -886,7 +877,6 @@ export default {
           this.$axios
             .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
             .then((result) => {
-              console.log(result.data)
               const formDataNft = new FormData()
               formDataNft.append('artist_proposal', result.data.id)
               formDataNft.append(
@@ -1015,7 +1005,6 @@ export default {
 
         // this.uploadedFileInfo = resp.data.value
         // localStorage.setItem('cid', this.uploadedFileInfo.cid)
-        console.log('IPFS', resp.data)
         if (resp.data.value?.cid && resp.data.value?.files[0]?.name) {
           return {
             cid: resp.data.value.cid,
@@ -1036,7 +1025,6 @@ export default {
             wallet: this.$ramper.getAccountId(),
           })
           .then((result) => {
-            console.log(result.data)
             if (result.data.length === 0) {
               this.items_tier = ['Tier 1']
               this.selectedTier = 'Tier 1'
@@ -1069,7 +1057,6 @@ export default {
           })
           .then((result) => {
             this.tableItemsArtists = []
-            console.log(result.data)
             const data = []
             // for (let i = 0; i < result.data.length; i++) {
             for (const item of result.data) {

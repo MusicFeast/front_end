@@ -621,7 +621,13 @@ export default {
       }
     },
     async getMedia(media) {
-      // console.log("MEDIA", media, "ARTIST", this.nft_main.artist_id)
+      console.log(
+        'MEDIA',
+        media,
+        'ARTIST',
+        this.nft_main.artist_id,
+        this.nft_main.collection
+      )
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-media/`, {
           media: String(media),
@@ -630,6 +636,7 @@ export default {
         })
         .then((result) => {
           const data = result.data
+          console.log('DATAA', data)
           if (data.media) {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media

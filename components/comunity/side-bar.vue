@@ -8,17 +8,18 @@
       @click="selectArtist(item)"
     > -->
     <div
-      v-for="(item, i) in dataArtists" :key="i"
+      v-for="(item, i) in dataArtists"
+      :key="i"
       class="container-image"
       :class="{ active: item.active }"
       @click="selectArtist(item)"
     >
-      <avatar-tier 
+      <avatar-tier
         :title="item.artist"
         :src="item.img"
         width="100%"
-        :aspect-ratio="1/1"
-        :tier="i==2 ? 4 : 0"
+        :aspect-ratio="1 / 1"
+        :tier="i == 2 ? 4 : 0"
       />
     </div>
   </nav>
@@ -29,14 +30,15 @@ import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
 export default {
-  name: "ComunitySideBar",
+  name: 'ComunitySideBar',
   mixins: [computeds],
   data() {
     return {
       isAdmin: false,
-      imgDefault: "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
+      imgDefault:
+        'https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1',
       dataArtists: [],
-      avatarIds: []
+      avatarIds: [],
     }
   },
   async mounted() {
@@ -45,13 +47,17 @@ export default {
   methods: {
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
-        await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
-          .then(result => {
+        await this.$axios
+          .post(`${this.baseUrl}api/v1/is-admin/`, {
+            admin: this.$ramper.getAccountId(),
+          })
+          .then((result) => {
             this.isAdmin = result.data
             this.getArtists()
             // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
-          }).catch(() => {
+          })
+          .catch(() => {
             // this.$alert("cancel", {desc: err.message})
             // console.error(err);
             this.isAdmin = false
@@ -62,9 +68,19 @@ export default {
     async validateTierFn(idCollection, tierId, collectionNow) {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $owner_id: String, $reference: String, $collection: String) {
+        query QUERY_APOLLO(
+          $artist_id: String
+          $owner_id: String
+          $reference: String
+          $collection: String
+        ) {
           nfts(
-            where: {owner_id: $owner_id, artist_id: $artist_id, metadata_: {reference: $reference}, collection: $collection}
+            where: {
+              owner_id: $owner_id
+              artist_id: $artist_id
+              metadata_: { reference: $reference }
+              collection: $collection
+            }
           ) {
             typetoken_id
             serie_id
@@ -84,15 +100,20 @@ export default {
             }
           }
         }
-      `;
+      `
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
-        variables: {artist_id: String(idCollection), owner_id: this.$ramper.getAccountId(), reference: String(tierId), collection: collectionNow},
+        variables: {
+          artist_id: String(idCollection),
+          owner_id: this.$ramper.getAccountId(),
+          reference: String(tierId),
+          collection: collectionNow,
+        },
       })
 
       const data = res.data.nfts
-      
+
       // console.log('data', data)
 
       if (data.length > 0) {
@@ -102,20 +123,25 @@ export default {
       }
     },
     selectArtist(item) {
-      this.dataArtists.forEach(e=>{e.active=false;item.active=true})
+      this.dataArtists.forEach((e) => {
+        e.active = false
+        item.active = true
+      })
       this.$store.state.artistSelect = item
       this.$store.state.chatSelect = null
     },
     getAvatar(id) {
-      const resp = this.$axios.post(`${this.baseUrl}api/v1/get-avatar/`, { "artist": id })
-        .then(result => {
+      const resp = this.$axios
+        .post(`${this.baseUrl}api/v1/get-avatar/`, { artist: id })
+        .then((result) => {
           const data = result.data
           if (data.image) {
             return `${this.baseUrl}` + data.image
           } else {
             return this.imgDefault
           }
-        }).catch(err => {
+        })
+        .catch((err) => {
           console.log(err)
           return this.imgDefault
         })
@@ -123,44 +149,74 @@ export default {
     },
     getArtists() {
       this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
-        this.avatarIds = [];
-        const postData = [];
+        this.avatarIds = []
+        const postData = []
         snapshot.forEach(async (doc) => {
-          const item = { ...doc.data(), id: doc.id, img: this.imgDefault, active: false }
+          const item = {
+            ...doc.data(),
+            id: doc.id,
+            img: this.imgDefault,
+            active: false,
+          }
           const artistId = this.$route.query.artist
-          if (this.isAdmin && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
+          if (
+            this.isAdmin &&
+            (item.id_collection || item.id_collection === 0) &&
+            this.$ramper.getAccountId()
+          ) {
             if (Number(item.id_collection) === 0) {
-              item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              item.img =
+                'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
               item.active = true
               this.$store.state.artistSelect = item
-            }else {
+            } else {
               // console.log(item.id_collection)
               item.img = await this.getAvatar(item.id_collection)
             }
             postData.push(item)
-          } else if (artistId && (item.id_collection || item.id_collection === 0)) {
-            if (String(item.id_collection) === String(artistId) && await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && this.$ramper.getAccountId()) {
+          } else if (
+            artistId &&
+            (item.id_collection || item.id_collection === 0)
+          ) {
+            if (
+              (String(item.id_collection) === String(artistId) &&
+                (await this.validateTierFn(item.id_collection, '1', '1'))) ||
+              (item.id_collection === 0 && this.$ramper.getAccountId())
+            ) {
               if (Number(item.id_collection) === 0) {
-                item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+                item.img =
+                  'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
                 item.active = true
                 this.$store.state.artistSelect = item
-              }else {
+              } else {
                 item.img = await this.getAvatar(item.id_collection)
               }
               postData.push(item)
             }
-          } else if (await this.validateTierFn(item.id_collection, "1", "1") || item.id_collection === 0 && (item.id_collection || item.id_collection === 0) && this.$ramper.getAccountId()) {
+          } else if (
+            (await this.validateTierFn(item.id_collection, '1', '1')) ||
+            (item.id_collection === 0 &&
+              (item.id_collection || item.id_collection === 0) &&
+              this.$ramper.getAccountId())
+          ) {
             if (Number(item.id_collection) === 0) {
-              item.img = "https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29"
+              item.img =
+                'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
               item.active = true
               this.$store.state.artistSelect = item
             } else {
               item.img = await this.getAvatar(item.id_collection)
             }
             postData.push(item)
-          } 
-        });
-        this.dataArtists = postData.sort((p1, p2) => (p1.id_collection < p2.id_collection) ? 1 : (p1.id_collection > p2.id_collection) ? -1 : 0);
+          }
+        })
+        this.dataArtists = postData.sort((p1, p2) =>
+          p1.id_collection < p2.id_collection
+            ? 1
+            : p1.id_collection > p2.id_collection
+            ? -1
+            : 0
+        )
         // console.log(this.dataArtists)
         // console.log(this.dataArtists)
         // console.log(this.dataArtists.length)
@@ -170,9 +226,9 @@ export default {
         //     this.dataArtists[i].img = this.getAvatar(this.dataArtists[i].id_collection)
         //   }
         // }
-      });
-    }
-  }
+      })
+    },
+  },
 }
 </script>
 
@@ -193,17 +249,20 @@ $line-width: 8px;
   background-color: #2b2e33;
   overflow-y: auto;
 
-  &::-webkit-scrollbar { display: none }
-
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .container-image {
     isolation: isolate;
     position: relative;
     cursor: pointer;
-    &.active:before{ height: 100% }
+    &.active:before {
+      height: 100%;
+    }
 
     &:before {
-      content: "";
+      content: '';
       background-color: var(--primary);
       position: absolute;
       top: 0;
@@ -214,7 +273,7 @@ $line-width: 8px;
       height: 16px;
       border-radius: 10px;
 
-      transition: .4s ease;
+      transition: 0.4s ease;
     }
 
     &::after {

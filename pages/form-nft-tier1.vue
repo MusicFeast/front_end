@@ -1541,12 +1541,6 @@ export default {
           this.disabledSave = true
         }
       } else if (!this.formArtistItem) {
-        console.log(
-          this.validateFormArtist(),
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
         if (
           this.validateFormArtist() &&
           this.validateFormTier() &&
@@ -1805,7 +1799,7 @@ export default {
         .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
         .then((result) => {
           const data = result.data[0]
-          console.log(data)
+
           if (result.data[0]) {
             this.$equalData(this.form, data)
             this.form.id = data.id
