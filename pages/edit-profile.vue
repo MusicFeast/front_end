@@ -498,8 +498,8 @@
                   </template>
                 </v-img>
               </v-avatar>
-              <a>{{ item.name }}</a>
-              <p v-html="item.desc"></p>
+              <a class="mb-4">{{ item.name }}</a>
+              <!-- <p v-html="item.desc"></p> -->
 
               <div class="center bold" style="gap: 6.4px">
                 <span class="floor" style="--c: var(--accent)"
@@ -541,8 +541,8 @@
                   </template>
                 </v-img>
               </v-avatar>
-              <a>{{ item.name }}</a>
-              <p v-html="item.desc"></p>
+              <a class="mb-4">{{ item.name }}</a>
+              <!-- <p v-html="item.desc"></p> -->
 
               <div class="center bold" style="gap: 6.4px">
                 <span class="floor" style="--c: var(--accent)"
