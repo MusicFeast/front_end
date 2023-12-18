@@ -192,7 +192,7 @@
               $store.dispatch('goTo', { key: 'nft', item, event: $event })
             "
           >
-            <v-img
+            <!-- <v-img
               :src="item.img"
               :alt="`${item.name} image`"
               transition="fade-transition"
@@ -201,6 +201,23 @@
               <template #placeholder>
                 <v-skeleton-loader type="card" />
               </template>
+            </v-img> -->
+
+            <v-img
+              :src="item.img"
+              :alt="`${item.name} image`"
+              transition="fade-transition"
+            >
+              <template #placeholder>
+                <v-skeleton-loader type="card" />
+              </template>
+              <v-btn
+                :disabled="item.tier != 1 && item.tier != 2"
+                class="btn"
+                style="position: absolute !important; right: 5px; top: 5px"
+                @click="goToForm(item)"
+                >Edit this Tier</v-btn
+              >
             </v-img>
 
             <div class="container-content tcenter">
@@ -237,7 +254,7 @@
               active: active,
             }"
           >
-            <v-img
+            <!-- <v-img
               :src="item.img"
               :alt="`${item.name} image`"
               transition="fade-transition"
@@ -246,6 +263,23 @@
               <template #placeholder>
                 <v-skeleton-loader type="card" />
               </template>
+            </v-img> -->
+
+            <v-img
+              :src="item.img"
+              :alt="`${item.name} image`"
+              transition="fade-transition"
+            >
+              <template #placeholder>
+                <v-skeleton-loader type="card" />
+              </template>
+              <v-btn
+                :disabled="item.tier != 1 && item.tier != 2"
+                class="btn"
+                style="position: absolute !important; right: 5px; top: 5px"
+                @click="goToForm(item)"
+                >Edit this Tier</v-btn
+              >
             </v-img>
 
             <div class="container-content tcenter">
@@ -288,7 +322,7 @@
           </div>
 
           <div class="container-actions divcol">
-            <v-tooltip
+            <!-- <v-tooltip
               v-if="isCreator"
               :disabled="item.tier != 1 && item.tier != 2"
               right
@@ -305,7 +339,7 @@
                 >
               </template>
               <span>Update Tier</span>
-            </v-tooltip>
+            </v-tooltip> -->
             <a
               v-if="!item.validate"
               @click="
@@ -380,7 +414,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
+    <h2 class="Title fwrap mb-10" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
       <span class="tup" style="--fb: max-content">lastest collections</span>
 
       <Filters
@@ -412,14 +446,6 @@
           v-if="!item.state"
           :key="i"
           class="card divcol custome"
-          :class="{
-            uranium: item.tier === 6,
-            diamond: item.tier === 5,
-            platinum: item.tier === 4,
-            gold: item.tier === 3,
-            silver: item.tier === 2,
-            bronze: item.tier === 1,
-          }"
           @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
         >
           <v-img
@@ -434,9 +460,9 @@
           </v-img>
 
           <!-- TODO put location to router or whatever logic needed here -->
-          <v-btn :ripple="false" class="btn activeBtn editBtn"
+          <!-- <v-btn :ripple="false" class="btn activeBtn editBtn"
             >Edit Profile</v-btn
-          >
+          > -->
 
           <div class="container-content tcenter">
             <v-avatar style="border: 2px solid #fff">
@@ -451,7 +477,7 @@
               </v-img>
             </v-avatar>
             <a>{{ item.name }}</a>
-            <p>{{ item.desc }}</p>
+            <p v-html="item.desc"></p>
 
             <div class="center bold" style="gap: 6.4px">
               <span class="floor" style="--c: var(--accent)"
@@ -494,7 +520,7 @@
               </v-img>
             </v-avatar>
             <a>{{ item.name }}</a>
-            <p>{{ item.desc }}</p>
+            <p v-html="item.desc"></p>
 
             <div class="center bold" style="gap: 6.4px">
               <span class="floor" style="--c: var(--accent)"

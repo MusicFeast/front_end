@@ -10,20 +10,23 @@
           md="3"
           sm="4"
           cols="12"
+          class="center"
           style="position: relative !important"
         >
-          <div
-            style="background-color: #fff; max-height: 270px; min-height: 270px"
-          >
-            <v-file-input
-              ref="fileInputNft"
-              v-model="imageNft"
-              class="input-file"
-              prepend-icon="none"
-              style="display: none"
-              @change="onFileChangeNft"
-            ></v-file-input>
+          <div class="nft-upload-div">
+            <span class="absolute-font" style="left: 20px"
+              >255 x 255 pixels <br />.jpg or .png</span
+            >
 
+            <v-file-input
+            ref="fileInputNft"
+            v-model="imageNft"
+            class="input-file"
+            prepend-icon="none"
+            style="display: none"
+            @change="onFileChangeNft"
+            ></v-file-input>
+    
             <img
               :src="selectedImageNft || tokenItem.media"
               alt=""
@@ -34,7 +37,7 @@
               class="btn btn-input-file"
               :disabled="showItem"
               @click="openFileInputNft"
-              >Upload Image</v-btn
+              >Upload Covert Art</v-btn
             >
           </div>
         </v-col>
