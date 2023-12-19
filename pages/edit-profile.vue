@@ -7,6 +7,31 @@
       @close="selectedPreview = undefined"
     ></ModalsPreviewImage>
 
+    <v-img :src="user.banner" transition="fade-transition" class="header">
+      <template #default>
+        <v-avatar
+          width="var(--size)"
+          height="var(--size)"
+          style="--size: 13.954375em"
+          @mouseenter="showTag()"
+          @mouseleave="hideTag()"
+        >
+          <v-img
+            :src="user.avatar"
+            alt="avatar image"
+            transition="fade-transition"
+          >
+            <template #placeholder>
+              <v-skeleton-loader type="avatar" />
+            </template>
+          </v-img>
+        </v-avatar>
+      </template>
+      <template #placeholder>
+        <v-skeleton-loader v-show="user.banner" type="card" />
+      </template>
+    </v-img>
+
     <v-row
       id="profile-banner"
       class="mt-6"
@@ -584,6 +609,284 @@
       @pagechanged="(page) => (currentPage = page)"
     />
 
+    <h2 class="Title tup mb-16">my nfts</h2>
+
+    <Filters
+      :search="searchNft"
+      :filter-a="filterANft.list"
+      :filter-b="filterBNft.list"
+      @search="(model) => (searchNft = model)"
+      @filterA="(model) => (filterANft.model = model)"
+      @filterB="(model) => (filterBNft.model = model)"
+      :hide="[3]"
+    />
+
+    <section ref="container" class="container-nfts grid">
+      <v-card
+        v-for="(item, i) in dataNfts_pagination"
+        :key="i"
+        class="card divcol custome"
+        @click="
+          $store.dispatch('goTo', { key: 'user-nft', item, event: $event })
+        "
+      >
+        <v-img
+          :src="item.img"
+          :alt="`${item.name} image`"
+          transition="fade-transition"
+          :style="`
+            ${item.state ? `--tag-state: '${item.state}'` : ''}`"
+        >
+          <template #placeholder>
+            <v-skeleton-loader type="card" />
+          </template>
+        </v-img>
+
+        <div class="container-content tcenter">
+          <v-avatar style="border: 2px solid #fff">
+            <v-img
+              :src="item.avatar"
+              :alt="`${item.artist} image`"
+              transition="fade-transition"
+            >
+              <template #placeholder>
+                <v-skeleton-loader type="avatar" />
+              </template>
+            </v-img>
+          </v-avatar>
+          <a>{{ item.name }}</a>
+          <!-- <a>{{item.artista.limitString(27)}}</a> -->
+          <p v-html="item.desc.limitString(27)"></p>
+
+          <div class="center" style="gap: 6.4px">
+            <span class="floor" style="--c: var(--accent)"
+              >Floor Price: $ {{ Number(item.floor_price)?.toFixed(2) }}</span
+            >
+            <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
+          </div>
+          <span class="floor" style="--c: var(--accent)"
+            >Editions: {{ item.editions }}</span
+          >
+        </div>
+      </v-card>
+    </section>
+
+    <Pagination
+      :total-pages="pagination_per_pageNft"
+      :current-page="currentPageNft"
+      @pagechanged="(page) => (currentPageNft = page)"
+    />
+
+    <h2 class="Title tup mb-16">Offers</h2>
+
+    <v-expansion-panels class="custome-expansion not_padding">
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
+          >My offers</v-expansion-panel-header
+        >
+
+        <v-expansion-panel-content
+          color="rgb(0, 0, 0, .4)"
+          class="container-table--expansion mt-5"
+        >
+          <v-data-table
+            :headers="tableHeadersOffers"
+            :items="tableItemsOffersRe"
+            :page.sync="currentPageOffers"
+            :items-per-page="itemsPerPageOffers"
+            hide-default-footer
+            mobile-breakpoint="-1"
+            :header-props="{ sortIcon: 'mdi-menu-down' }"
+            style="background: transparent"
+            bac
+          >
+            <template #[`item.nft_media`]="{ item }">
+              <center class="center" style="gap: 10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="item.nft_media"
+                    alt="artist avatar"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </center>
+            </template>
+
+            <template #[`item.price_near`]="{ item }">
+              <center v-if="item.price_near" class="divcol" style="gap: 5px">
+                <span>N{{ item.price_near }}</span>
+                <span class="normal">$ {{ dollarConversion(item.price) }}</span>
+              </center>
+
+              <center v-else class="divcol" style="gap: 5px">
+                <span>---</span>
+                <span>---</span>
+              </center>
+            </template>
+
+            <!-- <template #[`item.token_id`]="{ item }">
+              <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
+            </template> -->
+
+            <template #[`item.buyer_id`]="{ item }">
+              <center class="center" style="gap: 10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="require('~/assets/sources/avatars/avatar.png')"
+                    alt="artist avatar"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <span :title="item.buyer_id">{{
+                  item.buyer_id.limitString(20)
+                }}</span>
+              </center>
+            </template>
+
+            <template #[`item.actions`]="{ item }">
+              <center class="center" style="gap: 30px">
+                <!-- <v-btn
+                  :disabled="offerBtn"
+                  :ripple="false" class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                  @click="acceptOffer(item)"
+                >Accept</v-btn> -->
+                <v-btn
+                  :disabled="offerBtn"
+                  :ripple="false"
+                  class="btn activeBtn bold"
+                  style="
+                    --min-w: 112px;
+                    --w: min(100%, 9em);
+                    --fs: 16px;
+                    --bg: #fff;
+                    --c: var(--primary);
+                  "
+                  @click="declineOffer(item)"
+                  >Cancel Offer</v-btn
+                >
+              </center>
+            </template>
+          </v-data-table>
+
+          <Pagination
+            :total-pages="pagination_per_page_offers"
+            :current-page="currentPageOffers"
+            @pagechanged="(page) => (currentPageOffers = page)"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
+          >Offers Received</v-expansion-panel-header
+        >
+
+        <v-expansion-panel-content
+          color="rgb(0, 0, 0, .4)"
+          class="container-table--expansion mt-5"
+        >
+          <v-data-table
+            :headers="tableHeadersOffers"
+            :items="tableItemsOffers"
+            :page.sync="currentPageOffers"
+            :items-per-page="itemsPerPageOffers"
+            hide-default-footer
+            mobile-breakpoint="-1"
+            :header-props="{ sortIcon: 'mdi-menu-down' }"
+            style="background: transparent"
+            bac
+          >
+            <template #[`item.nft_media`]="{ item }">
+              <center class="center" style="gap: 10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="item.nft_media"
+                    alt="artist avatar"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </center>
+            </template>
+
+            <template #[`item.price_near`]="{ item }">
+              <center v-if="item.price_near" class="divcol" style="gap: 5px">
+                <span>{{ item.price_near }} N</span>
+                <span class="normal">$ {{ dollarConversion(item.price) }}</span>
+              </center>
+
+              <center v-else class="divcol" style="gap: 5px">
+                <span>---</span>
+                <span>---</span>
+              </center>
+            </template>
+
+            <!-- <template #[`item.token_id`]="{ item }">
+              <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
+            </template> -->
+
+            <template #[`item.buyer_id`]="{ item }">
+              <center class="center" style="gap: 10px">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="require('~/assets/sources/avatars/avatar.png')"
+                    alt="artist avatar"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <span :title="item.buyer_id">{{
+                  item.buyer_id.limitString(20)
+                }}</span>
+              </center>
+            </template>
+
+            <template #[`item.actions`]="{ item }">
+              <center class="center" style="gap: 30px">
+                <v-btn
+                  :disabled="offerBtn"
+                  :ripple="false"
+                  class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                  @click="acceptOffer(item)"
+                  >Accept</v-btn
+                >
+                <!-- <v-btn
+                  :disabled="offerBtn"
+                  :ripple="false" class="btn activeBtn bold"
+                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
+                  @click="declineOffer(item)"
+                >Decline</v-btn> -->
+              </center>
+            </template>
+          </v-data-table>
+
+          <Pagination
+            :total-pages="
+              pagination_per_page_offers > 50 ? 50 : pagination_per_page_offers
+            "
+            :current-page="currentPageOffers"
+            @pagechanged="(page) => (currentPageOffers = page)"
+          />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
     <!-- <h2 class="tup p mt-16">Artist banner</h2>
 
     <v-row style="margin-top: 40px">
@@ -867,14 +1170,14 @@
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Quick Tip Help</h4>
-          <v-btn class="btn" @click="$router.push('quick-tip-help-form')"
+          <v-btn class="btn" @click="$router.push('/quick-tip-help-form')"
             >Start</v-btn
           >
         </div>
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Start</h4>
-          <v-btn class="btn" @click="$router.push('form-nft-tier1')">Go</v-btn>
+          <v-btn class="btn" @click="$router.push('/form-nft-tier1')">Go</v-btn>
         </div>
       </v-card>
     </v-dialog>
@@ -898,7 +1201,7 @@
 
         <div class="card center divcol card-background-padding">
           <h4 class="tcenter">Quick Tip Help</h4>
-          <v-btn class="btn" @click="$router.push('quick-tip-help-form')"
+          <v-btn class="btn" @click="$router.push('/quick-tip-help-form')"
             >Start</v-btn
           >
         </div>
@@ -985,6 +1288,29 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      tableHeadersOffers: [
+        { value: 'nft_media', text: 'NFT', align: 'start', sortable: false },
+        {
+          value: 'nft_title',
+          text: 'NFT NAME',
+          align: 'start',
+          sortable: false,
+        },
+        {
+          value: 'token_id',
+          text: 'TOKEN ID',
+          align: 'center',
+          sortable: false,
+        },
+        { value: 'buyer_id', text: 'BUYER', align: 'center', sortable: false },
+        { value: 'price_near', text: 'PRICE', align: 'center' },
+        { value: 'actions', align: 'center', sortable: false },
+      ],
+      tableItemsOffers: [],
+      tableItemsOffersRe: [],
+      currentPageOffers: 1,
+      itemsPerPageOffers: 10,
+
       dataNfts: [],
       valueNft: null,
       userExist: undefined,
@@ -1076,6 +1402,8 @@ export default {
       slider: 0,
       currentPage: 1,
       itemsPerPage: 6,
+      currentPageNft: 1,
+      itemsPerPageNft: 10,
       dataSlider: [
         // {
         //   img: require('~/assets/sources/images/img-listed-1.jpg'),
@@ -1103,6 +1431,22 @@ export default {
         // { event: "miami" },
         // { event: "madrid" },
       ],
+      searchNft: '',
+      filterANft: {
+        model: '',
+        list: [6, 5, 4, 3, 2, 1],
+      },
+      filterBNft: {
+        model: '',
+        list: [
+          'lastest releases',
+          'newest',
+          'oldest',
+          'coming soon',
+          'lorem ipsum',
+          'lorem ipsum',
+        ],
+      },
       search: '',
       filter: {
         model: '',
@@ -1164,6 +1508,21 @@ export default {
     pagination_per_page() {
       return Math.ceil(this.dataCollections.length / this.itemsPerPage)
     },
+    dataNfts_pagination() {
+      return this.$store.getters.pagination({
+        items: this.dataNfts,
+        currentPage: this.currentPageNft,
+        itemsPerPage: this.itemsPerPageNft,
+        search: this.searchNft,
+        filterA: this.filterANft.model,
+      })
+    },
+    pagination_per_pageNft() {
+      return Math.ceil(this.dataNfts.length / this.itemsPerPageNft)
+    },
+    pagination_per_page_offers() {
+      return Math.ceil(this.tableItemsOffers.length / this.itemsPerPageOffers)
+    },
   },
   created() {
     this.getData()
@@ -1176,8 +1535,414 @@ export default {
     // TODO get artist here
     // this.artistId = 1
     await this.getCurrentArtist()
+    this.getMyNfts()
   },
   methods: {
+    async acceptOffer(item) {
+      this.offerBtn = true
+      if (this.$ramper.getUser()) {
+        const action1 = [
+          this.$ramper.functionCall(
+            'storage_deposit',
+            {
+              account_id: this.$ramper.getAccountId(),
+            },
+            '50000000000000',
+            this.$utils.format.parseNearAmount(this.minimumStorage)
+          ),
+        ]
+        const msgs = {
+          price: item.price,
+          market_type: 'accept_offer',
+          ft_token_id: 'near',
+          buyer_id: item.buyer_id,
+        }
+        const action2 = [
+          this.$ramper.functionCall(
+            'nft_approve',
+            {
+              token_id: item.token_id,
+              account_id: process.env.CONTRACT_MARKET,
+              msg: JSON.stringify(msgs),
+            },
+            '200000000000000',
+            '500000000000000000000'
+          ),
+        ]
+        // const action3 = [
+        //   this.$ramper.functionCall(
+        //     "storage_withdraw",
+        //     '30000000000000',
+        //     '1'
+        //   )
+        // ]
+
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: process.env.CONTRACT_MARKET,
+              actions: action1,
+            },
+            {
+              receiverId: process.env.CONTRACT_NFT,
+              actions: action2,
+            },
+            // {
+            //   receiverId: process.env.CONTRACT_MARKET,
+            //   actions: action3,
+            // },
+          ],
+          network: process.env.NETWORK,
+        })
+        // console.log("Transaction Result: ", res)
+
+        this.offerBtn = false
+
+        if (
+          res &&
+          JSON.parse(localStorage.getItem('ramper_loggedInUser'))
+            .signupSource === 'near_wallet'
+        ) {
+          localStorage.setItem(
+            'transaction_data',
+            JSON.stringify({
+              state: 'success',
+              title: 'Success',
+              desc: 'Your nft has been successfully unlisted.',
+              hash: res.txHashes[1],
+            })
+          )
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
+          if (
+            res.result[1].status.SuccessValue ||
+            res.result[1].status.SuccessValue === ''
+          ) {
+            // this.$alert("success", {desc: "You have successfully accepted the offer.", hash: res.txHashes[1]})
+            localStorage.setItem(
+              'transaction_data',
+              JSON.stringify({
+                state: 'success',
+                title: 'Success',
+                desc: 'You have successfully accepted the offer.',
+                hash: res.txHashes[1],
+              })
+            )
+            this.$router.push(this.localePath('/redirection'))
+          } else if (res.result[1].status.Failure) {
+            // this.$alert("cancel", {desc: res.result[1].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[1]})
+            localStorage.setItem(
+              'transaction_data',
+              JSON.stringify({
+                state: 'cancel',
+                title: 'Error',
+                desc:
+                  res.result[1].status.Failure.ActionError.kind
+                    .FunctionCallError.ExecutionError + '.',
+                hash: res.txHashes[1],
+              })
+            )
+            this.$router.push(this.localePath('/redirection'))
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload()
+      }
+    },
+    async declineOffer(item) {
+      this.offerBtn = true
+      if (this.$ramper.getUser()) {
+        const action = [
+          this.$ramper.functionCall(
+            'delete_offer',
+            {
+              nft_contract_id: process.env.CONTRACT_NFT,
+              token_id: item.token_id,
+            },
+            '200000000000000',
+            '1'
+          ),
+        ]
+
+        const res = await this.$ramper.sendTransaction({
+          transactionActions: [
+            {
+              receiverId: process.env.CONTRACT_MARKET,
+              actions: action,
+            },
+          ],
+          network: process.env.NETWORK,
+        })
+        // console.log("Transaction Result: ", res)
+
+        this.offerBtn = false
+
+        if (
+          res &&
+          JSON.parse(localStorage.getItem('ramper_loggedInUser'))
+            .signupSource === 'near_wallet'
+        ) {
+          localStorage.setItem(
+            'transaction_data',
+            JSON.stringify({
+              state: 'success',
+              title: 'Success',
+              desc: 'Your nft has been successfully unlisted.',
+              hash: res.txHashes[0],
+            })
+          )
+          this.$router.push(this.localePath('/redirection'))
+        } else if (res && res.result) {
+          if (
+            res.result[0].status.SuccessValue ||
+            res.result[0].status.SuccessValue === ''
+          ) {
+            // this.$alert("success", {desc: "You have successfully canceled the offer.", hash: res.txHashes[0]})
+            localStorage.setItem(
+              'transaction_data',
+              JSON.stringify({
+                state: 'success',
+                title: 'Success',
+                desc: 'You have successfully canceled the offer.',
+                hash: res.txHashes[0],
+              })
+            )
+            this.$router.push(this.localePath('/redirection'))
+          } else if (res.result[0].status.Failure) {
+            // this.$alert("cancel", {desc: res.result[0].status.Failure.ActionError.kind.FunctionCallError.ExecutionError + ".", hash: res.txHashes[0]})
+            localStorage.setItem(
+              'transaction_data',
+              JSON.stringify({
+                state: 'cancel',
+                title: 'Error',
+                desc:
+                  res.result[0].status.Failure.ActionError.kind
+                    .FunctionCallError.ExecutionError + '.',
+                hash: res.txHashes[0],
+              })
+            )
+            this.$router.push(this.localePath('/redirection'))
+          }
+        }
+      } else {
+        await this.$ramper.signIn()
+        location.reload()
+      }
+    },
+    async getOffers() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner: String) {
+          offers(where: { data_nft_: { owner_id: $owner } }) {
+            typetoken_id
+            serie_id
+            token_id
+            price
+            price_near
+            nft_contract_id
+            ft_token_id
+            buyer_id
+            artist_id
+            id
+            data_nft {
+              owner_id
+              serie_id
+              id
+              fecha
+              artist_id
+              metadata {
+                extra
+                id
+                media
+                title
+                reference
+                description
+              }
+            }
+          }
+        }
+      `
+
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: { owner: this.$ramper.getAccountId() },
+          pollInterval: 3000,
+        })
+        .subscribe((res) => {
+          const data = res.data.offers
+
+          this.tableItemsOffers = []
+
+          for (let i = 0; i < data.length; i++) {
+            const item = data[i]
+            item.nft_title = item.data_nft.metadata.title
+            item.nft_media = item.data_nft.metadata.media
+            this.tableItemsOffers.push(item)
+          }
+        })
+    },
+    async getOffersReceived() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner: String) {
+          offers(where: { buyer_id: $owner }) {
+            typetoken_id
+            serie_id
+            token_id
+            price
+            price_near
+            nft_contract_id
+            ft_token_id
+            buyer_id
+            artist_id
+            id
+            data_nft {
+              owner_id
+              serie_id
+              id
+              fecha
+              artist_id
+              metadata {
+                extra
+                id
+                media
+                title
+                reference
+                description
+              }
+            }
+          }
+        }
+      `
+
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: { owner: this.$ramper.getAccountId() },
+          pollInterval: 3000,
+        })
+        .subscribe((res) => {
+          const data = res.data.offers
+
+          this.tableItemsOffersRe = []
+
+          for (let i = 0; i < data.length; i++) {
+            const item = data[i]
+            item.nft_title = item.data_nft.metadata.title
+            item.nft_media = item.data_nft.metadata.media
+            this.tableItemsOffersRe.push(item)
+          }
+        })
+    },
+    async getMyNfts() {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($owner_id: String) {
+          nfts(where: { owner_id: $owner_id }) {
+            typetoken_id
+            serie_id
+            owner_id
+            is_objects
+            id
+            fecha
+            collection
+            artist_id
+            metadata {
+              extra
+              id
+              media
+              title
+              reference
+              description
+            }
+          }
+        }
+      `
+
+      await clientApollo
+        .watchQuery({
+          query: QUERY_APOLLO,
+          variables: { owner_id: this.$ramper.getAccountId() },
+          pollInterval: 3000,
+        })
+        .subscribe(async (res) => {
+          const data = res.data.nfts
+
+          console.log('BRRR', data)
+
+          this.dataNfts = []
+
+          this.dataProfits.nfts = data.length
+
+          const arrayIds = []
+
+          let maxPrice = 0
+
+          // console.log("DATAAAAAAAA", data)
+
+          for (let i = 0; i < data.length; i++) {
+            const item = {
+              collection: data[i].collection,
+              floor_price: null,
+              img: data[i].metadata.media,
+              avatar: require('~/assets/sources/avatars/avatar.png'),
+              name: data[i].metadata.title,
+              name_sell: data[i].metadata.title.split('#').shift(),
+              desc: data[i].metadata.description || '',
+              editions: data[i].copies || 'Multi',
+              tier: Number(data[i].typetoken_id),
+              typetoken_id: data[i].metadata.reference,
+              type: 'nft',
+              extra: data[i].metadata.extra,
+              token_id: data[i].id,
+              supply: data[i].supply,
+              state: null,
+              type_id: data[i].serie_id,
+              artista: '-',
+              is_objects: data[i].is_objects,
+            }
+
+            if (item.is_objects) {
+              item.state = 'redeemable'
+            }
+
+            const varSplit = item.token_id.split('|')
+            const idArtist = varSplit[0]
+            const typeToken = varSplit[1].split(':').shift()
+
+            const serie = await this.getSerie(idArtist, typeToken)
+            const floor = await this.getFloorPrice(serie.id)
+
+            item.artist_id = serie.artist_id
+            item.editions = serie.copies || 'Multi'
+            item.id_artist = idArtist
+
+            if (floor) {
+              if (Number(floor) < Number(serie.price_near)) {
+                item.floor_price = floor
+              } else {
+                item.floor_price = serie.price
+              }
+            } else {
+              item.floor_price = serie.price
+            }
+
+            if (maxPrice < item.floor_price) {
+              maxPrice = item.floor_price
+            }
+
+            arrayIds.push(idArtist)
+            this.dataNfts.push(item)
+          }
+          this.dataProfits.high = Number(maxPrice).toFixed(2)
+          const result = Array.from(new Set(arrayIds))
+
+          this.getAvatars(result)
+        })
+    },
     selectPreview(value) {
       this.selectedPreview = value
       this.$refs.modalPreviewImage.model = true
@@ -1471,7 +2236,6 @@ export default {
       }
       this.createImageMobile(file)
     },
-
     goToForm(item) {
       // localStorage.setItem("tier-form", tier)
       this.$router.push('update-nft-form?token_id=' + item.token_id)
@@ -2130,6 +2894,12 @@ export default {
           }
           this.dataSlider = this.dataSliderPreview
         })
+    },
+    showTag() {
+      document.querySelector('.header').classList.add('hover')
+    },
+    hideTag() {
+      document.querySelector('.header').classList.remove('hover')
     },
   },
 }

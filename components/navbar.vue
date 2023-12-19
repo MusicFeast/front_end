@@ -191,7 +191,7 @@ export default {
       dataMenuProfile: [
         {
           title: 'my profile',
-          to: '/profile',
+          to: '/edit-profile',
         },
         // {
         //   title: "special marketplace",
@@ -210,7 +210,7 @@ export default {
         { name: 'contact', to: '/contact' },
         // { name: 'Drops', to: '/drops' },
         { name: 'chat', to: '/chat' },
-        { name: 'profile', to: '/profile' },
+        { name: 'profile', to: '/edit-profile' },
       ],
     }
   },
