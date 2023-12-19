@@ -1075,7 +1075,7 @@ export default {
       isCreator: false,
       slider: 0,
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 6,
       dataSlider: [
         // {
         //   img: require('~/assets/sources/images/img-listed-1.jpg'),

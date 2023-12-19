@@ -636,7 +636,7 @@ export default {
         // },
       ],
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 6,
       // dataChats: [
       //   { icon: "discord", chat: "discord" },
       // ],
