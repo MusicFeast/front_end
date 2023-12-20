@@ -1345,7 +1345,7 @@ export default {
                   JSON.stringify(this.dataSplit)
                 )
 
-                formDataNft.append('audio', this.formTier.song)
+                formDataNft.append('audio', this.formTier.song) 
 
                 this.$axios
                   .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
