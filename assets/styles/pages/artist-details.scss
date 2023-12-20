@@ -84,7 +84,13 @@
     }
   }
 
-  #custome-slider.v-item-group {
+  .container-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .custome-slider.v-item-group {
     @include media(max, 400px) {
       min-width: 100vw;
       margin-inline: calc(50% - 50vw);

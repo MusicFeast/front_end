@@ -82,194 +82,197 @@
       >Add New Collection</v-btn
     > -->
 
-    <v-slide-group
-      id="custome-slider"
-      v-model="slider"
-      mandatory
-      show-arrows
-      center-active
-    >
-      <v-slide-item
-        v-for="(item, i) in dataSlider"
-        :key="i"
-        v-slot="{ active, toggle }"
+    <section class="container-sliders">
+      <v-slide-group
+        v-for="(element, e) in dataSliderFiltered" :key="e"
+        v-model="slider"
+        mandatory
+        show-arrows
+        center-active
+        class="custome-slider"
       >
-        <v-sheet
+        <v-slide-item
+          v-for="(item, i) in element"
           :key="i"
-          color="rgba(0, 0, 0, .4)"
-          class="divcol"
-          @click="toggle"
+          v-slot="{ active, toggle }"
         >
-          <v-card
-            v-if="!item.disabled"
-            class="card divcol custome"
-            :class="{
-              active: active,
-            }"
-            @click="
-              $store.dispatch('goTo', { key: 'nft', item, event: $event })
-            "
+          <v-sheet
+            :key="i"
+            color="rgba(0, 0, 0, .4)"
+            class="divcol"
+            @click="toggle"
           >
-            <v-img
-              :src="item.img"
-              :alt="`${item.name} image`"
-              transition="fade-transition"
-              :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="card" />
-              </template>
-            </v-img>
-
-            <div class="container-content tcenter">
-              <v-avatar style="border: 2px solid #fff">
-                <v-img
-                  :src="item.avatar"
-                  :alt="`${item.artist} image`"
-                  transition="fade-transition"
-                >
-                  <template #placeholder>
-                    <v-skeleton-loader type="avatar" />
-                  </template>
-                </v-img>
-              </v-avatar>
-              <a>{{ item.name }}</a>
-              <p>{{ item.desc }}</p>
-
-              <div class="center" style="gap: 6.4px">
-                <span class="floor" style="--c: var(--accent)"
-                  >Price: $ {{ Number(item.price)?.toFixed(2) }}</span
-                >
-                <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
-              </div>
-              <span class="floor" style="--c: var(--accent)"
-                >Editions: {{ item.editions }}</span
-              >
-            </div>
-          </v-card>
-
-          <v-card
-            v-else
-            class="card divcol custome"
-            :class="{
-              active: active,
-            }"
-          >
-            <v-img
-              v-if="isCreator"
-              :src="item.img"
-              :alt="`${item.name} image`"
-              transition="fade-transition"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="card" />
-              </template>
-              <v-btn
-                :disabled="item.tier != 1 && item.tier != 2"
-                class="btn"
-                style="position: absolute !important; right: 5px; top: 5px"
-                @click="goToForm(item)"
-                >Edit this Tier</v-btn
-              >
-            </v-img>
-
-            <v-img
-              v-else
-              :src="item.img"
-              :alt="`${item.name} image`"
-              transition="fade-transition"
-              :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="card" />
-              </template>
-            </v-img>
-
-            <div class="container-content tcenter">
-              <v-avatar style="border: 2px solid #fff">
-                <v-img
-                  :src="item.avatar"
-                  :alt="`${item.artist} image`"
-                  transition="fade-transition"
-                >
-                  <template #placeholder>
-                    <v-skeleton-loader type="avatar" />
-                  </template>
-                </v-img>
-              </v-avatar>
-              <a>{{ item.name }}</a>
-              <p>{{ item.desc }}</p>
-
-              <div class="center" style="gap: 6.4px">
-                <span class="floor" style="--c: var(--accent)"
-                  >Price: {{ item.price }} $</span
-                >
-                <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
-              </div>
-              <span class="floor" style="--c: var(--accent)"
-                >Editions: {{ item.editions }}</span
-              >
-            </div>
-          </v-card>
-
-          <div class="tier-desc divcol">
-            <a class="tup bold" style="cursor: default">{{ item.name }}</a>
-            <ul>
-              <li
-                v-show="item.description"
-                v-html="item.description.limitString(110)"
-              ></li>
-              <!-- <li v-show="item.tier">Access to special membership perks.</li>
-            <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
-            </ul>
-          </div>
-
-          <div class="container-actions divcol">
-            <!-- <v-tooltip v-if="isCreator" :disabled="item.tier != 1 && item.tier != 2"
-            right color="rgba(0, 0, 0, .4)">
-            <template #activator="{ on, attrs}">
-              <v-icon :disabled="item.tier != 1 && item.tier != 2" class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
-            </template>
-            <span>Update Tier</span>
-          </v-tooltip> -->
-            <a
+            <v-card
               v-if="!item.disabled"
+              class="card divcol custome"
+              :class="{
+                active: active,
+              }"
               @click="
                 $store.dispatch('goTo', { key: 'nft', item, event: $event })
               "
-              >More Details</a
             >
-            <a v-else>More Details</a>
-            <v-btn
-              :disabled="item.disabled"
-              :ripple="false"
-              class="btn activeBtn align"
-              style="--w: calc(100% - 1em)"
-              @click="
-                $store.dispatch('goTo', {
-                  key: 'nft',
-                  item,
-                  event: $event,
-                })
-              "
-              >Go to Buy Page</v-btn
+              <v-img
+                :src="item.img"
+                :alt="`${item.name} image`"
+                transition="fade-transition"
+                :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="card" />
+                </template>
+              </v-img>
+
+              <div class="container-content tcenter">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="item.avatar"
+                    :alt="`${item.artist} image`"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <a>{{ item.name }}</a>
+                <p>{{ item.desc }}</p>
+
+                <div class="center" style="gap: 6.4px">
+                  <span class="floor" style="--c: var(--accent)"
+                    >Price: $ {{ Number(item.price)?.toFixed(2) }}</span
+                  >
+                  <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
+                </div>
+                <span class="floor" style="--c: var(--accent)"
+                  >Editions: {{ item.editions }}</span
+                >
+              </div>
+            </v-card>
+
+            <v-card
+              v-else
+              class="card divcol custome"
+              :class="{
+                active: active,
+              }"
             >
-          </div>
-        </v-sheet>
-      </v-slide-item>
+              <v-img
+                v-if="isCreator"
+                :src="item.img"
+                :alt="`${item.name} image`"
+                transition="fade-transition"
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="card" />
+                </template>
+                <v-btn
+                  :disabled="item.tier != 1 && item.tier != 2"
+                  class="btn"
+                  style="position: absolute !important; right: 5px; top: 5px"
+                  @click="goToForm(item)"
+                  >Edit this Tier</v-btn
+                >
+              </v-img>
 
-      <template #prev="{ on, attrs }">
-        <v-btn icon class="reverse" v-bind="attrs" v-on="on">
-          <v-icon x-large>mdi-play</v-icon>
-        </v-btn>
-      </template>
+              <v-img
+                v-else
+                :src="item.img"
+                :alt="`${item.name} image`"
+                transition="fade-transition"
+                :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="card" />
+                </template>
+              </v-img>
 
-      <template #next="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
-          <v-icon x-large>mdi-play</v-icon>
-        </v-btn>
-      </template>
-    </v-slide-group>
+              <div class="container-content tcenter">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="item.avatar"
+                    :alt="`${item.artist} image`"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <a>{{ item.name }}</a>
+                <p>{{ item.desc }}</p>
+
+                <div class="center" style="gap: 6.4px">
+                  <span class="floor" style="--c: var(--accent)"
+                    >Price: {{ item.price }} $</span
+                  >
+                  <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
+                </div>
+                <span class="floor" style="--c: var(--accent)"
+                  >Editions: {{ item.editions }}</span
+                >
+              </div>
+            </v-card>
+
+            <div class="tier-desc divcol">
+              <a class="tup bold" style="cursor: default">{{ item.name }}</a>
+              <ul>
+                <li
+                  v-show="item.description"
+                  v-html="item.description.limitString(110)"
+                ></li>
+                <!-- <li v-show="item.tier">Access to special membership perks.</li>
+              <li v-show="item.tier">Access to more valuable NFT’s and collectables.</li> -->
+              </ul>
+            </div>
+
+            <div class="container-actions divcol">
+              <!-- <v-tooltip v-if="isCreator" :disabled="item.tier != 1 && item.tier != 2"
+              right color="rgba(0, 0, 0, .4)">
+              <template #activator="{ on, attrs}">
+                <v-icon :disabled="item.tier != 1 && item.tier != 2" class="config" v-bind="attrs" v-on="on" @click="goToForm(item)">mdi-cog</v-icon>
+              </template>
+              <span>Update Tier</span>
+            </v-tooltip> -->
+              <a
+                v-if="!item.disabled"
+                @click="
+                  $store.dispatch('goTo', { key: 'nft', item, event: $event })
+                "
+                >More Details</a
+              >
+              <a v-else>More Details</a>
+              <v-btn
+                :disabled="item.disabled"
+                :ripple="false"
+                class="btn activeBtn align"
+                style="--w: calc(100% - 1em)"
+                @click="
+                  $store.dispatch('goTo', {
+                    key: 'nft',
+                    item,
+                    event: $event,
+                  })
+                "
+                >Go to Buy Page</v-btn
+              >
+            </div>
+          </v-sheet>
+        </v-slide-item>
+
+        <template #prev="{ on, attrs }">
+          <v-btn icon class="reverse" v-bind="attrs" v-on="on">
+            <v-icon x-large>mdi-play</v-icon>
+          </v-btn>
+        </template>
+
+        <template #next="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon x-large>mdi-play</v-icon>
+          </v-btn>
+        </template>
+      </v-slide-group>
+    </section>
 
     <h2 class="Title tup">events</h2>
 
@@ -659,6 +662,10 @@ export default {
     }
   },
   computed: {
+    dataSliderFiltered() {
+      return Array.from(new Set(this.dataSlider.map(x=>x.collection)))
+        .map(y => this.dataSlider.filter(z => z.collection === y));
+    },
     dataCollections_pagination() {
       return this.$store.getters.pagination({
         items: this.dataCollections,

@@ -226,6 +226,7 @@ export default {
       balanceNear: 0,
       messages: 1,
       drawer: false,
+      account: null,
       menuProfile: false,
       dataSocial: [
         // { icon:"mdi-instagram", url:"#" },
