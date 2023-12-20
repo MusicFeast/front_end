@@ -6,6 +6,75 @@
   padding-inline: var(--margin-global);
   padding-bottom: 4em;
 
+  &-banner {
+
+    .v-card {
+      height: 100% !important;
+      justify-content: flex-start;
+    }
+
+    .active {
+      border: 2px solid var(--primary) !important;
+    }
+
+    .placeholder {
+      background-color: rgba(255, 255, 255, .4);
+      border-radius: inherit;
+      border: 2px dashed #fff;
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      span {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        display: grid;
+        place-content: center;
+        text-align: center;
+      }
+    }
+
+    .banner {
+      cursor: pointer !important;
+      width: 150px;
+      height: 100px;
+    }
+
+    .bannerMobile {
+      cursor: pointer !important;
+      --size: 150px;
+      width: 100px;
+      height: 150px;
+    }
+
+    .avatar {
+      --size: 128px;
+      width: var(--size) !important;
+      height: var(--size) !important;
+
+      isolation: isolate;
+      position: relative;
+      overflow: visible;
+      * { border-radius: 50%; }
+
+      label {
+        cursor: pointer !important;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      img {
+        @include absoluteCenter;
+        --w: 100%;
+        --h: 100%;
+        --br: 50%;
+        --of: cover;
+      }
+    }
+  }
+
+
   .header {
     --bg: hsl(0, 0%, 62%, .4);
     --w: 100vw;
@@ -110,6 +179,14 @@
   }
 
   // edit profile
+  .card-background-padding{
+    background-color: rgba(0, 0, 0, .4)!important;
+    padding-block: 30px!important;
+
+    .btn{
+      width: 150px!important;
+    }
+  }
   .imgBanner{
     width: 100%;
     min-height: 250px;
@@ -321,4 +398,215 @@
 }
 input{
   text-transform: none!important;
+}
+
+
+.nft-dialog{
+  .v-card{
+    .card-background-padding{
+      background-color: rgba(0, 0, 0, .6)!important;
+      padding-block: 30px!important;
+      min-width: 100%!important;
+    
+      .btn{
+        width: 150px!important;
+      }
+    }
+
+    .btn{
+      width: 150px!important;
+      margin-inline: auto;
+    }
+  }
+}
+
+
+#profile {
+  
+  #custome-slider.v-item-group {
+    @include media(max, 400px) {
+      min-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+    }
+    .v-slide-group {
+      &__next--disabled i,
+      &__prev--disabled i {filter: invert(77%)}
+      &__content {
+        --basis: clamp(250px, 20vw, 300px);
+        gap: 2em;
+        // padding-inline: 70px;
+        display: flex;
+        justify-content: space-between;
+        > * {flex-basis: var(--basis)}
+        .v-sheet {
+          --padding: 10px;
+          padding: var(--padding);
+          gap: var(--padding);
+          padding-bottom: 2em;
+          border-radius: 5px;
+          max-width: var(--basis);
+          * {white-space: initial}
+          .v-card {
+            transition: .5s $ease;
+            .container-content {
+              position: relative;
+              margin-top: calc(20px + 5px)
+            }
+            .v-avatar {
+              @include absolute(0,-50px,0,);
+            }
+            a {font-size: 15px; text-decoration: underline; margin-bottom: .3em}
+            p {font-size: 13px}
+            span.floor {font-size: 15px; font-weight: bold}
+          }
+          .tier-desc {
+            --gap: .5em;
+            gap: var(--gap);
+            *{font-size: 15px};
+            ul, a {padding-inline: 24px}
+            a {
+              line-height: 1.2;
+              text-align: center;
+              text-decoration: underline;
+            }
+            ul {
+              display: grid; gap: var(--gap);
+              li::marker {
+                color: var(--accent);
+              }
+            }
+          }
+          .container-actions {
+            margin-top: auto;
+            font-size: 13px;
+
+            .config{
+              max-width: max-content!important;
+              align-self: center!important;
+              justify-self: center!important;
+            }
+
+            a {
+              --margin: 1em;
+              --c: var(--accent);
+              text-align: center;
+              width: 100%;
+              text-decoration: underline;
+              position: relative;
+              margin-block: var(--margin);
+              padding-bottom: var(--margin);
+              &::after {
+                content: "";
+                @include absolute(0,auto,0,0);
+                width: 100%;
+                height: 1px;
+                border-radius: 2vmax;
+                background-color: var(--primary);
+              }
+            }
+            .v-btn {--fs: 17px}
+          }
+        }
+      }
+    }
+  }
+
+  .container-collections {
+    --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    padding-inline: var(--margin-separator);
+    margin-bottom: 6em;
+    gap: 2em;
+    .v-sheet {
+      --padding: 10px;
+      padding: var(--padding);
+      gap: var(--padding);
+      padding-bottom: 2em;
+      border-radius: 5px;
+      max-width: 300px!important;
+      * {white-space: initial}
+
+      .v-card.custome {
+        .container-content {
+          display: flex;
+          flex-direction: column;
+          height: 100.25px;
+        }
+  
+        .editBtn {
+          $distance: .5em;
+          $size: 35px;
+          position: absolute;
+          top: $distance;
+          left: $distance;
+          opacity: 0;
+          border-radius: 50% !important;
+          padding: 0 !important;
+          width: $size !important;
+          height: $size !important;
+          translate: 0 -10px;
+          transition: .2s ease;
+        }
+  
+        &:hover .editBtn {
+          opacity: 1;
+          translate: 0 0;
+        }
+        p {margin-bottom: auto}
+      }
+
+      .tier-desc {
+        --gap: .5em;
+        gap: var(--gap);
+        *{font-size: 15px};
+        ul, a {padding-inline: 24px}
+        a {
+          line-height: 1.2;
+          text-align: center;
+          text-decoration: underline;
+        }
+        ul {
+          display: grid; gap: var(--gap);
+          li::marker {
+            color: var(--accent);
+          }
+        }
+      }
+      .container-actions {
+        margin-top: auto;
+        font-size: 13px;
+
+        .config{
+          max-width: max-content!important;
+          align-self: center!important;
+          justify-self: center!important;
+        }
+
+        a {
+          --margin: 1em;
+          --c: var(--accent);
+          text-align: center;
+          width: 100%;
+          text-decoration: underline;
+          position: relative;
+          margin-block: var(--margin);
+          padding-bottom: var(--margin);
+          &::after {
+            content: "";
+            @include absolute(0,auto,0,0);
+            width: 100%;
+            height: 1px;
+            border-radius: 2vmax;
+            background-color: var(--primary);
+          }
+        }
+        .v-btn {--fs: 17px}
+      }
+    }
+  }
+
+  .less-font-size{
+    @include media(max, 960px){
+      font-size: 15px!important;
+    }
+  }
 }

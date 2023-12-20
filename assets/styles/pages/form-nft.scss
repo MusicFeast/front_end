@@ -36,43 +36,28 @@
     border-right: 1px solid var(--primary)!important;
   }
 
-  .imgBanner{
-    width: 100%;
-    min-height: 250px;
-    max-height: 250px;
-    position: relative;
-    z-index: 3!important;
-  }
-
   .imgNft{
-    width: 100%;
-    min-height: 100%!important;
-    height: 100%!important;
+    max-width: 255px;
+    min-width: 255px;
+    min-height: 255px!important;
+    max-height: 255px!important;
     position: relative;
     z-index: 3!important;
-  }
-
-  .imgMobile{
-    width: 100%;
-    min-height: 250px;
-    max-height: 250px;
-    position: relative;
-    z-index: 3!important;
-    // object-fit: cover;
   }
 
   .absolute-font{
-    color: grey;
+    color: #cbcaca;
     font-weight: 700;
     font-size: 16px;
+    text-align: center;
     position: absolute;
-    top: 20px;
-    left: 5px; 
+    bottom: 20px;
+    left: 70px!important; 
     z-index: 1!important;
   }
 
   .sheet-avatar{
-    background-color: #f0eef0;
+    background-color: rgba(255, 255, 255, .4);
     border-radius: 50%;
     border: 5px solid var(--primary);
     width: 120px;
@@ -126,7 +111,7 @@
 
   .btn-input-file{
     position: absolute;
-    bottom: -150px;
+    bottom: 0px;
     left: 0;
     right: 0;
     top: 0;
@@ -134,22 +119,6 @@
     max-width: 150px!important;
     max-height: 40px!important;
     z-index: 4!important;
-  }
-
-  .btn-input-file-banner{
-    position: absolute;
-    bottom: -150px;
-    left: 100px;
-    top: 0;
-    margin: auto;
-    max-width: 150px!important;
-    max-height: 40px!important;
-    z-index: 4!important;
-
-    @include media(max, 560px){
-      left: 0;
-      right: 0;
-    }
   }
 
   .span-image{
@@ -163,12 +132,133 @@
     z-index: 2!important;
   }
 
+
+  .span-image-mobile-banner{
+    position: absolute;
+    bottom: 0;
+    top: -70px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-weight: 700!important;
+    z-index: 2!important;
+  }
+
+  .background-upload-div-banner{
+    background-color: rgba(255, 255, 255, .4); 
+    position: relative;
+    border: 2px dashed #fff;
+    overflow: hidden;
+    max-width: 1180px;
+    min-width: 1180px;
+    min-height: 401.5px!important;
+    max-height: 401.5px;
+
+    @include media(max, 1380px){
+      max-width: 100%;
+      min-width: 100%;
+    }
+
+    .imgBanner{
+      max-width: 1180px;
+      min-width: 1180px;
+      width: 100%;
+      max-height: 401.5px!important;
+      position: relative;
+      z-index: 3!important;
+
+      @include media(max, 1380px){
+        max-width: 100%;
+        min-width: 100%;
+        width: 100%;
+      }
+    }
+
+    .btn-input-file-banner{
+      position: absolute;
+      bottom: -80px;
+      left: 60px;
+      top: 0;
+      margin: auto;
+      max-width: 150px!important;
+      max-height: 40px!important;
+      z-index: 4!important;
+  
+      @include media(max, 560px){
+        bottom: -130px;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    .absolute-font-banner{
+      color: #cbcaca;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: center;
+      position: absolute;
+      bottom: 60px;
+      left: 60px!important; 
+      z-index: 1!important;
+
+      @include media(max, 560px){
+        display: none;
+      }
+    }
+  }
+
+  .background-upload-div-mobile{
+    background-color: rgba(255, 255, 255, .4); 
+    position: relative;
+    border: 2px dashed #fff;
+    overflow: hidden;
+    max-width: 135.5px;
+    min-width: 135.5px;
+    min-height: 271px;
+    max-height: 271px;
+
+    .imgMobile{
+      max-width: 135.5px;
+      min-width: 135.5px;
+      min-height: 271px;
+      max-height: 271px;
+      position: relative;
+      z-index: 3!important;
+    }
+
+    .absolute-font2{
+      color: #cbcaca;
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+      position: absolute;
+      bottom: 40px;
+      left: 10px!important; 
+      z-index: 1!important;
+    }
+
+    .btn-input-file-banner-mobile{
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      right: 0;
+      top: 0px;
+      margin: auto;
+      max-width: 120px!important;
+      max-height: 40px!important;
+      z-index: 4!important;
+    }
+  }
+
   .nft-upload-div{
-    background-color: #fff; 
-    max-height: 100%; 
-    min-height: 100%; 
-    height: 100%; 
-    width: 100%;
+    background-color: rgba(255, 255, 255, .4); 
+    max-height: 255px; 
+    min-height: 255px; 
+    min-width: 255px;
+    max-width: 255px;
+    position: relative;
+    border: 2px dashed #fff;
+    overflow: hidden;
   }
 
   section.card {

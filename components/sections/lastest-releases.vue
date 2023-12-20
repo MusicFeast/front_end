@@ -2,38 +2,53 @@
   <div id="lastest-releases" class="divcol">
     <h2 class="tup">Lastest Releases</h2>
     <section class="wrapper">
-      <v-card
-        v-for="(item,i) in dataLastestReleases" :key="i" color="#000">
+      <v-card v-for="(item, i) in dataLastestReleases" :key="i" color="#000">
         <v-img
-          :src="item.img" :alt="`${item.title} image`" transition="fade-transition" :style="`--tag: '${item.state}'; --br: 15px`"
-          class="pointer" @click="$store.dispatch('goTo', {key: 'artist', item})"
+          :src="item.img"
+          :alt="`${item.title} image`"
+          transition="fade-transition"
+          :style="`--tag: '${item.state}'; --br: 15px`"
+          class="pointer"
+          @click="$store.dispatch('goTo', { key: 'artist', item })"
         >
           <template #placeholder>
             <v-skeleton-loader type="card" />
           </template>
         </v-img>
-        
+
         <div class="container-content tcenter">
-          <a @click="$store.dispatch('goTo', {key: 'artist', item})">
-            {{item.title}}
+          <a @click="$store.dispatch('goTo', { key: 'artist', item })">
+            {{ item.title }}
           </a>
           <p class="p" v-html="item.desc"></p>
         </div>
 
-        <div class="center gap1 alignl" style="margin-block: auto .5em !important">
+        <div
+          class="center gap1 alignl"
+          style="margin-block: auto 0.5em !important"
+        >
           <v-avatar style="border: 2px solid #fff">
-            <v-img :src="item.avatar" :alt="`${item.artist} image`" transition="fade-transition">
+            <v-img
+              :src="item.avatar"
+              :alt="`${item.artist} image`"
+              transition="fade-transition"
+            >
               <template #placeholder>
                 <v-skeleton-loader type="avatar" />
               </template>
             </v-img>
           </v-avatar>
-          <span style="font-size: 16px">{{item.artist}}</span>
+          <span style="font-size: 16px">{{ item.artist }}</span>
         </div>
       </v-card>
     </section>
 
-    <v-btn class="btn align h10_em view-all__btn" style="margin-top:2em" :to="localePath('/artists')">View All</v-btn>
+    <v-btn
+      class="btn align h10_em view-all__btn"
+      style="margin-top: 2em"
+      :to="localePath('/artists')"
+      >View All</v-btn
+    >
   </div>
 </template>
 
@@ -42,7 +57,7 @@ import gql from 'graphql-tag'
 import computeds from '~/mixins/computeds'
 
 export default {
-  name: "LastestReleasesSection",
+  name: 'LastestReleasesSection',
   mixins: [computeds],
   // props: {
   //   dataLastestReleases: {
@@ -53,7 +68,7 @@ export default {
   data() {
     return {
       artists: [],
-      dataLastestReleases: []
+      dataLastestReleases: [],
     }
   },
   mounted() {
@@ -64,7 +79,11 @@ export default {
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const QUERY_APOLLO = gql`
         query QUERY_APOLLO {
-          series(where: {typetoken_id: "1"}, orderBy: fecha, orderDirection: desc) {
+          series(
+            where: { typetoken_id: "1" }
+            orderBy: fecha
+            orderDirection: desc
+          ) {
             typetoken_id
             title
             supply
@@ -82,7 +101,7 @@ export default {
             artist_id
           }
         }
-      `;
+      `
 
       const res = await clientApollo.query({
         query: QUERY_APOLLO,
@@ -99,45 +118,53 @@ export default {
       for (let i = 0; i < data.length; i++) {
         arrayIds.push(data[i].artist_id)
       }
-      const result = Array.from(new Set(arrayIds));
-      
+      const result = Array.from(new Set(arrayIds))
+
       this.getAvatars(result)
     },
     async getAvatars(datos) {
-      await this.$axios.post(`${this.baseUrl}api/v1/get-avatars/`, { "artists": datos })
-      .then(result => {
-        const data = result.data
-        // console.log("LOG AVATARS", data)
-        if (data[0]) {
-          const datos = []
-          for (let j = 0; j < this.artists.length; j++) {
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].is_visible) {
-                // console.log(data[i].id_collection, this.artists[j].artist_id)
-                if (String(data[i].id_collection) === String(this.artists[j].artist_id)) {
-                  const item = {
-                    id: data[i].id_collection,
-                    img: this.artists[j].media,
-                    title: this.artists[j].title,
-                    desc: this.artists[j].description,
-                    artist: data[i].name,
-                    avatar: this.baseUrl+data[i].image,
-                    state: 'live'
+      await this.$axios
+        .post(`${this.baseUrl}api/v1/get-avatars/`, { artists: datos })
+        .then((result) => {
+          const data = result.data
+          // console.log("LOG AVATARS", data)
+          if (data[0]) {
+            const datos = []
+            for (let j = 0; j < this.artists.length; j++) {
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].is_visible) {
+                  // console.log(data[i].id_collection, this.artists[j].artist_id)
+                  if (
+                    String(data[i].id_collection) ===
+                    String(this.artists[j].artist_id)
+                  ) {
+                    const item = {
+                      id: data[i].id_collection,
+                      img: this.artists[j].media,
+                      title: this.artists[j].title,
+                      desc: this.artists[j].description,
+                      artist: data[i].name,
+                      avatar: this.baseUrl + data[i].image,
+                      state: 'live',
+                    }
+                    datos.push(item)
                   }
-                  datos.push(item)
                 }
               }
             }
+            this.dataLastestReleases = datos
           }
-          this.dataLastestReleases = datos
-        }
-      }).catch(err => {
-        this.$alert("cancel", {desc: err.message})
-        console.error(err);
-      })
+        })
+        .catch((err) => {
+          this.$alert('cancel', { desc: err.message })
+          console.error(err)
+        })
     },
-  }
-};
+  },
+}
 </script>
 
-<style src="~/assets/styles/components/sections/lastest-releases.scss" lang="scss" />
+<style
+  src="~/assets/styles/components/sections/lastest-releases.scss"
+  lang="scss"
+/>

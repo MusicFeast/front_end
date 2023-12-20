@@ -23,7 +23,7 @@
           v-for="(item, i) in dataNavbar"
           :key="i"
           class="tup"
-          :class="{'showmobile': item.name === 'profile'}"
+          :class="{ showmobile: item.name === 'profile' }"
           @click="goTo(item.to)"
           >{{ item.name }}</a
         >
@@ -69,26 +69,6 @@
           <!-- menu profile -->
           <v-list id="menuProfile" class="divcol" color="hsl(0, 84%, 60%)">
             <!-- info profile content -->
-            <v-list-item disabled class="divcol" style="gap: 3px">
-              <div class="space gap1 fill_w">
-                <span class="bold">NEAR</span>
-                <span class="semibold" style="--c: var(--accent)"
-                  >{{ balanceNear }} N</span
-                >
-              </div>
-
-              <!-- <div class="space gap1 fill_w">
-                <span class="bold">MF</span>
-                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
-              </div> -->
-            </v-list-item>
-
-            <v-list-item :ripple="false" @click="$ramper.openWallet()">
-              <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                Open Wallet
-              </v-list-item-title>
-            </v-list-item>
-
             <!-- <v-list-item :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload My NFT
@@ -117,25 +97,45 @@
               "
             >
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
-                {{ item.title }}
+                <!-- {{ item.title }} -->
+                Dashboard / Add Track
                 <!-- <v-chip
                   v-show="item.to === '/marketplace-vip'" style="margin-left: 5px; border-radius: 5px"
                   :color="user.tier >= 3 ? '#26A17B' : 'var(--error)'">{{user.tier >= 3 ? 'Activated' : 'disabled'}}</v-chip> -->
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item :ripple="false" @click="$router.push('quick-tip-help-form')">
+            <!-- <v-list-item :ripple="false" @click="$router.push('quick-tip-help-form')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Upload Track
               </v-list-item-title>
-            </v-list-item>
+            </v-list-item> -->
 
-            <v-list-item v-if="isAdmin" :ripple="false" @click="$router.push('form-nft')">
+            <!-- <v-list-item v-if="isAdmin" :ripple="false" @click="$router.push('form-nft')">
               <v-list-item-title class="tcap" :class="{ not_transform: false }">
                 Admin Approve
               </v-list-item-title>
+            </v-list-item> -->
+
+            <v-list-item disabled class="divcol" style="gap: 3px">
+              <div class="space gap1 fill_w">
+                <span class="bold">NEAR</span>
+                <span class="semibold" style="--c: var(--accent)"
+                  >{{ balanceNear }} N</span
+                >
+              </div>
+
+              <!-- <div class="space gap1 fill_w">
+                <span class="bold">MF</span>
+                <span class="semibold" style="--c:var(--accent)">234.72 MF</span>
+              </div> -->
             </v-list-item>
 
+            <v-list-item :ripple="false" @click="$ramper.openWallet()">
+              <v-list-item-title class="tcap" :class="{ not_transform: false }">
+                Open Wallet
+              </v-list-item-title>
+            </v-list-item>
             <!-- button logout -->
             <v-btn
               :ripple="false"
@@ -191,7 +191,7 @@ export default {
       dataMenuProfile: [
         {
           title: 'my profile',
-          to: '/profile',
+          to: '/edit-profile',
         },
         // {
         //   title: "special marketplace",
@@ -209,7 +209,8 @@ export default {
         // { name: "marketplace", to: "" },
         { name: 'contact', to: '/contact' },
         // { name: 'Drops', to: '/drops' },
-        { name: 'profile', to: '/profile' },
+        { name: 'chat', to: '/chat' },
+        { name: 'profile', to: '/edit-profile' },
       ],
     }
   },
@@ -305,14 +306,18 @@ export default {
     },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
-        await this.$axios.post(`${this.baseUrl}api/v1/is-admin/`, {admin: this.$ramper.getAccountId()})
-          .then(result => {
+        await this.$axios
+          .post(`${this.baseUrl}api/v1/is-admin/`, {
+            admin: this.$ramper.getAccountId(),
+          })
+          .then((result) => {
             console.log(result.data)
-            this.$store.commit("setIsAdmin", result.data);
+            this.$store.commit('setIsAdmin', result.data)
             this.isAdmin = result.data
-          }).catch(err => {
+          })
+          .catch((err) => {
             // this.$alert("cancel", {desc: err.message})
-            console.error(err);
+            console.error(err)
           })
       }
     },

@@ -1,14 +1,13 @@
 <template>
   <div id="form">
     <template v-if="reviewState">
-      <h2 id="block-artist" class="Title tup lines">FORM ARTIST</h2>
-      <v-row style="margin-top: 40px">
-        <v-col xl="10" lg="10" md="9" sm="8" cols="12">
+      <h2 id="block-artist" class="Title tup lines">ARTIST PROFILE</h2>
+      <!-- <v-row style="margin-top: 40px">
+        <v-col cols="12" class="jcenter">
           <div
-            class="relative"
-            style="background-color: #fff; max-height: 250px; min-height: 250px"
+            class="relative background-upload-div-banner"
           >
-            <span class="absolute-font">1180 Width x 401.5 Height</span>
+            <span class="absolute-font-banner">1180 x 401.5 pixels <br> .jpg or .png</span>
 
             <v-file-input
               ref="fileInputBanner"
@@ -52,7 +51,9 @@
                 class="divcol center span-image"
                 style="color: #000; font-size: 12px"
               >
-                <span style="color: rgba(0,0,0,0.6); font-size: 12px">307 x 307</span>
+                <span style="color: rgba(0, 0, 0, 0.6); font-size: 12px"
+                  >307 x 307</span
+                >
                 <br />
                 <div class="mt-3">Profile Picture</div>
               </span>
@@ -60,12 +61,12 @@
           </div>
         </v-col>
 
-        <v-col xl="2" lg="2" md="3" sm="4" cols="12">
+        <v-col cols="12" class="jcenter">
           <div
-            class="relative"
-            style="background-color: #fff; max-height: 250px; min-height: 250px"
+            class="relative background-upload-div-mobile"
+            style="max-height: 250px; min-height: 250px"
           >
-            <span class="absolute-font">135.5 Height x 271 Height</span>
+            <span class="absolute-font2">135.5 x 271 pixels <br>.jpg or .png</span>
 
             <v-file-input
               ref="fileInputMobile"
@@ -79,14 +80,14 @@
             <img :src="selectedImageMobile" alt="" class="imgMobile" />
 
             <v-btn
-              class="btn btn-input-file"
+              class="btn btn-input-file-banner-mobile"
               :disabled="formArtistItem || showItem"
               @click="openFileInputMobile"
               >Upload Banner</v-btn
             >
 
             <span
-              class="divcol center span-image"
+              class="divcol center span-image-mobile-banner"
               style="color: #000; font-size: 12px"
             >
               <v-icon color="#000" style="margin-bottom: -10px"
@@ -97,7 +98,7 @@
             </span>
           </div>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <section class="card" style="margin-top: 40px">
         <!-- <label for="nft-name"
@@ -115,12 +116,13 @@
         ></v-text-field> -->
 
         <label for="name-artist"
-          >Name <label for="name-artist" style="color: red">*</label></label
+          >Artist / Band Name
+          <label for="name-artist" style="color: red">*</label></label
         >
         <v-text-field
           id="name-artist"
-          v-model="formArtist.name"
-          :disabled="formArtistItem || showItem"
+          v-model="formArtist.username"
+          disabled
           placeholder="Lorem Ipsum"
           @input="
             inputSave()
@@ -141,17 +143,27 @@
         ></v-text-field> -->
 
         <label for="about-artist"
-          >Description -
-          <span class="underline" @click="textExampleDialog = true">Text Example</span>
+          >Bio -
+          <span class="underline" @click="textExampleDialog = true"
+            >Text Example</span
+          >
           <label for="name-artist" style="color: red">*</label>
         </label>
-        <vue-editor :disabled="formArtistItem || showItem" v-model="formArtist.description" class="mt-4 mb-4"></vue-editor>
+        <vue-editor
+          disabled
+          v-model="formArtist.description"
+          class="mt-4 mb-4"
+        ></vue-editor>
 
-        <label for="about-artist"
+        <!-- <label for="about-artist"
           >About
           <label for="name-artist" style="color: red">*</label>
         </label>
-        <vue-editor v-model="formArtist.about" class="mt-4 mb-4"></vue-editor>
+        <vue-editor
+          :disabled="formArtistItem || showItem"
+          v-model="formArtist.about"
+          class="mt-4 mb-4"
+        ></vue-editor> -->
 
         <!-- <v-text-field
           id="about-artist"
@@ -170,7 +182,7 @@
         <label for="instagram">Instagram</label>
         <v-text-field
           id="instagram"
-          :disabled="formArtistItem || showItem"
+          disabled
           v-model="formArtist.instagram"
           placeholder="@username"
         ></v-text-field>
@@ -178,7 +190,7 @@
         <label for="twitter">Twitter</label>
         <v-text-field
           id="twitter"
-          :disabled="formArtistItem || showItem"
+          disabled
           v-model="formArtist.twitter"
           placeholder="@username"
         ></v-text-field>
@@ -186,7 +198,7 @@
         <label for="facebook">Facebook</label>
         <v-text-field
           id="facebook"
-          :disabled="formArtistItem || showItem"
+          disabled
           v-model="formArtist.facebook"
           placeholder="@username"
         ></v-text-field>
@@ -211,16 +223,302 @@
             </div>
           </div> -->
       </section>
-    </template>
 
-    <h2 class="Title tup lines" id="section-form-nft">FORM NFT</h2>
+      <v-row style="margin-top: 40px">
+        <v-col
+          xl="3"
+          lg="3"
+          md="3"
+          sm="4"
+          cols="12"
+          class="center"
+          style="position: relative !important"
+        >
+          <div class="nft-upload-div">
+            <img :src="selectedImageNft" alt="" class="imgNft" />
+          </div>
+        </v-col>
+
+        <v-col xl="9" lg="9" md="9" sm="8" cols="12">
+          <section class="card">
+            <label for="nft-name">Description</label>
+            <v-text-field
+              id="description"
+              v-model="formTier.description"
+              disabled
+              placeholder="Tier 1 description"
+            ></v-text-field>
+
+            <label for="nft-name">Price (USD)</label>
+            <v-text-field
+              id="Price"
+              v-model="formTier.price"
+              disabled
+              type="number"
+              placeholder="Price"
+            ></v-text-field>
+
+            <label for="nft-name"
+              >Track Audio
+              <v-icon v-if="showItem && track" @click="trackSong()"
+                >mdi-pause</v-icon
+              ><v-icon v-if="showItem && !track" @click="trackSong()"
+                >mdi-play</v-icon
+              ></label
+            >
+            <v-file-input
+              id="song"
+              truncate-length="100"
+              v-model="formTier.song"
+              disabled
+              accept="audio/*"
+              placeholder="Only .WAV, .MP3 or .MP4 files"
+            ></v-file-input>
+          </section>
+        </v-col>
+      </v-row>
+    </template>
 
     <v-window v-model="windowStep">
       <v-window-item :value="1">
+        <h2 id="block-artist" class="Title tup lines">ARTIST PROFILE</h2>
+        <!-- <v-row style="margin-top: 40px">
+          <v-col cols="12" class="jcenter">
+            <div
+              class="relative background-upload-div-banner"
+            >
+              <span class="absolute-font-banner">1180 x 401.5 pixels <br> .jpg or .png</span>
+
+              <v-file-input
+                ref="fileInputBanner"
+                v-model="imageBanner"
+                class="input-file"
+                prepend-icon="none"
+                style="display: none"
+                @change="onFileChange"
+              ></v-file-input>
+
+              <v-btn
+                class="btn btn-input-file-banner"
+                :disabled="formArtistItem || showItem"
+                @click="openFileInputBanner"
+                >Upload Banner</v-btn
+              >
+
+              <img :src="selectedImageBanner" alt="" class="imgBanner" />
+
+              <v-sheet class="sheet-avatar">
+                <img :src="selectedImageAvatar" alt="" class="imgAvatar" />
+
+                <v-file-input
+                  ref="fileInputAvatar"
+                  v-model="imageAvatar"
+                  class="input-file"
+                  prepend-icon="none"
+                  style="display: none"
+                  @change="onFileChangeAvatar"
+                ></v-file-input>
+                <v-chip class="chip-pencil center">
+                  <v-icon
+                    small
+                    :disabled="formArtistItem || showItem"
+                    @click="openFileInputAvatar"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                </v-chip>
+                <span
+                  class="divcol center span-image"
+                  style="color: #000; font-size: 12px"
+                >
+                  <span style="color: rgba(0, 0, 0, 0.6); font-size: 12px"
+                    >307 x 307</span
+                  >
+                  <br />
+                  <div class="mt-3">Profile Picture</div>
+                </span>
+              </v-sheet>
+            </div>
+          </v-col>
+
+          <v-col cols="12" class="jcenter">
+            <div
+              class="relative background-upload-div-mobile"
+              style="max-height: 250px; min-height: 250px"
+            >
+              <span class="absolute-font2">135.5 x 271 pixels <br>.jpg or .png</span>
+
+              <v-file-input
+                ref="fileInputMobile"
+                v-model="imageMobile"
+                class="input-file"
+                prepend-icon="none"
+                style="display: none"
+                @change="onFileChangeMobile"
+              ></v-file-input>
+
+              <img :src="selectedImageMobile" alt="" class="imgMobile" />
+
+              <v-btn
+                class="btn btn-input-file-banner-mobile"
+                :disabled="formArtistItem || showItem"
+                @click="openFileInputMobile"
+                >Upload Banner</v-btn
+              >
+
+              <span
+                class="divcol center span-image-mobile-banner"
+                style="color: #000; font-size: 12px"
+              >
+                <v-icon color="#000" style="margin-bottom: -10px"
+                  >mdi-image-outline</v-icon
+                >
+                <br />
+                <div class="mt-3">Mobile Banner</div>
+              </span>
+            </div>
+          </v-col>
+        </v-row> -->
+
+        <section class="card" style="margin-top: 40px">
+          <!-- <label for="nft-name"
+            >Wallet Artist
+            <label for="name-artist" style="color: red">*</label></label
+          >
+          <v-text-field
+            id="description"
+            v-model="formArtist.walletArtist"
+            :disabled="formArtistItem || showItem"
+            :error="errorWalletArtist"
+            :error-messages="errorMessage"
+            @input="validateWalletArtist(formArtist.walletArtist)"
+            placeholder="artist.near"
+          ></v-text-field> -->
+
+          <label for="name-artist"
+            >Artist / Band Name
+            <label for="name-artist" style="color: red">*</label></label
+          >
+          <v-text-field
+            id="name-artist"
+            v-model="formArtist.username"
+            placeholder="Lorem Ipsum"
+            @input="
+              inputSave()
+              inputName()
+            "
+          ></v-text-field>
+
+          <!-- <label for="description-artist"
+            >Description
+            <label for="name-artist" style="color: red">*</label></label
+          >
+          <v-text-field
+            id="description-artist"
+            v-model="formArtist.description"
+            :disabled="formArtistItem || showItem"
+            placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat"
+            @input="inputSave()"
+          ></v-text-field> -->
+
+          <label for="about-artist"
+            >Bio -
+            <span class="underline" @click="textExampleDialog = true"
+              >Text Example</span
+            >
+            <label for="name-artist" style="color: red">*</label>
+          </label>
+          <vue-editor
+            v-model="formArtist.description"
+            class="mt-4 mb-4"
+          ></vue-editor>
+
+          <!-- <label for="about-artist"
+            >About
+            <label for="name-artist" style="color: red">*</label>
+          </label>
+          <vue-editor
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.about"
+            class="mt-4 mb-4"
+          ></vue-editor> -->
+
+          <!-- <v-text-field
+            id="about-artist"
+            v-model="formArtist.about"
+            :disabled="formArtistItem || showItem"
+            placeholder=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, placeat"
+            @input="inputSave()"
+          ></v-text-field> -->
+
+          <!-- <label for="discord-role">Discord Role ID</label>
+            <v-text-field
+              id="discord-role"
+              placeholder="Username#123"
+            ></v-text-field> -->
+
+          <label for="instagram">Instagram</label>
+          <v-text-field
+            id="instagram"
+            v-model="formArtist.instagram"
+            placeholder="@username"
+          ></v-text-field>
+
+          <label for="twitter">Twitter</label>
+          <v-text-field
+            id="twitter"
+            v-model="formArtist.twitter"
+            placeholder="@username"
+          ></v-text-field>
+
+          <label for="facebook">Facebook</label>
+          <v-text-field
+            id="facebook"
+            v-model="formArtist.facebook"
+            placeholder="@username"
+          ></v-text-field>
+
+          <!-- <label for="discord-user">Discord</label>
+          <v-text-field
+            id="discord-user"
+            :disabled="formArtistItem || showItem"
+            v-model="formArtist.discord"
+            placeholder="Username#456"
+          ></v-text-field> -->
+
+          <!-- <div class="divrow mt-4" style="gap: 30px;">
+              <div class="divrow acenter" style="gap: 5px;">
+                <v-checkbox id="visible_artist" v-model="visible_artist"></v-checkbox>
+                <label for="visible_artist" class="mb-2">Visible</label>
+              </div>
+
+              <div class="divrow acenter" style="gap: 5px;">
+                <v-checkbox id="coming_artist" v-model="coming_artist"></v-checkbox>
+                <label for="coming_artist" class="mb-2">Coming</label>
+              </div>
+            </div> -->
+        </section>
+      </v-window-item>
+
+      <v-window-item :value="2">
+        <h2 class="Title tup lines" id="section-form-nft">
+          Community Access Pass
+        </h2>
+
         <v-row style="margin-top: 40px">
-          <v-col xl="3" lg="3" md="3" sm="4" cols="12" class="center" style="position: relative !important">
+          <v-col
+            xl="3"
+            lg="3"
+            md="3"
+            sm="4"
+            cols="12"
+            class="center"
+            style="position: relative !important"
+          >
             <div class="nft-upload-div">
-              <span class="absolute-font" style="left: 20px;">255 Width x 255 Height</span>
+              <span class="absolute-font" style="left: 20px"
+                >255 x 255 pixels <br />.jpg or .png</span
+              >
 
               <v-file-input
                 ref="fileInputNft"
@@ -237,21 +535,21 @@
                 class="btn btn-input-file"
                 :disabled="showItem"
                 @click="openFileInputNft"
-                >Upload Image</v-btn
+                >Upload Covert Art</v-btn
               >
             </div>
           </v-col>
 
           <v-col xl="9" lg="9" md="9" sm="8" cols="12">
             <section class="card">
-              <label for="nft-name">Track Name</label>
+              <!-- <label for="nft-name">Track Name</label>
               <v-text-field
                 id="nft-name"
                 disabled
                 v-model="formTier.nft_name"
                 @input="validateForm()"
                 placeholder="Track name"
-              ></v-text-field>
+              ></v-text-field> -->
 
               <!-- <label for="tier">Tier 1</label> -->
               <!-- <v-select
@@ -264,47 +562,56 @@
                   placeholder="Select Your Tier"
                 ></v-select> -->
 
-                <label for="nft-name">Description</label>
-                <v-text-field
-                  id="description"
-                  v-model="formTier.description"
-                  :disabled="showItem"
-                  @input="validateForm()"
-                  placeholder="Tier 1 description"
-                ></v-text-field>
+              <label for="nft-name">Song Description</label>
+              <v-text-field
+                id="description"
+                v-model="formTier.description"
+                :disabled="showItem"
+                @input="validateForm()"
+                placeholder="Tier 1 description"
+              ></v-text-field>
 
-                <label for="nft-name">Price (USD)</label>
-                <v-text-field
-                  id="Price"
-                  v-model="formTier.price"
-                  :disabled="showItem"
-                  type="number"
-                  @input="validateForm()"
-                  placeholder="Price"
-                ></v-text-field>
+              <label for="nft-name">Price (USD)</label>
+              <v-text-field
+                id="Price"
+                v-model="formTier.price"
+                :disabled="showItem"
+                type="number"
+                @input="validateForm()"
+                placeholder="Price"
+              ></v-text-field>
 
-                <label for="nft-name">Track Audio <v-icon v-if="showItem && track" @click="trackSong()">mdi-pause</v-icon><v-icon v-if="showItem && !track" @click="trackSong()">mdi-play</v-icon></label>
-                <!-- <v-text-field
+              <label for="nft-name"
+                >Song
+                <v-icon v-if="showItem && track" @click="trackSong()"
+                  >mdi-pause</v-icon
+                ><v-icon v-if="showItem && !track" @click="trackSong()"
+                  >mdi-play</v-icon
+                ></label
+              >
+              <!-- <v-text-field
                       id="song"
                       v-model="formTier.song"
                       @input="inputSave()"
                       placeholder="Song"
                     ></v-text-field> -->
-                <v-file-input
-                  id="song"
-                  class="no-icon"
-                  v-model="formTier.song"
-                  :disabled="showItem"
-                  accept="audio/*"
-                  placeholder="Only .WAV, .MP3 or .MP4 files"
-                  @change="validateForm()"
-                ></v-file-input>
+              <v-file-input
+                id="song"
+                truncate-length="100"
+                v-model="formTier.song"
+                :disabled="showItem"
+                accept="audio/*"
+                placeholder="Only Accept Wav, AIFF or FLAC files"
+                @change="validateForm()"
+              ></v-file-input>
             </section>
           </v-col>
         </v-row>
       </v-window-item>
 
-      <v-window-item :value="2">
+      <v-window-item :value="3">
+        <h2 class="Title tup lines" id="section-form-nft">Revenue</h2>
+
         <section class="card" style="margin-top: 40px">
           <v-form ref="form">
             <v-badge class="mb-5" offset-x="-5px">
@@ -313,7 +620,64 @@
                   >mdi-information-symbol</v-icon
                 >
               </template>
-              <span class="span-badge">Royalties</span>
+              <span class="span-badge">Split Revenue</span>
+              <span style="margin-left: 10px; color: white"
+                >Available: ({{ splitAvailable }}%)</span
+              >
+            </v-badge>
+
+            <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
+              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
+                <label for="near-account">Wallet Address</label>
+                <v-text-field
+                  id="near-account"
+                  v-model="item.account"
+                  :disabled="i == 0 ? true : showItem"
+                  placeholder="nearaccount.testnet"
+                  @input="inputAccount(item)"
+                  :rules="rules.required"
+                ></v-text-field>
+              </v-col>
+              <v-col xl="2" lg="2" md="2" sm="4" cols="4">
+                <v-text-field
+                  v-model="item.percentage"
+                  type="number"
+                  @input="inputPercentSplit()"
+                  @change="inputPercentSplit()"
+                  :disabled="showItem"
+                  placeholder="%"
+                  :rules="rulesSplit"
+                ></v-text-field>
+              </v-col>
+              <v-col style="align-self: center !important">
+                <v-icon
+                  v-if="i != 0"
+                  color="var(--primary)"
+                  @click="remove1(i)"
+                  :disabled="showItem"
+                  class="mr-2"
+                  style="font-size: 26px"
+                  >mdi-delete</v-icon
+                >
+              </v-col>
+            </v-row>
+            <v-row class="aend">
+              <v-btn
+                class="btn ml-3"
+                :disabled="showItem"
+                @click="dataSplit.push({ account: '', percentage: null })"
+                style="--fw: 700; --w: 150px; --br: 0px"
+                >Add Collaborator</v-btn
+              >
+            </v-row>
+
+            <v-badge class="mb-5 mt-10" offset-x="-5px">
+              <template #badge>
+                <v-icon color="var(--primary)" style="font-size: 25px"
+                  >mdi-information-symbol</v-icon
+                >
+              </template>
+              <span class="span-badge">Resale Revenue</span>
               <span style="margin-left: 10px; color: white"
                 >Available: ({{ royalAvaibable }}%)</span
               >
@@ -321,7 +685,7 @@
 
             <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
               <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-                <label for="near-account">Near Account</label>
+                <label for="near-account">Wallet Address</label>
                 <v-text-field
                   id="near-account"
                   v-model="item.account"
@@ -365,76 +729,44 @@
                 >Add Royalties</v-btn
               >
             </v-row>
-
-            <v-badge class="mb-5 mt-14" offset-x="-5px">
-              <template #badge>
-                <v-icon color="var(--primary)" style="font-size: 25px"
-                  >mdi-information-symbol</v-icon
-                >
-              </template>
-              <span class="span-badge">Split Revenue</span>
-              <span style="margin-left: 10px; color: white"
-                >Available: ({{ splitAvailable }}%)</span
-              >
-            </v-badge>
-
-            <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
-              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-                <label for="near-account">Near Account</label>
-                <v-text-field
-                  id="near-account"
-                  v-model="item.account"
-                  :disabled="i == 0 ? true : showItem"
-                  placeholder="nearaccount.testnet"
-                  @input="inputAccount(item)"
-                  :rules="rules.required"
-                ></v-text-field>
-              </v-col>
-              <v-col xl="2" lg="2" md="2" sm="4" cols="4">
-                <v-text-field
-                  v-model="item.percentage"
-                  type="number"
-                  @input="inputPercentSplit()"
-                  @change="inputPercentSplit()"
-                  :disabled="showItem"
-                  placeholder="%"
-                  :rules="rulesSplit"
-                ></v-text-field>
-              </v-col>
-              <v-col style="align-self: center !important">
-                <v-icon
-                  v-if="i != 0"
-                  color="var(--primary)"
-                  @click="remove1(i)"
-                  :disabled="showItem"
-                  class="mr-2"
-                  style="font-size: 26px"
-                  >mdi-delete</v-icon
-                >
-              </v-col>
-            </v-row>
-            <v-row class="aend">
-              <v-btn
-                class="btn ml-3"
-                :disabled="showItem"
-                @click="dataSplit.push({ account: '', percentage: null })"
-                style="--fw: 700; --w: 150px; --br: 0px"
-                >Add Split</v-btn
-              >
-            </v-row>
           </v-form>
         </section>
       </v-window-item>
     </v-window>
 
     <div class="center gap1 mt-6">
-      <v-btn v-if="windowStep > 1" class="btn2" @click="windowBack()"><v-icon class="mr-3">mdi-arrow-left</v-icon> Back</v-btn>
+      <v-btn v-if="windowStep > 1" class="btn2" @click="windowBack()"
+        ><v-icon class="mr-3">mdi-arrow-left</v-icon> Back</v-btn
+      >
 
-      <v-btn v-if="windowStep < 2" class="btn" @click="windowStep = 2" :disabled="!formInvalid">Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn>
+      <v-btn v-if="windowStep === 1" class="btn" @click="windowStep++"
+        >Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn
+      >
 
-      <v-btn v-if="windowStep === 2 && reviewState === false" :disabled="previewInfo" class="btn" @click="scrollToTop()">Preview info <v-icon class="ml-3">mdi-information-outline</v-icon></v-btn>
+      <v-btn
+        v-if="windowStep === 2"
+        class="btn"
+        @click="windowStep++"
+        :disabled="!formInvalid"
+        >Next <v-icon class="ml-3">mdi-arrow-right</v-icon></v-btn
+      >
 
-      <v-btn v-if="windowStep === 2 && reviewState === true" class="btn width100" :loading="btnSave" @click="dialogSure = true">Save</v-btn>
+      <v-btn
+        v-if="windowStep === 3 && reviewState === false"
+        :disabled="previewInfo"
+        class="btn"
+        @click="scrollToTop()"
+        >Preview info
+        <v-icon class="ml-3">mdi-information-outline</v-icon></v-btn
+      >
+
+      <v-btn
+        v-if="windowStep === 3 && reviewState === true"
+        class="btn width100"
+        :loading="btnSave"
+        @click="dialogSure = true"
+        >Save</v-btn
+      >
     </div>
 
     <!-- <section class="card" style="margin-top: 40px">
@@ -553,20 +885,13 @@
         <h2 class="p tcenter" style="--fs: 1.8em; text-decoration: underline">
           Are you sure you want to save this information?
         </h2>
-        <span class="tcenter"> The following action cannot be undone once you have clicked the 'Continue' button."</span>
+        <span class="tcenter">
+          The following action cannot be undone once you have clicked the
+          'Continue' button."</span
+        >
         <div class="divrow gap1">
-          <v-btn
-            class="btn2"
-            @click="dialogSure = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            class="btn"
-            @click="saveForm()"
-          >
-            Continue
-          </v-btn>
+          <v-btn class="btn2" @click="dialogSure = false"> Cancel </v-btn>
+          <v-btn class="btn" @click="saveForm()"> Continue </v-btn>
         </div>
       </v-card>
     </v-dialog>
@@ -608,31 +933,35 @@
       </v-btn>
 
       <v-card id="modalBuy" class="nft-dialog--content quick-help-card">
-        <h2 class="center" style="--fs: 1.6em;">
-          Example text
-        </h2>
-        
+        <h2 class="center" style="--fs: 1.6em">Example text</h2>
+
         <p>
-          Name: ClassiQ <br>
-          <br>Origin: Bauchi, Nigeria<br>
-          <br>Genre: Hip Hop / Hausa Trap<br>
-          <br>Ingredients: Witty Lyricism, Youth Consciousness, Groovy Vibes<br>
+          Name: ClassiQ <br />
+          <br />Origin: Bauchi, Nigeria<br />
+          <br />Genre: Hip Hop / Hausa Trap<br />
+          <br />Ingredients: Witty Lyricism, Youth Consciousness, Groovy
+          Vibes<br />
         </p>
 
-        <a @click="goToArtistDetails()" target="_blank" style="text-decoration: underline;">Check the example description here</a>
+        <a
+          @click="goToArtistDetails()"
+          target="_blank"
+          style="text-decoration: underline"
+          >Check the example description here</a
+        >
       </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor"
+import { VueEditor } from 'vue2-editor'
 import computeds from '~/mixins/computeds'
 //   import styles from '~/mixins/styles'
 
 export default {
   components: {
-    VueEditor
+    VueEditor,
   },
   name: 'FormPage',
   // mixins: [computeds, styles],
@@ -765,6 +1094,7 @@ export default {
       formArtistItem: null,
       disabledSave: true,
       btnSave: false,
+      isArtist: null,
       approveTier: false,
       btnApprove: false,
       btnReject: false,
@@ -775,7 +1105,7 @@ export default {
       royalBool: false,
       splitBool: false,
       errorWalletArtist: false,
-      errorMessage: "",
+      errorMessage: '',
       track: false,
       created: false,
       artistAboutValue: 'artist-about',
@@ -807,58 +1137,100 @@ export default {
   async mounted() {
     this.isAdmin = await this.getIsAdmin()
 
-    this.formArtistItem = await this.getFormArtistMain()
+    this.getDataPerfil()
+    // this.getDataArtist()
 
-    console.log("JUANNNN1",this.formArtistItem)
+    // this.formArtistItem = await this.getFormArtistMain()
 
-    if (this.formArtistItem) {
-      this.created = true
-    } else {
-      this.formArtistItem = await this.getFormArtist()
-    }
-    
+    // console.log('JUANNNN1', this.formArtistItem)
 
+    // if (this.formArtistItem) {
+    //   this.created = true
+    // } else {
+    //   this.formArtistItem = await this.getFormArtist()
+    // }
 
-    console.log("JUANNNN",this.formArtistItem)
     this.inputName()
-    if (this.created) {
-      this.dataSplit[0].account = this.formArtistItem.wallet
-      this.approveTier = true
-      this.isApprove = this.formArtistItem.status === 1
-    }
-
-    this.getArtistProposals()
 
     console.log(this.isAdmin, 'Admindndinewoidfoiewnd')
   },
   methods: {
-    scrollToTop() {
-      if (this.$refs.form.validate()) {
-        this.reviewState = true;
-
-        setTimeout(() => {
-          const section = document.getElementById("block-artist");
-          if (section) {
-            section.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
+    async getDataPerfil() {
+      const accountId = this.$ramper.getAccountId()
+      // get data user
+      await this.$axios
+        .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
+        .then((result) => {
+          const data = result.data[0]
+          console.log(data)
+          if (result.data[0]) {
+            this.userExist = true
+            console.log('DATA PERIFL', result.data[0])
+            this.formArtist = result.data[0]
           }
-        }, 0);
+        })
+        .catch((err) => {
+          this.$alert({
+            title: 'ERROR',
+            desc: 'SOMETHING GONE WRONG',
+            icon: 'close',
+            color: 'hsl(0, 84%, 58%)',
+          })
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
+    },
+    getDataArtist() {
+      if (this.$ramper.getAccountId()) {
+        this.$axios
+          .post(`${this.baseUrl}api/v1/get-artist-by-wallet/`, {
+            wallet: this.$ramper.getAccountId(),
+          })
+          .then((result) => {
+            if (result.data) {
+              this.isArtist = true
+            } else {
+              this.isArtist = null
+            }
+            console.log('ARTIST', result)
+          })
+          .catch((err) => {
+            console.error(err)
+          })
       }
     },
-    windowBack(){
-      if(this.reviewState === true){
+    scrollToTop() {
+      if (this.$refs.form.validate()) {
+        this.reviewState = true
+
+        setTimeout(() => {
+          const section = document.getElementById('block-artist')
+          if (section) {
+            section.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            })
+          }
+        }, 0)
+      }
+    },
+    windowBack() {
+      if (this.reviewState === true) {
         this.reviewState = false
-      }else if(this.reviewState === false){
-        this.windowStep = 1
+      } else if (this.reviewState === false) {
+        this.windowStep--
       }
     },
     validateForm() {
-      this.formInvalid = !!this.formTier.nft_name && !!this.formTier.description && !!this.formTier.price && !!this.formTier.song && !!this.imageNft;
+      this.formInvalid =
+        // !!this.formTier.nft_name &&
+        !!this.formTier.description &&
+        !!this.formTier.price &&
+        !!this.formTier.song &&
+        !!this.imageNft
     },
-    goToArtistDetails(){
-      localStorage.setItem("artist-about", this.artistAboutValue)
+    goToArtistDetails() {
+      localStorage.setItem('artist-about', this.artistAboutValue)
       this.$router.push({ path: 'artist-details?artist=2' })
     },
     trackSong() {
@@ -877,10 +1249,10 @@ export default {
 
       if (validate) {
         this.errorWalletArtist = false
-        this.errorMessage = ""
+        this.errorMessage = ''
       } else {
         this.errorWalletArtist = true
-        this.errorMessage = "Account invalidate"
+        this.errorMessage = 'Account invalidate'
       }
     },
     async inputAccount(item) {
@@ -893,7 +1265,7 @@ export default {
         item.errorMessage = null
       } else {
         item.error = true
-        item.errorMessage = "Account invalidate"
+        item.errorMessage = 'Account invalidate'
       }
       console.log(item)
     },
@@ -982,8 +1354,7 @@ export default {
         this.splitAvailable = limitSplit - total
         this.splitBool = false
       }
-      
-      
+
       if (this.splitBool && this.royalBool) {
         this.previewInfo = false
       } else {
@@ -995,12 +1366,12 @@ export default {
       this.showItem = item
       const srcAudio = this.baseUrlSlash + this.showItem.tierItem.audio
 
-      const sonido = document.createElement("audio");
-      sonido.src = srcAudio;
-      sonido.setAttribute("preload", "auto");
-      sonido.setAttribute("controls", "none");
-      sonido.style.display = "none"; // <-- oculto
-      document.body.appendChild(sonido);
+      const sonido = document.createElement('audio')
+      sonido.src = srcAudio
+      sonido.setAttribute('preload', 'auto')
+      sonido.setAttribute('controls', 'none')
+      sonido.style.display = 'none' // <-- oculto
+      document.body.appendChild(sonido)
 
       this.showItem.track = sonido
 
@@ -1162,24 +1533,14 @@ export default {
     inputSave() {
       // this.disabledSave = false
       if (this.formArtistItem) {
-        console.log("HOLA")
-        console.log(
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
+        console.log('HOLA')
+        console.log(this.validateFormTier(), this.royalBool, this.splitBool)
         if (this.validateFormTier() && this.royalBool && this.splitBool) {
           this.disabledSave = false
         } else {
           this.disabledSave = true
         }
       } else if (!this.formArtistItem) {
-        console.log(
-          this.validateFormArtist(),
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
         if (
           this.validateFormArtist() &&
           this.validateFormTier() &&
@@ -1216,10 +1577,10 @@ export default {
       ) {
         console.log(this.selectedTier)
         if (this.formTier.song) {
-            return true
-          } else {
-            return false
-          }
+          return true
+        } else {
+          return false
+        }
         // if (this.selectedTier === 'Tier 1') {
         //   if (this.formTier.song) {
         //     return true
@@ -1247,38 +1608,28 @@ export default {
       }
     },
     async saveNewCollection() {
-      console.log("NEW COLLECITON")
+      console.log('NEW COLLECITON')
       this.btnSave = true
       if (this.$refs.form.validate() && this.isApprove) {
-        console.log("ENTRO")
+        console.log('ENTRO')
         console.log(this.formArtistItem)
         const itemIpfs = await this.uploadIpfs(this.imageNft)
 
         const formDataNft = new FormData()
         formDataNft.append('wallet', this.$ramper.getAccountId())
-        formDataNft.append('id_collection', this.formArtistItem.id_collection)
-        formDataNft.append(
-          'tierNumber',
-          1
-        )
+        formDataNft.append('tierNumber', 1)
         formDataNft.append('nft_name', this.formTier.nft_name)
         formDataNft.append('description', this.formTier.description)
         formDataNft.append('price', this.formTier.price)
         formDataNft.append(
           'image',
-          "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
+          'https://' + itemIpfs.cid + '.ipfs.nftstorage.link/' + itemIpfs.name
         )
-        formDataNft.append(
-          'royalties',
-          JSON.stringify(this.dataRoyalties)
-        )
-        formDataNft.append(
-          'royalties_split',
-          JSON.stringify(this.dataSplit)
-        )
+        formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
+        formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
 
         formDataNft.append('audio', this.formTier.song)
-    
+
         this.$axios
           .post(`${this.baseUrl}api/v1/new-collection/`, formDataNft)
           .then(() => {
@@ -1292,123 +1643,69 @@ export default {
       }
     },
     async saveForm() {
-      console.log("AQIUIII",this.created)
       this.btnSave = true
       this.dialogSure = false
-      if (this.approveTier) {
-        this.saveNewCollection()
-      } else if (!this.approveTier) {
-        if (this.$refs.form.validate()) {
-          console.log(this.created)
-          if (!this.created) {
-            const itemIpfs = await this.uploadIpfs(this.imageNft)
-            // const cidSong = await this.uploadIpfs(this.formTier.song)
+      console.log('NEW ARTIST')
+      const formData = new FormData()
+      // PERFIL
+      formData.append('wallet', this.$ramper.getAccountId())
+      formData.append('username', this.formArtist.username)
+      formData.append('description', this.formArtist.description)
+      formData.append('about', this.formArtist.description)
+      formData.append('instagram', this.formArtist.instagram || '')
+      formData.append('twitter', this.formArtist.twitter || '')
+      formData.append('facebook', this.formArtist.facebook || '')
+      formData.append('discord', this.formArtist.discord || '')
+      formData.append('email', this.formArtist.email || '')
 
-            const formDataArtist = new FormData()
-            formDataArtist.append('wallet', this.$ramper.getAccountId())
-            formDataArtist.append('wallet_artist', this.formArtist.walletArtist)
-            formDataArtist.append('name', this.formArtist.name)
-            formDataArtist.append('description', this.formArtist.description)
-            formDataArtist.append('about', this.formArtist.about)
+      const itemIpfs = await this.uploadIpfs(this.imageNft)
 
-            formDataArtist.append('instagram', this.formArtist.instagram || '')
-            formDataArtist.append('twitter', this.formArtist.twitter || '')
-            formDataArtist.append('facebook', this.formArtist.facebook || '')
-            formDataArtist.append('discord', this.formArtist.discord || '')
-            // formDataArtist.append('image', this.imageAvatar)
-            // formDataArtist.append('banner', this.imageBanner)
-            // formDataArtist.append('banner_mobile', this.imageMobile)
-
-            this.$axios
-              .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
-              .then((result) => {
-                console.log(result.data)
-                const formDataNft = new FormData()
-                formDataNft.append('artist_proposal', result.data.id)
-                formDataNft.append(
-                  'tierNumber',
-                  1
-                )
-                formDataNft.append('nft_name', this.formTier.nft_name)
-                formDataNft.append('description', this.formTier.description)
-                formDataNft.append('price', this.formTier.price)
-                formDataNft.append(
-                  'image',
-                  "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
-                )
-                formDataNft.append(
-                  'royalties',
-                  JSON.stringify(this.dataRoyalties)
-                )
-                formDataNft.append(
-                  'royalties_split',
-                  JSON.stringify(this.dataSplit)
-                )
+      // TIERS
+      formData.append('tierNumber', 1)
+      const nftName = 'Enter The Feast with Chef'
+      formData.append(
+        'nft_name',
+        nftName + ' ' + this.formArtist.username + '!'
+      )
+      formData.append('description', this.formTier.description)
+      formData.append('price', this.formTier.price)
+      formData.append(
+        'image',
+        'https://' + itemIpfs.cid + '.ipfs.nftstorage.link/' + itemIpfs.name
+      )
+      formData.append('royalties', JSON.stringify(this.dataRoyalties))
+      formData.append('royalties_split', JSON.stringify(this.dataSplit))
 
                 formDataNft.append('audio', this.formTier.song) 
 
-                this.$axios
-                  .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
-                  .then(async () => {
-                    this.formArtistItem = await this.getFormArtist()
-                    this.getArtistProposals()
-                    this.dialogSuccess = true
-                    this.btnSave = false
-                  })
-                  .catch((err) => {
-                    this.btnSave = false
-                    console.log(err)
-                  })
-              })
-              .catch((err) => {
-                this.btnSave = false
-                console.log(err)
-              })
-          } else {
-            const itemIpfs = await this.uploadIpfs(this.imageNft)
-            // let cidMedia
-            // if (this.selectedTier === "Tier 2") {
-            //   cidMedia = await this.uploadIpfs(this.formTier.song)
-            // }
-
-            const formDataNft = new FormData()
-            formDataNft.append('artist_proposal', this.formArtistItem.id)
-            formDataNft.append(
-              'tierNumber',
-              1
-            )
-            formDataNft.append('nft_name', this.formTier.nft_name)
-            formDataNft.append('description', this.formTier.description)
-            formDataNft.append('price', this.formTier.price)
-            formDataNft.append(
-              'image',
-              "https://" + itemIpfs.cid + ".ipfs.nftstorage.link/" + itemIpfs.name
-            )
-            formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
-            formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
-
-            if (this.selectedTier === 'Tier 2') {
-              formDataNft.append('video', this.formTier.media)
-            } else if (this.selectedTier === 'Tier 1') {
-              formDataNft.append('audio', this.formTier.song)
-            }
-
-            this.$axios
-              .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
-              .then(() => {
-                this.dialogSuccess = true
-                this.btnSave = false
-                this.getArtistProposals()
-              })
-              .catch((err) => {
-                this.btnSave = false
-                console.log(err)
-              })
-          }
-        } else{
+      this.$axios
+        .post(`${this.baseUrl}api/v1/save-form/`, formData)
+        .then((result) => {
+          console.log('SUCESS', result)
           this.btnSave = false
-        }
-      }
+
+          localStorage.setItem(
+            'transaction_data',
+            JSON.stringify({
+              state: 'success',
+              title: 'Success',
+              desc: 'Your process has been executed successfully.',
+            })
+          )
+
+          this.$router.push(this.localePath('/redirection'))
+        })
+        .catch((err) => {
+          this.btnSave = false
+          this.$alert({
+            title: 'ERROR',
+            desc: 'SOMETHING GONE WRONG',
+            icon: 'close',
+            color: 'hsl(0, 84%, 58%)',
+          })
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
     },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
@@ -1451,7 +1748,8 @@ export default {
         if (resp.data.value?.cid && resp.data.value?.files[0]?.name) {
           return {
             cid: resp.data.value.cid,
-            name: resp.data.value.files[0].name}
+            name: resp.data.value.files[0].name,
+          }
         } else {
           return false
         }
@@ -1463,7 +1761,8 @@ export default {
     async getFormArtist() {
       if (this.$ramper.getAccountId()) {
         const accountId = this.$ramper.getAccountId()
-        return await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
+        return await this.$axios
+          .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
           .then((result) => {
             console.log(result.data)
             if (result.data.length === 0) {
@@ -1475,7 +1774,8 @@ export default {
               this.selectedTier = null
               const item = result.data[0]
               item.walletArtist = item.wallet
-              item.description = item.bio
+              // item.description = item.description
+              // item.about = item.about
               item.name = item.username
               this.formArtist = item
               this.selectedImageAvatar = this.baseUrl + item.image
@@ -1495,31 +1795,48 @@ export default {
     async getData() {
       const accountId = this.$ramper.getAccountId()
       // get data user
-      await this.$axios.post(`${this.baseUrl}api/v1/get-perfil-data/`, { "wallet": accountId })
-      .then(result => {
-        const data = result.data[0]
-        console.log(data)
-        if (result.data[0]) {
-          this.$equalData(this.form, data)
-          this.form.id = data.id
-          this.imgBanner = data.banner ? this.baseUrl+data.banner : this.user.banner
-          this.imgAvatar = data.avatar ? this.baseUrl+data.avatar : this.user.avatar
-          this.userExist = true
+      await this.$axios
+        .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
+        .then((result) => {
+          const data = result.data[0]
 
-          this.selectedImageAvatar = data.image ? this.baseUrl+data.image : null
-          this.selectedImageBanner = data.banner_artist ? this.baseUrl+data.banner_artist : null
-          this.selectedImageMobile = data.banner_mobile ? this.baseUrl+data.banner_mobile : null
-        } else {
-          this.form.wallet = accountId
-          this.imgBanner = this.user.banner
-          this.imgAvatar = this.user.avatar
-          this.userExist = false
-        }
-      }).catch(err => {
-        this.$alert( {title: "ERROR", desc: "SOMETHING GONE WRONG", icon:"close", color:"hsl(0, 84%, 58%)"})
-        // this.$alert("cancel", {desc: err.message})
-        console.error(err);
-      })
+          if (result.data[0]) {
+            this.$equalData(this.form, data)
+            this.form.id = data.id
+            this.imgBanner = data.banner
+              ? this.baseUrl + data.banner
+              : this.user.banner
+            this.imgAvatar = data.avatar
+              ? this.baseUrl + data.avatar
+              : this.user.avatar
+            this.userExist = true
+
+            this.selectedImageAvatar = data.image
+              ? this.baseUrl + data.image
+              : null
+            this.selectedImageBanner = data.banner_artist
+              ? this.baseUrl + data.banner_artist
+              : null
+            this.selectedImageMobile = data.banner_mobile
+              ? this.baseUrl + data.banner_mobile
+              : null
+          } else {
+            this.form.wallet = accountId
+            this.imgBanner = this.user.banner
+            this.imgAvatar = this.user.avatar
+            this.userExist = false
+          }
+        })
+        .catch((err) => {
+          this.$alert({
+            title: 'ERROR',
+            desc: 'SOMETHING GONE WRONG',
+            icon: 'close',
+            color: 'hsl(0, 84%, 58%)',
+          })
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
     },
     async getFormArtistMain() {
       if (this.$ramper.getAccountId()) {
@@ -1537,7 +1854,7 @@ export default {
               this.items_tier = ['Tier 2']
               this.selectedTier = null
               const item = result.data[0]
-              console.log("ITE<",item)
+              console.log('ITE<', item)
               item.walletArtist = item.wallet_artist
               this.formArtist = item
               this.selectedImageAvatar = this.baseUrl + item.image
