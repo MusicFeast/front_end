@@ -23,7 +23,7 @@
           v-for="(item, i) in dataNavbar"
           :key="i"
           class="tup"
-          :class="{ showmobile: item.name === 'profile' }"
+          :class="{ showmobile: item.name === 'dashboard / add track' }"
           @click="goTo(item.to)"
           >{{ item.name }}</a
         >
@@ -210,7 +210,7 @@ export default {
         { name: 'contact', to: '/contact' },
         // { name: 'Drops', to: '/drops' },
         { name: 'chat', to: '/chat' },
-        { name: 'profile', to: '/edit-profile' },
+        { name: 'dashboard / add track', to: '/edit-profile' },
       ],
     }
   },

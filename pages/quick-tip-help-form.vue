@@ -33,7 +33,7 @@
 
     <div v-for="(item, index) in panelsData" :key="index" :class="`container-expansion center panel-${index}`">
         <div class="pt-4 pb-4 pl-6 pr-6 wrap-expansion">
-          <span class="h6">{{ item.name }}</span>
+          <span :id="item.id" class="h6">{{ item.name }}</span>
             <p class="mb-8 mt-8 font20">
               <b>{{ item.main_desc }}</b>
             </p>
@@ -70,6 +70,7 @@ export default {
     return {
       panelsData: [
         {
+          id: "1",
           name:"Complete Your Profile and Showcase Your Artistry",
           main_desc: "Welcome to Music Feast! We're excited to have you join our creative community. To make the most of your experience and connect with fellow artists and enthusiasts, we encourage you to complete your profile with essential information and stunning banner pictures. Here's why it matters:",
           main_desc1: "Your name is your identity on Music Feast. It helps others recognize and remember you. When you participate in discussions, share your work, or engage with the community, having your name displayed makes your interactions more personal and meaningful. It's the first step to building your artistic presence.",
@@ -82,6 +83,7 @@ export default {
           display: true
         },
         {
+          id: "2",
           name:"Fill Out the NFT Form",
           main_desc: "Click the 'Upload Images' or similar button to select your NFT images. Ensure your images meet the required size of 255x255 pixels",
           main_desc1: "Track Name: Enter the name of your track",
@@ -94,6 +96,7 @@ export default {
           display: true
         },
         {
+          id: "3",
           name:"Setting Royalties and Splits for Your NFT",
           main_desc: "Set Revenue Splits: You can also configure revenue splits with collaborators or partners. Many platforms allow you to split the revenue up to a certain percentage (usually up to 70%) with other users.",
           main_desc1: "Enter the collaborators' or partners' wallet addresses and specify the percentage of the revenue they will receive. For example, if you want to split the revenue 50-50 with a collaborator, you can enter their wallet address and set a 50% split.",
@@ -104,6 +107,7 @@ export default {
           display: true
         },
         {
+          id: "4",
           name: "Final Steps: Verify, Approve, and Deploy Your NFT",
           main_desc: "The last step in the NFT creation process is to thoroughly verify all the information you've entered. This includes your NFT images, track details, pricing, royalties, and any revenue splits with collaborators.",
           main_desc1: "Keep in mind that blockchain technology is immutable, meaning once the information is recorded on the blockchain, it cannot be changed. It's essential to ensure the accuracy of your listing at this stage.",
@@ -114,6 +118,7 @@ export default {
           display: true
         },
         {
+          id: "5",
           name: "What next",
           main_desc: "Locate the minted NFT within your artist profile. This is usually in a section that displays all the NFTs associated with your account.",
           main_desc1: "Find the section that displays the tiers associated with your NFT. Each tier may be represented by a square or icon.",

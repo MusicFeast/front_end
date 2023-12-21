@@ -536,7 +536,7 @@
                 class="btn btn-input-file"
                 :disabled="showItem"
                 @click="openFileInputNft"
-                >Upload Covert Art</v-btn
+                >Upload Cover Art</v-btn
               >
             </div>
           </v-col>
@@ -615,18 +615,19 @@
 
         <section class="card" style="margin-top: 40px">
           <v-form ref="form">
-            <v-badge class="mb-5" offset-x="-5px">
-              <template #badge>
-                <v-icon color="var(--primary)" style="font-size: 25px"
-                  >mdi-information-symbol</v-icon
+            <a href="/quick-tip-help-form#3" target="_blank">
+              <v-badge class="mb-5" offset-x="-5px" @click="dialogHelpSplit = true">
+                <template #badge>
+                  <v-icon color="var(--primary)"  style="font-size: 25px"
+                    >mdi-help-circle-outline</v-icon
+                  >
+                </template>
+                <span class="span-badge">Split Revenue</span>
+                <span style="margin-left: 10px; color: white"
+                  >Available: ({{ splitAvailable }}%)</span
                 >
-              </template>
-              <span class="span-badge">Split Revenue</span>
-              <span style="margin-left: 10px; color: white"
-                >Available: ({{ splitAvailable }}%)</span
-              >
-            </v-badge>
-
+              </v-badge>
+            </a>
             <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
               <v-col xl="9" lg="9" md="9" sm="7" cols="7">
                 <label for="near-account">Wallet Address</label>
@@ -671,19 +672,19 @@
                 >Add Collaborator</v-btn
               >
             </v-row>
-
-            <v-badge class="mb-8 mt-10" offset-x="-5px">
-              <template #badge>
-                <v-icon color="var(--primary)" style="font-size: 25px"
-                  >mdi-information-symbol</v-icon
+            <a href="/quick-tip-help-form#3" target="_blank">
+              <v-badge class="mb-8 mt-10" offset-x="-5px">
+                <template #badge>
+                  <v-icon color="var(--primary)" style="font-size: 25px"
+                    >mdi-help-circle-outline</v-icon
+                  >
+                </template>
+                <span class="span-badge">Resale Revenue</span>
+                <span style="margin-left: 10px; color: white"
+                  >Available: ({{ royalAvaibable }}%)</span
                 >
-              </template>
-              <span class="span-badge">Resale Revenue</span>
-              <span style="margin-left: 10px; color: white"
-                >Available: ({{ royalAvaibable }}%)</span
-              >
-            </v-badge>
-
+              </v-badge>
+            </a>
             <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
               <v-col xl="9" lg="9" md="9" sm="7" cols="7" class="pt-0">
                 <label for="near-account">Wallet Address</label>
@@ -811,7 +812,7 @@
         </div>
       </template>
     </section> -->
-
+<!-- 
     <template v-if="selectedTier === 'Tier 3' || selectedTier === 'Tier 4'">
       <h2 class="Title tup lines">Physical Merchandise</h2>
 
@@ -858,7 +859,7 @@
           </v-card>
         </div>
       </section>
-    </template>
+    </template> -->
 
     <!-- <section class="card divrow" style="margin-top: 40px; gap: 40px;">
         <div class="divrow acenter" style="gap: 5px;">
@@ -924,12 +925,12 @@
 
     <!-- Dialog Text Example -->
     <v-dialog
-      v-model="textExampleDialog"
+      v-model="dialogHelpSplit"
       max-width="500px"
       content-class="nft-dialog"
       persistent
     >
-      <v-btn icon class="close" @click="textExampleDialog = false">
+      <v-btn icon class="close" @click="dialogHelpSplit = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
 
@@ -961,10 +962,10 @@ import computeds from '~/mixins/computeds'
 //   import styles from '~/mixins/styles'
 
 export default {
+  name: 'FormPage',
   components: {
     VueEditor,
   },
-  name: 'FormPage',
   // mixins: [computeds, styles],
   mixins: [computeds],
   data() {
@@ -977,7 +978,7 @@ export default {
 
       windowStep: 1,
 
-      textExampleDialog: false,
+      dialogHelpSplit: false,
 
       dataRoyalties: [],
       dataSplit: [{ account: this.$ramper.getAccountId(), percentage: null }],
