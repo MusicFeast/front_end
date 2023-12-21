@@ -425,257 +425,303 @@
       </template>
     </v-slide-group>
 
-    <h2 class="Title tup">events</h2>
+    <template v-if="dataEvents.lenght > 0">
+      <h2 class="Title tup">events</h2>
 
-    <v-expansion-panels class="custome-expansion">
-      <v-expansion-panel v-for="(item, i) in dataEvents" :key="i">
-        <v-expansion-panel-header
-          expand-icon="mdi-menu-down"
-          class="bold tcap"
-          @click="$store.dispatch('goTo', { key: 'event', item })"
-        >
-          {{ item.name }}
-        </v-expansion-panel-header>
-      </v-expansion-panel>
-    </v-expansion-panels>
+      <v-expansion-panels class="custome-expansion">
+        <v-expansion-panel v-for="(item, i) in dataEvents" :key="i">
+          <v-expansion-panel-header
+            expand-icon="mdi-menu-down"
+            class="bold tcap"
+            @click="$store.dispatch('goTo', { key: 'event', item })"
+          >
+            {{ item.name }}
+          </v-expansion-panel-header>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </template>
 
-    <h2 class="Title fwrap mb-10" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
-      <span class="tup" style="--fb: max-content">lastest collections</span>
+    <template v-if="dataCollections.length > 0">
+      <h2 class="Title fwrap mb-10" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
+        <span class="tup" style="--fb: max-content">lastest collections</span>
+
+        <Filters
+          contents
+          :hide="[3]"
+          :search="search"
+          :filter-a="filterA.list"
+          @search="(model) => (search = model)"
+          @filterA="(model) => (filterA.model = model)"
+        />
+        <!-- <Filters
+          :search="search"
+          :filter-a="filterA.list"
+          :filter-b="filterB.list"
+          @search="(model) => search = model"
+          @filterA="(model) => filterA.model = model"
+          @filterB="(model) => filterB.model = model"
+          :hide="[3]"
+        /> -->
+      </h2>
+
+      <!-- TODO evaluate when show [ownCollection] based on current artist -->
+      <section
+        class="container-collections grid"
+        :class="{ ownCollection: true }"
+      >
+        <template v-for="(item, i) in dataCollections_pagination">
+          <v-sheet
+            :key="i"
+            color="rgba(0, 0, 0, .4)"
+            class="divcol"
+          >
+            <v-card
+              v-if="!item.state"
+              :key="i"
+              class="card divcol custome"
+              @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
+            >
+              <!-- <v-img
+                :src="item.img"
+                :alt="`${item.name} image`"
+                transition="fade-transition"
+                :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="card" />
+                </template>
+              </v-img> -->
+
+              <v-img
+                :src="item.img"
+                :alt="`${item.name} image`"
+                transition="fade-transition"
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="card" />
+                </template>
+                <v-btn
+                  :disabled="item.tier != 1 && item.tier != 2"
+                  class="btn"
+                  style="position: absolute !important; right: 5px; top: 5px"
+                  @click="goToForm(item)"
+                  >Edit this Tier</v-btn
+                >
+              </v-img>
+
+              <!-- TODO put location to router or whatever logic needed here -->
+              <!-- <v-btn :ripple="false" class="btn activeBtn editBtn"
+                >Edit Profile</v-btn
+              > -->
+
+              <div class="container-content tcenter">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="item.avatar"
+                    :alt="`${item.artist} image`"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <a class="mb-4">{{ item.name }}</a>
+                <!-- <p v-html="item.desc"></p> -->
+
+                <div class="center bold" style="gap: 6.4px">
+                  <span class="floor" style="--c: var(--accent)"
+                    >Price: {{ item.price }} $</span
+                  >
+                  <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
+                </div>
+                <span class="floor" style="--c: var(--accent)"
+                  >Editions: {{ item.editions }}</span
+                >
+              </div>
+            </v-card>
+            <v-card v-else :key="i" class="card divcol custome">
+              <v-img
+                :src="item.img"
+                :alt="`${item.name} image`"
+                transition="fade-transition"
+                :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+              >
+                <template #placeholder>
+                  <v-skeleton-loader type="card" />
+                </template>
+              </v-img>
+
+              <!-- TODO put location to router or whatever logic needed here -->
+              <v-btn :ripple="false" class="btn activeBtn editBtn">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+
+              <div class="container-content tcenter">
+                <v-avatar style="border: 2px solid #fff">
+                  <v-img
+                    :src="item.avatar"
+                    :alt="`${item.artist} image`"
+                    transition="fade-transition"
+                  >
+                    <template #placeholder>
+                      <v-skeleton-loader type="avatar" />
+                    </template>
+                  </v-img>
+                </v-avatar>
+                <a class="mb-4">{{ item.name }}</a>
+                <!-- <p v-html="item.desc"></p> -->
+
+                <div class="center bold" style="gap: 6.4px">
+                  <span class="floor" style="--c: var(--accent)"
+                    >Price: {{ item.price }} $</span
+                  >
+                  <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
+                </div>
+                <span class="floor" style="--c: var(--accent)"
+                  >Editions: {{ item.editions }}</span
+                >
+              </div>
+            </v-card>
+
+            <div class="tier-desc divcol">
+              <a class="tup bold" style="cursor: default">{{ item.name }}</a>
+              <ul>
+                <li
+                  v-show="item.desc"
+                  v-html="item.desc.limitString(110)"
+                ></li>
+              </ul>
+            </div>
+
+            <div class="container-actions divcol">
+              <a>More Details</a>
+              <v-btn
+                :ripple="false"
+                class="btn activeBtn align"
+                style="--w: calc(100% - 1em)"
+                >Go to Buy page</v-btn>
+            </div>
+          </v-sheet>
+        </template>
+      </section>
+
+      <Pagination
+        :total-pages="pagination_per_page"
+        :current-page="currentPage"
+        @pagechanged="(page) => (currentPage = page)"
+      />
+    </template>
+
+    <template v-if="dataNfts.lenght > 0">
+      <h2 class="Title tup mb-16">my nfts</h2>
 
       <Filters
-        contents
+        :search="searchNft"
+        :filter-a="filterANft.list"
+        :filter-b="filterBNft.list"
+        @search="(model) => (searchNft = model)"
+        @filterA="(model) => (filterANft.model = model)"
+        @filterB="(model) => (filterBNft.model = model)"
         :hide="[3]"
-        :search="search"
-        :filter-a="filterA.list"
-        @search="(model) => (search = model)"
-        @filterA="(model) => (filterA.model = model)"
       />
-      <!-- <Filters
-        :search="search"
-        :filter-a="filterA.list"
-        :filter-b="filterB.list"
-        @search="(model) => search = model"
-        @filterA="(model) => filterA.model = model"
-        @filterB="(model) => filterB.model = model"
-        :hide="[3]"
-      /> -->
-    </h2>
 
-    <!-- TODO evaluate when show [ownCollection] based on current artist -->
-    <section
-      class="container-collections grid"
-      :class="{ ownCollection: true }"
-    >
-      <template v-for="(item, i) in dataCollections_pagination">
-        <v-sheet
+      <section ref="container" class="container-nfts grid">
+        <v-card
+          v-for="(item, i) in dataNfts_pagination"
           :key="i"
-          color="rgba(0, 0, 0, .4)"
-          class="divcol"
+          class="card divcol custome"
+          @click="
+            $store.dispatch('goTo', { key: 'user-nft', item, event: $event })
+          "
         >
-          <v-card
-            v-if="!item.state"
-            :key="i"
-            class="card divcol custome"
-            @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
+          <v-img
+            :src="item.img"
+            :alt="`${item.name} image`"
+            transition="fade-transition"
+            :style="`
+              ${item.state ? `--tag-state: '${item.state}'` : ''}`"
           >
-            <!-- <v-img
-              :src="item.img"
-              :alt="`${item.name} image`"
-              transition="fade-transition"
-              :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="card" />
-              </template>
-            </v-img> -->
+            <template #placeholder>
+              <v-skeleton-loader type="card" />
+            </template>
+          </v-img>
 
-            <v-img
-              :src="item.img"
-              :alt="`${item.name} image`"
-              transition="fade-transition"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="card" />
-              </template>
-              <v-btn
-                :disabled="item.tier != 1 && item.tier != 2"
-                class="btn"
-                style="position: absolute !important; right: 5px; top: 5px"
-                @click="goToForm(item)"
-                >Edit this Tier</v-btn
+          <div class="container-content tcenter">
+            <v-avatar style="border: 2px solid #fff">
+              <v-img
+                :src="item.avatar"
+                :alt="`${item.artist} image`"
+                transition="fade-transition"
               >
-            </v-img>
+                <template #placeholder>
+                  <v-skeleton-loader type="avatar" />
+                </template>
+              </v-img>
+            </v-avatar>
+            <a>{{ item.name }}</a>
+            <!-- <a>{{item.artista.limitString(27)}}</a> -->
+            <p v-html="item.desc.limitString(27)"></p>
 
-            <!-- TODO put location to router or whatever logic needed here -->
-            <!-- <v-btn :ripple="false" class="btn activeBtn editBtn"
-              >Edit Profile</v-btn
-            > -->
-
-            <div class="container-content tcenter">
-              <v-avatar style="border: 2px solid #fff">
-                <v-img
-                  :src="item.avatar"
-                  :alt="`${item.artist} image`"
-                  transition="fade-transition"
-                >
-                  <template #placeholder>
-                    <v-skeleton-loader type="avatar" />
-                  </template>
-                </v-img>
-              </v-avatar>
-              <a class="mb-4">{{ item.name }}</a>
-              <!-- <p v-html="item.desc"></p> -->
-
-              <div class="center bold" style="gap: 6.4px">
-                <span class="floor" style="--c: var(--accent)"
-                  >Price: {{ item.price }} $</span
-                >
-                <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
-              </div>
+            <div class="center" style="gap: 6.4px">
               <span class="floor" style="--c: var(--accent)"
-                >Editions: {{ item.editions }}</span
+                >Floor Price: $ {{ Number(item.floor_price)?.toFixed(2) }}</span
               >
+              <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
             </div>
-          </v-card>
-          <v-card v-else :key="i" class="card divcol custome">
-            <v-img
-              :src="item.img"
-              :alt="`${item.name} image`"
-              transition="fade-transition"
-              :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="card" />
-              </template>
-            </v-img>
-
-            <!-- TODO put location to router or whatever logic needed here -->
-            <v-btn :ripple="false" class="btn activeBtn editBtn">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-
-            <div class="container-content tcenter">
-              <v-avatar style="border: 2px solid #fff">
-                <v-img
-                  :src="item.avatar"
-                  :alt="`${item.artist} image`"
-                  transition="fade-transition"
-                >
-                  <template #placeholder>
-                    <v-skeleton-loader type="avatar" />
-                  </template>
-                </v-img>
-              </v-avatar>
-              <a class="mb-4">{{ item.name }}</a>
-              <!-- <p v-html="item.desc"></p> -->
-
-              <div class="center bold" style="gap: 6.4px">
-                <span class="floor" style="--c: var(--accent)"
-                  >Price: {{ item.price }} $</span
-                >
-                <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
-              </div>
-              <span class="floor" style="--c: var(--accent)"
-                >Editions: {{ item.editions }}</span
-              >
-            </div>
-          </v-card>
-
-          <div class="tier-desc divcol">
-            <a class="tup bold" style="cursor: default">{{ item.name }}</a>
-            <ul>
-              <li
-                v-show="item.desc"
-                v-html="item.desc.limitString(110)"
-              ></li>
-            </ul>
-          </div>
-
-          <div class="container-actions divcol">
-            <a>More Details</a>
-            <v-btn
-              :ripple="false"
-              class="btn activeBtn align"
-              style="--w: calc(100% - 1em)"
-              >Go to Buy page</v-btn>
-          </div>
-        </v-sheet>
-      </template>
-    </section>
-
-    <Pagination
-      :total-pages="pagination_per_page"
-      :current-page="currentPage"
-      @pagechanged="(page) => (currentPage = page)"
-    />
-
-    <h2 class="Title tup mb-16">my nfts</h2>
-
-    <Filters
-      :search="searchNft"
-      :filter-a="filterANft.list"
-      :filter-b="filterBNft.list"
-      @search="(model) => (searchNft = model)"
-      @filterA="(model) => (filterANft.model = model)"
-      @filterB="(model) => (filterBNft.model = model)"
-      :hide="[3]"
-    />
-
-    <section ref="container" class="container-nfts grid">
-      <v-card
-        v-for="(item, i) in dataNfts_pagination"
-        :key="i"
-        class="card divcol custome"
-        @click="
-          $store.dispatch('goTo', { key: 'user-nft', item, event: $event })
-        "
-      >
-        <v-img
-          :src="item.img"
-          :alt="`${item.name} image`"
-          transition="fade-transition"
-          :style="`
-            ${item.state ? `--tag-state: '${item.state}'` : ''}`"
-        >
-          <template #placeholder>
-            <v-skeleton-loader type="card" />
-          </template>
-        </v-img>
-
-        <div class="container-content tcenter">
-          <v-avatar style="border: 2px solid #fff">
-            <v-img
-              :src="item.avatar"
-              :alt="`${item.artist} image`"
-              transition="fade-transition"
-            >
-              <template #placeholder>
-                <v-skeleton-loader type="avatar" />
-              </template>
-            </v-img>
-          </v-avatar>
-          <a>{{ item.name }}</a>
-          <!-- <a>{{item.artista.limitString(27)}}</a> -->
-          <p v-html="item.desc.limitString(27)"></p>
-
-          <div class="center" style="gap: 6.4px">
             <span class="floor" style="--c: var(--accent)"
-              >Floor Price: $ {{ Number(item.floor_price)?.toFixed(2) }}</span
+              >Editions: {{ item.editions }}</span
             >
-            <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
           </div>
-          <span class="floor" style="--c: var(--accent)"
-            >Editions: {{ item.editions }}</span
-          >
-        </div>
-      </v-card>
-    </section>
+        </v-card>
+      </section>
 
-    <Pagination
-      :total-pages="pagination_per_pageNft"
-      :current-page="currentPageNft"
-      @pagechanged="(page) => (currentPageNft = page)"
-    />
+      <Pagination
+        :total-pages="pagination_per_pageNft"
+        :current-page="currentPageNft"
+        @pagechanged="(page) => (currentPageNft = page)"
+      />
+
+      <section class="container-user">
+        <aside class="container-user--social center gap1">
+          <!-- <v-btn icon>
+            <v-icon size="clamp(2em, 2.4vw, 2.4em)" style="transform: rotate(-50deg)">mdi-link</v-icon>
+          </v-btn> -->
+
+          <v-btn
+            v-for="(item, i) in user.dataSocial"
+            :key="i"
+            icon
+            :href="item.link"
+            target="_blank"
+          >
+            <v-icon size="clamp(2em, 2.4vw, 2.4em)">{{ item.icon }}</v-icon>
+          </v-btn>
+        </aside>
+
+        <h2 class="p">{{ user.username }}</h2>
+
+        <section
+          class="container-profit bold fwrap align"
+          style="max-width: 62.616875em"
+        >
+          <v-sheet color="transparent" class="divcol center">
+            <span>Total NFTs</span>
+            <span>{{ dataProfits.nfts }}</span>
+          </v-sheet>
+          <v-sheet color="transparent" class="divcol center">
+            <span>Chats Enabled</span>
+            <span>{{ dataProfits.chats }}</span>
+          </v-sheet>
+          <v-sheet color="transparent" class="divcol center">
+            <span>All Time High</span>
+            <span>$ {{ dataProfits.high }}</span>
+          </v-sheet>
+        </section>
+
+        <p v-show="user.description" class="p tcenter">{{ user.description }}</p>
+      </section>
+    </template>
 
     <h2 class="Title tup mb-16">Offers</h2>
 
@@ -1881,8 +1927,6 @@ export default {
 
           let maxPrice = 0
 
-          // console.log("DATAAAAAAAA", data)
-
           for (let i = 0; i < data.length; i++) {
             const item = {
               collection: data[i].collection,
@@ -1942,6 +1986,109 @@ export default {
 
           this.getAvatars(result)
         })
+    },
+    async getFloorPrice(serieId) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($serie_id: String) {
+          markets(
+            where: { serie_id: $serie_id }
+            first: 1
+            orderBy: price_near
+          ) {
+            id
+            typetoken_id
+            transaction_fee
+            token_id
+            started_at
+            serie_id
+            price_near
+            price
+            owner_id
+            nft_contract_id
+            is_auction
+            ft_token_id
+            ended_at
+            end_price
+            artist_id
+            approval_id
+          }
+        }
+      `
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: { serie_id: serieId },
+      })
+
+      const data = res.data.markets
+
+      if (data[0]) {
+        return data[0].price
+      } else {
+        return false
+      }
+    },
+    async getAvatars(datos) {
+      await this.$axios
+        .post(`${this.baseUrl}api/v1/get-avatars/`, { artists: datos })
+        .then((result) => {
+          const data = result.data
+          // console.log("ADTA", data)
+          if (data[0]) {
+            for (let i = 0; i < data.length; i++) {
+              for (let j = 0; j < this.dataNfts.length; j++) {
+                if (
+                  String(data[i].id_collection) ===
+                  String(this.dataNfts[j].artist_id)
+                ) {
+                  this.dataNfts[j].avatar = this.baseUrl + data[i].image
+                  this.dataNfts[j].artista = data[i].name
+                }
+              }
+            }
+          }
+        })
+        .catch((err) => {
+          // this.$alert("cancel", {desc: err.message})
+          console.error(err)
+        })
+    },
+    async getSerie(idArtist, typeToken) {
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const QUERY_APOLLO = gql`
+        query QUERY_APOLLO($artist_id: String, $typetoken: String) {
+          series(
+            where: { artist_id: $artist_id, typetoken_id_in: [$typetoken] }
+          ) {
+            id
+            media
+            price
+            reference
+            title
+            typetoken_id
+            fecha
+            extra
+            description
+            creator_id
+            artist_id
+            price_near
+            supply
+            copies
+            desc_series
+          }
+        }
+      `
+
+      const res = await clientApollo.query({
+        query: QUERY_APOLLO,
+        variables: {
+          artist_id: String(idArtist),
+          typetoken: String(typeToken),
+        },
+      })
+
+      return res.data.series[0]
     },
     selectPreview(value) {
       this.selectedPreview = value

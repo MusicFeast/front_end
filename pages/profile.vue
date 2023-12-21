@@ -1100,8 +1100,6 @@ export default {
 
           let maxPrice = 0
 
-          // console.log("DATAAAAAAAA", data)
-
           for (let i = 0; i < data.length; i++) {
             const item = {
               collection: data[i].collection,

@@ -410,12 +410,14 @@ input{
     
       .btn{
         width: 150px!important;
+        max-height: 36px!important;
       }
     }
 
     .btn{
       width: 150px!important;
       margin-inline: auto;
+      max-height: 36px!important;
     }
   }
 }
