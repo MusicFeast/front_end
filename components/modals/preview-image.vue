@@ -13,6 +13,7 @@
             class="preview"
             :class="{
               active: img,
+              banner: type === 'banner',
               avatar: type === 'avatar',
             }"
             :style="`--w: ${w}; --h: ${h};`"
@@ -180,11 +181,14 @@ export default {
       border: 2px solid var(--primary) !important;
     }
 
-    &.avatar {
-      border-radius: 50%;
+    &.banner, &.avatar {
       @media (max-width: 410px) {
         height: clamp(177px, 70vw, var(--h)) !important;
       }
+    }
+
+    &.avatar {
+      border-radius: 50%;
 
       * {
         border-radius: 50%;
