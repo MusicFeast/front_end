@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-if="model" v-model="model" content-class="modal-preview-image">
-    <v-card>
+    <v-card :class="type" :style="`--w: ${w}; --h: ${h};`">
       <v-icon class="close-btn" @click="model = false"> mdi-close </v-icon>
 
       <h3 class="text-center">Preview Image</h3>
@@ -15,22 +15,7 @@
               active: img,
               avatar: type === 'avatar',
             }"
-            :style="`
-              --w: ${
-                type === 'banner'
-                  ? '1180px'
-                  : type === 'bannerMobile'
-                  ? '135.5px'
-                  : '307px'
-              };
-              --h: ${
-                type === 'banner'
-                  ? '401.5px'
-                  : type === 'bannerMobile'
-                  ? '271px'
-                  : '307px'
-              };
-            `"
+            :style="`--w: ${w}; --h: ${h};`"
           >
             <template #placeholder>
               <v-sheet class="placeholder">
@@ -80,6 +65,22 @@ export default {
       file: undefined,
     }
   },
+  computed: {
+    w() {
+      return this.type === 'banner'
+        ? '1180px'
+          : this.type === 'bannerMobile'
+            ? '135.5px'
+              : '307px'
+    },
+    h() {
+      return this.type === 'banner'
+        ? '401.5px'
+          : this.type === 'bannerMobile'
+            ? '271px'
+              : '307px'
+    },
+  },
   watch: {
     model(val) {
       if (val) return
@@ -119,11 +120,13 @@ export default {
     position: relative;
     padding: 20px 30px;
     border-radius: 15px;
-    max-width: max-content;
+    max-width: calc(var(--w) + 60px);
     margin-inline: auto;
     height: 100% !important;
     display: flex;
     flex-direction: column;
+
+    &.bannerMobile { max-width: calc(var(--w) + 200px) }
   }
 
   .v-form {
@@ -159,12 +162,19 @@ export default {
 
   .preview {
     cursor: pointer !important;
-    width: var(--w);
+    max-width: var(--w) !important;
+    width: 100% !important;
     height: var(--h);
     margin-inline: auto;
     isolation: isolate;
     position: relative;
     overflow: visible;
+
+    .v-responsive__content {
+      max-width: var(--w) !important;
+      width: 100% !important;
+      height: var(--h);
+    }
 
     &.active {
       border: 2px solid var(--primary) !important;
@@ -172,6 +182,9 @@ export default {
 
     &.avatar {
       border-radius: 50%;
+      @media (max-width: 410px) {
+        height: clamp(177px, 70vw, var(--h)) !important;
+      }
 
       * {
         border-radius: 50%;
