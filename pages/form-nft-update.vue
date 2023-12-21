@@ -781,7 +781,6 @@ export default {
 
     this.getArtistProposals()
 
-    console.log(this.isAdmin)
 
     this.validateTier()
   },
@@ -838,7 +837,7 @@ export default {
         .catch((err) => {
           this.btnReject = false
           this.btnApprove = false
-          console.log(err)
+          console.error(err)
         })
     },
     inputArtist(item) {
@@ -879,7 +878,6 @@ export default {
     },
     showData(item) {
       this.items_tier = ['Tier 1', 'Tier 2']
-      console.log(item)
       this.showItem = item
 
       this.formArtist.name = item.name
@@ -958,7 +956,6 @@ export default {
     // }
     remove(pos) {
       this.dataRoyalties.splice(pos, 1)
-      console.log('HOLAAA!')
       this.inputPercentRoyalties()
     },
     remove1(pos) {
@@ -1048,12 +1045,8 @@ export default {
           this.disabledSave = true
         }
       } else if (!this.formArtistItem) {
-        console.log(
-          this.validateFormArtist(),
-          this.validateFormTier(),
-          this.royalBool,
-          this.splitBool
-        )
+        this.validateFormArtist()
+        this.validateFormTier()
         if (
           this.validateFormArtist() &&
           this.validateFormTier() &&
@@ -1089,7 +1082,6 @@ export default {
         this.formTier.price &&
         this.formTier.copies
       ) {
-        console.log(this.selectedTier)
         if (this.selectedTier === 'Tier 1') {
           if (this.formTier.song) {
             return true
@@ -1141,7 +1133,6 @@ export default {
           this.$axios
             .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
             .then((result) => {
-              console.log(result.data)
               const formDataNft = new FormData()
               formDataNft.append('artist_proposal', result.data.id)
               formDataNft.append(
@@ -1181,12 +1172,12 @@ export default {
                 })
                 .catch((err) => {
                   this.btnSave = false
-                  console.log(err)
+                  console.error(err)
                 })
             })
             .catch((err) => {
               this.btnSave = false
-              console.log(err)
+              console.error(err)
             })
         } else {
           const cidNft = await this.uploadIpfs(this.imageNft)
@@ -1227,7 +1218,7 @@ export default {
             })
             .catch((err) => {
               this.btnSave = false
-              console.log(err)
+              console.error(err)
             })
         }
       }
@@ -1240,7 +1231,6 @@ export default {
           })
           .then((result) => {
             return result.data
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {
@@ -1283,7 +1273,6 @@ export default {
             wallet: this.$ramper.getAccountId(),
           })
           .then((result) => {
-            console.log(result.data)
             if (result.data.length === 0) {
               this.items_tier = ['Tier 1']
               this.selectedTier = 'Tier 1'
@@ -1316,7 +1305,6 @@ export default {
           })
           .then((result) => {
             this.tableItemsArtists = []
-            console.log(result.data)
             const data = []
             // for (let i = 0; i < result.data.length; i++) {
             for (const item of result.data) {
@@ -1335,7 +1323,6 @@ export default {
                   dataItem.statusText = 'Pending'
                 }
 
-                console.log(dataItem)
 
                 data.push(dataItem)
               }

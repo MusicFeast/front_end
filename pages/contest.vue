@@ -374,7 +374,6 @@ export default {
 
     async uploadForm() {
       if (this.$ramper.getAccountId()) {
-        console.log(this.$refs.formContest.validate())
         if (this.$refs.formContest.validate() && this.track_demo) {
           this.btnUploadForm = true
           this.disableUpload = true
@@ -398,7 +397,6 @@ export default {
           this.$axios
             .post(`${this.baseUrl}api/v1/contest-form/`, this.dataForm)
             .then((result) => {
-              console.log(result)
               this.btnUploadForm = false
               this.disableUpload = false
               this.$alert({
@@ -410,7 +408,7 @@ export default {
               this.fileUp = false
             })
             .catch((err) => {
-              console.log(err)
+              console.error(err)
               this.btnUploadForm = false
               this.disableUpload = false
               this.$alert({

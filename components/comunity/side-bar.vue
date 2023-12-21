@@ -54,7 +54,6 @@ export default {
           .then((result) => {
             this.isAdmin = result.data
             this.getArtists()
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {
@@ -114,7 +113,6 @@ export default {
 
       const data = res.data.nfts
 
-      // console.log('data', data)
 
       if (data.length > 0) {
         return true
@@ -142,7 +140,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
           return this.imgDefault
         })
       return resp
@@ -170,7 +168,6 @@ export default {
               item.active = true
               this.$store.state.artistSelect = item
             } else {
-              // console.log(item.id_collection)
               item.img = await this.getAvatar(item.id_collection)
             }
             postData.push(item)
@@ -217,15 +214,6 @@ export default {
             ? -1
             : 0
         )
-        // console.log(this.dataArtists)
-        // console.log(this.dataArtists)
-        // console.log(this.dataArtists.length)
-        // for (let i = 0; i < this.dataArtists.length; i++) {
-        //   console.log(i)
-        //   if (this.dataArtists[i].id_collection !== 0) {
-        //     this.dataArtists[i].img = this.getAvatar(this.dataArtists[i].id_collection)
-        //   }
-        // }
       })
     },
   },

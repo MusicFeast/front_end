@@ -46,7 +46,7 @@
           v-if="transaction_data.state === 'success'"
           class="btn activeBtn"
           :ripple="false"
-          @click="$router.push(localePath('/profile'))"
+          @click="$router.push(localePath('/edit-profile'))"
         >
           Profile
         </v-btn>
@@ -131,11 +131,13 @@ export default {
   mounted() {
     this.artistId = localStorage.getItem('artist')
     this.transaction_data = JSON.parse(localStorage.getItem('transaction_data'))
-    // console.log("REDI",this.transaction_data)
     if (!this.transaction_data) {
       this.$router.push(this.localePath('/'))
     }
     localStorage.removeItem('transaction_data')
+
+    this.$confetti.start();
+    setTimeout(() => this.$confetti.stop(), 5000)
   },
   methods: {},
 }

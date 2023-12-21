@@ -138,7 +138,6 @@ export default {
     //     ],
     //     network: process.env.NETWORK,
     //   })
-    //   // console.log("Transaction Result: ", res)
     // }
   },
 }

@@ -129,7 +129,6 @@ export default {
       const urlParams = new URLSearchParams(queryString)
       const slug = urlParams.get('title')
       const title = slug === null ? '' : slug.replace(/-/g, ' ')
-      // console.log('title', title)
       // get news
       await this.$axios
         .get(`${this.baseUrl}api/v1/get-news?title=${title}`)
@@ -148,7 +147,6 @@ export default {
           if (title !== null) {
             this.getDataAll()
           }
-          // console.log('nameee', this.dataNews.title)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})
@@ -167,12 +165,10 @@ export default {
           // this.dataNews = this.news
           // if (localStorage.getItem('validator-news') === 'pages') {
           //   this.dataNews = this.news
-          //   console.log('nameee', this.dataNews)
           // } else if (localStorage.getItem('validator-news') === 'navbar') {
           //   this.dataNews = this.dataOtherNews[this.dataOtherNews.length - 1]
           // }
           // this.navigateWithQueryParams()
-          // console.log('nameee', this.dataNews.title)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})

@@ -587,7 +587,6 @@ export default {
   async mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
     this.nft_main = this.nft
-    // console.log("BRRRRRR",this.nft_main)
     this.nft_main.price_near = this.dollarConversion(this.nft_main.price)
 
     this.ownedTier1 = true // await this.validateTierFn(1)
@@ -704,7 +703,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -846,7 +844,6 @@ export default {
 
       if (res.data.series[0]) {
         const data = res.data.series[0]
-        // console.log("ITEMMM",data)
         if (
           data.copies &&
           Number(data.copies) !== 0 &&
@@ -855,7 +852,6 @@ export default {
           this.soldBtn = true
         }
 
-        // console.log(data.typetoken_id, this.ownedTier2)
 
         if (data.typetoken_id === '1' && this.ownedTier1) {
           await this.getMedia('audio')
@@ -867,11 +863,6 @@ export default {
       }
     },
     async getMedia(media) {
-      console.log(
-        String(media),
-        Number(this.nft_main.artist_id),
-        Number(this.nft_main.collection)
-      )
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-media/`, {
           media: String(media),
@@ -880,16 +871,13 @@ export default {
         })
         .then((result) => {
           const data = result.data
-          console.log('DATAAAAAAA', data)
           if (data.media) {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
               this.mediaUrl = 'https://player.vimeo.com/video/' + data.media
             }
-            // console.log("MEDIA1", this.mediaUrl)
           }
-          // console.log(this.mediaUrl)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})
@@ -1032,7 +1020,6 @@ export default {
 
       this.tableItems = []
 
-      // console.log(data, "ASD")
 
       for (let i = 0; i < data.length; i++) {
         const nftAux = await this.getSingleNft(data[i].token_id)
@@ -1083,7 +1070,6 @@ export default {
 
       const data = res.data.nft
 
-      // console.log(data)
 
       if (data) {
         return data
@@ -1134,7 +1120,6 @@ export default {
       if (this.$ramper.getUser()) {
         let price = await this.getSeriesPrice(this.nft_main.token_id)
 
-        console.log('PRICE', price)
         if (this.isVip) {
           price = this.amountDeposit
         } else {
@@ -1161,7 +1146,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -1377,7 +1361,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 

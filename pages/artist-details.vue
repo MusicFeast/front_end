@@ -680,7 +680,6 @@ export default {
     },
   },
   created() {
-    console.log('--------', this.$route.query.artist)
     localStorage.setItem('artist', this.$route.query.artist)
     if (!this.artist) {
       this.$router.push(this.localePath('/artists'))
@@ -721,13 +720,11 @@ export default {
       this.$router.push('update-nft-form?token_id=' + item.token_id)
     },
     getTiersComing() {
-      console.log(this.artistId)
       return this.$axios
         .post(`${this.baseUrl}api/v1/get-tiers-coming/`, {
           id: Number(this.artistId),
         })
         .then((response) => {
-          console.log('COMINGGGg', response.data)
           return response.data
           // this.tiersComing = response.data
         })
@@ -746,7 +743,6 @@ export default {
           artist_id: Number(this.artist.id_collection),
         })
         .then((response) => {
-          console.log('EVENTS', response.data)
           // this.dataEvents = response.data.reverse()
 
           if (response.data[0]) {
@@ -767,7 +763,6 @@ export default {
         })
     },
     getCurrentArtist() {
-      console.log(this.artistId)
       this.$axios
         .post(`${this.baseUrl}api/v1/get-artist/`, {
           id: Number(this.artistId),
@@ -973,7 +968,6 @@ export default {
           pollInterval: 3000,
         })
         .subscribe(async (res) => {
-          console.log(this.artist.id_collection, this.collectionNow)
 
           const data = res.data.series
 
@@ -1023,7 +1017,6 @@ export default {
               '1'
             )
 
-            console.log(tierOwner)
 
             switch (tierOwner) {
               case true:
@@ -1122,7 +1115,6 @@ export default {
             //   }
             // }
 
-            console.log('ITEM', item)
 
             this.dataCollections.push(item)
           }
@@ -1211,7 +1203,6 @@ export default {
         .subscribe((res) => {
           const data = res.data.artist
 
-          console.log('DATAAA', data, this.artist.id_collection)
 
           this.collectionNow = data.collection
 
@@ -1262,9 +1253,7 @@ export default {
 
       const data = res.data.nfts
 
-      console.log(this.$ramper.getAccountId(), artistId, collectionId, tier)
 
-      console.log(data)
 
       if (data.length > 0) {
         return true
@@ -1317,7 +1306,6 @@ export default {
           this.dataSliderPreview = []
           const data = res.data.series
 
-          console.log('DATA ONE', data)
 
           for (let i = 0; i < data.length; i++) {
             const item = {
@@ -1373,7 +1361,6 @@ export default {
             await this.getTiers()
             await this.getDataNfts()
 
-            console.log('DATASLIDER', this.dataSliderPreview)
           }
         })
     },
@@ -1410,7 +1397,6 @@ export default {
         }
       `
 
-      console.log('COLEEc', this.collectionNow)
 
       await clientApollo
         .watchQuery({

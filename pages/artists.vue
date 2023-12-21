@@ -201,7 +201,6 @@ export default {
       localStorage.removeItem('paginationPage')
     },
     changeFilter(item) {
-      // console.log(item)
     },
     styles() {
       const page = document.querySelector(`#${pageName}`)
@@ -228,7 +227,6 @@ export default {
               ? this.baseUrl + e.image
               : require('~/assets/sources/avatars/avatar.png')
           })
-          console.log('ARTISTAS', result.data)
           result.data.sort((p1, p2) =>
             p1.order_list > p2.order_list
               ? 1
@@ -248,7 +246,6 @@ export default {
 
           this.dataArtists = result.data
           this.itemsPerPage = Math.min(50, this.dataArtists.length)
-          // console.log(this.dataArtists)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})

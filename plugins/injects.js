@@ -1,8 +1,12 @@
+import Vue from 'vue'
+import VueConfetti from 'vue-confetti'
+
+Vue.use(VueConfetti)
+
 export default ({ app }, inject) => {
   // console-log =========================================================================================================//
   const log = (...msgs) => {
     msgs.forEach((msg, i) => {
-      // console.log(`${i+1}:`, msg);
     })
   }
   // usage $log(msg)

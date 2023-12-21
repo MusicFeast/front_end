@@ -46,7 +46,6 @@ export default {
   methods: {
     onGenerate(dataUrl, id) {
       this.qrUrl = dataUrl
-      console.log(dataUrl, id)
     },
   },
 }

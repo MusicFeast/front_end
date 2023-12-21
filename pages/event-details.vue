@@ -382,13 +382,11 @@ export default {
     // resize listener
     window.addEventListener('resize', this.styles)
 
-    // console.log(document.getElementById("gmap_canvas").src )
 
     document.getElementById('gmap_canvas').src =
       'https://maps.google.com/maps?width=100%25&height=600&hl=es&q=' +
       this.event.coordinates +
       '&t=&z=14&ie=UTF8&iwloc=B&output=embed'
-    // console.log(document.getElementById("gmap_canvas").src )
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.styles)
@@ -451,7 +449,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -529,7 +526,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         if (
           JSON.parse(localStorage.getItem('ramper_loggedInUser'))
@@ -588,7 +584,6 @@ export default {
           event_id: Number(this.event.id),
         })
         .then((response) => {
-          // console.log("Tickets",response.data)
           if (response.data[0]) {
             const seriesArray = []
             for (let i = 0; i < response.data.length; i++) {

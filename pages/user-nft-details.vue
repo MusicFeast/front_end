@@ -453,7 +453,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         if (
           res &&
@@ -549,7 +548,6 @@ export default {
 
       const data = res.data.nfts
 
-      console.log(data)
 
       const ownersArray = []
 
@@ -609,7 +607,6 @@ export default {
       if (res.data.series[0]) {
         const data = res.data.series[0]
 
-        // console.log(data.typetoken_id, this.ownedTier2)
 
         if (data.typetoken_id === '1' && this.ownedTier1) {
           await this.getMedia('audio')
@@ -621,13 +618,6 @@ export default {
       }
     },
     async getMedia(media) {
-      console.log(
-        'MEDIA',
-        media,
-        'ARTIST',
-        this.nft_main.artist_id,
-        this.nft_main.collection
-      )
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-media/`, {
           media: String(media),
@@ -636,16 +626,13 @@ export default {
         })
         .then((result) => {
           const data = result.data
-          console.log('DATAA', data)
           if (data.media) {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
-              // console.log("SIIIIUUUU")
               this.mediaUrl = data.media
             }
           }
-          // console.log(this.mediaUrl)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})
@@ -747,7 +734,6 @@ export default {
       }
     },
     async unlistNft(item) {
-      // console.log(item)
       this.btnBuy = true
       if (this.$ramper.getUser()) {
         const action1 = [
@@ -786,7 +772,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -880,7 +865,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.btnBuy = false
 
@@ -1145,7 +1129,6 @@ export default {
 
       const data = res.data.nft
 
-      // console.log(data)
 
       if (data) {
         return data

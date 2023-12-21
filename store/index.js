@@ -176,7 +176,6 @@ export const mutations = {
       ],
       network: process.env.NETWORK,
     })
-    // console.log('Transaction Result: ', res)
   },
 }
 
@@ -312,7 +311,6 @@ export const getters = {
           return 0
         })
 
-      // console.log(filters.map(e => e.name), filters.map(e => e.created))   for test filter B
 
       // if mobile
       // if (window.innerWidth <= 880) itemsPerPage = itemsPerPage / 2

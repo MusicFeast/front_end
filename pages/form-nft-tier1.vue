@@ -526,6 +526,7 @@
                 class="input-file"
                 prepend-icon="none"
                 style="display: none"
+                accept="image/*"
                 @change="onFileChangeNft"
               ></v-file-input>
 
@@ -671,7 +672,7 @@
               >
             </v-row>
 
-            <v-badge class="mb-5 mt-10" offset-x="-5px">
+            <v-badge class="mb-8 mt-10" offset-x="-5px">
               <template #badge>
                 <v-icon color="var(--primary)" style="font-size: 25px"
                   >mdi-information-symbol</v-icon
@@ -684,7 +685,7 @@
             </v-badge>
 
             <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
-              <v-col xl="9" lg="9" md="9" sm="7" cols="7">
+              <v-col xl="9" lg="9" md="9" sm="7" cols="7" class="pt-0">
                 <label for="near-account">Wallet Address</label>
                 <v-text-field
                   id="near-account"
@@ -1142,7 +1143,6 @@ export default {
 
     // this.formArtistItem = await this.getFormArtistMain()
 
-    // console.log('JUANNNN1', this.formArtistItem)
 
     // if (this.formArtistItem) {
     //   this.created = true
@@ -1152,7 +1152,6 @@ export default {
 
     this.inputName()
 
-    console.log(this.isAdmin, 'Admindndinewoidfoiewnd')
   },
   methods: {
     async getDataPerfil() {
@@ -1161,11 +1160,8 @@ export default {
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
         .then((result) => {
-          const data = result.data[0]
-          console.log(data)
           if (result.data[0]) {
             this.userExist = true
-            console.log('DATA PERIFL', result.data[0])
             this.formArtist = result.data[0]
           }
         })
@@ -1192,7 +1188,6 @@ export default {
             } else {
               this.isArtist = null
             }
-            console.log('ARTIST', result)
           })
           .catch((err) => {
             console.error(err)
@@ -1258,7 +1253,6 @@ export default {
     async inputAccount(item) {
       const validate = await this.validateNear(item.account)
 
-      console.log(validate)
 
       if (validate) {
         item.error = false
@@ -1267,7 +1261,6 @@ export default {
         item.error = true
         item.errorMessage = 'Account invalidate'
       }
-      console.log(item)
     },
     async validateNear(wallet) {
       const account = await this.$near.account(wallet)
@@ -1312,7 +1305,7 @@ export default {
         .catch((err) => {
           this.btnReject = false
           this.btnApprove = false
-          console.log(err)
+          console.error(err)
         })
     },
     inputArtist(item) {
@@ -1533,8 +1526,6 @@ export default {
     inputSave() {
       // this.disabledSave = false
       if (this.formArtistItem) {
-        console.log('HOLA')
-        console.log(this.validateFormTier(), this.royalBool, this.splitBool)
         if (this.validateFormTier() && this.royalBool && this.splitBool) {
           this.disabledSave = false
         } else {
@@ -1575,7 +1566,6 @@ export default {
         this.formTier.description &&
         this.formTier.price
       ) {
-        console.log(this.selectedTier)
         if (this.formTier.song) {
           return true
         } else {
@@ -1608,11 +1598,8 @@ export default {
       }
     },
     async saveNewCollection() {
-      console.log('NEW COLLECITON')
       this.btnSave = true
       if (this.$refs.form.validate() && this.isApprove) {
-        console.log('ENTRO')
-        console.log(this.formArtistItem)
         const itemIpfs = await this.uploadIpfs(this.imageNft)
 
         const formDataNft = new FormData()
@@ -1638,14 +1625,13 @@ export default {
           })
           .catch((err) => {
             this.btnSave = false
-            console.log(err)
+            console.error(err)
           })
       }
     },
     async saveForm() {
       this.btnSave = true
       this.dialogSure = false
-      console.log('NEW ARTIST')
       const formData = new FormData()
       // PERFIL
       formData.append('wallet', this.$ramper.getAccountId())
@@ -1675,13 +1661,11 @@ export default {
       )
       formData.append('royalties', JSON.stringify(this.dataRoyalties))
       formData.append('royalties_split', JSON.stringify(this.dataSplit))
-
-                formDataNft.append('audio', this.formTier.song) 
+      formData.append('audio', this.formTier.song)
 
       this.$axios
         .post(`${this.baseUrl}api/v1/save-form/`, formData)
         .then((result) => {
-          console.log('SUCESS', result)
           this.btnSave = false
 
           localStorage.setItem(
@@ -1715,7 +1699,6 @@ export default {
           })
           .then((result) => {
             return result.data
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {
@@ -1764,7 +1747,6 @@ export default {
         return await this.$axios
           .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
           .then((result) => {
-            console.log(result.data)
             if (result.data.length === 0) {
               this.items_tier = ['Tier 1']
               this.selectedTier = 'Tier 1'
@@ -1845,7 +1827,6 @@ export default {
             wallet: this.$ramper.getAccountId(),
           })
           .then((result) => {
-            console.log(result.data)
             if (result.data.length === 0) {
               this.items_tier = ['Tier 1']
               this.selectedTier = 'Tier 1'
@@ -1854,7 +1835,6 @@ export default {
               this.items_tier = ['Tier 2']
               this.selectedTier = null
               const item = result.data[0]
-              console.log('ITE<', item)
               item.walletArtist = item.wallet_artist
               this.formArtist = item
               this.selectedImageAvatar = this.baseUrl + item.image
@@ -1879,7 +1859,6 @@ export default {
           })
           .then((result) => {
             this.tableItemsArtists = []
-            console.log(result.data)
             const data = []
             // for (let i = 0; i < result.data.length; i++) {
             for (const item of result.data) {
@@ -1898,7 +1877,6 @@ export default {
                   dataItem.statusText = 'Pending'
                 }
 
-                console.log(dataItem)
 
                 data.push(dataItem)
               }

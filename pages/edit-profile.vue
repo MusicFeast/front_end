@@ -425,7 +425,7 @@
       </template>
     </v-slide-group>
 
-    <template v-if="dataEvents.lenght > 0">
+    <template v-if="dataEvents.length > 0">
       <h2 class="Title tup">events</h2>
 
       <v-expansion-panels class="custome-expansion">
@@ -445,185 +445,198 @@
       <h2 class="Title fwrap mb-10" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
         <span class="tup" style="--fb: max-content">lastest collections</span>
 
-        <Filters
+        <!-- <Filters
           contents
           :hide="[3]"
           :search="search"
           :filter-a="filterA.list"
           @search="(model) => (search = model)"
           @filterA="(model) => (filterA.model = model)"
-        />
-        <!-- <Filters
-          :search="search"
-          :filter-a="filterA.list"
-          :filter-b="filterB.list"
-          @search="(model) => search = model"
-          @filterA="(model) => filterA.model = model"
-          @filterB="(model) => filterB.model = model"
-          :hide="[3]"
         /> -->
       </h2>
 
-      <!-- TODO evaluate when show [ownCollection] based on current artist -->
-      <section
-        class="container-collections grid"
-        :class="{ ownCollection: true }"
-      >
-        <template v-for="(item, i) in dataCollections_pagination">
-          <v-sheet
+      <section class="container-collections">
+        <v-slide-group
+          v-for="(element, e) in dataCollections_pagination" :key="e"
+          v-model="slider"
+          mandatory
+          show-arrows
+          center-active
+          class="custome-slider"
+        >
+          <v-slide-item
+            v-for="(item, i) in element"
             :key="i"
-            color="rgba(0, 0, 0, .4)"
-            class="divcol"
+            v-slot="{ toggle }"
           >
-            <v-card
-              v-if="!item.state"
+            <v-sheet
               :key="i"
-              class="card divcol custome"
-              @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
+              color="rgba(0, 0, 0, .4)"
+              class="divcol"
+              @click="toggle"
             >
-              <!-- <v-img
-                :src="item.img"
-                :alt="`${item.name} image`"
-                transition="fade-transition"
-                :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+              <v-card
+                v-if="!item.state"
+                :key="i"
+                class="card divcol custome"
+                @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
               >
-                <template #placeholder>
-                  <v-skeleton-loader type="card" />
-                </template>
-              </v-img> -->
+                <!-- <v-img
+                  :src="item.img"
+                  :alt="`${item.name} image`"
+                  transition="fade-transition"
+                  :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+                >
+                  <template #placeholder>
+                    <v-skeleton-loader type="card" />
+                  </template>
+                </v-img> -->
 
-              <v-img
-                :src="item.img"
-                :alt="`${item.name} image`"
-                transition="fade-transition"
-              >
-                <template #placeholder>
-                  <v-skeleton-loader type="card" />
-                </template>
+                <v-img
+                  :src="item.img"
+                  :alt="`${item.name} image`"
+                  transition="fade-transition"
+                >
+                  <template #placeholder>
+                    <v-skeleton-loader type="card" />
+                  </template>
+                  <v-btn
+                    :disabled="item.tier != 1 && item.tier != 2"
+                    class="btn"
+                    style="position: absolute !important; right: 5px; top: 5px"
+                    @click="goToForm(item)"
+                    >Edit this Tier</v-btn
+                  >
+                </v-img>
+
+                <!-- TODO put location to router or whatever logic needed here -->
+                <!-- <v-btn :ripple="false" class="btn activeBtn editBtn"
+                  >Edit Profile</v-btn
+                > -->
+
+                <div class="container-content tcenter">
+                  <v-avatar style="border: 2px solid #fff">
+                    <v-img
+                      :src="item.avatar"
+                      :alt="`${item.artist} image`"
+                      transition="fade-transition"
+                    >
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                  <a class="mb-4">{{ item.name }}</a>
+                  <!-- <p v-html="item.desc"></p> -->
+
+                  <div class="center bold" style="gap: 6.4px">
+                    <span class="floor" style="--c: var(--accent)"
+                      >Price: {{ item.price }} $</span
+                    >
+                    <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
+                  </div>
+                  <span class="floor" style="--c: var(--accent)"
+                    >Editions: {{ item.editions }}</span
+                  >
+                </div>
+              </v-card>
+              <v-card v-else :key="i" class="card divcol custome">
+                <v-img
+                  :src="item.img"
+                  :alt="`${item.name} image`"
+                  transition="fade-transition"
+                  :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
+                >
+                  <template #placeholder>
+                    <v-skeleton-loader type="card" />
+                  </template>
+                </v-img>
+
+                <!-- TODO put location to router or whatever logic needed here -->
+                <v-btn :ripple="false" class="btn activeBtn editBtn">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+
+                <div class="container-content tcenter">
+                  <v-avatar style="border: 2px solid #fff">
+                    <v-img
+                      :src="item.avatar"
+                      :alt="`${item.artist} image`"
+                      transition="fade-transition"
+                    >
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                  <a class="mb-4">{{ item.name }}</a>
+                  <!-- <p v-html="item.desc"></p> -->
+
+                  <div class="center bold" style="gap: 6.4px">
+                    <span class="floor" style="--c: var(--accent)"
+                      >Price: {{ item.price }} $</span
+                    >
+                    <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
+                  </div>
+                  <span class="floor" style="--c: var(--accent)"
+                    >Editions: {{ item.editions }}</span
+                  >
+                </div>
+              </v-card>
+
+              <div class="tier-desc divcol">
+                <a class="tup bold" style="cursor: default">{{ item.name }}</a>
+                <ul>
+                  <li
+                    v-show="item.desc"
+                    v-html="item.desc.limitString(110)"
+                  ></li>
+                </ul>
+              </div>
+
+              <div class="container-actions divcol">
+                <a>More Details</a>
                 <v-btn
-                  :disabled="item.tier != 1 && item.tier != 2"
-                  class="btn"
-                  style="position: absolute !important; right: 5px; top: 5px"
-                  @click="goToForm(item)"
-                  >Edit this Tier</v-btn
-                >
-              </v-img>
-
-              <!-- TODO put location to router or whatever logic needed here -->
-              <!-- <v-btn :ripple="false" class="btn activeBtn editBtn"
-                >Edit Profile</v-btn
-              > -->
-
-              <div class="container-content tcenter">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img
-                    :src="item.avatar"
-                    :alt="`${item.artist} image`"
-                    transition="fade-transition"
-                  >
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-                <a class="mb-4">{{ item.name }}</a>
-                <!-- <p v-html="item.desc"></p> -->
-
-                <div class="center bold" style="gap: 6.4px">
-                  <span class="floor" style="--c: var(--accent)"
-                    >Price: {{ item.price }} $</span
-                  >
-                  <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
-                </div>
-                <span class="floor" style="--c: var(--accent)"
-                  >Editions: {{ item.editions }}</span
-                >
+                  :ripple="false"
+                  class="btn activeBtn align"
+                  style="--w: calc(100% - 1em)"
+                  >Go to Buy page</v-btn>
               </div>
-            </v-card>
-            <v-card v-else :key="i" class="card divcol custome">
-              <v-img
-                :src="item.img"
-                :alt="`${item.name} image`"
-                transition="fade-transition"
-                :style="`${item.state ? `--tag-state: '${item.state}'` : ''}`"
-              >
-                <template #placeholder>
-                  <v-skeleton-loader type="card" />
-                </template>
-              </v-img>
-
-              <!-- TODO put location to router or whatever logic needed here -->
-              <v-btn :ripple="false" class="btn activeBtn editBtn">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-
-              <div class="container-content tcenter">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img
-                    :src="item.avatar"
-                    :alt="`${item.artist} image`"
-                    transition="fade-transition"
-                  >
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-                <a class="mb-4">{{ item.name }}</a>
-                <!-- <p v-html="item.desc"></p> -->
-
-                <div class="center bold" style="gap: 6.4px">
-                  <span class="floor" style="--c: var(--accent)"
-                    >Price: {{ item.price }} $</span
-                  >
-                  <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
-                </div>
-                <span class="floor" style="--c: var(--accent)"
-                  >Editions: {{ item.editions }}</span
-                >
-              </div>
-            </v-card>
-
-            <div class="tier-desc divcol">
-              <a class="tup bold" style="cursor: default">{{ item.name }}</a>
-              <ul>
-                <li
-                  v-show="item.desc"
-                  v-html="item.desc.limitString(110)"
-                ></li>
-              </ul>
-            </div>
-
-            <div class="container-actions divcol">
-              <a>More Details</a>
-              <v-btn
-                :ripple="false"
-                class="btn activeBtn align"
-                style="--w: calc(100% - 1em)"
-                >Go to Buy page</v-btn>
-            </div>
-          </v-sheet>
-        </template>
+            </v-sheet>
+          </v-slide-item>
+        </v-slide-group>
       </section>
-
-      <Pagination
-        :total-pages="pagination_per_page"
-        :current-page="currentPage"
-        @pagechanged="(page) => (currentPage = page)"
-      />
     </template>
 
-    <template v-if="dataNfts.lenght > 0">
-      <h2 class="Title tup mb-16">my nfts</h2>
+    <template v-if="dataNfts.length > 0">
+      <h2 class="Title tup">my nfts</h2>
+
+      <section
+        class="container-profit bold fwrap align"
+        style="max-width: 62.616875em"
+      >
+        <v-sheet color="transparent" class="divcol center">
+          <span>Total NFTs</span>
+          <span>{{ dataProfits.nfts }}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>Chats Enabled</span>
+          <span>{{ dataProfits.chats }}</span>
+        </v-sheet>
+        <v-sheet color="transparent" class="divcol center">
+          <span>All Time High</span>
+          <span>$ {{ dataProfits.high }}</span>
+        </v-sheet>
+      </section>
 
       <Filters
         :search="searchNft"
         :filter-a="filterANft.list"
         :filter-b="filterBNft.list"
+        :hide="[3]"
         @search="(model) => (searchNft = model)"
         @filterA="(model) => (filterANft.model = model)"
         @filterB="(model) => (filterBNft.model = model)"
-        :hide="[3]"
       />
 
       <section ref="container" class="container-nfts grid">
@@ -681,257 +694,219 @@
         :current-page="currentPageNft"
         @pagechanged="(page) => (currentPageNft = page)"
       />
-
-      <section class="container-user">
-        <aside class="container-user--social center gap1">
-          <!-- <v-btn icon>
-            <v-icon size="clamp(2em, 2.4vw, 2.4em)" style="transform: rotate(-50deg)">mdi-link</v-icon>
-          </v-btn> -->
-
-          <v-btn
-            v-for="(item, i) in user.dataSocial"
-            :key="i"
-            icon
-            :href="item.link"
-            target="_blank"
-          >
-            <v-icon size="clamp(2em, 2.4vw, 2.4em)">{{ item.icon }}</v-icon>
-          </v-btn>
-        </aside>
-
-        <h2 class="p">{{ user.username }}</h2>
-
-        <section
-          class="container-profit bold fwrap align"
-          style="max-width: 62.616875em"
-        >
-          <v-sheet color="transparent" class="divcol center">
-            <span>Total NFTs</span>
-            <span>{{ dataProfits.nfts }}</span>
-          </v-sheet>
-          <v-sheet color="transparent" class="divcol center">
-            <span>Chats Enabled</span>
-            <span>{{ dataProfits.chats }}</span>
-          </v-sheet>
-          <v-sheet color="transparent" class="divcol center">
-            <span>All Time High</span>
-            <span>$ {{ dataProfits.high }}</span>
-          </v-sheet>
-        </section>
-
-        <p v-show="user.description" class="p tcenter">{{ user.description }}</p>
-      </section>
     </template>
 
-    <h2 class="Title tup mb-16">Offers</h2>
+    <template v-if="tableItemsOffersRe.length && tableItemsOffers.length">
+      <h2 class="Title tup mb-16">Offers</h2>
 
-    <v-expansion-panels class="custome-expansion not_padding">
-      <v-expansion-panel>
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
-          >My offers</v-expansion-panel-header
-        >
-
-        <v-expansion-panel-content
-          color="rgb(0, 0, 0, .4)"
-          class="container-table--expansion mt-5"
-        >
-          <v-data-table
-            :headers="tableHeadersOffers"
-            :items="tableItemsOffersRe"
-            :page.sync="currentPageOffers"
-            :items-per-page="itemsPerPageOffers"
-            hide-default-footer
-            mobile-breakpoint="-1"
-            :header-props="{ sortIcon: 'mdi-menu-down' }"
-            style="background: transparent"
-            bac
+      <v-expansion-panels class="custome-expansion not_padding">
+        <v-expansion-panel>
+          <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
+            >My offers</v-expansion-panel-header
           >
-            <template #[`item.nft_media`]="{ item }">
-              <center class="center" style="gap: 10px">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img
-                    :src="item.nft_media"
-                    alt="artist avatar"
-                    transition="fade-transition"
-                  >
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-              </center>
-            </template>
 
-            <template #[`item.price_near`]="{ item }">
-              <center v-if="item.price_near" class="divcol" style="gap: 5px">
-                <span>N{{ item.price_near }}</span>
-                <span class="normal">$ {{ dollarConversion(item.price) }}</span>
-              </center>
-
-              <center v-else class="divcol" style="gap: 5px">
-                <span>---</span>
-                <span>---</span>
-              </center>
-            </template>
-
-            <!-- <template #[`item.token_id`]="{ item }">
-              <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
-            </template> -->
-
-            <template #[`item.buyer_id`]="{ item }">
-              <center class="center" style="gap: 10px">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img
-                    :src="require('~/assets/sources/avatars/avatar.png')"
-                    alt="artist avatar"
-                    transition="fade-transition"
-                  >
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-                <span :title="item.buyer_id">{{
-                  item.buyer_id.limitString(20)
-                }}</span>
-              </center>
-            </template>
-
-            <template #[`item.actions`]="{ item }">
-              <center class="center" style="gap: 30px">
-                <!-- <v-btn
-                  :disabled="offerBtn"
-                  :ripple="false" class="btn activeBtn bold"
-                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
-                  @click="acceptOffer(item)"
-                >Accept</v-btn> -->
-                <v-btn
-                  :disabled="offerBtn"
-                  :ripple="false"
-                  class="btn activeBtn bold"
-                  style="
-                    --min-w: 112px;
-                    --w: min(100%, 9em);
-                    --fs: 16px;
-                    --bg: #fff;
-                    --c: var(--primary);
-                  "
-                  @click="declineOffer(item)"
-                  >Cancel Offer</v-btn
-                >
-              </center>
-            </template>
-          </v-data-table>
-
-          <Pagination
-            :total-pages="pagination_per_page_offers"
-            :current-page="currentPageOffers"
-            @pagechanged="(page) => (currentPageOffers = page)"
-          />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
-        <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
-          >Offers Received</v-expansion-panel-header
-        >
-
-        <v-expansion-panel-content
-          color="rgb(0, 0, 0, .4)"
-          class="container-table--expansion mt-5"
-        >
-          <v-data-table
-            :headers="tableHeadersOffers"
-            :items="tableItemsOffers"
-            :page.sync="currentPageOffers"
-            :items-per-page="itemsPerPageOffers"
-            hide-default-footer
-            mobile-breakpoint="-1"
-            :header-props="{ sortIcon: 'mdi-menu-down' }"
-            style="background: transparent"
-            bac
+          <v-expansion-panel-content
+            color="rgb(0, 0, 0, .4)"
+            class="container-table--expansion mt-5"
           >
-            <template #[`item.nft_media`]="{ item }">
-              <center class="center" style="gap: 10px">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img
-                    :src="item.nft_media"
-                    alt="artist avatar"
-                    transition="fade-transition"
+            <v-data-table
+              :headers="tableHeadersOffers"
+              :items="tableItemsOffersRe"
+              :page.sync="currentPageOffers"
+              :items-per-page="itemsPerPageOffers"
+              hide-default-footer
+              mobile-breakpoint="-1"
+              :header-props="{ sortIcon: 'mdi-menu-down' }"
+              style="background: transparent"
+              bac
+            >
+              <template #[`item.nft_media`]="{ item }">
+                <center class="center" style="gap: 10px">
+                  <v-avatar style="border: 2px solid #fff">
+                    <v-img
+                      :src="item.nft_media"
+                      alt="artist avatar"
+                      transition="fade-transition"
+                    >
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                </center>
+              </template>
+
+              <template #[`item.price_near`]="{ item }">
+                <center v-if="item.price_near" class="divcol" style="gap: 5px">
+                  <span>N{{ item.price_near }}</span>
+                  <span class="normal">$ {{ dollarConversion(item.price) }}</span>
+                </center>
+
+                <center v-else class="divcol" style="gap: 5px">
+                  <span>---</span>
+                  <span>---</span>
+                </center>
+              </template>
+
+              <!-- <template #[`item.token_id`]="{ item }">
+                <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
+              </template> -->
+
+              <template #[`item.buyer_id`]="{ item }">
+                <center class="center" style="gap: 10px">
+                  <v-avatar style="border: 2px solid #fff">
+                    <v-img
+                      :src="require('~/assets/sources/avatars/avatar.png')"
+                      alt="artist avatar"
+                      transition="fade-transition"
+                    >
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                  <span :title="item.buyer_id">{{
+                    item.buyer_id.limitString(20)
+                  }}</span>
+                </center>
+              </template>
+
+              <template #[`item.actions`]="{ item }">
+                <center class="center" style="gap: 30px">
+                  <!-- <v-btn
+                    :disabled="offerBtn"
+                    :ripple="false" class="btn activeBtn bold"
+                    style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                    @click="acceptOffer(item)"
+                  >Accept</v-btn> -->
+                  <v-btn
+                    :disabled="offerBtn"
+                    :ripple="false"
+                    class="btn activeBtn bold"
+                    style="
+                      --min-w: 112px;
+                      --w: min(100%, 9em);
+                      --fs: 16px;
+                      --bg: #fff;
+                      --c: var(--primary);
+                    "
+                    @click="declineOffer(item)"
+                    >Cancel Offer</v-btn
                   >
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-              </center>
-            </template>
+                </center>
+              </template>
+            </v-data-table>
 
-            <template #[`item.price_near`]="{ item }">
-              <center v-if="item.price_near" class="divcol" style="gap: 5px">
-                <span>{{ item.price_near }} N</span>
-                <span class="normal">$ {{ dollarConversion(item.price) }}</span>
-              </center>
+            <Pagination
+              :total-pages="pagination_per_page_offers"
+              :current-page="currentPageOffers"
+              @pagechanged="(page) => (currentPageOffers = page)"
+            />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
 
-              <center v-else class="divcol" style="gap: 5px">
-                <span>---</span>
-                <span>---</span>
-              </center>
-            </template>
+        <v-expansion-panel>
+          <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
+            >Offers Received</v-expansion-panel-header
+          >
 
-            <!-- <template #[`item.token_id`]="{ item }">
-              <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
-            </template> -->
+          <v-expansion-panel-content
+            color="rgb(0, 0, 0, .4)"
+            class="container-table--expansion mt-5"
+          >
+            <v-data-table
+              :headers="tableHeadersOffers"
+              :items="tableItemsOffers"
+              :page.sync="currentPageOffers"
+              :items-per-page="itemsPerPageOffers"
+              hide-default-footer
+              mobile-breakpoint="-1"
+              :header-props="{ sortIcon: 'mdi-menu-down' }"
+              style="background: transparent"
+              bac
+            >
+              <template #[`item.nft_media`]="{ item }">
+                <center class="center" style="gap: 10px">
+                  <v-avatar style="border: 2px solid #fff">
+                    <v-img
+                      :src="item.nft_media"
+                      alt="artist avatar"
+                      transition="fade-transition"
+                    >
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                </center>
+              </template>
 
-            <template #[`item.buyer_id`]="{ item }">
-              <center class="center" style="gap: 10px">
-                <v-avatar style="border: 2px solid #fff">
-                  <v-img
-                    :src="require('~/assets/sources/avatars/avatar.png')"
-                    alt="artist avatar"
-                    transition="fade-transition"
+              <template #[`item.price_near`]="{ item }">
+                <center v-if="item.price_near" class="divcol" style="gap: 5px">
+                  <span>{{ item.price_near }} N</span>
+                  <span class="normal">$ {{ dollarConversion(item.price) }}</span>
+                </center>
+
+                <center v-else class="divcol" style="gap: 5px">
+                  <span>---</span>
+                  <span>---</span>
+                </center>
+              </template>
+
+              <!-- <template #[`item.token_id`]="{ item }">
+                <span class="tup" :style="`${item.vault ? '--c: #26A17B' : ''}`">{{item.vault ? "yes" : "no"}}</span>
+              </template> -->
+
+              <template #[`item.buyer_id`]="{ item }">
+                <center class="center" style="gap: 10px">
+                  <v-avatar style="border: 2px solid #fff">
+                    <v-img
+                      :src="require('~/assets/sources/avatars/avatar.png')"
+                      alt="artist avatar"
+                      transition="fade-transition"
+                    >
+                      <template #placeholder>
+                        <v-skeleton-loader type="avatar" />
+                      </template>
+                    </v-img>
+                  </v-avatar>
+                  <span :title="item.buyer_id">{{
+                    item.buyer_id.limitString(20)
+                  }}</span>
+                </center>
+              </template>
+
+              <template #[`item.actions`]="{ item }">
+                <center class="center" style="gap: 30px">
+                  <v-btn
+                    :disabled="offerBtn"
+                    :ripple="false"
+                    class="btn activeBtn bold"
+                    style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
+                    @click="acceptOffer(item)"
+                    >Accept</v-btn
                   >
-                    <template #placeholder>
-                      <v-skeleton-loader type="avatar" />
-                    </template>
-                  </v-img>
-                </v-avatar>
-                <span :title="item.buyer_id">{{
-                  item.buyer_id.limitString(20)
-                }}</span>
-              </center>
-            </template>
+                  <!-- <v-btn
+                    :disabled="offerBtn"
+                    :ripple="false" class="btn activeBtn bold"
+                    style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
+                    @click="declineOffer(item)"
+                  >Decline</v-btn> -->
+                </center>
+              </template>
+            </v-data-table>
 
-            <template #[`item.actions`]="{ item }">
-              <center class="center" style="gap: 30px">
-                <v-btn
-                  :disabled="offerBtn"
-                  :ripple="false"
-                  class="btn activeBtn bold"
-                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px"
-                  @click="acceptOffer(item)"
-                  >Accept</v-btn
-                >
-                <!-- <v-btn
-                  :disabled="offerBtn"
-                  :ripple="false" class="btn activeBtn bold"
-                  style="--min-w: 112px; --w: min(100%, 9em); --fs: 16px; --bg: #fff; --c: var(--primary)"
-                  @click="declineOffer(item)"
-                >Decline</v-btn> -->
-              </center>
-            </template>
-          </v-data-table>
-
-          <Pagination
-            :total-pages="
-              pagination_per_page_offers > 50 ? 50 : pagination_per_page_offers
-            "
-            :current-page="currentPageOffers"
-            @pagechanged="(page) => (currentPageOffers = page)"
-          />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+            <Pagination
+              :total-pages="
+                pagination_per_page_offers > 50 ? 50 : pagination_per_page_offers
+              "
+              :current-page="currentPageOffers"
+              @pagechanged="(page) => (currentPageOffers = page)"
+            />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </template>
 
     <!-- <h2 class="tup p mt-16">Artist banner</h2>
 
@@ -1543,13 +1518,8 @@ export default {
   },
   computed: {
     dataCollections_pagination() {
-      return this.$store.getters.pagination({
-        items: this.dataCollections,
-        currentPage: this.currentPage,
-        itemsPerPage: this.itemsPerPage,
-        search: this.search,
-        filterA: this.filterA.model,
-      })
+      return Array.from(new Set(this.dataCollections.map(x=>x.collection)))
+        .map(y => this.dataCollections.filter(z => z.collection === y));
     },
     pagination_per_page() {
       return Math.ceil(this.dataCollections.length / this.itemsPerPage)
@@ -1640,7 +1610,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.offerBtn = false
 
@@ -1720,7 +1689,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.offerBtn = false
 
@@ -1917,7 +1885,6 @@ export default {
         .subscribe(async (res) => {
           const data = res.data.nfts
 
-          console.log('BRRR', data)
 
           this.dataNfts = []
 
@@ -2034,7 +2001,6 @@ export default {
         .post(`${this.baseUrl}api/v1/get-avatars/`, { artists: datos })
         .then((result) => {
           const data = result.data
-          // console.log("ADTA", data)
           if (data[0]) {
             for (let i = 0; i < data.length; i++) {
               for (let j = 0; j < this.dataNfts.length; j++) {
@@ -2157,7 +2123,6 @@ export default {
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
         .then((result) => {
-          console.log('RESULT', result.data[0])
           const data = result.data[0]
 
           if (result.data[0]) {
@@ -2217,7 +2182,6 @@ export default {
       })
     },
     saveForm() {
-      console.log(this.$refs.form.validate())
       if (!this.$refs.form.validate()) return
       // verification ⭐
       const consult = {
@@ -2388,13 +2352,11 @@ export default {
       this.$router.push('update-nft-form?token_id=' + item.token_id)
     },
     getTiersComing() {
-      console.log(this.artistId)
       this.$axios
         .post(`${this.baseUrl}api/v1/get-tiers-coming/`, {
           id: Number(this.artistId),
         })
         .then((response) => {
-          // console.log(response.data)
           this.tiersComing = response.data
         })
         .catch((err) => {
@@ -2408,7 +2370,6 @@ export default {
           artist_id: Number(this.artist.id_collection),
         })
         .then((response) => {
-          // console.log("EVENTS",response.data)
           // this.dataEvents = response.data.reverse()
 
           if (response.data[0]) {
@@ -2448,8 +2409,6 @@ export default {
             // // await this.validateTiers()
             // // await this.getTiersComing()
             // // await this.getOwners()
-
-            await this.getTierOne()
 
             // this.getEventsArtist()
           } else {
@@ -2620,8 +2579,6 @@ export default {
           }
         }
       `
-      console.log(String(this.artist.id_collection))
-      console.log(this.collectionNow)
 
       await clientApollo
         .watchQuery({
@@ -2634,11 +2591,9 @@ export default {
           pollInterval: 3000,
         })
         .subscribe((res) => {
-          // console.log(this.artist.id_collection, this.collectionNow)
 
           const data = res.data.series
 
-          console.log('DATAAA AQUII', data)
 
           this.dataCollections = []
 
@@ -2647,6 +2602,7 @@ export default {
               token_id: data[i].id,
               artist: this.artist.name,
               img: data[i].media,
+              collection: data[i].collection,
               avatar: this.artist.image,
               name: data[i].title,
               name_sell: data[i].title,
@@ -2704,7 +2660,6 @@ export default {
             //   }
             // }
 
-            console.log('ITEM', item)
 
             this.dataCollections.push(item)
           }
@@ -2793,9 +2748,10 @@ export default {
         .subscribe(async (res) => {
           const data = res.data.artist
 
-          console.log('DATAAA', data, this.artist.id_collection)
 
           this.collectionNow = data.collection
+
+          await this.getTierOne()
 
           this.dataProfits.nfts = data.total_nft
           this.dataProfits.collections = data.collection
@@ -2840,6 +2796,7 @@ export default {
           query: QUERY_APOLLO,
           variables: {
             artist_id: String(this.artist.id_collection),
+            // !TODO [this.collectionNow] is undefined
             collection: String(this.collectionNow),
           },
           pollInterval: 3000,
@@ -2848,7 +2805,6 @@ export default {
           this.dataSliderPreview = []
           const data = res.data.series
 
-          // console.log("DATA", data)
 
           for (let i = 0; i < data.length; i++) {
             const item = {
@@ -2902,7 +2858,6 @@ export default {
 
             await this.getTiers()
 
-            // console.log("DATASLIDER",this.dataSliderPreview)
           }
         })
     },
@@ -2939,7 +2894,6 @@ export default {
         }
       `
 
-      // console.log("COLEEc", this.collectionNow)
 
       await clientApollo
         .watchQuery({
@@ -2953,10 +2907,8 @@ export default {
         .subscribe((res) => {
           const data = res.data.series
 
-          // console.log("DATANEW", data)
           this.dataSlider = []
 
-          // console.log("SKU",data)
 
           for (let i = 0; i < data.length; i++) {
             const item = {

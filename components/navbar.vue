@@ -311,7 +311,6 @@ export default {
             admin: this.$ramper.getAccountId(),
           })
           .then((result) => {
-            console.log(result.data)
             this.$store.commit('setIsAdmin', result.data)
             this.isAdmin = result.data
           })

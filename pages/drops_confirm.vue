@@ -87,7 +87,6 @@ export default {
         .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
         .then((result) => {
           const data = result.data[0]
-          console.log(data)
           if (result.data[0]) {
             this.$equalData(this.form, data)
             this.form.id = data.id
@@ -132,7 +131,6 @@ export default {
           email: this.form.email,
         })
         .then((response) => {
-          console.log(response.data)
           this.$router.push(this.localePath('/drops_success'))
           this.disableBtn = false
         })

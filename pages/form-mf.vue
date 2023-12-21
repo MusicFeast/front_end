@@ -238,8 +238,7 @@ export default {
       })
     },
     saveForm() {
-      console.log(this.form)
-      if (!this.$refs.form.validate()) return console.log('validate failed')
+      if (!this.$refs.form.validate()) return console.error('validate failed')
 
       this.$axios
         .post(`${this.baseUrl}api/v1/artist-submission/`, this.form)

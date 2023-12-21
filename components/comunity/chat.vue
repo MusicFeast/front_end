@@ -78,7 +78,6 @@ export default {
   },
   computed: {
     getChatSelect() {
-      // console.log(this.$store.getters.getChatSelect)
       if (this.$store.getters.getChatSelect) {
         this.getMessages(this.$store.getters.getChatSelect)
       }
@@ -88,7 +87,6 @@ export default {
       return this.$store.getters.getArtistSelect
     },
     search() {
-      console.log(this.$store.getters.getSearch)
       this.debounce(this.$store.getters.getSearch)
       return true
     },
@@ -104,7 +102,6 @@ export default {
     }
   },
   // mounted() {
-  //   console.log("USER", this.$ramper.getAccountId())
   // },
   methods: {
     debounce(item) {

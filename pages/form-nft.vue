@@ -859,7 +859,6 @@ export default {
 
     this.formArtistItem = await this.getFormArtist()
 
-    console.log(this.formArtistItem)
 
     if (this.formArtistItem) {
       this.inputName()
@@ -870,7 +869,6 @@ export default {
 
     this.getArtistProposals()
 
-    console.log(this.isAdmin, 'Admindndinewoidfoiewnd')
     this.returnHome()
   },
   methods: {
@@ -917,7 +915,6 @@ export default {
     async inputAccount(item) {
       const validate = await this.validateNear(item.account)
 
-      console.log(validate)
 
       if (validate) {
         item.error = false
@@ -926,7 +923,6 @@ export default {
         item.error = true
         item.errorMessage = 'Account invalidate'
       }
-      console.log(item)
     },
     async validateNear(wallet) {
       const account = await this.$near.account(wallet)
@@ -971,7 +967,7 @@ export default {
         .catch((err) => {
           this.btnReject = false
           this.btnApprove = false
-          console.log(err)
+          console.error(err)
         })
     },
     inputArtist(item) {
@@ -1099,7 +1095,6 @@ export default {
     // }
     remove(pos) {
       this.dataRoyalties.splice(pos, 1)
-      console.log('HOLAAA!')
       this.inputPercentRoyalties()
     },
     remove1(pos) {
@@ -1223,7 +1218,6 @@ export default {
         this.formTier.description &&
         this.formTier.price
       ) {
-        console.log(this.selectedTier)
         if (this.formTier.song) {
           return true
         } else {
@@ -1256,11 +1250,8 @@ export default {
       }
     },
     async saveNewCollection() {
-      console.log('NEW COLLECITON')
       this.btnSave = true
       if (this.$refs.form.validate() && this.isApprove && !this.isApprove) {
-        console.log('ENTRO')
-        console.log(this.formArtistItem)
         const itemIpfs = await this.uploadIpfs(this.imageNft)
 
         const formDataNft = new FormData()
@@ -1287,7 +1278,7 @@ export default {
           })
           .catch((err) => {
             this.btnSave = false
-            console.log(err)
+            console.error(err)
           })
       }
     },
@@ -1316,7 +1307,6 @@ export default {
           this.$axios
             .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
             .then((result) => {
-              console.log(result.data)
               const formDataNft = new FormData()
               formDataNft.append('artist_proposal', result.data.id)
               formDataNft.append('tierNumber', 1)
@@ -1355,12 +1345,12 @@ export default {
                 })
                 .catch((err) => {
                   this.btnSave = false
-                  console.log(err)
+                  console.error(err)
                 })
             })
             .catch((err) => {
               this.btnSave = false
-              console.log(err)
+              console.error(err)
             })
         } else {
           const itemIpfs = await this.uploadIpfs(this.imageNft)
@@ -1397,7 +1387,7 @@ export default {
             })
             .catch((err) => {
               this.btnSave = false
-              console.log(err)
+              console.error(err)
             })
         }
       } else {
@@ -1412,7 +1402,6 @@ export default {
           })
           .then((result) => {
             return result.data
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {
@@ -1462,7 +1451,6 @@ export default {
             wallet: this.$ramper.getAccountId(),
           })
           .then((result) => {
-            console.log(result.data)
             if (result.data.length === 0) {
               this.items_tier = ['Tier 1']
               this.selectedTier = 'Tier 1'
@@ -1495,7 +1483,6 @@ export default {
           })
           .then((result) => {
             this.tableItemsArtists = []
-            console.log(result.data)
             const data = []
             // for (let i = 0; i < result.data.length; i++) {
             for (const item of result.data) {
@@ -1514,7 +1501,6 @@ export default {
                   dataItem.statusText = 'Pending'
                 }
 
-                console.log(dataItem)
 
                 data.push(dataItem)
               }

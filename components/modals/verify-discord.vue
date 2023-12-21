@@ -128,7 +128,6 @@ export default {
         })
           .then((result) => result.json())
           .then((response) => {
-            // console.log(response)
             let avatar
             if (response.avatar) {
               avatar = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.png`
@@ -169,8 +168,6 @@ export default {
               wallet: accountId,
             })
             .then((result) => {
-              // console.log("SUCCESS")
-              // console.log(result)
               this.resultOperation = 'success'
               this.connectBtn = false
               localStorage.removeItem('discord_sinc')

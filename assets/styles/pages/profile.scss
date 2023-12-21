@@ -424,7 +424,7 @@ input{
 
 
 #profile {
-  
+  // TODO
   #custome-slider.v-item-group {
     @include media(max, 400px) {
       min-width: 100vw;
@@ -512,96 +512,97 @@ input{
       }
     }
   }
-
+  
   .container-collections {
-    --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    padding-inline: var(--margin-separator);
-    margin-bottom: 6em;
-    gap: 2em;
-    .v-sheet {
-      --padding: 10px;
-      padding: var(--padding);
-      gap: var(--padding);
-      padding-bottom: 2em;
-      border-radius: 5px;
-      max-width: 300px!important;
-      * {white-space: initial}
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-      .v-card.custome {
-        .container-content {
-          display: flex;
-          flex-direction: column;
-          height: 100.25px;
-        }
-  
-        .editBtn {
-          $distance: .5em;
-          $size: 35px;
-          position: absolute;
-          top: $distance;
-          left: $distance;
-          opacity: 0;
-          border-radius: 50% !important;
-          padding: 0 !important;
-          width: $size !important;
-          height: $size !important;
-          translate: 0 -10px;
-          transition: .2s ease;
-        }
-  
-        &:hover .editBtn {
-          opacity: 1;
-          translate: 0 0;
-        }
-        p {margin-bottom: auto}
-      }
+  .custome-slider.v-item-group {
+    @include media(max, 400px) {
+      min-width: 100vw;
+      margin-inline: calc(50% - 50vw);
+    }
+    .v-slide-group {
+      &__next--disabled i,
+      &__prev--disabled i {filter: invert(77%)}
+      &__content {
+        --basis: clamp(250px, 20vw, 300px);
+        gap: 2em;
+        // padding-inline: 70px;
+        display: flex;
+        justify-content: space-between;
+        > * {flex-basis: var(--basis)}
+        .v-sheet {
+          --padding: 10px;
+          padding: var(--padding);
+          gap: var(--padding);
+          padding-bottom: 2em;
+          border-radius: 5px;
+          max-width: var(--basis);
+          * {white-space: initial}
+          .v-card {
+            transition: .5s $ease;
+            .container-content {
+              position: relative;
+              margin-top: calc(20px + 5px)
+            }
+            .v-avatar {
+              @include absolute(0,-50px,0,);
+            }
+            a {font-size: 15px; text-decoration: underline; margin-bottom: .3em}
+            p {font-size: 13px}
+            span.floor {font-size: 15px; font-weight: bold}
+          }
+          .tier-desc {
+            --gap: .5em;
+            gap: var(--gap);
+            *{font-size: 15px};
+            ul, a {padding-inline: 24px}
+            a {
+              line-height: 1.2;
+              text-align: center;
+              text-decoration: underline;
+            }
+            ul {
+              display: grid; gap: var(--gap);
+              li::marker {
+                color: var(--accent);
+              }
+            }
+          }
+          .container-actions {
+            margin-top: auto;
+            font-size: 13px;
 
-      .tier-desc {
-        --gap: .5em;
-        gap: var(--gap);
-        *{font-size: 15px};
-        ul, a {padding-inline: 24px}
-        a {
-          line-height: 1.2;
-          text-align: center;
-          text-decoration: underline;
-        }
-        ul {
-          display: grid; gap: var(--gap);
-          li::marker {
-            color: var(--accent);
+            .config{
+              max-width: max-content!important;
+              align-self: center!important;
+              justify-self: center!important;
+            }
+
+            a {
+              --margin: 1em;
+              --c: var(--accent);
+              text-align: center;
+              width: 100%;
+              text-decoration: underline;
+              position: relative;
+              margin-block: var(--margin);
+              padding-bottom: var(--margin);
+              &::after {
+                content: "";
+                @include absolute(0,auto,0,0);
+                width: 100%;
+                height: 1px;
+                border-radius: 2vmax;
+                background-color: var(--primary);
+              }
+            }
+            .v-btn {--fs: 17px}
           }
         }
-      }
-      .container-actions {
-        margin-top: auto;
-        font-size: 13px;
-
-        .config{
-          max-width: max-content!important;
-          align-self: center!important;
-          justify-self: center!important;
-        }
-
-        a {
-          --margin: 1em;
-          --c: var(--accent);
-          text-align: center;
-          width: 100%;
-          text-decoration: underline;
-          position: relative;
-          margin-block: var(--margin);
-          padding-bottom: var(--margin);
-          &::after {
-            content: "";
-            @include absolute(0,auto,0,0);
-            width: 100%;
-            height: 1px;
-            border-radius: 2vmax;
-            background-color: var(--primary);
-          }
-        }
-        .v-btn {--fs: 17px}
       }
     }
   }

@@ -486,7 +486,6 @@ export default {
       this.$router.push('/artists')
     }
 
-    console.log('TOKEM', token)
   },
   methods: {
     OkSuccess() {
@@ -547,7 +546,6 @@ export default {
         .then(async (res) => {
           const data = res.data.serie
 
-          console.log('DATA', data)
 
           if (!data) return this.$router.push('/artists')
 
@@ -572,7 +570,6 @@ export default {
     },
     showData(item) {
       this.items_tier = ['Tier 1', 'Tier 2']
-      console.log(item)
       this.showItem = item
 
       this.formArtist.name = item.name
@@ -845,7 +842,7 @@ export default {
             this.dialogSuccess = true
           })
           .catch((err) => {
-            console.log(err)
+            console.error(err)
             this.btnSave = false
           })
       } else {
@@ -916,12 +913,12 @@ export default {
                 })
                 .catch((err) => {
                   this.btnSave = false
-                  console.log(err)
+                  console.error(err)
                 })
             })
             .catch((err) => {
               this.btnSave = false
-              console.log(err)
+              console.error(err)
             })
         } else {
           const cidNft = await this.uploadIpfs(this.imageNft)
@@ -962,7 +959,7 @@ export default {
             })
             .catch((err) => {
               this.btnSave = false
-              console.log(err)
+              console.error(err)
             })
         }
       }
@@ -975,7 +972,6 @@ export default {
           })
           .then((result) => {
             return result.data
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {
@@ -1075,7 +1071,6 @@ export default {
                   dataItem.statusText = 'Pending'
                 }
 
-                console.log(dataItem)
 
                 data.push(dataItem)
               }

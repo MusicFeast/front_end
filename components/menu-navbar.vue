@@ -344,7 +344,6 @@ export default {
             }
             this.dataSocial = datos
           }
-          // console.log(data)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})

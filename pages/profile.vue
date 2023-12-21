@@ -564,10 +564,8 @@ export default {
     // .collection("appetizer")
     // .add(messageInfo)
     // .then((docRef) => {
-    //   console.log("Mensaje agregado con éxito:", docRef.id);
     // })
 
-    // console.log(query(this.$fire.firestore.collection("ARTISTS"), "ARTISTS"))
 
     // const refCollection = this.$fire.firestore.collection("ARTISTS").doc("CLASSIQ").collection("appetizer")
 
@@ -576,19 +574,15 @@ export default {
     //   .get()
     //   .then((querySnapShot) => {
     //     querySnapShot.forEach((doc) => {
-    //       console.log(doc.data())
     //     })
     //   })
 
     // Obtener todos los documentos de la colección
     // refCollection.get()
     //   .then((querySnapshot) => {
-    //     console.log(querySnapshot)
     //     querySnapshot.forEach((doc) => {
-    //       console.log("Mensaje agregado")
     //       // Accede a los datos de cada documento
     //       const data = doc.data();
-    //       console.log("Datos del documento:", data);
     //     });
     //   })
     //   .catch((error) => {
@@ -703,7 +697,6 @@ export default {
           })
           .then((result) => {
             this.isAdmin = result.data
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {
@@ -754,7 +747,7 @@ export default {
           this.minimumStorage = this.$utils.format.formatNearAmount(response)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     },
     async acceptOffer(item) {
@@ -813,7 +806,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.offerBtn = false
 
@@ -893,7 +885,6 @@ export default {
           ],
           network: process.env.NETWORK,
         })
-        // console.log("Transaction Result: ", res)
 
         this.offerBtn = false
 
@@ -1090,7 +1081,6 @@ export default {
         .subscribe(async (res) => {
           const data = res.data.nfts
 
-          console.log('BRRR', data)
 
           this.dataNfts = []
 
@@ -1207,7 +1197,6 @@ export default {
         .post(`${this.baseUrl}api/v1/get-avatars/`, { artists: datos })
         .then((result) => {
           const data = result.data
-          // console.log("ADTA", data)
           if (data[0]) {
             for (let i = 0; i < data.length; i++) {
               for (let j = 0; j < this.dataNfts.length; j++) {

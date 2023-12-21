@@ -26,7 +26,6 @@ export default {
     },
     offer() {
       const offer = JSON.parse(localStorage.getItem('offer'))
-      // console.log("offer", offer)
       if (offer) {
         return offer
       }

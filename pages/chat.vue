@@ -109,7 +109,6 @@ export default {
           })
           .then((result) => {
             this.isAdmin = result.data
-            // console.log(result.data)
             // this.$store.commit("setIsAdmin", result.data);
           })
           .catch(() => {

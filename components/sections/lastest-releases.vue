@@ -109,7 +109,6 @@ export default {
 
       const data = res.data.series
 
-      // console.log("LOG", data)
 
       const arrayIds = []
 
@@ -127,13 +126,11 @@ export default {
         .post(`${this.baseUrl}api/v1/get-avatars/`, { artists: datos })
         .then((result) => {
           const data = result.data
-          // console.log("LOG AVATARS", data)
           if (data[0]) {
             const datos = []
             for (let j = 0; j < this.artists.length; j++) {
               for (let i = 0; i < data.length; i++) {
                 if (data[i].is_visible) {
-                  // console.log(data[i].id_collection, this.artists[j].artist_id)
                   if (
                     String(data[i].id_collection) ===
                     String(this.artists[j].artist_id)

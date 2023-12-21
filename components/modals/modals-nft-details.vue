@@ -832,15 +832,10 @@ export default {
         state: this.form_redemption.address.state,
         postal: this.form_redemption.address.postal,
       }
-      console.log(item)
-      console.log(item)
-      console.log(item)
-      console.log(item)
       // checkout no repeated info
       const resp = this.$axios
         .post(`${this.baseUrl}api/v1/order-redeem/`, item)
         .then((result) => {
-          console.log(result)
           return true
           // catch error repeated values consult
         })
@@ -876,7 +871,6 @@ export default {
             ],
             network: process.env.NETWORK,
           })
-          // console.log("Transaction Result: ", res)
 
           if (
             res &&
@@ -925,7 +919,6 @@ export default {
     },
     changeCheck() {
       if (this.check && this.addressUser.address) {
-        // console.log(this.addressUser)
         this.form_redemption.country =
           this.addressUser.address.country.toUpperCase()
         this.form_redemption.phone_number =
@@ -957,7 +950,6 @@ export default {
       await this.$axios
         .post(`${this.baseUrl}api/v1/get-perfil-data/`, { wallet: accountId })
         .then((result) => {
-          // console.log("USER", result.data)
           if (result.data[0]) {
             if (result.data[0].address.city) {
               this.addressUser = result.data[0]
@@ -967,7 +959,6 @@ export default {
               this.disabledAddress = true
             }
           }
-          // console.log("ADDRESS", this.addressUser)
         })
         .catch((err) => {
           this.$alert('cancel', { desc: err.message })
@@ -1038,7 +1029,7 @@ export default {
           this.minimumStorage = this.$utils.format.formatNearAmount(response)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     },
     async mystorage() {
@@ -1060,7 +1051,7 @@ export default {
           this.myStorage = this.$utils.format.formatNearAmount(response)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
     },
     async getDataNfts() {
@@ -1189,7 +1180,6 @@ export default {
             ],
             network: process.env.NETWORK,
           })
-          // console.log("Transaction Result: ", res)
 
           this.btnSale = false
 
@@ -1284,7 +1274,6 @@ export default {
             ],
             network: process.env.NETWORK,
           })
-          // console.log("Transaction Result: ", res)
 
           this.btnOffer = false
 
