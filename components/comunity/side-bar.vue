@@ -238,7 +238,7 @@ export default {
                 item.img = await this.getAvatar(item.id_collection)
               }
 
-              // postData.push(item)∆
+              postData.push(item)
             }
           }
           console.log(postData)
