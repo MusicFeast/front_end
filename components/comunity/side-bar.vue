@@ -177,75 +177,75 @@ export default {
               active: false,
             }
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .set({ id_collection: e.id_collection, artist: e.name })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('table-talk')
               .set({ chat: 'Table Talk', order: 1 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('free-samples')
               .set({ chat: 'Free Samples', order: 2 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('appetizer')
               .set({ chat: 'Appetizer', order: 3 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('soup')
               .set({ chat: 'Soup', order: 4 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('salad')
               .set({ chat: 'Salad', order: 5 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('main-course')
               .set({ chat: 'Main Course', order: 6 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('dessert')
               .set({ chat: 'Dessert', order: 7 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('suggestions')
               .set({ chat: 'Suggestions', order: 8 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('in-the-kitchen')
               .set({ chat: 'In the Kitchen', order: 9 })
 
-            await this.$fire.firestore
+            this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
