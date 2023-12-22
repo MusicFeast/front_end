@@ -404,6 +404,16 @@ h2.Title {
   }
 }
 
+.quillWrapper {
+  .ql-picker-options{
+    span{ color: #000 !important }
+  }
+
+  .ql-editor {
+    &::before { color: #ffffffa8 !important }
+  }
+}
+
 // *{
 //   text-transform: lowercase!important;
 // }

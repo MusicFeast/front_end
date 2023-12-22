@@ -563,14 +563,15 @@
                   placeholder="Select Your Tier"
                 ></v-select> -->
 
-              <label for="nft-name">Song Description</label>
-              <v-text-field
+              <label for="description">Song Description</label>
+              <vue-editor
                 id="description"
                 v-model="formTier.description"
                 :disabled="showItem"
-                @input="validateForm()"
+                class="mt-4 mb-4"
                 placeholder="Tier 1 description"
-              ></v-text-field>
+                @input="validateForm()"
+              ></vue-editor>
 
               <label for="nft-name">Price (USD)</label>
               <v-text-field
