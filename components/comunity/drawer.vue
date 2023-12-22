@@ -8,7 +8,11 @@
     <ComunitySideBar></ComunitySideBar>
 
     <section id="comunity__drawer-drawer" class="flex-grow-1">
-      <div id="comunity__drawer-header" class="d-flex align-center" style="gap: 10px">
+      <div
+        id="comunity__drawer-header"
+        class="d-flex align-center"
+        style="gap: 10px"
+      >
         <avatar-tier
           v-show="artistSelect?.img"
           :src="artistSelect?.img"
@@ -23,13 +27,13 @@
         </h6>
       </div>
 
-
       <v-list expand nav>
         <v-list-item
-          v-for="item in items" :key="item.chat"
+          v-for="item in items"
+          :key="item.chat"
           v-model="item.active"
           flat
-          :class="{active: item.active}"
+          :class="{ active: item.active }"
           @click="selectChat(item)"
         >
           <template>
@@ -56,7 +60,6 @@
           </v-list-item> -->
         </v-list-item>
       </v-list>
-
 
       <!-- <div id="comunity__drawer-footer" class="d-flex" style="gap: 10px">
         <v-badge
@@ -87,7 +90,7 @@
 
 <script>
 export default {
-  name: "ComunityDrawer",
+  name: 'ComunityDrawer',
   data() {
     return {
       model: true,
@@ -118,8 +121,8 @@ export default {
         // },
       ],
       selectItem: null,
-      testImage: 
-        "https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1",
+      testImage:
+        'https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1',
     }
   },
   computed: {
@@ -127,52 +130,58 @@ export default {
       if (this.$store.getters.getArtistSelect) {
         this.getChats(this.$store.getters.getArtistSelect)
       }
-      return this.$store.getters.getArtistSelect;
+      return this.$store.getters.getArtistSelect
     },
     isMobile() {
       return this.$vuetify.breakpoint.mobile
-    }
+    },
   },
   watch: {
     isMobile(value) {
       if (value) this.model = false
       else this.model = true
-    }
+    },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     selectChat(item) {
       // item.active = true
-      this.items.forEach(e=>{e.active=false;item.active=true})
+      this.items.forEach((e) => {
+        e.active = false
+        item.active = true
+      })
       this.$store.state.chatSelect = item
       // this.$store.dispatch('updateArtistSelect', item);
       // this.$store.commit('updateArtistSelect', item)
       // this.$store.state.artistSelect = item
     },
     getChats(itemAux) {
-      this.$fire.firestore.collection('ARTISTS').doc(itemAux.id).collection("CHATS").onSnapshot((snapshot) => {
-        const postData = [];
-        snapshot.forEach((doc) => {
-          const item = { ...doc.data(), id: doc.id, active: false }
-          postData.push(item)
-        });
-        this.items = postData.sort((a, b) => {
-          if (a.order < b.order) {
-            return -1;
-          }
-          if (a.order > b.order) {
-            return 1;
-          }
-          return 0;
-        });
-        if (this.items.length > 0) {
+      this.$fire.firestore
+        .collection('ARTISTS')
+        .doc(String(itemAux.id_collection))
+        .collection('CHATS')
+        .onSnapshot((snapshot) => {
+          const postData = []
+          snapshot.forEach((doc) => {
+            const item = { ...doc.data(), id: doc.id, active: false }
+            postData.push(item)
+          })
+          this.items = postData.sort((a, b) => {
+            if (a.order < b.order) {
+              return -1
+            }
+            if (a.order > b.order) {
+              return 1
+            }
+            return 0
+          })
+          if (this.items.length > 0) {
             this.items[0].active = true
             this.$store.state.chatSelect = this.items[0]
-        }
-      });
-    }
-  }
+          }
+        })
+    },
+  },
 }
 </script>
 
@@ -189,22 +198,24 @@ $border-radius: 8px;
     display: flex;
     flex-direction: column;
 
-    &::-webkit-scrollbar { display: none }
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
-
 
   .v-navigation-drawer {
     &__content {
       display: flex;
 
-      &::-webkit-scrollbar { display: none }
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     &__border {
       background-color: var(--secondary) !important;
     }
   }
-
 
   &-header {
     height: var(--header-height);
@@ -215,11 +226,9 @@ $border-radius: 8px;
     border-color: var(--secondary);
   }
 
-
   .v-list {
     flex-grow: 1;
     padding-right: 0;
-
 
     &-group {
       &__header {
@@ -232,11 +241,14 @@ $border-radius: 8px;
           border-bottom-left-radius: $border-radius;
         }
 
-        * { color: var(--title) /* !important */ }
+        * {
+          color: var(--title); /* !important */
+        }
 
         .v-list-item {
-
-          &__title { @extend .text-title }
+          &__title {
+            @extend .text-title;
+          }
 
           &__icon {
             margin-top: 7px;
@@ -245,9 +257,10 @@ $border-radius: 8px;
         }
       }
 
-
       &__items {
-        * { color: var(--label) }
+        * {
+          color: var(--label);
+        }
 
         .v-list-item {
           padding-left: 30px;
@@ -255,24 +268,33 @@ $border-radius: 8px;
           border-top-left-radius: $border-radius;
           border-bottom-left-radius: $border-radius;
 
-          &__title { @extend .text-labeled }
+          &__title {
+            @extend .text-labeled;
+          }
 
-          &__content { padding-block: 0 }
+          &__content {
+            padding-block: 0;
+          }
 
-          span { color: var(--title) !important }
+          span {
+            color: var(--title) !important;
+          }
 
           &.active {
             background-color: var(--body);
 
-            span { color: var(--label) !important }
+            span {
+              color: var(--label) !important;
+            }
           }
         }
       }
 
-      &--active { margin-bottom: 10px }
+      &--active {
+        margin-bottom: 10px;
+      }
     }
   }
-
 
   &-footer {
     padding: 10px 10px;

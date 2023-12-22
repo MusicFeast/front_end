@@ -71,13 +71,13 @@ export default {
       title,
     }
   },
-  async mounted() {
+  mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
 
     this.server_dc = process.env.SERVER_DC
     this.channel_dc = process.env.CHANNEL_DC
-    await this.getIsAdmin()
-    this.getChats()
+    // await this.getIsAdmin()
+    // this.getChats()
     // this.getChatArtist()
     // this.setProfile();
   },
