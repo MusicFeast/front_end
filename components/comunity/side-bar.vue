@@ -178,16 +178,79 @@ export default {
             }
 
             await this.$fire.firestore
-              .collection('ARTISTS')
+              .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .set({ id_collection: e.id_collection, artist: e.name })
 
             await this.$fire.firestore
-              .collection('ARTISTS')
+              .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
               .doc('table-talk')
               .set({ chat: 'Table Talk', order: 1 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('free-samples')
+              .set({ chat: 'Free Samples', order: 2 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('appetizer')
+              .set({ chat: 'Appetizer', order: 3 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('soup')
+              .set({ chat: 'Soup', order: 4 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('salad')
+              .set({ chat: 'Salad', order: 5 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('main-course')
+              .set({ chat: 'Main Course', order: 6 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('dessert')
+              .set({ chat: 'Dessert', order: 7 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('suggestions')
+              .set({ chat: 'Suggestions', order: 8 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('in-the-kitchen')
+              .set({ chat: 'In the Kitchen', order: 9 })
+
+            await this.$fire.firestore
+              .collection(process.env.CHAT_FIREBASE)
+              .doc(String(e.id_collection))
+              .collection('CHATS')
+              .doc('stay-connected')
+              .set({ chat: 'Stay Connected', order: 10 })
 
             const artistId = this.$route.query.artist
             if (
@@ -253,39 +316,57 @@ export default {
         })
     },
     getArtists2() {
-      this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
-        this.avatarIds = []
-        const postData = []
-        snapshot.forEach(async (doc) => {
-          const item = {
-            ...doc.data(),
-            id: doc.id,
-            img: this.imgDefault,
-            active: false,
-          }
-          const artistId = this.$route.query.artist
-          if (
-            this.isAdmin &&
-            (item.id_collection || item.id_collection === 0) &&
-            this.$ramper.getAccountId()
-          ) {
-            if (Number(item.id_collection) === 0) {
-              item.img =
-                'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
-              item.active = true
-              this.$store.state.artistSelect = item
-            } else {
-              item.img = await this.getAvatar(item.id_collection)
+      this.$fire.firestore
+        .collection(process.env.CHAT_FIREBASE)
+        .onSnapshot((snapshot) => {
+          this.avatarIds = []
+          const postData = []
+          snapshot.forEach(async (doc) => {
+            const item = {
+              ...doc.data(),
+              id: doc.id,
+              img: this.imgDefault,
+              active: false,
             }
-            postData.push(item)
-          } else if (
-            artistId &&
-            (item.id_collection || item.id_collection === 0)
-          ) {
+            const artistId = this.$route.query.artist
             if (
-              (String(item.id_collection) === String(artistId) &&
-                (await this.validateTierFn(item.id_collection, '1', '1'))) ||
-              (item.id_collection === 0 && this.$ramper.getAccountId())
+              this.isAdmin &&
+              (item.id_collection || item.id_collection === 0) &&
+              this.$ramper.getAccountId()
+            ) {
+              if (Number(item.id_collection) === 0) {
+                item.img =
+                  'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
+                item.active = true
+                this.$store.state.artistSelect = item
+              } else {
+                item.img = await this.getAvatar(item.id_collection)
+              }
+              postData.push(item)
+            } else if (
+              artistId &&
+              (item.id_collection || item.id_collection === 0)
+            ) {
+              if (
+                (String(item.id_collection) === String(artistId) &&
+                  (await this.validateTierFn(item.id_collection, '1', '1'))) ||
+                (item.id_collection === 0 && this.$ramper.getAccountId())
+              ) {
+                if (Number(item.id_collection) === 0) {
+                  item.img =
+                    'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
+                  item.active = true
+                  this.$store.state.artistSelect = item
+                } else {
+                  item.img = await this.getAvatar(item.id_collection)
+                }
+                postData.push(item)
+              }
+            } else if (
+              (await this.validateTierFn(item.id_collection, '1', '1')) ||
+              (item.id_collection === 0 &&
+                (item.id_collection || item.id_collection === 0) &&
+                this.$ramper.getAccountId())
             ) {
               if (Number(item.id_collection) === 0) {
                 item.img =
@@ -297,33 +378,17 @@ export default {
               }
               postData.push(item)
             }
-          } else if (
-            (await this.validateTierFn(item.id_collection, '1', '1')) ||
-            (item.id_collection === 0 &&
-              (item.id_collection || item.id_collection === 0) &&
-              this.$ramper.getAccountId())
-          ) {
-            if (Number(item.id_collection) === 0) {
-              item.img =
-                'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
-              item.active = true
-              this.$store.state.artistSelect = item
-            } else {
-              item.img = await this.getAvatar(item.id_collection)
-            }
-            postData.push(item)
-          }
-        })
+          })
 
-        console.log('POST DATA', postData)
-        this.dataArtists = postData.sort((p1, p2) =>
-          p1.id_collection < p2.id_collection
-            ? 1
-            : p1.id_collection > p2.id_collection
-            ? -1
-            : 0
-        )
-      })
+          console.log('POST DATA', postData)
+          this.dataArtists = postData.sort((p1, p2) =>
+            p1.id_collection < p2.id_collection
+              ? 1
+              : p1.id_collection > p2.id_collection
+              ? -1
+              : 0
+          )
+        })
     },
   },
 }

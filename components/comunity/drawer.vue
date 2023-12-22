@@ -157,7 +157,7 @@ export default {
     },
     getChats(itemAux) {
       this.$fire.firestore
-        .collection('ARTISTS')
+        .collection(process.env.CHAT_FIREBASE)
         .doc(String(itemAux.id_collection))
         .collection('CHATS')
         .onSnapshot((snapshot) => {

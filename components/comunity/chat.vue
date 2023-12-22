@@ -128,7 +128,7 @@ export default {
         }
 
         this.$fire.firestore
-          .collection('ARTISTS')
+          .collection(process.env.CHAT_FIREBASE)
           .doc(this.artistSelect?.id)
           .collection('CHATS')
           .doc(this.chatSelect.id)
@@ -144,7 +144,7 @@ export default {
     getMessages(item) {
       this.chatSelect = item
       this.$fire.firestore
-        .collection('ARTISTS')
+        .collection(process.env.CHAT_FIREBASE)
         .doc(this.artistSelect?.id)
         .collection('CHATS')
         .doc(item.id)

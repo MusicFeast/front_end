@@ -566,11 +566,10 @@ export default {
     // .then((docRef) => {
     // })
 
-
     // const refCollection = this.$fire.firestore.collection("ARTISTS").doc("CLASSIQ").collection("appetizer")
 
     // this.$fire.firestore
-    //   .collection('ARTISTS')
+    //   .collection(process.env.CHAT_FIREBASE)
     //   .get()
     //   .then((querySnapShot) => {
     //     querySnapShot.forEach((doc) => {
@@ -616,10 +615,14 @@ export default {
   },
   methods: {
     getChatArtist() {
-      this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
-        const postData = []
-        snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }))
-      })
+      this.$fire.firestore
+        .collection(process.env.CHAT_FIREBASE)
+        .onSnapshot((snapshot) => {
+          const postData = []
+          snapshot.forEach((doc) =>
+            postData.push({ ...doc.data(), id: doc.id })
+          )
+        })
     },
     async getChats2() {
       const accountId = this.$ramper.getAccountId()
@@ -707,25 +710,27 @@ export default {
       }
     },
     getChats() {
-      this.$fire.firestore.collection('ARTISTS').onSnapshot((snapshot) => {
-        snapshot.forEach(async (doc) => {
-          const item = { ...doc.data(), id: doc.id }
-          if (
-            this.isAdmin &&
-            (item.id_collection || item.id_collection === 0) &&
-            this.$ramper.getAccountId()
-          ) {
-            this.dataProfits.chats = Number(this.dataProfits.chats) + 1
-          } else if (
-            (await this.validateTierFn(item.id_collection, '1', '1')) ||
-            (item.id_collection === 0 &&
+      this.$fire.firestore
+        .collection(process.env.CHAT_FIREBASE)
+        .onSnapshot((snapshot) => {
+          snapshot.forEach(async (doc) => {
+            const item = { ...doc.data(), id: doc.id }
+            if (
+              this.isAdmin &&
               (item.id_collection || item.id_collection === 0) &&
-              this.$ramper.getAccountId())
-          ) {
-            this.dataProfits.chats = Number(this.dataProfits.chats) + 1
-          }
+              this.$ramper.getAccountId()
+            ) {
+              this.dataProfits.chats = Number(this.dataProfits.chats) + 1
+            } else if (
+              (await this.validateTierFn(item.id_collection, '1', '1')) ||
+              (item.id_collection === 0 &&
+                (item.id_collection || item.id_collection === 0) &&
+                this.$ramper.getAccountId())
+            ) {
+              this.dataProfits.chats = Number(this.dataProfits.chats) + 1
+            }
+          })
         })
-      })
     },
     toLink() {
       window.open('https://discord.gg/9KB3gjJkWJ')
@@ -1080,7 +1085,6 @@ export default {
         })
         .subscribe(async (res) => {
           const data = res.data.nfts
-
 
           this.dataNfts = []
 
