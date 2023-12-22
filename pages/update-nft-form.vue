@@ -68,14 +68,22 @@
       </v-row>
 
       <section class="card" style="margin-top: 40px">
-        <label for="nft-name">Description</label>
-        <v-text-field
+        <label for="description">Description</label>
+        <vue-editor
           id="description"
           v-model="tokenItem.description"
           :disabled="showItem"
           :rules="rules.required"
           placeholder="Lorem Ipsum"
-        ></v-text-field>
+          @input="hasBeenTouched = true"
+        ></vue-editor>
+        <span
+          v-if="!tokenItem.description && hasBeenTouched"
+          class="mt-2"
+          style="color: #DD2C00 !important; display: block; font-size: 13.5px;"
+        >field required</span>
+
+        <div class="my-2" />
 
         <label for="nft-name">Price (USD)</label>
         <v-text-field
@@ -320,6 +328,7 @@
 
 <script>
 import gql from 'graphql-tag'
+import { VueEditor } from 'vue2-editor'
 import computeds from '~/mixins/computeds'
 
 //   import styles from '~/mixins/styles'
@@ -327,9 +336,13 @@ import computeds from '~/mixins/computeds'
 export default {
   name: 'FormPage',
   // mixins: [computeds, styles],
+  components: {
+    VueEditor,
+  },
   mixins: [computeds],
   data() {
     return {
+      hasBeenTouched: false,
       dataRoyalties: [],
       dataSplit: [{ account: '', percentage: null }],
       imageNft: undefined,
