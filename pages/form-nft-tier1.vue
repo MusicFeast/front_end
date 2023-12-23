@@ -1119,13 +1119,13 @@ export default {
       artistAboutValue: 'artist-about',
       rulesRoyal: [
         (v) => !!v || 'required',
-        (v) => !!Number(v) || 'Number is required',
+        (v) => Number.isInteger(Number(v)) || 'Integer is required',
         (v) => v >= 1 || 'required',
         (v) => v <= 10 || 'Royalties available: 10%',
       ],
       rulesSplit: [
         (v) => !!v || 'required',
-        (v) => !!Number(v) || 'Number is required',
+        (v) => Number.isInteger(Number(v)) || 'Integer is required',
         (v) => v >= 1 || 'required',
         (v) => v <= 70 || 'Royalties available: 70%',
       ],
