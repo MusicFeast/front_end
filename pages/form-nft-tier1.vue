@@ -617,9 +617,13 @@
         <section class="card" style="margin-top: 40px">
           <v-form ref="form">
             <a href="/quick-tip-help-form#3" target="_blank">
-              <v-badge class="mb-5" offset-x="-5px" @click="dialogHelpSplit = true">
+              <v-badge
+                class="mb-5"
+                offset-x="-5px"
+                @click="dialogHelpSplit = true"
+              >
                 <template #badge>
-                  <v-icon color="var(--primary)"  style="font-size: 25px"
+                  <v-icon color="var(--primary)" style="font-size: 25px"
                     >mdi-help-circle-outline</v-icon
                   >
                 </template>
@@ -692,7 +696,7 @@
                 <v-text-field
                   id="near-account"
                   v-model="item.account"
-                  :disabled="showItem"
+                  :disabled="i == 0 ? true : showItem"
                   :error="item.error"
                   :error-messages="item.errorMessage"
                   @input="inputAccount(item)"
@@ -713,6 +717,7 @@
               </v-col>
               <v-col style="align-self: center !important">
                 <v-icon
+                  v-if="i != 0"
                   color="var(--primary)"
                   class="mr-2"
                   :disabled="showItem"
@@ -813,7 +818,7 @@
         </div>
       </template>
     </section> -->
-<!-- 
+    <!-- 
     <template v-if="selectedTier === 'Tier 3' || selectedTier === 'Tier 4'">
       <h2 class="Title tup lines">Physical Merchandise</h2>
 
@@ -981,7 +986,9 @@ export default {
 
       dialogHelpSplit: false,
 
-      dataRoyalties: [],
+      dataRoyalties: [
+        { account: this.$ramper.getAccountId(), percentage: null },
+      ],
       dataSplit: [{ account: this.$ramper.getAccountId(), percentage: null }],
       imageNft: undefined,
       selectedImageNft: '',
@@ -1145,7 +1152,6 @@ export default {
 
     // this.formArtistItem = await this.getFormArtistMain()
 
-
     // if (this.formArtistItem) {
     //   this.created = true
     // } else {
@@ -1153,7 +1159,6 @@ export default {
     // }
 
     this.inputName()
-
   },
   methods: {
     async getDataPerfil() {
@@ -1254,7 +1259,6 @@ export default {
     },
     async inputAccount(item) {
       const validate = await this.validateNear(item.account)
-
 
       if (validate) {
         item.error = false
@@ -1878,7 +1882,6 @@ export default {
                 } else if (tier.status === 3) {
                   dataItem.statusText = 'Pending'
                 }
-
 
                 data.push(dataItem)
               }
