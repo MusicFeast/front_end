@@ -986,10 +986,8 @@ export default {
 
       dialogHelpSplit: false,
 
-      dataRoyalties: [
-        { account: this.$ramper.getAccountId(), percentage: null },
-      ],
-      dataSplit: [{ account: this.$ramper.getAccountId(), percentage: null }],
+      dataRoyalties: [{ account: this.$ramper.getAccountId(), percentage: 10 }],
+      dataSplit: [{ account: this.$ramper.getAccountId(), percentage: 70 }],
       imageNft: undefined,
       selectedImageNft: '',
 
@@ -1148,6 +1146,8 @@ export default {
     this.isAdmin = await this.getIsAdmin()
 
     this.getDataPerfil()
+    this.inputPercentRoyalties()
+    this.inputPercentSplit()
     // this.getDataArtist()
 
     // this.formArtistItem = await this.getFormArtistMain()
