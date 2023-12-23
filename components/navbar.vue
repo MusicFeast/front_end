@@ -23,7 +23,6 @@
           v-for="(item, i) in dataNavbar"
           :key="i"
           class="tup"
-          :class="{ showmobile: item.name === 'dashboard / add track' }"
           @click="goTo(item.to)"
           >{{ item.name }}</a
         >
@@ -201,7 +200,7 @@ export default {
       dataNavbar: [
         { name: 'home', to: '/' },
         // { name: 'events', to: '/events' },
-        { name: 'contest', to: '/contest' },
+        // { name: 'contest', to: '/contest' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },
         // { name: 'artist submission', to: '/form-mf' },
@@ -210,7 +209,7 @@ export default {
         { name: 'contact', to: '/contact' },
         // { name: 'Drops', to: '/drops' },
         { name: 'chat', to: '/chat' },
-        { name: 'dashboard / add track', to: '/edit-profile' },
+        { name: 'my dashboard', to: '/edit-profile' },
       ],
     }
   },
