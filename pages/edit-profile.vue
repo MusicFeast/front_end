@@ -1176,7 +1176,7 @@
     <v-dialog
       v-model="dialogNewCollection"
       max-width="500px"
-      content-class="nft-dialog"
+      content-class="nft-dialog nft-dialog-profile"
       persistent
     >
       <v-btn icon class="close" @click="dialogNewCollection = false">
@@ -1207,7 +1207,7 @@
     <v-dialog
       v-model="dialogEditTier"
       max-width="500px"
-      content-class="nft-dialog"
+      content-class="nft-dialog nft-dialog-profile"
       persistent
     >
       <v-btn icon class="close" @click="dialogEditTier = false">
@@ -1262,7 +1262,7 @@
     <v-dialog
       v-model="dialogSelectYourNft"
       max-width="500px"
-      content-class="nft-dialog"
+      content-class="nft-dialog nft-dialog-profile"
       persistent
     >
       <v-btn icon class="close" @click="dialogSelectYourNft = false">
