@@ -1137,7 +1137,7 @@ export default {
         (v) => v >= 1 || 'required',
         (v) => v <= 70 || 'Royalties available: 70%',
       ],
-      overlay: true,
+      overlay: false,
     }
   },
   watch: {
