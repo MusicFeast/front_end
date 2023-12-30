@@ -18,7 +18,7 @@
         <!-- <h2 class="center" style="--fs: 1.6em">What do you want to do?</h2> -->
 
         <div class="card center divcol card-background-padding">
-          <h4 class="tcenter">Login</h4>
+          <h4 class="center" style="--fs: 1.6em">Login</h4>
           <v-btn class="btn" @click="$parent.$parent.$parent.$parent.$refs.connect.modalConnect = true, dialogNewCollection = false">Login</v-btn>
         </div>
 
