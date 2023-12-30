@@ -335,7 +335,15 @@ export default {
       }
     },
     goTo(to) {
-      this.$router.push(this.localePath(to))
+      if (to === '/edit-profile') {
+        if (this.$ramper.getAccountId()) {
+          this.$router.push(this.localePath(to))
+        } else {
+          this.$parent.$parent.$refs.connect.modalConnect = true
+        }
+      } else {
+        this.$router.push(this.localePath(to))
+      }
       if (to === '/news-details') {
         localStorage.setItem('validator-news', 'navbar')
       }

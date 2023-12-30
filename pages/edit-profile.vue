@@ -133,7 +133,15 @@
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
           <h4>Add Track</h4>
-          <v-btn class="btn" @click="dialogNewCollection = true">Start</v-btn>
+          <v-btn
+            class="btn"
+            :disabled="disabledStart"
+            @click="dialogNewCollection = true"
+            >Start</v-btn
+          >
+          <span v-if="disabledStart" style="color: red" color="red"
+            >Add profile pictures first</span
+          >
         </v-card>
       </v-col>
       <!-- 
@@ -442,7 +450,10 @@
     </template>
 
     <template v-if="dataCollections.length > 0">
-      <h2 class="Title fwrap mb-10" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
+      <h2
+        class="Title fwrap mb-10"
+        style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)"
+      >
         <span class="tup" style="--fb: max-content">lastest collections</span>
 
         <!-- <Filters
@@ -457,7 +468,8 @@
 
       <section class="container-collections">
         <v-slide-group
-          v-for="(element, e) in dataCollections_pagination" :key="e"
+          v-for="(element, e) in dataCollections_pagination"
+          :key="e"
           v-model="slider"
           mandatory
           show-arrows
@@ -479,7 +491,9 @@
                 v-if="!item.state"
                 :key="i"
                 class="card divcol custome"
-                @click="$store.dispatch('goTo', { key: 'nft', item, event: $event })"
+                @click="
+                  $store.dispatch('goTo', { key: 'nft', item, event: $event })
+                "
               >
                 <!-- <v-img
                   :src="item.img"
@@ -600,7 +614,8 @@
                   :ripple="false"
                   class="btn activeBtn align"
                   style="--w: calc(100% - 1em)"
-                  >Go to Buy page</v-btn>
+                  >Go to Buy page</v-btn
+                >
               </div>
             </v-sheet>
           </v-slide-item>
@@ -739,7 +754,9 @@
               <template #[`item.price_near`]="{ item }">
                 <center v-if="item.price_near" class="divcol" style="gap: 5px">
                   <span>N{{ item.price_near }}</span>
-                  <span class="normal">$ {{ dollarConversion(item.price) }}</span>
+                  <span class="normal"
+                    >$ {{ dollarConversion(item.price) }}</span
+                  >
                 </center>
 
                 <center v-else class="divcol" style="gap: 5px">
@@ -844,7 +861,9 @@
               <template #[`item.price_near`]="{ item }">
                 <center v-if="item.price_near" class="divcol" style="gap: 5px">
                   <span>{{ item.price_near }} N</span>
-                  <span class="normal">$ {{ dollarConversion(item.price) }}</span>
+                  <span class="normal"
+                    >$ {{ dollarConversion(item.price) }}</span
+                  >
                 </center>
 
                 <center v-else class="divcol" style="gap: 5px">
@@ -898,7 +917,9 @@
 
             <Pagination
               :total-pages="
-                pagination_per_page_offers > 50 ? 50 : pagination_per_page_offers
+                pagination_per_page_offers > 50
+                  ? 50
+                  : pagination_per_page_offers
               "
               :current-page="currentPageOffers"
               @pagechanged="(page) => (currentPageOffers = page)"
@@ -1468,6 +1489,7 @@ export default {
           'lorem ipsum',
         ],
       },
+      disabledStart: true,
       search: '',
       filter: {
         model: '',
@@ -1518,8 +1540,9 @@ export default {
   },
   computed: {
     dataCollections_pagination() {
-      return Array.from(new Set(this.dataCollections.map(x=>x.collection)))
-        .map(y => this.dataCollections.filter(z => z.collection === y));
+      return Array.from(
+        new Set(this.dataCollections.map((x) => x.collection))
+      ).map((y) => this.dataCollections.filter((z) => z.collection === y))
     },
     pagination_per_page() {
       return Math.ceil(this.dataCollections.length / this.itemsPerPage)
@@ -1885,7 +1908,6 @@ export default {
         .subscribe(async (res) => {
           const data = res.data.nfts
 
-
           this.dataNfts = []
 
           this.dataProfits.nfts = data.length
@@ -2138,6 +2160,10 @@ export default {
               ? this.baseUrl + data.avatar
               : this.user.avatar
             this.userExist = true
+
+            if (data.banner && data.banner_mobile && data.avatar) {
+              this.disabledStart = false
+            }
 
             this.selectedImageAvatar = data.image
               ? this.baseUrl + data.image
@@ -2591,9 +2617,7 @@ export default {
           pollInterval: 3000,
         })
         .subscribe((res) => {
-
           const data = res.data.series
-
 
           this.dataCollections = []
 
@@ -2659,7 +2683,6 @@ export default {
             //     item.activate = true
             //   }
             // }
-
 
             this.dataCollections.push(item)
           }
@@ -2748,7 +2771,6 @@ export default {
         .subscribe(async (res) => {
           const data = res.data.artist
 
-
           this.collectionNow = data.collection
 
           await this.getTierOne()
@@ -2805,7 +2827,6 @@ export default {
           this.dataSliderPreview = []
           const data = res.data.series
 
-
           for (let i = 0; i < data.length; i++) {
             const item = {
               collection: data[i].collection,
@@ -2857,7 +2878,6 @@ export default {
             this.dataSliderPreview.push(item)
 
             await this.getTiers()
-
           }
         })
     },
@@ -2894,7 +2914,6 @@ export default {
         }
       `
 
-
       await clientApollo
         .watchQuery({
           query: QUERY_APOLLO,
@@ -2908,7 +2927,6 @@ export default {
           const data = res.data.series
 
           this.dataSlider = []
-
 
           for (let i = 0; i < data.length; i++) {
             const item = {
