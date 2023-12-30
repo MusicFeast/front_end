@@ -70,4 +70,25 @@
       .v-btn--active {background-color: var(--active)}
     }
   }
+
+  .nft-dialog-profile{
+    .v-card{
+      .card-background-padding{
+        background-color: rgba(0, 0, 0, .6)!important;
+        padding-block: 30px!important;
+        min-width: 100%!important;
+      
+        .btn{
+          width: 150px!important;
+          max-height: 36px!important;
+        }
+      }
+  
+      .btn{
+        width: 150px!important;
+        margin-inline: auto;
+        max-height: 36px!important;
+      }
+    }
+  }  
 }
