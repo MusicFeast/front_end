@@ -218,6 +218,7 @@
           <v-card
             v-if="!item.validate"
             class="card divcol custome"
+            :disabled="item.tier !== 1 && item.tier !== 2"
             :class="{
               active: active,
             }"
@@ -372,7 +373,7 @@
               <span>Update Tier</span>
             </v-tooltip> -->
             <a
-              v-if="!item.validate"
+              v-if="item.tier === 1 || item.tier === 2"
               @click="
                 $store.dispatch('goTo', { key: 'nft', item, event: $event })
               "
@@ -381,7 +382,7 @@
             <a v-else>More Details</a>
             <v-btn
               v-if="!item.state"
-              :disabled="item.validate"
+              :disabled="item.tier !== 1 && item.tier !== 2"
               :ripple="false"
               class="btn activeBtn align"
               style="--w: calc(100% - 1em)"
@@ -487,6 +488,7 @@
             >
               <v-card
                 v-if="!item.state"
+                :disabled="item.tier !== 1 && item.tier !== 2"
                 :key="i"
                 class="card divcol custome"
                 @click="goToForm(item)"
