@@ -1683,8 +1683,8 @@ export default {
         'image',
         'https://' + itemIpfs.cid + '.ipfs.nftstorage.link/' + itemIpfs.name
       )
-      formData.append('royalty', JSON.stringify(this.dataRoyalties))
-      formData.append('royaltyBuy', JSON.stringify(this.dataSplit))
+      formData.append('royalties', JSON.stringify(this.dataRoyalties))
+      formData.append('royalties_split', JSON.stringify(this.dataSplit))
       formData.append('audio', this.formTier.song)
 
       this.$axios
