@@ -363,6 +363,14 @@
           </v-btn>
         </v-card>
       </v-dialog>
+
+      <div class="text-center">
+        <v-overlay opacity="0.80" :value="overlay">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+          <!-- <span>hola como estas</span> -->
+          <h3>Updating tier, this may take a few minutes...</h3>
+        </v-overlay>
+      </div>
     </div>
   </v-form>
 </template>
@@ -434,6 +442,7 @@ export default {
       currentPageArtists: 1,
       itemsPerPageArtists: 10,
       dialogSuccess: false,
+      overlay: false,
       rules: {
         validate: [
           (v) => !!v || 'Field required',
@@ -901,6 +910,7 @@ export default {
       }
     },
     async updateNft() {
+      this.overlay = true
       this.btnSave = true
       if (this.$refs.form.validate()) {
         if (this.selectedImageNft) {
@@ -944,20 +954,23 @@ export default {
           formDataNft.append('video', this.tokenItem.video)
         }
 
-        formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
-        formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
+        formDataNft.append('royalty', JSON.stringify(this.dataRoyalties))
+        formDataNft.append('royaltyBuy', JSON.stringify(this.dataSplit))
 
         this.$axios
           .post(`${process.env.NODE_URL}/update-nft/`, formDataNft)
           .then((res) => {
+            this.overlay = false
             this.btnSave = false
             this.dialogSuccess = true
           })
           .catch((err) => {
+            this.overlay = false
             console.error(err)
             this.btnSave = false
           })
       } else {
+        this.overlay = false
         this.btnSave = false
       }
     },
