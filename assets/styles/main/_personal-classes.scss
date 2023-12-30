@@ -156,8 +156,8 @@
   flex-direction: row-reverse;
 }
 .divcol {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 }
 .divcol_inv {
   display: flex;
