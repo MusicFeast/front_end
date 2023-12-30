@@ -221,9 +221,7 @@
             :class="{
               active: active,
             }"
-            @click="
-              $store.dispatch('goTo', { key: 'nft', item, event: $event })
-            "
+            @click="goToForm(item)"
           >
             <!-- <v-img
               :src="item.img"
@@ -244,13 +242,13 @@
               <template #placeholder>
                 <v-skeleton-loader type="card" />
               </template>
-              <v-btn
+              <!-- <v-btn
                 :disabled="item.tier != 1 && item.tier != 2"
                 class="btn"
                 style="position: absolute !important; right: 5px; top: 5px"
                 @click="goToForm(item)"
                 >Edit this Tier</v-btn
-              >
+              > -->
             </v-img>
 
             <div class="container-content tcenter">
@@ -306,13 +304,13 @@
               <template #placeholder>
                 <v-skeleton-loader type="card" />
               </template>
-              <v-btn
+              <!-- <v-btn
                 :disabled="item.tier != 1 && item.tier != 2"
                 class="btn"
                 style="position: absolute !important; right: 5px; top: 5px"
                 @click="goToForm(item)"
                 >Edit this Tier</v-btn
-              >
+              > -->
             </v-img>
 
             <div class="container-content tcenter">
@@ -491,9 +489,7 @@
                 v-if="!item.state"
                 :key="i"
                 class="card divcol custome"
-                @click="
-                  $store.dispatch('goTo', { key: 'nft', item, event: $event })
-                "
+                @click="goToForm(item)"
               >
                 <!-- <v-img
                   :src="item.img"
@@ -514,13 +510,13 @@
                   <template #placeholder>
                     <v-skeleton-loader type="card" />
                   </template>
-                  <v-btn
+                  <!-- <v-btn
                     :disabled="item.tier != 1 && item.tier != 2"
                     class="btn"
                     style="position: absolute !important; right: 5px; top: 5px"
                     @click="goToForm(item)"
                     >Edit this Tier</v-btn
-                  >
+                  > -->
                 </v-img>
 
                 <!-- TODO put location to router or whatever logic needed here -->
