@@ -34,6 +34,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      artistId: null,
       isAdmin: false,
       imgDefault:
         'https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/01/01352-2629874737-A-digital-artstationd-dystopia-art-looking-side-way-fantasy_1.5-painting-of-Ana-de-Armas_-emma-watson_-0.8-in-street_1.5.png?fit=1408%2C896&ssl=1',
@@ -52,7 +53,12 @@ export default {
             admin: this.$ramper.getAccountId(),
           })
           .then((result) => {
-            this.isAdmin = result.data
+            if (result.data?.admin) {
+              this.isAdmin = true
+            } else {
+              this.isAdmin = false
+            }
+            this.artistId = result.data?.artist
             this.getArtists()
             // this.$store.commit("setIsAdmin", result.data);
           })
@@ -252,9 +258,9 @@ export default {
               .doc('stay-connected')
               .set({ chat: 'Stay Connected', order: 10 })
 
-            const artistId = this.$route.query.artist
+            const artistId = this.artistId
             if (
-              this.isAdmin &&
+              (this.isAdmin || artistId === item.id_collection) &&
               (item.id_collection || item.id_collection === 0) &&
               this.$ramper.getAccountId()
             ) {
@@ -267,25 +273,6 @@ export default {
                 item.img = await this.getAvatar(item.id_collection)
               }
               postData.push(item)
-            } else if (
-              artistId &&
-              (item.id_collection || item.id_collection === 0)
-            ) {
-              if (
-                (String(item.id_collection) === String(artistId) &&
-                  (await this.validateTierFn(item.id_collection, '1', '1'))) ||
-                (item.id_collection === 0 && this.$ramper.getAccountId())
-              ) {
-                if (Number(item.id_collection) === 0) {
-                  item.img =
-                    'https://nft-checkout-collection-images.s3.amazonaws.com/production/images/76/10f3fe3f-b892-4ac8-8f88-9c56bed24a29'
-                  item.active = true
-                  this.$store.state.artistSelect = item
-                } else {
-                  item.img = await this.getAvatar(item.id_collection)
-                }
-                postData.push(item)
-              }
             } else if (
               (await this.validateTierFn(item.id_collection, '1', '1')) ||
               (item.id_collection === 0 &&

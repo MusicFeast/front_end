@@ -48,7 +48,7 @@
           :ripple="false"
           @click="$router.push(localePath('/edit-profile'))"
         >
-          Profile
+          My Dashboard
         </v-btn>
 
         <v-btn
@@ -136,7 +136,7 @@ export default {
     }
     localStorage.removeItem('transaction_data')
 
-    this.$confetti.start();
+    this.$confetti.start()
     setTimeout(() => this.$confetti.stop(), 5000)
   },
   methods: {},

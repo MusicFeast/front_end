@@ -19,14 +19,14 @@
             >
 
             <v-file-input
-            ref="fileInputNft"
-            v-model="imageNft"
-            class="input-file"
-            prepend-icon="none"
-            style="display: none"
-            @change="onFileChangeNft"
+              ref="fileInputNft"
+              v-model="imageNft"
+              class="input-file"
+              prepend-icon="none"
+              style="display: none"
+              @change="onFileChangeNft"
             ></v-file-input>
-    
+
             <img
               :src="selectedImageNft || tokenItem.media"
               alt=""
@@ -80,8 +80,9 @@
         <span
           v-if="!tokenItem.description && hasBeenTouched"
           class="mt-2"
-          style="color: #DD2C00 !important; display: block; font-size: 13.5px;"
-        >field required</span>
+          style="color: #dd2c00 !important; display: block; font-size: 13.5px"
+          >field required</span
+        >
 
         <div class="my-2" />
 
@@ -138,67 +139,33 @@
         </template>
       </section>
 
-      <!-- <section class="card" style="margin-top: 40px;">
-        <v-form ref="form">
-        <v-badge
-          class="mb-5"
-          offset-x="-5px"
-          >
-          <template #badge>
-            <v-icon color="var(--primary)" style="font-size: 25px;">mdi-information-symbol</v-icon>
-          </template>
-          <span class="span-badge">Royalties</span>  <span style="margin-left: 10px; color: white">Available: ({{ royalAvaibable }}%)</span>
-        </v-badge>
+      <h2 class="Title tup lines" id="section-form-nft">Revenue</h2>
 
-        <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
-          <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-            <label for="near-account">Near Account</label>
-            <v-text-field
-              id="near-account"
-              v-model="item.account"
-              :disabled="showItem"
-              placeholder="nearaccount.testnet"
-              :rules="rules.required"
-            ></v-text-field>
-          </v-col>
-          <v-col xl="2" lg="2" md="2" sm="4" cols="4">
-            <v-text-field
-              v-model="item.percentage"
-              type="number"
-              placeholder="%"
-              @input="inputPercentRoyalties()"
-              @change="inputPercentRoyalties()"
-              :rules="rulesRoyal"
-            ></v-text-field>
-          </v-col>
-          <v-col style="align-self: center!important;">
-            <v-icon color="var(--primary)" class="mr-2" :disabled="showItem" @click="remove(i)" style="font-size: 26px;">mdi-delete</v-icon>
-          </v-col>
-
-        </v-row>
-
-        <v-row class="aend">
-          <v-btn class="btn ml-3" :disabled="showItem" @click="dataRoyalties.push({ account: '', percentage: null })" style="--fw:700; --w: 150px; --br: 0px;">Add Royalties</v-btn>
-        </v-row>
-
-        <v-badge
-          class="mb-5 mt-14"
-          offset-x="-5px"
-          >
-          <template #badge>
-            <v-icon color="var(--primary)" style="font-size: 25px;">mdi-information-symbol</v-icon>
-          </template>
-          <span class="span-badge">Split Revenue</span>  <span style="margin-left: 10px; color: white">Available: ({{ splitAvailable }}%)</span>
-        </v-badge>
-
+      <section class="card" style="margin-top: 40px">
+        <a href="/quick-tip-help-form#3" target="_blank">
+          <v-badge class="mb-5" offset-x="-5px" @click="dialogHelpSplit = true">
+            <template #badge>
+              <v-icon color="var(--primary)" style="font-size: 25px"
+                >mdi-help-circle-outline</v-icon
+              >
+            </template>
+            <span class="span-badge">Split Revenue</span>
+            <span style="margin-left: 10px; color: white"
+              >Available: ({{ splitAvailable }}%)</span
+            >
+          </v-badge>
+        </a>
         <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
           <v-col xl="9" lg="9" md="9" sm="7" cols="7">
-            <label for="near-account">Near Account</label>
+            <label for="near-account">Wallet Address</label>
             <v-text-field
               id="near-account"
               v-model="item.account"
-              :disabled="i==0? true : showItem"
+              :disabled="i == 0 ? true : showItem"
+              :error="item.error"
+              :error-messages="item.errorMessage"
               placeholder="nearaccount.testnet"
+              @input="inputAccount(item)"
               :rules="rules.required"
             ></v-text-field>
           </v-col>
@@ -213,15 +180,88 @@
               :rules="rulesSplit"
             ></v-text-field>
           </v-col>
-          <v-col style="align-self: center!important;">
-            <v-icon v-if="i!=0" color="var(--primary)" @click="remove1(i)" :disabled="showItem" class="mr-2" style="font-size: 26px;">mdi-delete</v-icon>
+          <v-col style="align-self: center !important">
+            <v-icon
+              v-if="i != 0"
+              color="var(--primary)"
+              @click="remove1(i)"
+              :disabled="showItem"
+              class="mr-2"
+              style="font-size: 26px"
+              >mdi-delete</v-icon
+            >
           </v-col>
         </v-row>
         <v-row class="aend">
-          <v-btn class="btn ml-3" :disabled="showItem" @click="dataSplit.push({ account: '', percentage: null })" style="--fw:700; --w: 150px; --br: 0px;">Add Split</v-btn>
+          <v-btn
+            class="btn ml-3"
+            :disabled="showItem"
+            @click="dataSplit.push({ account: '', percentage: null })"
+            style="--fw: 700; --w: 150px; --br: 0px"
+            >Add Collaborator</v-btn
+          >
         </v-row>
-        </v-form>
-      </section> -->
+        <a href="/quick-tip-help-form#3" target="_blank">
+          <v-badge class="mb-8 mt-10" offset-x="-5px">
+            <template #badge>
+              <v-icon color="var(--primary)" style="font-size: 25px"
+                >mdi-help-circle-outline</v-icon
+              >
+            </template>
+            <span class="span-badge">Resale Revenue</span>
+            <span style="margin-left: 10px; color: white"
+              >Available: ({{ royalAvaibable }}%)</span
+            >
+          </v-badge>
+        </a>
+        <v-row class="aend" v-for="(item, i) in dataRoyalties" :key="i">
+          <v-col xl="9" lg="9" md="9" sm="7" cols="7" class="pt-0">
+            <label for="near-account">Wallet Address</label>
+            <v-text-field
+              id="near-account"
+              v-model="item.account"
+              :disabled="i == 0 ? true : showItem"
+              :error="item.error"
+              :error-messages="item.errorMessage"
+              @input="inputAccount(item)"
+              placeholder="nearaccount.testnet"
+              :rules="rules.required"
+            ></v-text-field>
+          </v-col>
+          <v-col xl="2" lg="2" md="2" sm="4" cols="4">
+            <v-text-field
+              v-model="item.percentage"
+              type="number"
+              placeholder="%"
+              :disabled="showItem"
+              @input="inputPercentRoyalties()"
+              @change="inputPercentRoyalties()"
+              :rules="rulesRoyal"
+            ></v-text-field>
+          </v-col>
+          <v-col style="align-self: center !important">
+            <v-icon
+              v-if="i != 0"
+              color="var(--primary)"
+              class="mr-2"
+              :disabled="showItem"
+              @click="remove(i)"
+              style="font-size: 26px"
+              >mdi-delete</v-icon
+            >
+          </v-col>
+        </v-row>
+
+        <v-row class="aend">
+          <v-btn
+            class="btn ml-3"
+            :disabled="showItem"
+            @click="dataRoyalties.push({ account: '', percentage: null })"
+            style="--fw: 700; --w: 150px; --br: 0px"
+            >Add Royalties</v-btn
+          >
+        </v-row>
+      </section>
 
       <template v-if="selectedTier === 'Tier 3' || selectedTier === 'Tier 4'">
         <h2 class="Title tup lines">Physical Merchandise</h2>
@@ -289,6 +329,7 @@
       <div class="center" style="gap: 10px; margin-top: 40px">
         <v-btn
           class="btn"
+          :disabled="previewInfo"
           style="--fw: 700; --w: 150px; --br: 0px"
           :loading="btnSave"
           @click="updateNft()"
@@ -342,9 +383,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      dataRoyalties: [{ account: this.$ramper.getAccountId(), percentage: 10 }],
+      dataSplit: [{ account: this.$ramper.getAccountId(), percentage: 70 }],
       hasBeenTouched: false,
-      dataRoyalties: [],
-      dataSplit: [{ account: '', percentage: null }],
       imageNft: undefined,
       selectedImageNft: '',
 
@@ -394,6 +435,10 @@ export default {
       itemsPerPageArtists: 10,
       dialogSuccess: false,
       rules: {
+        validate: [
+          (v) => !!v || 'Field required',
+          (v) => this.validateNear(v) || 'Invalid account',
+        ],
         required: [(v) => !!v || 'Field required'],
         repeatedUsername: [
           (v) => !!v || 'Field required',
@@ -449,6 +494,7 @@ export default {
       items_tier: ['Tier 1'],
       selectedTier: null,
       isAdmin: false,
+      previewInfo: true,
       formArtistItem: null,
       disabledSave: true,
       btnSave: false,
@@ -493,14 +539,69 @@ export default {
     const urlParams = new URLSearchParams(queryString)
     const token = urlParams.get('token_id')
 
+    this.inputPercentRoyalties()
+    this.inputPercentSplit()
+
     if (token) {
       await this.getDataToken(token)
     } else {
       this.$router.push('/artists')
     }
-
   },
   methods: {
+    async inputAccount(item) {
+      const validate = await this.validateNear(item.account)
+
+      if (validate) {
+        item.error = false
+        item.errorMessage = null
+      } else {
+        item.error = true
+        item.errorMessage = 'Invalid account'
+      }
+    },
+    inputPercentRoyalties() {
+      const limitRoyal = 10
+      let total = 0
+      this.dataRoyalties.forEach((item) => {
+        total += parseInt(item.percentage) || 0
+      })
+
+      if (total === 10) {
+        this.royalAvaibable = 0
+        this.royalBool = true
+      } else {
+        this.royalAvaibable = limitRoyal - total
+        this.royalBool = false
+      }
+
+      if (this.splitBool && this.royalBool) {
+        this.previewInfo = false
+      } else {
+        this.previewInfo = true
+      }
+    },
+    inputPercentSplit() {
+      const limitSplit = 70
+      let total = 0
+      this.dataSplit.forEach((item) => {
+        total += parseInt(item.percentage) || 0
+      })
+
+      if (total === 70) {
+        this.splitAvailable = 0
+        this.splitBool = true
+      } else {
+        this.splitAvailable = limitSplit - total
+        this.splitBool = false
+      }
+
+      if (this.splitBool && this.royalBool) {
+        this.previewInfo = false
+      } else {
+        this.previewInfo = true
+      }
+    },
     OkSuccess() {
       this.dialogSuccess = false
       location.reload()
@@ -559,27 +660,22 @@ export default {
         .then(async (res) => {
           const data = res.data.serie
 
-
           if (!data) return this.$router.push('/artists')
 
           await this.getCurrentArtist(data)
         })
     },
-    inputPercentSplit() {
-      const limitSplit = 70
-      let total = 0
-      this.dataSplit.forEach((item) => {
-        total += parseInt(item.percentage) || 0
-      })
-
-      if (total === 70) {
-        this.splitAvailable = 0
-        this.splitBool = true
-      } else {
-        this.splitAvailable = limitSplit - total
-        this.splitBool = false
-      }
-      this.inputSave()
+    async validateNear(wallet) {
+      const account = await this.$near.account(wallet)
+      const res = account
+        .state()
+        .then(() => {
+          return true
+        })
+        .catch(() => {
+          return false
+        })
+      return res
     },
     showData(item) {
       this.items_tier = ['Tier 1', 'Tier 2']
@@ -848,6 +944,9 @@ export default {
           formDataNft.append('video', this.tokenItem.video)
         }
 
+        formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
+        formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
+
         this.$axios
           .post(`${process.env.NODE_URL}/update-nft/`, formDataNft)
           .then((res) => {
@@ -1083,7 +1182,6 @@ export default {
                 } else if (tier.status === 3) {
                   dataItem.statusText = 'Pending'
                 }
-
 
                 data.push(dataItem)
               }

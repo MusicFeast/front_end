@@ -929,6 +929,14 @@
       </v-card>
     </v-dialog>
 
+    <div class="text-center">
+      <v-overlay opacity="0.80" :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+        <!-- <span>hola como estas</span> -->
+        <h3>Creating collection, this may take a few minutes...</h3>
+      </v-overlay>
+    </div>
+
     <!-- Dialog Text Example -->
     <v-dialog
       v-model="dialogHelpSplit"
@@ -1042,7 +1050,7 @@ export default {
       rules: {
         validate: [
           (v) => !!v || 'Field required',
-          (v) => this.validateNear(v) || 'Wallet invalidate',
+          (v) => this.validateNear(v) || 'Invalid account',
         ],
         required: [(v) => !!v || 'Field required'],
         repeatedUsername: [
@@ -1129,7 +1137,16 @@ export default {
         (v) => v >= 1 || 'required',
         (v) => v <= 70 || 'Royalties available: 70%',
       ],
+      overlay: false,
     }
+  },
+  watch: {
+    overlay(val) {
+      val &&
+        setTimeout(() => {
+          this.overlay = false
+        }, 3000)
+    },
   },
   head() {
     const title = 'Form'
@@ -1254,7 +1271,7 @@ export default {
         this.errorMessage = ''
       } else {
         this.errorWalletArtist = true
-        this.errorMessage = 'Account invalidate'
+        this.errorMessage = 'Invalid account'
       }
     },
     async inputAccount(item) {
@@ -1265,7 +1282,7 @@ export default {
         item.errorMessage = null
       } else {
         item.error = true
-        item.errorMessage = 'Account invalidate'
+        item.errorMessage = 'Invalid account'
       }
     },
     async validateNear(wallet) {
@@ -1636,6 +1653,7 @@ export default {
       }
     },
     async saveForm() {
+      this.overlay = true
       this.btnSave = true
       this.dialogSure = false
       const formData = new FormData()
@@ -1665,13 +1683,14 @@ export default {
         'image',
         'https://' + itemIpfs.cid + '.ipfs.nftstorage.link/' + itemIpfs.name
       )
-      formData.append('royalties', JSON.stringify(this.dataRoyalties))
-      formData.append('royalties_split', JSON.stringify(this.dataSplit))
+      formData.append('royalty', JSON.stringify(this.dataRoyalties))
+      formData.append('royaltyBuy', JSON.stringify(this.dataSplit))
       formData.append('audio', this.formTier.song)
 
       this.$axios
         .post(`${this.baseUrl}api/v1/save-form/`, formData)
         .then((result) => {
+          console.log('SUCESSSSSS', result)
           this.btnSave = false
 
           localStorage.setItem(
@@ -1682,10 +1701,12 @@ export default {
               desc: 'Your process has been executed successfully.',
             })
           )
-
+          localStorage.setItem('artist', result.data.id_collection)
+          this.overlay = false
           this.$router.push(this.localePath('/redirection'))
         })
         .catch((err) => {
+          this.overlay = false
           this.btnSave = false
           this.$alert({
             title: 'ERROR',
