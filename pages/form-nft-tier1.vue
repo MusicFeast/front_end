@@ -930,10 +930,10 @@
     </v-dialog>
 
     <div class="text-center">
-      <v-overlay :value="overlay">
+      <v-overlay opacity="0.80" :value="overlay">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <!-- <span>hola como estas</span> -->
-      <h3>hola como estas</h3>
+        <h3>Creating collection, this may take a few minutes...</h3>
       </v-overlay>
     </div>
 
@@ -1137,7 +1137,7 @@ export default {
         (v) => v >= 1 || 'required',
         (v) => v <= 70 || 'Royalties available: 70%',
       ],
-      overlay: false,
+      overlay: true,
     }
   },
   watch: {
