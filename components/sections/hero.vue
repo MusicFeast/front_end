@@ -4,7 +4,7 @@
     <v-dialog
       v-model="dialogNewCollection"
       max-width="500px"
-      content-class="nft-dialog"
+      content-class="nft-dialog nft-dialog-profile"
       persistent
     >
       <v-btn icon class="close" @click="dialogNewCollection = false">
@@ -96,4 +96,3 @@ export default {
 </script>
 
 <style src="~/assets/styles/components/sections/hero.scss" lang="scss" />
-<style src="~/assets/styles/pages/profile.scss" lang="scss" />
