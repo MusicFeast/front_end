@@ -914,7 +914,7 @@ export default {
           formDataNft.append('description', this.tokenItem.description)
         }
         if (this.tokenAux.price !== this.tokenItem.price) {
-          formDataNft.append('price', this.tokenItem.price.toFixed(2))
+          formDataNft.append('price', this.tokenItem.price)
         }
         if (
           this.tokenAux.copies &&
@@ -950,124 +950,6 @@ export default {
       } else {
         this.overlay = false
         this.btnSave = false
-      }
-    },
-    async saveForm() {
-      this.btnSave = true
-      if (this.$refs.form.validate()) {
-        if (!this.formArtistItem) {
-          const cidNft = await this.uploadIpfs(this.imageNft)
-          // const cidSong = await this.uploadIpfs(this.formTier.song)
-
-          const formDataArtist = new FormData()
-          formDataArtist.append('wallet', this.$ramper.getAccountId())
-          formDataArtist.append('wallet_artist', this.formArtist.walletArtist)
-          formDataArtist.append('name', this.formArtist.name)
-          formDataArtist.append('description', this.formArtist.description)
-          formDataArtist.append('about', this.formArtist.about)
-
-          formDataArtist.append('instagram', this.formArtist.instagram || '')
-          formDataArtist.append('twitter', this.formArtist.twitter || '')
-          formDataArtist.append('facebook', this.formArtist.facebook || '')
-          formDataArtist.append('discord', this.formArtist.discord || '')
-          formDataArtist.append('image', this.imageAvatar)
-          formDataArtist.append('banner', this.imageBanner)
-          formDataArtist.append('banner_mobile', this.imageMobile)
-          this.increaseSkill(); // This will increase the progress bar by 10% every 1 second
-
-          this.$axios
-            .post(`${this.baseUrl}api/v1/artist-proposal/`, formDataArtist)
-            .then((result) => {
-              const formDataNft = new FormData()
-              formDataNft.append('artist_proposal', result.data.id)
-              formDataNft.append(
-                'tierNumber',
-                Number(this.selectedTier.replace('Tier ', ''))
-              )
-              formDataNft.append('nft_name', this.formTier.nft_name)
-              formDataNft.append('description', this.formTier.description)
-              formDataNft.append('price', this.formTier.price)
-              formDataNft.append(
-                'image',
-                'https://' + cidNft + '.ipfs.nftstorage.link'
-              )
-              formDataNft.append('copies', this.formTier.copies)
-              formDataNft.append(
-                'royalties',
-                JSON.stringify(this.dataRoyalties)
-              )
-              formDataNft.append(
-                'royalties_split',
-                JSON.stringify(this.dataSplit)
-              )
-
-              if (this.selectedTier === 'Tier 2') {
-                formDataNft.append('video', this.formTier.media)
-              } else if (this.selectedTier === 'Tier 1') {
-                formDataNft.append('audio', this.formTier.song)
-              }
-
-              this.$axios
-                .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
-                .then(async () => {
-                  this.formArtistItem = await this.getFormArtist()
-                  this.getArtistProposals()
-                  this.dialogSuccess = true
-                  this.btnSave = false
-                  this.skill = 0
-                })
-                .catch((err) => {
-                  this.btnSave = false
-                  this.skill = 0
-                  console.error(err)
-                })
-            })
-            .catch((err) => {
-              this.btnSave = false
-              console.error(err)
-            })
-        } else {
-          const cidNft = await this.uploadIpfs(this.imageNft)
-          // let cidMedia
-          // if (this.selectedTier === "Tier 2") {
-          //   cidMedia = await this.uploadIpfs(this.formTier.song)
-          // }
-
-          const formDataNft = new FormData()
-          formDataNft.append('artist_proposal', this.formArtistItem.id)
-          formDataNft.append(
-            'tierNumber',
-            Number(this.selectedTier.replace('Tier ', ''))
-          )
-          formDataNft.append('nft_name', this.formTier.nft_name)
-          formDataNft.append('description', this.formTier.description)
-          formDataNft.append('price', this.formTier.price)
-          formDataNft.append(
-            'image',
-            'https://' + cidNft + '.ipfs.nftstorage.link'
-          )
-          formDataNft.append('copies', this.formTier.copies)
-          formDataNft.append('royalties', JSON.stringify(this.dataRoyalties))
-          formDataNft.append('royalties_split', JSON.stringify(this.dataSplit))
-
-          if (this.selectedTier === 'Tier 2') {
-            formDataNft.append('video', this.formTier.media)
-          } else if (this.selectedTier === 'Tier 1') {
-            formDataNft.append('audio', this.formTier.song)
-          }
-
-          this.$axios
-            .post(`${this.baseUrl}api/v1/tier-proposal/`, formDataNft)
-            .then(() => {
-              this.dialogSuccess = true
-              this.btnSave = false
-              this.getArtistProposals()
-            })
-            .catch((err) => {
-              this.btnSave = false
-              console.error(err)
-            })
-        }
       }
     },
     async getIsAdmin() {
