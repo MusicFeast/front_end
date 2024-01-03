@@ -65,7 +65,7 @@
     <v-expansion-panels id="artist-about" class="custome-expansion">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
-          >Nutritional Facts</v-expansion-panel-header
+          >Artist Bio</v-expansion-panel-header
         >
 
         <v-expansion-panel-content>
@@ -140,7 +140,7 @@
 
                 <div class="center" style="gap: 6.4px">
                   <span class="floor" style="--c: var(--accent)"
-                    >Price: $ {{ Number(item.price)?.toFixed(2) }}</span
+                    >Price: $ {{ Number(item.price).toFixed(2) }}</span
                   >
                   <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
                 </div>
@@ -204,7 +204,7 @@
 
                 <div class="center" style="gap: 6.4px">
                   <span class="floor" style="--c: var(--accent)"
-                    >Price: {{ item.price }} $</span
+                    >Price: $ {{ Number(item.price).toFixed(2) }}</span
                   >
                   <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:0.9375em"> -->
                 </div>
@@ -378,7 +378,7 @@
 
               <div class="center bold" style="gap: 6.4px">
                 <span class="floor" style="--c: var(--accent)"
-                  >Price: {{ item.price }} $</span
+                  >Price: $ {{ Number(item.price).toFixed(2) }}</span
                 >
                 <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
               </div>
@@ -446,7 +446,7 @@
 
               <div class="center bold" style="gap: 6.4px">
                 <span class="floor" style="--c: var(--accent)"
-                  >Price: {{ item.price }} $</span
+                  >Price: $ {{ Number(item.price).toFixed(2) }}</span
                 >
                 <!-- <img src="@/assets/sources/logos/near-orange.svg" alt="near" style="--w:15px"> -->
               </div>

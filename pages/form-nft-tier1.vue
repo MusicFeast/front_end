@@ -241,13 +241,14 @@
 
         <v-col xl="9" lg="9" md="9" sm="8" cols="12">
           <section class="card">
-            <label for="nft-name">Description</label>
-            <v-text-field
-              id="description"
-              v-model="formTier.description"
-              disabled
-              placeholder="Tier 1 description"
-            ></v-text-field>
+            <label for="nft-name">Song Description</label>
+            <vue-editor
+                id="description"
+                v-model="formTier.description"
+                disabled
+                class="mt-4 mb-4"
+                @input="validateForm()"
+            ></vue-editor>
 
             <label for="nft-name">Price (USD)</label>
             <v-text-field
@@ -255,6 +256,7 @@
               v-model="formTier.price"
               disabled
               type="number"
+              :rules="rules.requiredPositiveFloat"
               placeholder="Price"
             ></v-text-field>
 
@@ -268,8 +270,8 @@
             >
             <v-file-input
               id="song"
-              truncate-length="100"
               v-model="formTier.song"
+              truncate-length="3500"
               disabled
               accept="audio/*"
               placeholder="Only .WAV, .MP3 or .MP4 files"
@@ -402,7 +404,7 @@
           <v-text-field
             id="name-artist"
             v-model="formArtist.username"
-            placeholder="Lorem Ipsum"
+            placeholder="Artist name"
             @input="
               inputSave()
               inputName()
@@ -599,12 +601,14 @@
                     ></v-text-field> -->
               <v-file-input
                 id="song"
-                truncate-length="100"
                 v-model="formTier.song"
                 :disabled="showItem"
+                counter
+                truncate-length="3500"
+                show-size
                 accept="audio/*"
                 placeholder="Only Accept Wav, AIFF or FLAC files"
-                @change="validateForm()"
+                @change="validateForm"
               ></v-file-input>
             </section>
           </v-col>
@@ -931,9 +935,9 @@
 
     <div class="text-center">
       <v-overlay opacity="0.80" :value="overlay">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
+        <v-progress-linear v-model="knowledge" color="#ee3a3a" height="25"><strong>{{ Math.ceil(knowledge) }}%</strong></v-progress-linear>
         <!-- <span>hola como estas</span> -->
-        <h3>Creating collection, this may take a few minutes...</h3>
+        <h3 class="mt-5">Creating collection, this may take a few minutes...</h3>
       </v-overlay>
     </div>
 
@@ -1131,6 +1135,12 @@ export default {
         (v) => v >= 1 || 'required',
         (v) => v <= 10 || 'Royalties available: 10%',
       ],
+      requiredPositiveFloat: [
+        (v) => !!v || 'Field required',
+        (v) =>
+          (!isNaN(parseFloat(v)) && Number(v) > 0) ||
+          'Must be a positive value'
+      ],
       rulesSplit: [
         (v) => !!v || 'required',
         (v) => Number.isInteger(Number(v)) || 'Integer is required',
@@ -1138,6 +1148,7 @@ export default {
         (v) => v <= 70 || 'Royalties available: 70%',
       ],
       overlay: false,
+      knowledge: 10,
     }
   },
   // watch: {
@@ -1303,7 +1314,7 @@ export default {
     },
     OkSuccess() {
       this.dialogSuccess = false
-      location.reload()
+      this.$router.push({ path: '/edit-profile' })
     },
     responseProposal(status) {
       this.disabledApprove = true
@@ -1416,6 +1427,15 @@ export default {
       } else if (item.tier === 'Tier 2') {
         this.formTier.media = item.tierItem.media
       }
+    },
+    increaseSkill() {
+      const intervalId = setInterval(() => {
+        if (this.knowledge < 100) {
+          this.knowledge += 1;
+        } else {
+          clearInterval(intervalId); // stop the interval when skill reaches 100
+        }
+      }, 400); // adjust the time as needed
     },
     //       {
     //     "tier": "Tier 1",
@@ -1686,6 +1706,7 @@ export default {
       formData.append('royalties', JSON.stringify(this.dataRoyalties))
       formData.append('royalties_split', JSON.stringify(this.dataSplit))
       formData.append('audio', this.formTier.song)
+      this.increaseSkill(); // This will increase the progress bar by 10% every 1 second
 
       this.$axios
         .post(`${this.baseUrl}api/v1/save-form/`, formData)
@@ -1703,10 +1724,12 @@ export default {
           )
           localStorage.setItem('artist', result.data.id_collection)
           this.overlay = false
+          this.skill = 0
           this.$router.push(this.localePath('/redirection'))
         })
         .catch((err) => {
           this.overlay = false
+          this.skill = 0
           this.btnSave = false
           this.$alert({
             title: 'ERROR',

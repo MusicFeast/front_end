@@ -9,6 +9,7 @@
 
     <v-img :src="user.banner" transition="fade-transition" class="header">
       <template #default>
+        <h4 v-if="disabledStart" class="Title" style="margin-bottom: -80px;" >Profile and Banner pictures must be added to continue.</h4>
         <v-avatar
           width="var(--size)"
           height="var(--size)"
@@ -79,26 +80,6 @@
 
       <v-col xl="4" lg="4" md="4" cols="12">
         <v-card class="card center divcol card-background-padding">
-          <h4>Set Banner Mobile</h4>
-
-          <v-img
-            class="bannerMobile"
-            :class="{ active: imgBannerMobile }"
-            :src="imgBannerMobile"
-            transition="fade-transition"
-            @click="selectPreview('bannerMobile')"
-          >
-            <template #placeholder>
-              <v-sheet class="placeholder">
-                <span>135.5 x 271 pixels <br />.jpg or .png</span>
-              </v-sheet>
-            </template>
-          </v-img>
-        </v-card>
-      </v-col>
-
-      <v-col xl="4" lg="4" md="4" cols="12">
-        <v-card class="card center divcol card-background-padding">
           <h4>Set Profile Picture</h4>
 
           <v-avatar
@@ -120,6 +101,26 @@
           </v-avatar>
         </v-card>
       </v-col>
+
+      <v-col xl="4" lg="4" md="4" cols="12">
+        <v-card class="card center divcol card-background-padding">
+          <h4>Set Banner Mobile</h4>
+
+          <v-img
+            class="bannerMobile"
+            :class="{ active: imgBannerMobile }"
+            :src="imgBannerMobile"
+            transition="fade-transition"
+            @click="selectPreview('bannerMobile')"
+          >
+            <template #placeholder>
+              <v-sheet class="placeholder">
+                <span>135.5 x 271 pixels <br />.jpg or .png</span>
+              </v-sheet>
+            </template>
+          </v-img>
+        </v-card>
+      </v-col>
     </v-row>
 
     <v-row class="mt-6" justify="center">
@@ -139,8 +140,8 @@
             @click="dialogNewCollection = true"
             >Start</v-btn
           >
-          <span v-if="disabledStart" style="color: red" color="red"
-            >Add profile pictures first</span
+          <span v-if="disabledStart" style="color: red" color="red" class="mt-2"
+            >The profile picture is rquired</span
           >
         </v-card>
       </v-col>
@@ -180,7 +181,7 @@
     <v-expansion-panels id="artist-about" class="custome-expansion">
       <v-expansion-panel>
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
-          >Nutritional Facts</v-expansion-panel-header
+          >Artist Bio</v-expansion-panel-header
         >
 
         <v-expansion-panel-content>
@@ -196,6 +197,7 @@
       @click="$router.push('form-nft')"
       >Add New Collection</v-btn
     > -->
+    <h4>Create The Next Tier In Your Collection (Click The Placeholder To The Right To Create The Next Tier)</h4>
 
     <v-slide-group
       id="custome-slider"
@@ -622,7 +624,7 @@
     </template>
 
     <template v-if="dataNfts.length > 0">
-      <h2 class="Title tup">my nfts</h2>
+      <h2 class="Title tup">my collections</h2>
 
       <section
         class="container-profit bold fwrap align"
@@ -634,7 +636,7 @@
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>Chats Enabled</span>
-          <span>{{ dataProfits.chats }}</span>
+          <span style="cursor:pointer" @click="$router.push('/chat')">{{ dataProfits.chats }}</span>
         </v-sheet>
         <v-sheet color="transparent" class="divcol center">
           <span>All Time High</span>
@@ -1443,7 +1445,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 6,
       currentPageNft: 1,
-      itemsPerPageNft: 10,
+      itemsPerPageNft: 12,
       dataSlider: [
         // {
         //   img: require('~/assets/sources/images/img-listed-1.jpg'),
@@ -1527,6 +1529,8 @@ export default {
         events: null,
         collections: null,
         high: null,
+        chats: null,
+        artist_id: null,
       },
     }
   },
@@ -1909,7 +1913,12 @@ export default {
           this.dataNfts = []
 
           this.dataProfits.nfts = data.length
+          // chats enable
+          const artistIds = data.map(item => item.artist_id);
+          const uniqueArtistIds = [...new Set(artistIds)];
+          this.dataProfits.chats = uniqueArtistIds.length
 
+          // console.log(data)
           const arrayIds = []
 
           let maxPrice = 0
@@ -2773,7 +2782,7 @@ export default {
 
           await this.getTierOne()
 
-          this.dataProfits.nfts = data.total_nft
+          // this.dataProfits.nfts = data.total_nft
           this.dataProfits.collections = data.collection
 
           await this.getDataNfts()

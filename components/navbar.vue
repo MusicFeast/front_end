@@ -60,7 +60,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              <span class="tlow">{{ user.username || account }}</span>
+            <span class="tlow">{{ user.username ? user.username : (account_navbar.length > 20 ? account_navbar.slice(0, 20) + '...' : account_navbar) }}</span>
               <v-icon size="2em">mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -186,6 +186,7 @@ export default {
       isAdmin: false,
       balanceNear: 0,
       account: null,
+      account_navbar: null,
       menuProfile: false,
       dataMenuProfile: [
         {
@@ -211,6 +212,12 @@ export default {
         { name: 'chat', to: '/chat' },
         { name: 'my dashboard', to: '/edit-profile' },
       ],
+    }
+  },
+  beforeMount() {
+    const act = this.$ramper.getAccountId()  
+    if (act) {
+      this.account_navbar = act;
     }
   },
   async mounted() {
@@ -254,12 +261,6 @@ export default {
     //   hash: "asd1223asd1asd"
     // }))
     // this.$router.push(this.localePath('/redirection'))
-    const act = this.$ramper.getAccountId()
-
-    if (act) {
-      this.account = act.substring(0, 20) + '...'
-    }
-
     this.getBalance()
 
     const navbar = document.querySelector('#navbar')

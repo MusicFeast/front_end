@@ -3,24 +3,6 @@
     <ModalsNftDetails ref="modal"></ModalsNftDetails>
 
     <section class="header grid">
-      <!-- <v-img :src="nft_main.img" class="header-background" transition="fade-transition">
-        <template #default>
-          <div class="center gap1 alignl">
-            <v-avatar style="border: 2px solid #fff">
-              <v-img :src="nft_main.avatar" alt="artist image" transition="fade-transition">
-                <template #placeholder>
-                  <v-skeleton-loader type="avatar" />
-                </template>
-              </v-img>
-            </v-avatar>
-            <span class="h9_em">{{nft.artist}}</span>
-          </div>
-        </template>
-        <template #placeholder>
-          <v-skeleton-loader type="card" />
-        </template>
-      </v-img> -->
-
       <v-sheet class="header-background--wrapper" color="transparent">
         <div class="header--head start gap1">
           <button class="center" style="gap: 2px" @click="$router.go(-1)">
@@ -57,20 +39,13 @@
           transition="fade-transition"
         >
           <template #default>
-            <audio ref="track" :src="mediaUrl" type="audio/mpeg"></audio>
+            <audio ref="track"  :src="mediaUrl" type="audio/mpeg" @loadeddata="sliderTrack" ></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
           </template>
         </v-img>
 
-        <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
-        <!-- <lite-youtube
-            v-if="media == 'video'"    
-            :videoid="mediaUrl"
-            :playlabel="labelYoutube"
-            style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
-        /> -->
 
         <iframe
           v-if="media == 'video' && mediaUrl"
@@ -81,13 +56,6 @@
           allow="autoplay; fullscreen"
           allowfullscreen
         ></iframe>
-
-        <!-- if video -->
-        <!-- <video
-          v-show="media == 'video'" ref="track" :src="mediaUrl"
-          @pause="reloadButton = false; reloadButton = true"
-          @play="reloadButton = false; reloadButton = true"
-        ></video>  -->
 
         <div v-show="media == 'audio'" class="header-controls grid">
           <aside class="center" style="gap: 3em">

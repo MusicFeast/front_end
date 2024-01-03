@@ -30,7 +30,7 @@
         </div>
 
         <div class="card center divcol card-background-padding">
-          <h4 class="tcenter">My Dahsboard</h4>
+          <h4 class="tcenter">My Dashboard</h4>
           <v-btn class="btn" @click="$router.push('/edit-profile'), dialogNewCollection = false">Darboard</v-btn>
         </div>
       </v-card>

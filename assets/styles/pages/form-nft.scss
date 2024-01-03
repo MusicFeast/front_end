@@ -296,7 +296,7 @@
     .v-input {
       overflow: hidden;
       padding-top: 0;
-      * {text-transform: lowercase}
+     
       &__slot::before {
         background-color: hsl(0, 84%, 58%);
         border-color: hsl(0, 84%, 58%);

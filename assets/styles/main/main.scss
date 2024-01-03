@@ -238,6 +238,36 @@ h2.Title {
   }
 }
 
+h4.Title {
+  font-size: 3em;
+  // lines separators
+  position: relative;
+  padding-bottom: 25px;
+  padding-inline: var(--margin-separator);
+  margin-top: 1em;
+  margin-bottom: var(--h-title);
+  border: 0 solid var(--primary);
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: calc(var(--h-title));
+    
+    right: 0;
+    bottom: calc(var(--h-title) * -1);
+    border-right: 1px solid var(--primary);
+  }
+  @include media(max, 1000px) {
+    margin-bottom: calc(var(--h-title) / 2);
+    &::after {
+      bottom: calc(var(--h-title) / 2 * -1);
+      height: calc(var(--h-title) / 2);
+    }
+  }
+}
+
 // expansion panels
 .custome-expansion {
   --margin-line: 2em;
