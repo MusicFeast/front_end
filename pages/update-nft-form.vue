@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form">
     <div id="form">
-      <h2 class="Title tup lines">UPDATE TIER {{ tierTille }}</h2>
+      <h2 class="Title tup lines">UPDATE {{ tierTille }}</h2>
 
       <v-row style="margin-top: 40px">
         <v-col
@@ -515,7 +515,7 @@ export default {
 
     this.inputPercentRoyalties()
     this.inputPercentSplit()
-    this.tierTille = this.$route.query.token_id.split('|')[1];
+    this.tierTille = this.$route.query.token_id.split('|')[1] === '1' ? 'Track' : 'Video';
 
     if (token) {
       await this.getDataToken(token)
