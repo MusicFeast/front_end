@@ -370,7 +370,7 @@ export default {
         autoplay: true,
         controls: true,
         sources: [{
-          src: 'https://tier2.nyc3.cdn.digitaloceanspaces.com/' + this.mediaUrl,
+          src: process.env.MEDIA_DIGITAL + this.mediaUrl,
           type: 'video/mp4'
         }]
       }
@@ -418,7 +418,7 @@ export default {
 
     this.$nextTick(() => {
       if (this.media === 'video' && this.mediaUrl) {
-        this.options.sources[0].src = 'https://tier2.nyc3.cdn.digitaloceanspaces.com/' + this.mediaUrl
+        this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
         this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
           console.log('onPlayerReady', this)
         });
