@@ -47,7 +47,7 @@
         </v-img>
 
         <div>
-          <video v-if="media == 'video' && mediaUrl" ref="video" class="video-js"></video>
+          <video ref="video" class="video-js"></video>
         </div>
         <!-- <iframe
           v-if="media == 'video' && mediaUrl"
@@ -415,15 +415,6 @@ export default {
     }
     this.getSerie()
     this.getDataNft()
-
-    this.$nextTick(() => {
-      if (this.media === 'video' && this.mediaUrl) {
-        this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
-        this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
-          console.log('onPlayerReady', this)
-        });
-      }
-    })
   },
   methods: {
     async burnNft() {
@@ -627,6 +618,13 @@ export default {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
               this.mediaUrl = data.media
+              this.$nextTick(() => {
+                if (media === 'video' && this.mediaUrl && this.$refs.video) {
+                  this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
+                  this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
+                  })
+                }
+              })
             }
           }
         })
