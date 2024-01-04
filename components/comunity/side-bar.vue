@@ -192,71 +192,106 @@ export default {
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
-              .doc('table-talk')
-              .set({ chat: 'Table Talk', order: 1 })
+              .doc('general-chat')
+              .set({ chat: 'General Chat', order: 1 })
 
             this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
-              .doc('free-samples')
-              .set({ chat: 'Free Samples', order: 2 })
+              .doc('event-space')
+              .set({ chat: 'Event Space', order: 2 })
 
             this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
-              .doc('appetizer')
-              .set({ chat: 'Appetizer', order: 3 })
+              .doc('resale-announcements ')
+              .set({ chat: 'Resale Announcements', order: 3 })
 
             this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
-              .doc('soup')
-              .set({ chat: 'Soup', order: 4 })
+              .doc('secret-links')
+              .set({ chat: 'Secret Links', order: 4 })
 
             this.$fire.firestore
               .collection(process.env.CHAT_FIREBASE)
               .doc(String(e.id_collection))
               .collection('CHATS')
-              .doc('salad')
-              .set({ chat: 'Salad', order: 5 })
+              .doc('hear-it-here-first')
+              .set({ chat: 'Hear It Here First', order: 5 })
 
-            this.$fire.firestore
-              .collection(process.env.CHAT_FIREBASE)
-              .doc(String(e.id_collection))
-              .collection('CHATS')
-              .doc('main-course')
-              .set({ chat: 'Main Course', order: 6 })
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('table-talk')
+            //   .set({ chat: 'Table Talk', order: 1 })
 
-            this.$fire.firestore
-              .collection(process.env.CHAT_FIREBASE)
-              .doc(String(e.id_collection))
-              .collection('CHATS')
-              .doc('dessert')
-              .set({ chat: 'Dessert', order: 7 })
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('free-samples')
+            //   .set({ chat: 'Free Samples', order: 2 })
 
-            this.$fire.firestore
-              .collection(process.env.CHAT_FIREBASE)
-              .doc(String(e.id_collection))
-              .collection('CHATS')
-              .doc('suggestions')
-              .set({ chat: 'Suggestions', order: 8 })
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('appetizer')
+            //   .set({ chat: 'Appetizer', order: 3 })
 
-            this.$fire.firestore
-              .collection(process.env.CHAT_FIREBASE)
-              .doc(String(e.id_collection))
-              .collection('CHATS')
-              .doc('in-the-kitchen')
-              .set({ chat: 'In the Kitchen', order: 9 })
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('soup')
+            //   .set({ chat: 'Soup', order: 4 })
 
-            this.$fire.firestore
-              .collection(process.env.CHAT_FIREBASE)
-              .doc(String(e.id_collection))
-              .collection('CHATS')
-              .doc('stay-connected')
-              .set({ chat: 'Stay Connected', order: 10 })
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('salad')
+            //   .set({ chat: 'Salad', order: 5 })
+
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('main-course')
+            //   .set({ chat: 'Main Course', order: 6 })
+
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('dessert')
+            //   .set({ chat: 'Dessert', order: 7 })
+
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('suggestions')
+            //   .set({ chat: 'Suggestions', order: 8 })
+
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('in-the-kitchen')
+            //   .set({ chat: 'In the Kitchen', order: 9 })
+
+            // this.$fire.firestore
+            //   .collection(process.env.CHAT_FIREBASE)
+            //   .doc(String(e.id_collection))
+            //   .collection('CHATS')
+            //   .doc('stay-connected')
+            //   .set({ chat: 'Stay Connected', order: 10 })
 
             const artistId = this.artistId
             if (
