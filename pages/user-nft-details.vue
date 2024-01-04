@@ -46,8 +46,10 @@
           </template>
         </v-img>
 
-
-        <iframe
+        <div>
+          <video v-if="media == 'video' && mediaUrl" ref="video" class="video-js"></video>
+        </div>
+        <!-- <iframe
           v-if="media == 'video' && mediaUrl"
           :src="mediaUrl"
           height="100%"
@@ -55,7 +57,7 @@
           frameborder="0"
           allow="autoplay; fullscreen"
           allowfullscreen
-        ></iframe>
+        ></iframe> -->
 
         <div v-show="media == 'audio'" class="header-controls grid">
           <aside class="center" style="gap: 3em">
@@ -296,7 +298,10 @@
 
 <script>
 import gql from 'graphql-tag'
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
 import computeds from '~/mixins/computeds'
+
 
 export default {
   name: 'CollectionDetailsPage',
@@ -360,6 +365,15 @@ export default {
       ownedTier2: false,
       labelYoutube: '',
       redeemBtn: true,
+      player: null,
+      options: {
+        autoplay: true,
+        controls: true,
+        sources: [{
+          src: 'https://tier2.nyc3.cdn.digitaloceanspaces.com/' + this.mediaUrl,
+          type: 'video/mp4'
+        }]
+      }
     }
   },
   head() {
@@ -381,6 +395,11 @@ export default {
       this.$router.push(this.localePath('/user-nft-details-vip'))
     }
   },
+  beforeDestroy() {
+    if (this.player) {
+      this.player.dispose()
+    }
+  },
   async mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
     this.nft_main = this.nft
@@ -396,6 +415,15 @@ export default {
     }
     this.getSerie()
     this.getDataNft()
+
+    this.$nextTick(() => {
+      if (this.media === 'video' && this.mediaUrl) {
+        this.options.sources[0].src = 'https://tier2.nyc3.cdn.digitaloceanspaces.com/' + this.mediaUrl
+        this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
+          console.log('onPlayerReady', this)
+        });
+      }
+    })
   },
   methods: {
     async burnNft() {
@@ -1139,3 +1167,15 @@ export default {
 </script>
 
 <style src="~/assets/styles/pages/nft-details.scss" lang="scss" />
+<style scoped>
+.video-js {
+  width: 800px;
+  height: 500px;
+}
+@media (max-width: 600px) {
+  .video-js {
+    width: 100%;
+    height: 400px;
+  }
+}
+</style>
