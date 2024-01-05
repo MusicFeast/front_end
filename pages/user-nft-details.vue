@@ -52,7 +52,7 @@
         </v-img>
 
         <div>
-          <video ref="video" class="video-js"></video>
+          <video ref="video" controls controlsList="nodownload" class="video-js" @contextmenu.prevent></video>
         </div>
         <!-- <iframe
           v-if="media == 'video' && mediaUrl"
