@@ -205,9 +205,7 @@
           >
         </div>
 
-        <span class="font20">{{ nft_main.desc }}</span>
-
-        <p class="p font20" v-html="nft_main.description"></p>
+        <p class="p font20" v-html="nft_main.desc "></p>
 
         <span class="font20"
           >Learn More About Community Access:
@@ -866,6 +864,7 @@ export default {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
+              this.mediaUrl = data.media
               this.$nextTick(() => {
                 if (media === 'video' && this.mediaUrl && this.$refs.video) {
                   this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
@@ -1566,3 +1565,15 @@ export default {
 </script>
 
 <style src="~/assets/styles/pages/nft-details.scss" lang="scss" />
+<style scoped>
+.video-js {
+  width: 800px;
+  height: 572px;
+}
+@media (max-width: 600px) {
+  .video-js {
+    width: 100%;
+    height: 400px;
+  }
+}
+</style>
