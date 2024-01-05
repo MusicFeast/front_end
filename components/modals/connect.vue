@@ -24,14 +24,14 @@
           <span class="h13_em">ramper.xyz</span>
         </div>
       </v-btn>
-      <v-btn plain @click="$store.commit('signIn', 'near')">
+      <!-- <v-btn plain @click="$store.commit('signIn', 'near')">
         <img src="~/assets/sources/logos/near-wallet-icon.svg" alt="near" />
 
         <div class="divcol astart" style="gap: 5px">
           <span class="h12_em bold">NEAR</span>
           <span class="h13_em">wallet.near.org</span>
         </div>
-      </v-btn>
+      </v-btn> -->
 
       <v-btn
         plain

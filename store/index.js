@@ -114,10 +114,10 @@ export const mutations = {
     let nearWallet
     let myNearWallet
     if (process.env.NETWORK === 'mainnet') {
-      nearWallet = 'https://wallet.near.org'
+      nearWallet = 'https://app.mynearwallet.com/'
       myNearWallet = 'https://app.mynearwallet.com/'
     } else {
-      nearWallet = 'https://wallet.testnet.near.org'
+      nearWallet = 'https://testnet.mynearwallet.com'
       myNearWallet = 'https://testnet.mynearwallet.com'
     }
 
