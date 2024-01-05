@@ -84,7 +84,8 @@
 
     <section class="container-sliders">
       <v-slide-group
-        v-for="(element, e) in dataSliderFiltered" :key="e"
+        v-for="(element, e) in dataSliderFiltered"
+        :key="e"
         v-model="slider"
         mandatory
         show-arrows
@@ -663,8 +664,9 @@ export default {
   },
   computed: {
     dataSliderFiltered() {
-      return Array.from(new Set(this.dataSlider.map(x=>x.collection)))
-        .map(y => this.dataSlider.filter(z => z.collection === y));
+      return Array.from(new Set(this.dataSlider.map((x) => x.collection))).map(
+        (y) => this.dataSlider.filter((z) => z.collection === y)
+      )
     },
     dataCollections_pagination() {
       return this.$store.getters.pagination({
@@ -968,7 +970,6 @@ export default {
           pollInterval: 3000,
         })
         .subscribe(async (res) => {
-
           const data = res.data.series
 
           this.dataCollections = []
@@ -1016,7 +1017,6 @@ export default {
               String(item.collection),
               '1'
             )
-
 
             switch (tierOwner) {
               case true:
@@ -1072,7 +1072,7 @@ export default {
             if (item.tier !== 1) {
               const tierOwned = await this.getNftByTier(
                 String(this.artist.id_collection),
-                String(this.collectionNow),
+                String(item.collection),
                 String(item.tier)
               )
 
@@ -1088,33 +1088,6 @@ export default {
               item.state = 'sold out'
               item.disabled = true
             }
-
-            // if (item.validate && item.tier !== 1) {
-            //   item.state = 'locked'
-            // }
-
-            // if (item.tier === 2) {
-            //   if (this.tiers[1].validate === false) {
-            //     item.state = 'locked'
-            //     item.activate = true
-            //   }
-            // } else if (item.tier === 3) {
-            //   if (this.tiers[2].validate === false) {
-            //     item.state = 'locked'
-            //     item.activate = true
-            //   }
-            // } else if (item.tier === 4) {
-            //   if (this.tiers[3].validate === false) {
-            //     item.state = 'locked'
-            //     item.activate = true
-            //   }
-            // } else if (item.tier === 5) {
-            //   if (this.tiers[4].validate === false) {
-            //     item.state = 'locked'
-            //     item.activate = true
-            //   }
-            // }
-
 
             this.dataCollections.push(item)
           }
@@ -1203,7 +1176,6 @@ export default {
         .subscribe((res) => {
           const data = res.data.artist
 
-
           this.collectionNow = data.collection
 
           this.dataProfits.nfts = data.total_nft
@@ -1253,116 +1225,11 @@ export default {
 
       const data = res.data.nfts
 
-
-
       if (data.length > 0) {
         return true
       } else {
         return false
       }
-    },
-    async getTierOne() {
-      const clientApollo = this.$apollo.provider.clients.defaultClient
-      const QUERY_APOLLO = gql`
-        query QUERY_APOLLO($artist_id: String, $collection: String) {
-          series(
-            where: {
-              artist_id: $artist_id
-              typetoken_id: "1"
-              collection: $collection
-              is_objects: false
-            }
-          ) {
-            id
-            collection
-            media
-            price
-            reference
-            title
-            typetoken_id
-            fecha
-            extra
-            description
-            creator_id
-            artist_id
-            price_near
-            supply
-            copies
-            desc_series
-          }
-        }
-      `
-
-      await clientApollo
-        .watchQuery({
-          query: QUERY_APOLLO,
-          variables: {
-            artist_id: String(this.artist.id_collection),
-            collection: String(this.collectionNow),
-          },
-          pollInterval: 3000,
-        })
-        .subscribe(async (res) => {
-          this.dataSliderPreview = []
-          const data = res.data.series
-
-
-          for (let i = 0; i < data.length; i++) {
-            const item = {
-              collection: data[i].collection,
-              img: data[i].media,
-              avatar: this.artist.image,
-              name: data[i].title.toUpperCase(),
-              artist: this.artist.name,
-              artist_id: data[i].artist_id,
-              desc: this.artist.name,
-              description: data[i].description,
-              floor_price: data[i].price_near,
-              price: data[i].price,
-              editions: data[i].copies || 'Multi',
-              tier: Number(data[i].reference),
-              type_id: data[i].id,
-              type: 'nft',
-              token_id: data[i].id,
-              supply: data[i].supply,
-              copies: data[i].copies || 0,
-              state: null,
-              validate: this.validateTier,
-            }
-
-            if (this.tiersComing.tierOne) {
-              item.state = 'coming soon'
-              item.validate = true
-            }
-
-            if (item.validate && item.tier !== 1) {
-              item.state = 'locked'
-            }
-
-            if (item.tier === 1) {
-              item.validate = false
-            }
-
-            if (item.tier === 1) {
-              if (this.tiers[0].validate === true) {
-                item.state = 'owned'
-                item.activate = false
-              }
-            }
-            if (
-              item.copies !== 0 &&
-              Number(item.supply) >= Number(item.copies)
-            ) {
-              item.state = 'sold out'
-            }
-            item.state = 'owned'
-            this.dataSliderPreview.push(item)
-
-            await this.getTiers()
-            await this.getDataNfts()
-
-          }
-        })
     },
     async getTiers() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
@@ -1396,7 +1263,6 @@ export default {
           }
         }
       `
-
 
       await clientApollo
         .watchQuery({
@@ -1514,56 +1380,6 @@ export default {
             }
 
             this.dataSliderPreview.push(item)
-
-            // if (item.validate && item.tier !== 1) {
-            //   item.state = 'locked'
-            // }
-            // if (item.tier === 2) {
-            //   if (this.tiersComing.tierTwo) {
-            //     item.state = 'coming soon'
-            //     item.validate = true
-            //   }
-            //   if (this.tiers[1].validate === true) {
-            //     item.state = 'owned'
-            //     item.activate = false
-            //   }
-            // } else if (item.tier === 3) {
-            //   if (this.tiersComing.tierThree) {
-            //     item.state = 'coming soon'
-            //     item.validate = true
-            //   }
-            //   if (this.tiers[2].validate === true) {
-            //     item.state = 'owned'
-            //     item.activate = false
-            //   }
-            // } else if (item.tier === 4) {
-            //   if (this.tiersComing.tierFour) {
-            //     item.state = 'coming soon'
-            //     item.validate = true
-            //   }
-            //   if (this.tiers[3].validate === true) {
-            //     item.state = 'owned'
-            //     item.activate = false
-            //   }
-            // } else if (item.tier === 5) {
-            //   if (this.tiersComing.tierFive) {
-            //     item.state = 'coming soon'
-            //     item.validate = true
-            //   }
-            //   if (this.tiers[4].validate === true) {
-            //     item.state = 'owned'
-            //     item.activate = false
-            //   }
-            // } else if (item.tier === 6) {
-            //   if (this.tiersComing.tierSix) {
-            //     item.state = 'coming soon'
-            //     item.validate = true
-            //   }
-            //   if (this.tiers[5].validate === true) {
-            //     item.state = 'owned'
-            //     item.activate = false
-            //   }
-            // }
           }
           this.dataSlider = this.dataSliderPreview
         })

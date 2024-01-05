@@ -768,12 +768,14 @@ export default {
           $artist_id: String
           $owner_id: String
           $reference: String
+          $collection: String
         ) {
           nfts(
             where: {
               owner_id: $owner_id
               artist_id: $artist_id
               metadata_: { reference: $reference }
+              collection: $collection
             }
           ) {
             typetoken_id
@@ -802,6 +804,7 @@ export default {
           artist_id: String(this.nft_main.artist_id),
           owner_id: this.$ramper.getAccountId(),
           reference: String(tierId),
+          collection: this.nft_main.collection,
         },
       })
 
@@ -851,7 +854,6 @@ export default {
         ) {
           this.soldBtn = true
         }
-
 
         if (data.typetoken_id === '1' && this.ownedTier1) {
           await this.getMedia('audio')
@@ -1020,7 +1022,6 @@ export default {
 
       this.tableItems = []
 
-
       for (let i = 0; i < data.length; i++) {
         const nftAux = await this.getSingleNft(data[i].token_id)
         const edition = data[i].token_id.split(':')
@@ -1069,7 +1070,6 @@ export default {
       })
 
       const data = res.data.nft
-
 
       if (data) {
         return data

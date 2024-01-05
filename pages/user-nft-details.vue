@@ -39,7 +39,12 @@
           transition="fade-transition"
         >
           <template #default>
-            <audio ref="track"  :src="mediaUrl" type="audio/mpeg" @loadeddata="sliderTrack" ></audio>
+            <audio
+              ref="track"
+              :src="mediaUrl"
+              type="audio/mpeg"
+              @loadeddata="sliderTrack"
+            ></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
@@ -302,7 +307,6 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import computeds from '~/mixins/computeds'
 
-
 export default {
   name: 'CollectionDetailsPage',
   mixins: [computeds],
@@ -369,11 +373,13 @@ export default {
       options: {
         autoplay: true,
         controls: true,
-        sources: [{
-          src: process.env.MEDIA_DIGITAL + this.mediaUrl,
-          type: 'video/mp4'
-        }]
-      }
+        sources: [
+          {
+            src: process.env.MEDIA_DIGITAL + this.mediaUrl,
+            type: 'video/mp4',
+          },
+        ],
+      },
     }
   },
   head() {
@@ -535,7 +541,6 @@ export default {
 
       const data = res.data.nfts
 
-
       const ownersArray = []
 
       for (let i = 0; i < data.length; i++) {
@@ -594,7 +599,6 @@ export default {
       if (res.data.series[0]) {
         const data = res.data.series[0]
 
-
         if (data.typetoken_id === '1' && this.ownedTier1) {
           await this.getMedia('audio')
           this.media = 'audio'
@@ -620,9 +624,13 @@ export default {
               this.mediaUrl = data.media
               this.$nextTick(() => {
                 if (media === 'video' && this.mediaUrl && this.$refs.video) {
-                  this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
-                  this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
-                  })
+                  this.options.sources[0].src =
+                    process.env.MEDIA_DIGITAL + this.mediaUrl
+                  this.player = videojs(
+                    this.$refs.video,
+                    this.options,
+                    function onPlayerReady() {}
+                  )
                 }
               })
             }
@@ -682,12 +690,14 @@ export default {
           $artist_id: String
           $owner_id: String
           $reference: String
+          $collection: String
         ) {
           nfts(
             where: {
               owner_id: $owner_id
               artist_id: $artist_id
               metadata_: { reference: $reference }
+              collection: $collection
             }
           ) {
             typetoken_id
@@ -716,6 +726,7 @@ export default {
           artist_id: String(this.nft_main.artist_id),
           owner_id: this.$ramper.getAccountId(),
           reference: String(tierId),
+          collection: this.nft_main.collection,
         },
       })
 
@@ -1122,7 +1133,6 @@ export default {
       })
 
       const data = res.data.nft
-
 
       if (data) {
         return data
