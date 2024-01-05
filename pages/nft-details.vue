@@ -55,31 +55,11 @@
           </template>
         </v-img>
 
-        <!-- if video -->
-        <!-- params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1" -->
-        <!-- <lite-youtube
-            v-if="media == 'video'"    
-            :videoid="mediaUrl"
-            :playlabel="labelYoutube"
-            style="max-width: 100% !important; width: 100% !important; height: 100% !important;"
-        /> -->
 
-        <iframe
-          v-if="media == 'video' && mediaUrl"
-          :src="mediaUrl"
-          height="100%"
-          width="100%"
-          frameborder="0"
-          allow="autoplay; fullscreen"
-          allowfullscreen
-        ></iframe>
+        <div>
+          <video ref="video" controls controlsList="nodownload" class="video-js" @contextmenu.prevent></video>
+        </div>
 
-        <script src="https://player.vimeo.com/api/player.js"></script>
-        <!-- <video
-          v-show="media == 'video'" ref="track" :src="mediaUrl"
-          @pause="reloadButton = false; reloadButton = true"
-          @play="reloadButton = false; reloadButton = true"
-        ></video>  -->
 
         <div v-show="media == 'audio'" class="header-controls grid">
           <aside class="center" style="gap: 3em">
@@ -474,6 +454,8 @@
 
 <script>
 import gql from 'graphql-tag'
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
 import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
 const { Contract } = nearAPI
@@ -559,6 +541,15 @@ export default {
       ownedTier2: false,
       labelYoutube: '',
       isVip: false,
+      player: null,
+      options: {
+        autoplay: true,
+        controls: true,
+        sources: [{
+          src: process.env.MEDIA_DIGITAL + this.mediaUrl,
+          type: 'video/mp4'
+        }]
+      }
     }
   },
   head() {
@@ -875,7 +866,13 @@ export default {
             if (media === 'audio') {
               this.mediaUrl = this.baseUrlSlash + data.media
             } else if (media === 'video') {
-              this.mediaUrl = 'https://player.vimeo.com/video/' + data.media
+              this.$nextTick(() => {
+                if (media === 'video' && this.mediaUrl && this.$refs.video) {
+                  this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
+                  this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
+                  })
+                }
+              })
             }
           }
         })
