@@ -51,7 +51,7 @@
           </template>
         </v-img>
 
-        <div>
+        <div v-show="media == 'video'">
           <video ref="video" controls controlsList="nodownload" class="video-js" @contextmenu.prevent></video>
         </div>
         <!-- <iframe
