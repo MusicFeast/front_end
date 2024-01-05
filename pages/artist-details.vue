@@ -292,14 +292,14 @@
     <h2 class="Title fwrap" style="--fb: 200px; gap: 5px clamp(1em, 2vw, 2em)">
       <span class="tup" style="--fb: max-content">lastest collections</span>
 
-      <Filters
+      <!-- <Filters
         contents
         :hide="[3]"
         :search="search"
         :filter-a="filterA.list"
         @search="(model) => (search = model)"
         @filterA="(model) => (filterA.model = model)"
-      />
+      /> -->
       <!-- <Filters
         :search="search"
         :filter-a="filterA.list"
@@ -311,13 +311,29 @@
       /> -->
     </h2>
 
-    <section class="container-collections grid">
-      <template v-for="(item, i) in dataCollections_pagination">
-        <v-sheet :key="i" color="rgba(0, 0, 0, .4)" class="divcol">
+    <section class="container-collections">
+      <v-slide-group
+        v-for="(element, e) in dataCollectionSliderFiltered"
+        :key="e"
+        v-model="sliderCollections"
+        mandatory
+        show-arrows
+        center-active
+        class="custome-slider"
+      >
+        <v-slide-item
+          v-for="(item, i) in element"
+          :key="i"
+          v-slot="{ active, toggle }"
+        >
+        <v-sheet :key="i" color="rgba(0, 0, 0, .4)" class="divcol" @click="toggle">
           <v-card
             v-if="!item.state"
             :key="i"
             class="card divcol custome"
+            :class="{
+              active: active,
+            }"
             @click="
               $store.dispatch('goTo', { key: 'nft', item, event: $event })
             "
@@ -460,7 +476,7 @@
           <div class="tier-desc divcol">
             <a class="tup bold" style="cursor: default">{{ item.name }}</a>
             <ul>
-              <li v-show="item.desc" v-html="item.desc.limitString(110)"></li>
+              <li v-show="item.desc" v-html="item.desc?.limitString(110)"></li>
             </ul>
           </div>
 
@@ -489,14 +505,27 @@
             >
           </div>
         </v-sheet>
-      </template>
+        </v-slide-item>
+
+        <template #prev="{ on, attrs }">
+          <v-btn icon class="reverse" v-bind="attrs" v-on="on">
+            <v-icon x-large>mdi-play</v-icon>
+          </v-btn>
+        </template>
+
+        <template #next="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon x-large>mdi-play</v-icon>
+          </v-btn>
+        </template>
+      </v-slide-group>
     </section>
 
-    <Pagination
+    <!-- <Pagination
       :total-pages="pagination_per_page"
       :current-page="currentPage"
       @pagechanged="(page) => (currentPage = page)"
-    />
+    /> -->
     <!-- 
     <h2 class="Title tup">chats</h2>
     <center><p class="mb-8 mt-8 font20">Welcome to the Music Feast Chat! In order to participate in the chat and interact with the community, please make sure you are logged in to your account. Logging in allows us to provide you with a secure and personalized chat experience. If you don't have an account yet, you can easily create one by clicking on the 'Log In' button. Thank you for choosing Music Feast and we look forward to chatting with you!</p></center>
@@ -627,6 +656,7 @@ export default {
           'lorem ipsum',
         ],
       },
+      sliderCollections: 0,
       dataCollections: [
         // {
         //   img: require('~/assets/sources/images/img-listed-1.jpg'),
@@ -668,18 +698,23 @@ export default {
         (y) => this.dataSlider.filter((z) => z.collection === y)
       )
     },
-    dataCollections_pagination() {
-      return this.$store.getters.pagination({
-        items: this.dataCollections,
-        currentPage: this.currentPage,
-        itemsPerPage: this.itemsPerPage,
-        search: this.search,
-        filterA: this.filterA.model,
-      })
+    dataCollectionSliderFiltered() {
+      return Array.from(new Set(this.dataCollections.map((x) => x.collection))).map(
+        (y) => this.dataCollections.filter((z) => z.collection === y)
+      )
     },
-    pagination_per_page() {
-      return Math.ceil(this.dataCollections.length / this.itemsPerPage)
-    },
+    // dataCollections_pagination() {
+    //   return this.$store.getters.pagination({
+    //     items: this.dataCollections,
+    //     currentPage: this.currentPage,
+    //     itemsPerPage: this.itemsPerPage,
+    //     search: this.search,
+    //     filterA: this.filterA.model,
+    //   })
+    // },
+    // pagination_per_page() {
+    //   return Math.ceil(this.dataCollections.length / this.itemsPerPage)
+    // },
   },
   created() {
     localStorage.setItem('artist', this.$route.query.artist)

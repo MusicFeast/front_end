@@ -179,10 +179,7 @@
   }
 
   .container-collections {
-    --gtc: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    padding-inline: var(--margin-separator);
     margin-bottom: 6em;
-    gap: 2em;
     .v-sheet {
       --padding: 10px;
       padding: var(--padding);
