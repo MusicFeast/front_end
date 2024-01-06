@@ -1,6 +1,6 @@
 import {
   AUTH_PROVIDER,
-  CHAIN,
+  // CHAIN,
   getUser,
   init,
   openWallet,
@@ -8,6 +8,7 @@ import {
   signIn,
   signOut,
   THEME,
+  SUPPORTED_NEAR_NETWORKS,
 } from '@ramper/near'
 import { functionCall } from 'near-api-js/lib/transaction'
 import Vue from 'vue'
@@ -16,10 +17,9 @@ export default function RamperApi() {
   init({
     appId: 'jtugbowlza',
     appName: 'Music Feast',
-    chainName: CHAIN.NEAR,
     walletProviders: [],
     theme: THEME.DARK,
-    network: process.env.NETWORK,
+    network: SUPPORTED_NEAR_NETWORKS + "." + process.env.NETWORK,
     logoURI: 'https://testnet.musicfeast.io/img/logo.fb7d246.svg',
     authProviders: [
       AUTH_PROVIDER.GOOGLE,
