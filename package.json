@@ -58,6 +58,7 @@
     "vue2-gmap-custom-marker": "^6.1.0",
     "vue2-google-maps": "^0.10.7",
     "vuetify": "^2.6.1",
+    "wavesurfer.js-vue": "^1.0.0",
     "webpack": "^4.46.0"
   },
   "devDependencies": {

@@ -3303,7 +3303,7 @@
 
 "@ramper/core@0.0.30":
   version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@ramper/core/-/core-0.0.30.tgz#e6b0421c319c634efcceb6a649026189597c4147"
+  resolved "https://registry.npmjs.org/@ramper/core/-/core-0.0.30.tgz"
   integrity sha512-f0WzKV9uXmf9K0NvVAKg8z+W3u22WpA5SzS1rJ6zsBm80QZdwScFZhDYNfAHZpaHG1c0iaGpHcrYsl1FXe3PKg==
   dependencies:
     "@ramper/logger" "0.0.1"
@@ -3314,12 +3314,12 @@
 
 "@ramper/logger@0.0.1":
   version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ramper/logger/-/logger-0.0.1.tgz#181a9b339e8ee2f942b29293c960ac73b0686cca"
+  resolved "https://registry.npmjs.org/@ramper/logger/-/logger-0.0.1.tgz"
   integrity sha512-G1A/P9XSS+41VNE2VdOOj8OkYjKSJHdCMs2YOEGPFRZUzuQFaMWOkc2ZxEA9zTdJWpcX0Hptp/d4Y2tXYsZX/A==
 
 "@ramper/near@^0.0.30":
   version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@ramper/near/-/near-0.0.30.tgz#5303d38627cad26ba2641949ab826233970770b6"
+  resolved "https://registry.npmjs.org/@ramper/near/-/near-0.0.30.tgz"
   integrity sha512-Qp7fRF4yoBhBFjif2jBEbLj1l+5632JTP6YtokUh21CerNe7SRi7EEQzeTPxCvYG0cz7BFSlx9O9uQZ/6SC48g==
   dependencies:
     "@ramper/constants" "0.0.15"
@@ -15271,6 +15271,11 @@ watchpack@^2.4.0:
   dependencies:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
+
+wavesurfer.js-vue@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js-vue/-/wavesurfer.js-vue-1.0.0.tgz#8efb59046c04342e4f399e844a9bc439ff3c162e"
+  integrity sha512-QFPnmT9cwzw68TKSu3EdbkWILN7EABgAEaAd9PtfFnP/s4ja7RasEfZJBKOD8mQ06w12VNpgPM/mm7Se3Kmkng==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

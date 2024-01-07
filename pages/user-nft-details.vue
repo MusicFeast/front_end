@@ -41,9 +41,9 @@
           <template #default>
             <audio
               ref="track"
+              cross-origin="anonymous"
               :src="mediaUrl"
               type="audio/mpeg"
-              @loadeddata="sliderTrack"
             ></audio>
           </template>
           <template #placeholder>
@@ -76,11 +76,7 @@
 
             <button v-show="reloadButton" @click="playPauseTrack()">
               <img
-                :src="
-                  require(`~/assets/sources/icons/${
-                    $refs.track?.paused ? 'play' : 'pause'
-                  }-track.svg`)
-                "
+                :src="iconSource"
                 alt="play / pause"
                 style="--w: 4em"
               />
@@ -380,6 +376,7 @@ export default {
           },
         ],
       },
+      isPaused: true,
     }
   },
   head() {
@@ -391,6 +388,9 @@ export default {
   computed: {
     pagination_per_page() {
       return Math.ceil(this.tableItems.length / this.itemsPerPage)
+    },
+    iconSource() {
+      return require(`~/assets/sources/icons/${this.isPaused ? 'play' : 'pause'}-track.svg`);
     },
   },
   created() {
@@ -619,7 +619,9 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-              this.mediaUrl = this.baseUrlSlash + data.media
+              // this.mediaUrl = this.baseUrlSlash + data.media
+              this.mediaUrl = 'https://bafybeig64lturtf635f6hdr4s5nvnwvvwpdewefsgzonr7onnvgyigg6wa.ipfs.nftstorage.link/Lets%20get%20it.mp3'
+              console.log(this.baseUrlSlash + data.media)
             } else if (media === 'video') {
               this.mediaUrl = data.media
               this.$nextTick(() => {
@@ -1146,6 +1148,7 @@ export default {
       if (this.sliderTrack < 0) this.sliderTrack = 0
     },
     advanceTrack() {
+      // this.isPaused = !this.isPaused; // Update the reactive data property when the track is played or paused
       this.sliderTrack += 10
       this.$refs.track.currentTime += 10
       if (this.sliderTrack > 100) this.sliderTrack = 100
@@ -1155,17 +1158,20 @@ export default {
         clearInterval(this.trackInterval)
       } else if (key === 'up') {
         this.$refs.track.currentTime = this.sliderTrack
-        this.playPauseTrack()
+        this.$refs.track.play()
+        // this.isPaused = !this.isPaused;  // Update the reactive data property when the track is played or paused
       }
     },
     playPauseTrack() {
       if (this.$refs.track?.paused) {
+        this.isPaused = !this.isPaused;  // Update the reactive data property when the track is played or paused
         this.$refs.track.play()
         this.trackInterval = setInterval(() => {
           const audioTime = Math.round(this.$refs.track.currentTime)
           this.sliderTrack = audioTime
         }, 10)
       } else {
+        this.isPaused = !this.isPaused; 
         this.$refs.track.pause()
         clearInterval(this.trackInterval)
       }
