@@ -243,11 +243,11 @@
           <section class="card">
             <label for="nft-name">Song Description</label>
             <vue-editor
-                id="description"
-                v-model="formTier.description"
-                disabled
-                class="mt-4 mb-4"
-                @input="validateForm()"
+              id="description"
+              v-model="formTier.description"
+              disabled
+              class="mt-4 mb-4"
+              @input="validateForm()"
             ></vue-editor>
 
             <label for="nft-name">Price (USD)</label>
@@ -935,9 +935,13 @@
 
     <div class="text-center">
       <v-overlay opacity="0.80" :value="overlay">
-        <v-progress-linear v-model="knowledge" color="#ee3a3a" height="25"><strong>{{ Math.ceil(knowledge) }}%</strong></v-progress-linear>
+        <v-progress-linear v-model="knowledge" color="#ee3a3a" height="25"
+          ><strong>{{ Math.ceil(knowledge) }}%</strong></v-progress-linear
+        >
         <!-- <span>hola como estas</span> -->
-        <h3 class="mt-5">Creating collection, this may take a few minutes...</h3>
+        <h3 class="mt-5">
+          Creating collection, this may take a few minutes...
+        </h3>
       </v-overlay>
     </div>
 
@@ -1139,7 +1143,7 @@ export default {
         (v) => !!v || 'Field required',
         (v) =>
           (!isNaN(parseFloat(v)) && Number(v) > 0) ||
-          'Must be a positive value'
+          'Must be a positive value',
       ],
       rulesSplit: [
         (v) => !!v || 'required',
@@ -1431,11 +1435,11 @@ export default {
     increaseSkill() {
       const intervalId = setInterval(() => {
         if (this.knowledge < 100) {
-          this.knowledge += 1;
+          this.knowledge += 1
         } else {
-          clearInterval(intervalId); // stop the interval when skill reaches 100
+          clearInterval(intervalId) // stop the interval when skill reaches 100
         }
-      }, 400); // adjust the time as needed
+      }, 400) // adjust the time as needed
     },
     //       {
     //     "tier": "Tier 1",
@@ -1690,6 +1694,8 @@ export default {
 
       const itemIpfs = await this.uploadIpfs(this.imageNft)
 
+      const itemIpfsAudio = await this.uploadIpfs(this.formTier.song)
+
       // TIERS
       formData.append('tierNumber', 1)
       const nftName = 'Enter The Feast with Chef'
@@ -1705,8 +1711,14 @@ export default {
       )
       formData.append('royalties', JSON.stringify(this.dataRoyalties))
       formData.append('royalties_split', JSON.stringify(this.dataSplit))
-      formData.append('audio', this.formTier.song)
-      this.increaseSkill(); // This will increase the progress bar by 10% every 1 second
+      formData.append(
+        'audio',
+        'https://' +
+          itemIpfsAudio.cid +
+          '.ipfs.nftstorage.link/' +
+          itemIpfsAudio.name
+      )
+      this.increaseSkill() // This will increase the progress bar by 10% every 1 second
 
       this.$axios
         .post(`${this.baseUrl}api/v1/save-form/`, formData)
