@@ -78,7 +78,18 @@
           :rules="rules.requiredPositiveFloat"
           placeholder="Price"
         ></v-text-field>
-
+        <template v-if="tokenItem.typetoken_id === '1'">
+          <div class="relative">
+            <label for="nft-name">Track Audio</label>
+            <v-file-input
+              id="song"
+              v-model="tokenItem.audio"
+              truncate-length="3500"
+              accept="audio/*"
+              placeholder="Only .WAV, .MP3 or .MP4 files"
+            ></v-file-input>
+          </div>
+        </template>
         <template v-if="tokenItem.typetoken_id === '2'">
           <div class="relative">
             <label for="nft-name">Video</label>
@@ -323,7 +334,9 @@
 
       <div class="text-center">
         <v-overlay opacity="0.80" :value="overlay">
-          <v-progress-linear v-model="knowledge" color="#ee3a3a" height="25"><strong>{{ Math.ceil(knowledge) }}%</strong></v-progress-linear>
+          <v-progress-linear v-model="knowledge" color="#ee3a3a" height="25"
+            ><strong>{{ Math.ceil(knowledge) }}%</strong></v-progress-linear
+          >
           <!-- <span>hola como estas</span> -->
           <h3 class="mt-5">Updating tier, this may take a few minutes...</h3>
         </v-overlay>
@@ -343,7 +356,7 @@ export default {
   name: 'FormPage',
   // mixins: [computeds, styles],
   components: {
-    VueEditor
+    VueEditor,
   },
   mixins: [computeds],
   data() {
@@ -371,22 +384,22 @@ export default {
           text: 'Artist Name',
           value: 'name',
           sortable: false,
-          align: 'center'
+          align: 'center',
         },
         {
           text: 'Description',
           value: 'description',
           sortable: false,
-          align: 'center'
+          align: 'center',
         },
         { text: 'Tier', value: 'tier', sortable: false, align: 'center' },
         {
           text: 'Status',
           value: 'statusText',
           sortable: false,
-          align: 'center'
+          align: 'center',
         },
-        { value: 'actions', sortable: false, align: 'center' }
+        { value: 'actions', sortable: false, align: 'center' },
       ],
       tableItemsArtists: [
         // {artist_name: 'DJ Khaled', description: 'The best DJ in LA', tier: 'Tier 1'},
@@ -403,45 +416,45 @@ export default {
       rules: {
         validate: [
           (v) => !!v || 'Field required',
-          (v) => this.validateNear(v) || 'Invalid account'
+          (v) => this.validateNear(v) || 'Invalid account',
         ],
         required: [(v) => !!v || 'Field required'],
         requiredPositiveFloat: [
           (v) => !!v || 'Field required',
           (v) =>
             (!isNaN(parseFloat(v)) && Number(v) > 0) ||
-            'Must be a positive value'
+            'Must be a positive value',
         ],
         repeatedUsername: [
           (v) => !!v || 'Field required',
           () =>
-            !this.djangoExistenceList.username || 'Username is already taken'
+            !this.djangoExistenceList.username || 'Username is already taken',
         ],
         repeatedEmail: [
           (v) => !!v || 'Field required',
           (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-          () => !this.djangoExistenceList.email || 'Email is already used'
+          () => !this.djangoExistenceList.email || 'Email is already used',
         ],
         repeatedDiscord: [
           () =>
             !this.djangoExistenceList.discord ||
-            'Discord account is already used'
+            'Discord account is already used',
         ],
         repeatedInstagram: [
           () =>
             !this.djangoExistenceList.instagram ||
-            'Instagram account is already used'
+            'Instagram account is already used',
         ],
         repeatedTwitter: [
           () =>
             !this.djangoExistenceList.twitter ||
-            'Twitter account is already used'
+            'Twitter account is already used',
         ],
         repeatedTelegram: [
           () =>
             !this.djangoExistenceList.telegram ||
-            'Telegram account is already used'
-        ]
+            'Telegram account is already used',
+        ],
       },
 
       coming: false,
@@ -449,17 +462,17 @@ export default {
 
       dataMerchandise: [
         {
-          img: require('~/assets/sources/images/shirt.png')
+          img: require('~/assets/sources/images/shirt.png'),
         },
         {
-          img: require('~/assets/sources/images/sweatter.png')
+          img: require('~/assets/sources/images/sweatter.png'),
         },
         {
-          img: require('~/assets/sources/images/cap.png')
+          img: require('~/assets/sources/images/cap.png'),
         },
         {
-          img: require('~/assets/sources/images/cup.png')
-        }
+          img: require('~/assets/sources/images/cup.png'),
+        },
       ],
 
       // items_tier:["Tier 1", "Tier 2", "Tier 3", "Tier 4", "Tier 5"],
@@ -487,26 +500,26 @@ export default {
         (v) => !!v || 'required',
         (v) => !!Number(v) || 'Number is required',
         (v) => v >= 1 || 'required',
-        (v) => v <= 10 || 'Royalties available: 10%'
+        (v) => v <= 10 || 'Royalties available: 10%',
       ],
       rulesSplit: [
         (v) => !!v || 'required',
         (v) => !!Number(v) || 'Number is required',
         (v) => v >= 1 || 'required',
-        (v) => v <= 70 || 'Royalties available: 70%'
-      ]
+        (v) => v <= 70 || 'Royalties available: 70%',
+      ],
     }
   },
   head() {
     const title = 'Form'
     return {
-      title
+      title,
     }
   },
   computed: {
     pagination_per_page() {
       return Math.ceil(this.tableItemsArtists.length / this.itemsPerPageArtists)
-    }
+    },
   },
   async mounted() {
     const queryString = window.location.search
@@ -515,7 +528,8 @@ export default {
 
     this.inputPercentRoyalties()
     this.inputPercentSplit()
-    this.tierTille = this.$route.query.token_id.split('|')[1] === '1' ? 'Track' : 'Video';
+    this.tierTille =
+      this.$route.query.token_id.split('|')[1] === '1' ? 'Track' : 'Video'
 
     if (token) {
       await this.getDataToken(token)
@@ -585,7 +599,7 @@ export default {
     getCurrentArtist(tokenItem) {
       this.$axios
         .post(`${this.baseUrl}api/v1/get-artist/`, {
-          id: Number(tokenItem.artist_id)
+          id: Number(tokenItem.artist_id),
         })
         .then((response) => {
           const data = response.data[0]
@@ -631,7 +645,7 @@ export default {
       await clientApollo
         .query({
           query: QUERY_APOLLO,
-          variables: { token_id: String(token) }
+          variables: { token_id: String(token) },
         })
         .then(async (res) => {
           const data = res.data.serie
@@ -879,11 +893,11 @@ export default {
     increaseSkill() {
       const intervalId = setInterval(() => {
         if (this.knowledge < 100) {
-          this.knowledge += 10;
+          this.knowledge += 10
         } else {
-          clearInterval(intervalId); // stop the interval when skill reaches 100
+          clearInterval(intervalId) // stop the interval when skill reaches 100
         }
-      }, 1000); // adjust the time as needed
+      }, 1000) // adjust the time as needed
     },
     async updateNft() {
       this.overlay = true
@@ -906,7 +920,7 @@ export default {
         formDataNft.append('tier', String(this.tokenAux.typetoken_id))
         formDataNft.append('id_collection', this.tokenAux.artist_id)
         formDataNft.append('number_collection', this.tokenAux.collection)
-        this.increaseSkill(); // This will increase the progress bar by 10% every 1 second
+        this.increaseSkill() // This will increase the progress bar by 10% every 1 second
         if (this.tokenAux.title !== this.tokenItem.title) {
           formDataNft.append('title', this.tokenItem.title)
         }
@@ -928,6 +942,17 @@ export default {
 
         if (this.tokenItem.video) {
           formDataNft.append('video', this.tokenItem.video)
+        }
+
+        if (this.tokenItem.audio) {
+          const itemIpfsAudio = await this.uploadIpfs(this.tokenItem.audio)
+          formDataNft.append(
+            'audio',
+            'https://' +
+              itemIpfsAudio.cid +
+              '.ipfs.nftstorage.link/' +
+              itemIpfsAudio.name
+          )
         }
 
         formDataNft.append('royalty', JSON.stringify(this.dataRoyalties))
@@ -956,7 +981,7 @@ export default {
       if (this.$ramper.getAccountId()) {
         return await this.$axios
           .post(`${this.baseUrl}api/v1/is-admin/`, {
-            admin: this.$ramper.getAccountId()
+            admin: this.$ramper.getAccountId(),
           })
           .then((result) => {
             return result.data
@@ -980,10 +1005,10 @@ export default {
           {
             headers: {
               'Content-Type': file.type,
-              Authorization: 'Bearer ' + process.env.VUE_APP_IPFS_KEY
+              Authorization: 'Bearer ' + process.env.VUE_APP_IPFS_KEY,
             },
             maxContentLength: 100 * 1024 * 1024, // 100 MB
-            maxBodyLength: 100 * 1024 * 1024 // 100 MB
+            maxBodyLength: 100 * 1024 * 1024, // 100 MB
           }
         )
 
@@ -992,7 +1017,7 @@ export default {
         if (resp.data.value?.cid && resp.data.value?.files[0]?.name) {
           return {
             cid: resp.data.value.cid,
-            name: resp.data.value.files[0].name
+            name: resp.data.value.files[0].name,
           }
         } else {
           return false
@@ -1006,7 +1031,7 @@ export default {
       if (this.$ramper.getAccountId()) {
         return await this.$axios
           .post(`${this.baseUrl}api/v1/get-artist-proposal/`, {
-            wallet: this.$ramper.getAccountId()
+            wallet: this.$ramper.getAccountId(),
           })
           .then((result) => {
             if (result.data.length === 0) {
@@ -1037,7 +1062,7 @@ export default {
       if (this.$ramper.getAccountId()) {
         this.$axios
           .post(`${this.baseUrl}api/v1/get-artist-proposals/`, {
-            wallet: this.$ramper.getAccountId()
+            wallet: this.$ramper.getAccountId(),
           })
           .then((result) => {
             this.tableItemsArtists = []
@@ -1048,7 +1073,7 @@ export default {
                 const dataItem = {
                   tier: 'Tier ' + tier.tierNumber,
                   tierItem: tier,
-                  ...item
+                  ...item,
                 }
 
                 if (tier.status === 1) {
@@ -1068,8 +1093,8 @@ export default {
             console.error(err)
           })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
