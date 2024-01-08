@@ -48,7 +48,12 @@
           transition="fade-transition"
         >
           <template #default>
-            <audio ref="track" cross-origin="anonymous" :src="mediaUrl" type="audio/*"></audio>
+            <audio
+              ref="track"
+              cross-origin="anonymous"
+              :src="mediaUrl"
+              type="audio/mpeg"
+            ></audio>
           </template>
           <template #placeholder>
             <v-skeleton-loader type="card" />
@@ -73,11 +78,7 @@
 
             <button v-show="reloadButton" @click="playPauseTrack()">
               <img
-                :src="
-                  require(`~/assets/sources/icons/${
-                    trackIspaused ? 'play' : 'pause'
-                  }-track.svg`)
-                "
+                :src="iconSource"
                 alt="play / pause"
                 style="--w: 4em"
               />
@@ -864,7 +865,7 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-              this.mediaUrl = this.baseUrlSlash + data.media
+              this.mediaUrl =  data.media
             } else if (media === 'video') {
               this.mediaUrl = data.media
               this.$nextTick(() => {

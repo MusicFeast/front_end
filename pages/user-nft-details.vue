@@ -619,8 +619,8 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-              // this.mediaUrl = this.baseUrlSlash + data.media
-              this.mediaUrl = 'https://bafybeig64lturtf635f6hdr4s5nvnwvvwpdewefsgzonr7onnvgyigg6wa.ipfs.nftstorage.link/Lets%20get%20it.mp3'
+              this.mediaUrl = data.media
+              // this.mediaUrl = 'https://bafybeig64lturtf635f6hdr4s5nvnwvvwpdewefsgzonr7onnvgyigg6wa.ipfs.nftstorage.link/Lets%20get%20it.mp3'
               console.log(this.baseUrlSlash + data.media)
             } else if (media === 'video') {
               this.mediaUrl = data.media
