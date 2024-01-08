@@ -43,7 +43,6 @@
               ref="track"
               cross-origin="anonymous"
               :src="mediaUrl"
-              type="audio/mpeg"
             ></audio>
           </template>
           <template #placeholder>
@@ -64,9 +63,11 @@
           allowfullscreen
         ></iframe> -->
 
-        <div v-show="media == 'audio'" class="header-controls grid">
+        <div v-show="media == 'audio'"  class="header-controls grid">
           <aside class="center" style="gap: 3em">
-            <button @click="backTrack()">
+            <h4 v-if="!isAudioLoad">Loading from Blockchain...
+            </h4>
+            <button v-if="isAudioLoad" @click="backTrack()">
               <img
                 src="~/assets/sources/icons/back-track.svg"
                 alt="back 10 seconds"
@@ -74,7 +75,7 @@
               />
             </button>
 
-            <button v-show="reloadButton" @click="playPauseTrack()">
+            <button v-if="isAudioLoad" v-show="reloadButton"  @click="playPauseTrack()">
               <img
                 :src="iconSource"
                 alt="play / pause"
@@ -82,7 +83,7 @@
               />
             </button>
 
-            <button @click="advanceTrack()">
+            <button v-if="isAudioLoad" @click="advanceTrack()">
               <img
                 src="~/assets/sources/icons/advance-track.svg"
                 alt="advance 10 seconds"
@@ -377,6 +378,7 @@ export default {
         ],
       },
       isPaused: true,
+      isAudioLoad: false,
     }
   },
   head() {
@@ -404,6 +406,12 @@ export default {
   beforeDestroy() {
     if (this.player) {
       this.player.dispose()
+    }
+    const audio = this.$refs.track;
+    if (audio) {
+      audio.pause();
+      audio.src = ''; // Clear the source
+      audio.load(); // Reload the audio element
     }
   },
   async mounted() {
@@ -619,9 +627,22 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-              this.mediaUrl = data.media
+              this.$nextTick(() => {
+                this.mediaUrl = data.media.toString()
+
+                // Assuming you have a ref="audioPlayer" on your audio element in the template
+                const audio = this.$refs.track;
+
+                audio.onloadeddata = () => {
+                  this.isAudioLoad = true;
+                  console.log('Audio loaded');
+                };
+
+                audio.onerror = () => {
+                  console.error('Error loading audio');
+                };
+              })
               // this.mediaUrl = 'https://bafybeig64lturtf635f6hdr4s5nvnwvvwpdewefsgzonr7onnvgyigg6wa.ipfs.nftstorage.link/Lets%20get%20it.mp3'
-              console.log(this.baseUrlSlash + data.media)
             } else if (media === 'video') {
               this.mediaUrl = data.media
               this.$nextTick(() => {

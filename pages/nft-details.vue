@@ -50,9 +50,7 @@
           <template #default>
             <audio
               ref="track"
-              cross-origin="anonymous"
               :src="mediaUrl"
-              type="audio/mpeg"
             ></audio>
           </template>
           <template #placeholder>
@@ -66,9 +64,11 @@
         </div>
 
 
-        <div v-show="media == 'audio'" class="header-controls grid">
+        <div v-show="media == 'audio'"  class="header-controls grid">
           <aside class="center" style="gap: 3em">
-            <button @click="backTrack()">
+            <h4 v-if="!isAudioLoad">Loading from Blockchain...
+            </h4>
+            <button v-if="isAudioLoad" @click="backTrack()">
               <img
                 src="~/assets/sources/icons/back-track.svg"
                 alt="back 10 seconds"
@@ -76,7 +76,7 @@
               />
             </button>
 
-            <button v-show="reloadButton" @click="playPauseTrack()">
+            <button v-show="reloadButton" v-if="isAudioLoad" @click="playPauseTrack()">
               <img
                 :src="iconSource"
                 alt="play / pause"
@@ -84,7 +84,7 @@
               />
             </button>
 
-            <button @click="advanceTrack()">
+            <button v-if="isAudioLoad" @click="advanceTrack()">
               <img
                 src="~/assets/sources/icons/advance-track.svg"
                 alt="advance 10 seconds"
@@ -95,6 +95,7 @@
 
           <v-slider
             v-model="sliderTrack"
+            v-if="isAudioLoad"
             color="#fff"
             thumb-color="#000"
             messages="always"
@@ -548,7 +549,9 @@ export default {
           src: process.env.MEDIA_DIGITAL + this.mediaUrl,
           type: 'video/mp4'
         }]
-      }
+      },
+      isPaused: true,
+      isAudioLoad: false,
     }
   },
   head() {
@@ -560,6 +563,9 @@ export default {
   computed: {
     pagination_per_page() {
       return Math.ceil(this.tableItems.length / this.itemsPerPage)
+    },
+    iconSource() {
+      return require(`~/assets/sources/icons/${this.isPaused ? 'play' : 'pause'}-track.svg`);
     },
   },
   created() {
@@ -573,6 +579,17 @@ export default {
 
     // eslint-disable-next-line nuxt/no-globals-in-created
     if (isFirefox) setTimeout(() => window.scrollTo(0, 1), 0)
+  },
+  beforeDestroy() {
+    if (this.player) {
+      this.player.dispose()
+    }
+    const audio = this.$refs.track;
+    if (audio) {
+      audio.pause();
+      audio.src = ''; // Clear the source
+      audio.load(); // Reload the audio element
+    }
   },
   async mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
@@ -865,7 +882,23 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-              this.mediaUrl =  data.media
+              this.$nextTick(() => {
+                this.mediaUrl = data.media
+                console.log(this.mediaUrl)
+                // Assuming you have a ref="audioPlayer" on your audio element in the template
+                const audio = this.$refs.track;
+
+                audio.onloadeddata = () => {
+                  this.isAudioLoad = true;
+                  console.log('Audio loaded');
+                };
+
+                audio.onerror = () => {
+                  console.error('Error loading audio');
+                  audio.src = '';
+                  audio.load();
+                };
+              })
             } else if (media === 'video') {
               this.mediaUrl = data.media
               this.$nextTick(() => {
@@ -1535,6 +1568,7 @@ export default {
       if (this.sliderTrack < 0) this.sliderTrack = 0
     },
     advanceTrack() {
+      // this.isPaused = !this.isPaused; // Update the reactive data property when the track is played or paused
       this.sliderTrack += 10
       this.$refs.track.currentTime += 10
       if (this.sliderTrack > 100) this.sliderTrack = 100
@@ -1544,20 +1578,21 @@ export default {
         clearInterval(this.trackInterval)
       } else if (key === 'up') {
         this.$refs.track.currentTime = this.sliderTrack
-        this.playPauseTrack()
+        this.$refs.track.play()
+        // this.isPaused = !this.isPaused;  // Update the reactive data property when the track is played or paused
       }
     },
     playPauseTrack() {
       if (this.$refs.track?.paused) {
+        this.isPaused = !this.isPaused;  // Update the reactive data property when the track is played or paused
         this.$refs.track.play()
-        this.trackIspaused = false
         this.trackInterval = setInterval(() => {
           const audioTime = Math.round(this.$refs.track.currentTime)
           this.sliderTrack = audioTime
         }, 10)
       } else {
+        this.isPaused = !this.isPaused; 
         this.$refs.track.pause()
-        this.trackIspaused = true
         clearInterval(this.trackInterval)
       }
     },
