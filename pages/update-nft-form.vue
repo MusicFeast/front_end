@@ -347,10 +347,13 @@
 
 <script>
 import gql from 'graphql-tag'
+import Vue from 'vue'
+import VueConfetti from 'vue-confetti'
 import { VueEditor } from 'vue2-editor'
 import computeds from '~/mixins/computeds'
 
 //   import styles from '~/mixins/styles'
+Vue.use(VueConfetti)
 
 export default {
   name: 'FormPage',
@@ -522,6 +525,7 @@ export default {
     },
   },
   async mounted() {
+    
     const queryString = window.location.search
     const urlParams = new URLSearchParams(queryString)
     const token = urlParams.get('token_id')
@@ -965,6 +969,10 @@ export default {
             this.btnSave = false
             this.dialogSuccess = true
             this.skill = 0
+            this.$confetti.start();
+            setTimeout(() => {
+              this.$confetti.stop();
+            }, 5000); // Stop after 8 seconds
           })
           .catch((err) => {
             this.overlay = false
