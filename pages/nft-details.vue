@@ -469,7 +469,7 @@ export default {
       form_buy: {},
       windowBuy: 1,
       modalBuy: false,
-      media: false,
+      media: 'audio',
       reloadButton: true,
       trackInterval: null,
       sliderTrackState: false,
@@ -546,7 +546,7 @@ export default {
         autoplay: true,
         controls: true,
         sources: [{
-          src: process.env.MEDIA_DIGITAL + this.mediaUrl,
+          src: this.mediaUrl,
           type: 'video/mp4'
         }]
       },
@@ -568,6 +568,15 @@ export default {
       return require(`~/assets/sources/icons/${this.isPaused ? 'play' : 'pause'}-track.svg`);
     },
   },
+  watch: {
+    '$route'() {
+      // Clean up when the route changes
+      this.trackInterval = null;
+      this.sliderTrackState = false;
+      this.sliderTrack = 0;
+      // Add any other cleanup code here
+    },
+  },
   created() {
     if (!this.nft) {
       this.$router.push(this.localePath('/artists'))
@@ -581,15 +590,8 @@ export default {
     if (isFirefox) setTimeout(() => window.scrollTo(0, 1), 0)
   },
   beforeDestroy() {
-    if (this.player) {
-      this.player.dispose()
-    }
-    const audio = this.$refs.track;
-    if (audio) {
-      audio.pause();
-      audio.src = ''; // Clear the source
-      audio.load(); // Reload the audio element
-    }
+    this.$refs.track.pause()
+    clearInterval(this.trackInterval)
   },
   async mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
@@ -884,7 +886,7 @@ export default {
             if (media === 'audio') {
               this.$nextTick(() => {
                 this.mediaUrl = data.media
-                console.log(this.mediaUrl)
+                // console.log(this.mediaUrl)
                 // Assuming you have a ref="audioPlayer" on your audio element in the template
                 const audio = this.$refs.track;
 
@@ -903,7 +905,8 @@ export default {
               this.mediaUrl = data.media
               this.$nextTick(() => {
                 if (media === 'video' && this.mediaUrl && this.$refs.video) {
-                  this.options.sources[0].src = process.env.MEDIA_DIGITAL + this.mediaUrl
+                  this.options.sources[0].src = this.mediaUrl
+                  console.log(this.mediaUrl)
                   this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
                   })
                 }

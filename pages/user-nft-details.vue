@@ -372,7 +372,7 @@ export default {
         controls: true,
         sources: [
           {
-            src: process.env.MEDIA_DIGITAL + this.mediaUrl,
+            src: this.mediaUrl,
             type: 'video/mp4',
           },
         ],
@@ -404,15 +404,8 @@ export default {
     }
   },
   beforeDestroy() {
-    if (this.player) {
-      this.player.dispose()
-    }
-    const audio = this.$refs.track;
-    if (audio) {
-      audio.pause();
-      audio.src = ''; // Clear the source
-      audio.load(); // Reload the audio element
-    }
+    this.$refs.track.pause()
+    clearInterval(this.trackInterval)
   },
   async mounted() {
     this.$gtag.pageview({ page_path: this.$route.path }) // Google Analytics
@@ -647,8 +640,8 @@ export default {
               this.mediaUrl = data.media
               this.$nextTick(() => {
                 if (media === 'video' && this.mediaUrl && this.$refs.video) {
-                  this.options.sources[0].src =
-                    process.env.MEDIA_DIGITAL + this.mediaUrl
+                  this.options.sources[0].src = this.mediaUrl
+                  console.log(this.mediaUrl)
                   this.player = videojs(
                     this.$refs.video,
                     this.options,
