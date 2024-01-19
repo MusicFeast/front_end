@@ -8,15 +8,25 @@
       <v-window-item>
         <v-card id="modalCommunityChat" class="nft-dialog--content">
           <!-- <h3>Decline The offer?</h3> -->
-          <p class="p">Return to the <span style="text-decoration: underline" @click="$router.push(localePath('/artists'))">artist</span> page to find the community chat.</p>
+          <p class="p">Congratulations on your purchase! 🎉 You can now go to your dashboard or artist page to explore more about your purchase. Additionally, remember that you can verify the artist chat in the <a href="/chat">Chat</a> section to further engage with them. Enjoy!</p>
 
           <div class="fwrap gap2 bold" style="margin-top: 2em">
-            <v-btn :href="verify_url" target="_blank"
-              :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px; --bg: #fff; --c: var(--primary)"
-            >Click to verify your membership pass</v-btn>
-            <v-btn href="https://discord.com/" target="_blank"
-              :ripple="false" class="btn activeBtn" style="--w: min(100%, 12em); --fs: 16px"
-            >Create Discord account to interact with the platform</v-btn>
+              <v-btn
+              class="btn activeBtn"
+              :ripple="false"
+              @click="$router.push(localePath('/edit-profile'))"
+            >
+              My Dashboard
+            </v-btn>
+            <v-btn
+              class="btn activeBtn"
+              :ripple="false"
+              @click="
+                $router.push(localePath('/artists'))
+              "
+            >
+              Artist Page
+            </v-btn>
           </div>
         </v-card>
       </v-window-item>
@@ -32,7 +42,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
-      modalCommunityChat: false,
+      modalCommunityChat: true,
       verify_url:""
     };
   },
