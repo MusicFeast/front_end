@@ -884,9 +884,8 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-              this.$nextTick(() => {
                 this.mediaUrl = data.media
-                // console.log(this.mediaUrl)
+                console.log(this.mediaUrl)
                 // Assuming you have a ref="audioPlayer" on your audio element in the template
                 const audio = this.$refs.track;
 
@@ -896,11 +895,12 @@ export default {
                 };
 
                 audio.onerror = () => {
-                  console.error('Error loading audio');
-                  audio.src = '';
-                  audio.load();
+                    console.error('Error loading audio, trying to reaload in 3 seconds');
+                    this.mediaUrl = '';
+                    audio.load();
+                    // Retry after a delay
+                    setTimeout(this.getMedia('audio'), 3000); // Retry after 3 second (adjust as needed)
                 };
-              })
             } else if (media === 'video') {
               this.mediaUrl = data.media
               this.$nextTick(() => {
