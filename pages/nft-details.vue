@@ -469,7 +469,7 @@ export default {
       form_buy: {},
       windowBuy: 1,
       modalBuy: false,
-      media: 'audio',
+      media: '',
       reloadButton: true,
       trackInterval: null,
       sliderTrackState: false,
@@ -863,13 +863,12 @@ export default {
         ) {
           this.soldBtn = true
         }
-
         if (data.typetoken_id === '1' && this.ownedTier1) {
-          await this.getMedia('audio')
           this.media = 'audio'
+          await this.getMedia('audio')
         } else if (data.typetoken_id === '2' && this.ownedTier2) {
-          await this.getMedia('video')
           this.media = 'video'
+          await this.getMedia('video')
         }
       }
     },
@@ -902,10 +901,11 @@ export default {
                 };
             } else if (media === 'video') {
               this.mediaUrl = data.media
+              this.isAudioLoad = true;
               this.$nextTick(() => {
                 if (media === 'video' && this.mediaUrl && this.$refs.video) {
                   this.options.sources[0].src = this.mediaUrl
-                  console.log(this.mediaUrl)
+                  // console.log(this.mediaUrl)
                   this.player = videojs(this.$refs.video, this.options, function onPlayerReady() {
                   })
                 }
