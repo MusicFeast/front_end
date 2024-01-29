@@ -897,7 +897,6 @@ export default {
                 audio.onerror = () => {
                     console.error('Error loading audio, trying to reaload in 3 seconds');
                     this.mediaUrl = '';
-                    audio.load();
                     // Retry after a delay
                     setTimeout(this.getMedia('audio'), 3000); // Retry after 3 second (adjust as needed)
                 };

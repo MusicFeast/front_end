@@ -2,13 +2,13 @@
   <div id="quick-tip-help-3-4" class="divcol">
     <h2 class="tup tcenter" style="color: var(--primary);">Music feast merchandise quick tip help guide</h2>
 
-    <div class="divrow center delete-in-mobile" style="gap: 20px; margin-block: 100px;">
+    <!-- <div class="divrow center delete-in-mobile" style="gap: 20px; margin-block: 100px;">
       <img src="~/assets/sources/images/person-cap.png" alt="cap" class="animated-img-up">
       <img src="~/assets/sources/images/shirt.png" alt="cap" class="animated-img-down">
       <img src="~/assets/sources/images/5-shirts.png" alt="cap" class="static-img">
       <img src="~/assets/sources/images/cup.png" alt="cap" class="animated-img-down">
       <img src="~/assets/sources/images/cap.png" alt="cap" class="animated-img-up">
-    </div>
+    </div> -->
 
     <div class="center divcol mt-16 mb-16 margin-block-mobile">
       <h2 class="tcenter mb-16 margin-block-mobile">

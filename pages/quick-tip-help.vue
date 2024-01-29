@@ -2,13 +2,13 @@
     <div id="quick-tip-help" class="divcol">
       <h2 class="tup tcenter" style="color: var(--primary);">Music Feast Community Access Quick Tip Help Guide</h2>
   
-      <div class="divrow center delete-in-mobile" style="gap: 20px; margin-block: 100px;">
+      <!-- <div class="divrow center delete-in-mobile" style="gap: 20px; margin-block: 100px;">
         <img src="~/assets/sources/images/person-cap.png" alt="cap" class="animated-img-up">
         <img src="~/assets/sources/images/shirt.png" alt="cap" class="animated-img-down">
         <img src="~/assets/sources/images/5-shirts.png" alt="cap" class="static-img">
         <img src="~/assets/sources/images/cup.png" alt="cap" class="animated-img-down">
         <img src="~/assets/sources/images/cap.png" alt="cap" class="animated-img-up">
-      </div>
+      </div> -->
   
       <div class="center divcol mt-16 mb-16 margin-block-mobile">
         <h2 class="tcenter mb-16 margin-block-mobile">
@@ -81,7 +81,7 @@
         panelsData: [
           {
             name:"Currently",
-            main_desc: "We use Discord to allow users to gain access to Artist Communities. Now that you have purchased your Community Access Pass, you will need to create or log in to your Discord account and follow the instructional steps on the Artist Page to gain access.",
+            main_desc: "We use our chat to allow users to gain access to Artist Communities. Now that you have purchased your Community Access Pass, you will automatically has access on the Chat Page.",
           },
           {
             name:"All Tiers",

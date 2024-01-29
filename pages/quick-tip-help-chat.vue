@@ -4,7 +4,7 @@
       Music feast chat quick tip help guide
     </h2>
 
-    <div
+    <!-- <div
       class="divrow center delete-in-mobile"
       style="gap: 20px; margin-block: 100px"
     >
@@ -33,7 +33,7 @@
         alt="cap"
         class="animated-img-up"
       />
-    </div>
+    </div> -->
 
     <div class="center divcol mt-16 mb-16 margin-block-mobile">
       <h2 class="tcenter mb-16 margin-block-mobile">
