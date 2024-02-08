@@ -108,7 +108,7 @@
 
         <template v-if="tokenItem.typetoken_id === '2'">
           <div class="relative">
-            <label for="nft-name">Number of copies</label> <span style="color: #dd2c00;">(If you want unlimited copies, enter 0)</span>
+            <label for="nft-name">Number of copies</label> <span style="color: #dd2c00;">(Enter zero (0) for unlimited copies)</span>
             <v-text-field
               id="copies"
               v-model="tokenItem.copies"
