@@ -140,8 +140,8 @@
             @click="dialogNewCollection = true"
             >Start</v-btn
           >
-          <span v-if="disabledStart" style="color: red" color="red" class="mt-2"
-            >The profile picture is rquired</span
+          <span v-if="disabledStart" style="color: red" color="red" class="mt-2"q
+            >The profile picture is required</span
           >
         </v-card>
       </v-col>

@@ -105,6 +105,20 @@
             ></v-file-input>
           </div>
         </template>
+
+        <template v-if="tokenItem.typetoken_id === '2'">
+          <div class="relative">
+            <label for="nft-name">Number of copies</label> <span style="color: #dd2c00;">(If you want unlimited copies, enter 0)</span>
+            <v-text-field
+              id="copies"
+              v-model="tokenItem.copies"
+              type="number"
+              placeholder="Number of copies"
+            ></v-text-field>
+            <!-- <v-btn class="btn-plus-minus" style="top: 20px;right: 40px; position: absolute!important;"><v-icon>mdi-minus</v-icon></v-btn>
+            <v-btn class="btn-plus-minus" style="top: 20px;right: 0; position: absolute!important;"><v-icon>mdi-plus</v-icon></v-btn> -->
+          </div>
+      </template>
       </section>
 
       <h2 id="section-form-nft" class="Title tup lines">Revenue</h2>
