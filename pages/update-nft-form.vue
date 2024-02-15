@@ -948,8 +948,8 @@ export default {
         if (this.tokenAux.price !== this.tokenItem.price) {
           formDataNft.append('price', this.tokenItem.price)
         }
+        console.log("COPIES", this.tokenItem.copies, this.tokenAux.copies)
         if (
-          this.tokenAux.copies &&
           this.tokenAux.copies !== this.tokenItem.copies
         ) {
           formDataNft.append('copies', this.tokenItem.copies)

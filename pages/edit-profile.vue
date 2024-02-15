@@ -140,7 +140,7 @@
             @click="dialogNewCollection = true"
             >Start</v-btn
           >
-          <span v-if="disabledStart" style="color: red" color="red" class="mt-2"q
+          <span v-if="disabledStart" style="color: red" color="red" class="mt-2"
             >The profile picture is required</span
           >
         </v-card>
@@ -183,9 +183,8 @@
         <v-expansion-panel-header expand-icon="mdi-menu-down" class="bold"
           >Artist Bio</v-expansion-panel-header
         >
-
         <v-expansion-panel-content>
-          <p v-html="artist.about" />
+          <p v-html="artist.about"></p>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -2936,6 +2935,7 @@ export default {
           this.dataSlider = []
 
           for (let i = 0; i < data.length; i++) {
+          console.log("DATAAAAAAA", data[i])
             const item = {
               collection: data[i].collection,
               img: data[i].media,
