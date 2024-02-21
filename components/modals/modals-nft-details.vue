@@ -1033,26 +1033,29 @@ export default {
         })
     },
     async mystorage() {
-      const account = await this.$near.account(this.$ramper.getAccountId())
+      if (this.$ramper.getAccountId()) {
+        const account = await this.$near.account(this.$ramper.getAccountId())
 
-      const contract = new this.$contract(
-        account,
-        process.env.CONTRACT_MARKET,
-        {
-          viewMethods: ['storage_balance_of'],
-          sender: account,
-        }
-      )
-      await contract
-        .storage_balance_of({
-          account_id: this.$ramper.getAccountId(),
-        })
-        .then((response) => {
-          this.myStorage = this.$utils.format.formatNearAmount(response)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+        const contract = new this.$contract(
+          account,
+          process.env.CONTRACT_MARKET,
+          {
+            viewMethods: ['storage_balance_of'],
+            sender: account,
+          }
+        )
+        await contract
+          .storage_balance_of({
+            account_id: this.$ramper.getAccountId(),
+          })
+          .then((response) => {
+            this.myStorage = this.$utils.format.formatNearAmount(response)
+          })
+          .catch(() => {
+            // console.error(err)
+          })
+      }
+      
     },
     async getDataNfts() {
       const clientApollo = this.$apollo.provider.clients.defaultClient
