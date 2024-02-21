@@ -326,11 +326,11 @@ export default {
               postData.push(item)
             }
           }
-          console.log(postData)
+          // console.log(postData)
           this.dataArtists = postData.sort(
             (a, b) => a.id_collection - b.id_collection
           )
-          console.log(this.dataArtists)
+          // console.log(this.dataArtists)
         })
         .catch((err) => {
           // this.$alert("cancel", {desc: err.message})
@@ -402,7 +402,7 @@ export default {
             }
           })
 
-          console.log('POST DATA', postData)
+          // console.log('POST DATA', postData)
           this.dataArtists = postData.sort((p1, p2) =>
             p1.id_collection < p2.id_collection
               ? 1

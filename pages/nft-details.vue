@@ -884,7 +884,7 @@ export default {
           if (data.media) {
             if (media === 'audio') {
                 this.mediaUrl = data.media
-                console.log(this.mediaUrl)
+                // console.log(this.mediaUrl)
                 // Assuming you have a ref="audioPlayer" on your audio element in the template
                 const audio = this.$refs.track;
 

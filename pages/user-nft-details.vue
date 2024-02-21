@@ -621,7 +621,7 @@ export default {
           if (data.media) {
             if (media === 'audio') {
                 this.mediaUrl = data.media
-                console.log(this.mediaUrl)
+                // console.log(this.mediaUrl)
                 // Assuming you have a ref="audioPlayer" on your audio element in the template
                 const audio = this.$refs.track;
 
@@ -641,7 +641,7 @@ export default {
               this.$nextTick(() => {
                 if (media === 'video' && this.mediaUrl && this.$refs.video) {
                   this.options.sources[0].src = this.mediaUrl
-                  console.log(this.mediaUrl)
+                  // console.log(this.mediaUrl)
                   this.player = videojs(
                     this.$refs.video,
                     this.options,

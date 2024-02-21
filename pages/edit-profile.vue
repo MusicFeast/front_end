@@ -2935,7 +2935,7 @@ export default {
           this.dataSlider = []
 
           for (let i = 0; i < data.length; i++) {
-          console.log("DATAAAAAAA", data[i])
+          // console.log("DATAAAAAAA", data[i])
             const item = {
               collection: data[i].collection,
               img: data[i].media,

@@ -1723,7 +1723,7 @@ export default {
       this.$axios
         .post(`${this.baseUrl}api/v1/save-form/`, formData)
         .then((result) => {
-          console.log('SUCESSSSSS', result)
+          // console.log('SUCESSSSSS', result)
           this.btnSave = false
 
           localStorage.setItem(
