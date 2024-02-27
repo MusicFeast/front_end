@@ -644,7 +644,7 @@
                   id="near-account"
                   v-model="item.account"
                   :disabled="i == 0 ? true : showItem"
-                  placeholder="nearaccount.testnet"
+                  placeholder="nearaccount.near"
                   @input="inputAccount(item)"
                   :rules="rules.required"
                 ></v-text-field>
@@ -704,7 +704,7 @@
                   :error="item.error"
                   :error-messages="item.errorMessage"
                   @input="inputAccount(item)"
-                  placeholder="nearaccount.testnet"
+                  placeholder="nearaccount.near"
                   :rules="rules.required"
                 ></v-text-field>
               </v-col>
@@ -1694,7 +1694,7 @@ export default {
 
       const itemIpfs = await this.uploadIpfs(this.imageNft)
 
-      const itemIpfsAudio = await this.uploadIpfs(this.formTier.song)
+      // const itemIpfsAudio = await this.uploadIpfs(this.formTier.song)
 
       // TIERS
       formData.append('tierNumber', 1)
@@ -1711,14 +1711,38 @@ export default {
       )
       formData.append('royalties', JSON.stringify(this.dataRoyalties))
       formData.append('royalties_split', JSON.stringify(this.dataSplit))
-      formData.append(
-        'audio',
-        'https://' +
-          itemIpfsAudio.cid +
-          '.ipfs.nftstorage.link/' +
-          itemIpfsAudio.name
-      )
+      // formData.append(
+      //   'audio',
+      //   'https://' +
+      //     itemIpfsAudio.cid +
+      //     '.ipfs.nftstorage.link/' +
+      //     itemIpfsAudio.name
+      // )
+      
       this.increaseSkill() // This will increase the progress bar by 10% every 1 second
+
+      const formDataMedia = new FormData()
+      formDataMedia.append(
+        'audio',
+        this.formTier.song
+      )
+
+      const dataAxios = this.$axios
+          .post(`${process.env.NODE_URL}/upload-media/`, formDataMedia)
+          .then((res) => {
+            if (res.data?.media) {
+              return res.data.media
+            } else {return null}
+          })
+          .catch((err) => {
+            return null
+          })
+      
+      if (!dataAxios) {
+        return console.log("ERROR SUBIR AUDIO")
+      }
+
+      formData.append('audio',dataAxios)
 
       this.$axios
         .post(`${this.baseUrl}api/v1/save-form/`, formData)

@@ -963,15 +963,19 @@ export default {
         }
 
         if (this.tokenItem.audio) {
-          const itemIpfsAudio = await this.uploadIpfs(this.tokenItem.audio)
-          formDataNft.append(
-            'audio',
-            'https://' +
-              itemIpfsAudio.cid +
-              '.ipfs.nftstorage.link/' +
-              itemIpfsAudio.name
-          )
+          formDataNft.append('audio', this.tokenItem.audio)
         }
+
+        // if (this.tokenItem.audio) {
+        //   const itemIpfsAudio = await this.uploadIpfs(this.tokenItem.audio)
+        //   formDataNft.append(
+        //     'audio',
+        //     'https://' +
+        //       itemIpfsAudio.cid +
+        //       '.ipfs.nftstorage.link/' +
+        //       itemIpfsAudio.name
+        //   )
+        // }
 
         formDataNft.append('royalty', JSON.stringify(this.dataRoyalties))
         formDataNft.append('royaltyBuy', JSON.stringify(this.dataSplit))
