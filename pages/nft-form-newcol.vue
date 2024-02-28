@@ -358,7 +358,7 @@
               id="near-account"
               v-model="item.account"
               :disabled="showItem"
-              placeholder="nearaccount.testnet"
+              placeholder="nearaccount.near"
               :rules="rules.required"
             ></v-text-field>
           </v-col>
@@ -413,7 +413,7 @@
               id="near-account"
               v-model="item.account"
               :disabled="i == 0 ? true : showItem"
-              placeholder="nearaccount.testnet"
+              placeholder="nearaccount.near"
               :rules="rules.required"
             ></v-text-field>
           </v-col>

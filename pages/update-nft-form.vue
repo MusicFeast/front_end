@@ -146,7 +146,7 @@
               :disabled="i == 0 ? true : showItem"
               :error="item.error"
               :error-messages="item.errorMessage"
-              placeholder="nearaccount.testnet"
+              placeholder="nearaccount.near"
               :rules="rules.required"
               @input="inputAccount(item)"
             ></v-text-field>
@@ -205,7 +205,7 @@
               :disabled="i1 == 0 ? true : showItem"
               :error="item.error"
               :error-messages="item.errorMessage"
-              placeholder="nearaccount.testnet"
+              placeholder="nearaccount.near"
               :rules="rules.required"
               @input="inputAccount(item)"
             ></v-text-field>
