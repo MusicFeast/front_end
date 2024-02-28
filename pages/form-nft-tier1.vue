@@ -645,7 +645,9 @@
                   v-model="item.account"
                   :disabled="i == 0 ? true : showItem"
                   placeholder="nearaccount.near"
-                  @input="inputAccount(item)"
+                  v-debounce:800ms="inputAccount1(item, i)"
+                  :error="errorMessageNear"
+                  :error-messages="errorMessageNear"
                   :rules="rules.required"
                 ></v-text-field>
               </v-col>
@@ -701,11 +703,10 @@
                   id="near-account"
                   v-model="item.account"
                   :disabled="i == 0 ? true : showItem"
-                  :error="item.error"
-                  :error-messages="item.errorMessage"
-                  @input="inputAccount(item)"
-                  placeholder="nearaccount.near"
-                  :rules="rules.required"
+                  placeholder="nearaccount2.near"
+                  v-debounce:800ms="inputAccount2(item, i)"
+                  :error="errorMessageNear2"
+                  :error-messages="errorMessageNear2"
                 ></v-text-field>
               </v-col>
               <v-col xl="2" lg="2" md="2" sm="4" cols="4">
@@ -980,11 +981,16 @@
 
 <script>
 import { VueEditor } from 'vue2-editor'
+import { directive } from 'v-debounce'
 import computeds from '~/mixins/computeds'
+
 //   import styles from '~/mixins/styles'
 
 export default {
   name: 'FormPage',
+  directives: {
+    debounce: directive
+  },
   components: {
     VueEditor,
   },
@@ -992,6 +998,9 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      errorMessageNear: null,
+      errorMessageNear2: null,
+      successMessageNear: "",
       dialogSure: false,
 
       formInvalid: false,
@@ -1289,15 +1298,22 @@ export default {
         this.errorMessage = 'Invalid account'
       }
     },
-    async inputAccount(item) {
+    async inputAccount1(item, i) {
       const validate = await this.validateNear(item.account)
 
       if (validate) {
-        item.error = false
-        item.errorMessage = null
+        this.errorMessageNear = null
       } else {
-        item.error = true
-        item.errorMessage = 'Invalid account'
+        this.errorMessageNear = 'Invalid account'
+      }
+    },
+    async inputAccount2(item, i) {
+      const validate = await this.validateNear(item.account)
+
+      if (validate) {
+        this.errorMessageNear2 = null
+      } else {
+        this.errorMessageNear2 = 'Invalid account'
       }
     },
     async validateNear(wallet) {
@@ -1734,7 +1750,7 @@ export default {
               return res.data.media
             } else {return null}
           })
-          .catch((err) => {
+          .catch(() => {
             return null
           })
       
