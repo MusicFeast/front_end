@@ -65,7 +65,7 @@
 
         <div v-show="media == 'audio'"  class="header-controls grid">
           <aside class="center" style="gap: 3em">
-            <h4 v-if="!isAudioLoad">Loading from Blockchain...
+            <h4 v-if="!isAudioLoad">Loading ...
             </h4>
             <button v-if="isAudioLoad" @click="backTrack()">
               <img
@@ -620,7 +620,7 @@ export default {
           const data = result.data
           if (data.media) {
             if (media === 'audio') {
-                this.mediaUrl = data.media
+              this.mediaUrl = process.env.AUDIO_URL + "/" + data.media
                 // console.log(this.mediaUrl)
                 // Assuming you have a ref="audioPlayer" on your audio element in the template
                 const audio = this.$refs.track;
@@ -631,10 +631,10 @@ export default {
                 };
 
                 audio.onerror = () => {
-                    console.error('Error loading audio, trying to reaload in 3 seconds');
+                    console.error('Error loading audio');
                     this.mediaUrl = '';
                     // Retry after a delay
-                    setTimeout(this.getMedia('audio'), 3000); // Retry after 3 second (adjust as needed)
+                    // setTimeout(this.getMedia('audio'), 3000); // Retry after 3 second (adjust as needed)
                 };
             } else if (media === 'video') {
               this.mediaUrl = data.media
