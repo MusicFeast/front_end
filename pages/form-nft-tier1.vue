@@ -637,7 +637,7 @@
                 >
               </v-badge>
             </a>
-            <v-row class="aend" v-for="(item, i) in dataSplit" :key="i">
+            <v-row class="aend" v-for="(item, i) in dataSplit" :key="`${i}-${item.id}`">
               <v-col xl="9" lg="9" md="9" sm="7" cols="7">
                 <label for="near-account">Wallet Address</label>
                 <v-text-field
@@ -645,9 +645,9 @@
                   v-model="item.account"
                   :disabled="i == 0 ? true : showItem"
                   placeholder="nearaccount.near"
-                  v-debounce:800ms="inputAccount1(item, i)"
-                  :error="errorMessageNear"
-                  :error-messages="errorMessageNear"
+                  @input="inputAccount1(item, i)"
+                  :error="errorState[i]"
+                  :error-messages="errorMessageNear[i]"
                   :rules="rules.required"
                 ></v-text-field>
               </v-col>
@@ -704,9 +704,9 @@
                   v-model="item.account"
                   :disabled="i == 0 ? true : showItem"
                   placeholder="nearaccount2.near"
-                  v-debounce:800ms="inputAccount2(item, i)"
-                  :error="errorMessageNear2"
-                  :error-messages="errorMessageNear2"
+                  @input="inputAccount2(item, i)"
+                  :error="errorState2[i]"
+                  :error-messages="errorMessageNear2[i]"
                 ></v-text-field>
               </v-col>
               <v-col xl="2" lg="2" md="2" sm="4" cols="4">
@@ -998,8 +998,10 @@ export default {
   mixins: [computeds],
   data() {
     return {
-      errorMessageNear: null,
-      errorMessageNear2: null,
+      errorMessageNear: [],
+      errorMessageNear2: [],
+      errorState: [],
+      errorState2: [],
       successMessageNear: "",
       dialogSure: false,
 
@@ -1300,21 +1302,32 @@ export default {
     },
     async inputAccount1(item, i) {
       const validate = await this.validateNear(item.account)
-
-      if (validate) {
-        this.errorMessageNear = null
-      } else {
-        this.errorMessageNear = 'Invalid account'
-      }
+      setTimeout(() => {
+        // console.log('validate', validate, item.account, i)
+        if (validate) {
+          this.$set(this.errorState, i, false);
+          this.$set(this.errorMessageNear, i, '');
+          this.$forceUpdate();
+        } else {
+          this.$set(this.errorState, i, true);
+          this.$set(this.errorMessageNear, i, 'Invalid account');
+        }
+      }, 800)
     },
     async inputAccount2(item, i) {
       const validate = await this.validateNear(item.account)
 
-      if (validate) {
-        this.errorMessageNear2 = null
-      } else {
-        this.errorMessageNear2 = 'Invalid account'
-      }
+      setTimeout(() => {
+        // console.log('validate', validate, item.account, i)
+        if (validate) {
+          this.$set(this.errorState2, i, false);
+          this.$set(this.errorMessageNear2, i, '');
+          this.$forceUpdate();
+        } else {
+          this.$set(this.errorState2, i, true);
+          this.$set(this.errorMessageNear2, i, 'Invalid account');
+        }
+      }, 800)
     },
     async validateNear(wallet) {
       const account = await this.$near.account(wallet)
