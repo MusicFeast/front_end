@@ -30,17 +30,20 @@
 
       <section class="center">
         <!-- <v-btn
-          :ripple="false"
-          class="btn activeBtn deletemobile"
-          style="--p: .5em clamp(1em, 3vw, 2.5em);"
-          @click="$parent.$parent.$refs.connect.modalConnect = true">Connect Near</v-btn> -->
-        <!-- button connect -->
-        <v-btn
           v-if="!isLogged"
           :ripple="false"
           class="btn activeBtn deletemobile"
           style="--p: 0.5em clamp(1em, 3vw, 2.5em)"
           @click="$parent.$parent.$refs.connect.modalConnect = true"
+          >Log In</v-btn
+        > -->
+
+        <v-btn
+          v-if="!isLogged"
+          :ripple="false"
+          class="btn activeBtn deletemobile"
+          style="--p: 0.5em clamp(1em, 3vw, 2.5em)"
+          @click="logIn()"
           >Log In</v-btn
         >
 
@@ -290,6 +293,15 @@ export default {
   //   else {this.themeButton = false}
   // },
   methods: {
+    async logIn() {
+      const login = await this.$ramper.signIn()
+      if (login) {
+        if (login.user) {
+          // this.$router.go()
+          location.reload()
+        }
+      }
+    },
     async getPriceNear() {
       const account = await this.$near.account(this.$ramper.getAccountId())
       const contract = new Contract(account, process.env.CONTRACT_NFT, {
