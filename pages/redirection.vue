@@ -79,10 +79,7 @@
         v-if="transaction_data.hash"
         class="center"
         style="gap: 5px; --c: #b9b9b9"
-        :href="
-          'https://explorer.testnet.near.org/transactions/' +
-          transaction_data.hash
-        "
+        :href="getHashTx(transaction_data.hash)"
         target="_blank"
       >
         See Transaction <v-icon size="1.1em">mdi-open-in-new</v-icon>
@@ -139,7 +136,15 @@ export default {
     this.$confetti.start()
     setTimeout(() => this.$confetti.stop(), 5000)
   },
-  methods: {},
+  methods: {
+    getHashTx(hash) {
+      if (process.env.VUE_APP_NETWORK === "mainnet") {
+        return "https://nearblocks.io/txns/" + hash
+      } else {
+        return "https://testnet.nearblocks.io/txns/" + hash
+      }
+    },
+  },
 }
 </script>
 

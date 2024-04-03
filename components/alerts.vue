@@ -15,7 +15,7 @@
         <p class="font2 p">{{item.desc === `text${item.key.replace(/^\w/, (c) => c.toUpperCase())}` ? $t(item.desc) : item.desc}}</p>
         <template v-if="item.hash">
           <p>Transaction Hash: </p>
-          <a :href="'https://explorer.testnet.near.org/transactions/' + item.hash" target="_blank">
+          <a :href="getHashTx(item.hash)" target="_blank">
             <p style="color:blue !important">{{limitStr(item.hash, 57)}}</p>
           </a>
         </template>
@@ -56,6 +56,13 @@ export default {
       // clear alerts
       const num = alert.hash ? 10000 : 5000
       setTimeout(() => this.dataAlerts.shift(), num);
+    },
+    getHashTx(hash) {
+      if (process.env.VUE_APP_NETWORK === "mainnet") {
+        return "https://nearblocks.io/txns/" + hash
+      } else {
+        return "https://testnet.nearblocks.io/txns/" + hash
+      }
     },
     limitStr(item, num) {
       if (item) {

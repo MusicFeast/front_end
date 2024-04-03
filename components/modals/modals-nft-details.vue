@@ -152,10 +152,7 @@
 
                 <span style="--c: var(--accent)">Transaction Hash</span>
                 <a
-                  :href="
-                    'https://explorer.testnet.near.org/transactions/' +
-                    hash_sell
-                  "
+                  :href="getHashTx(hash_sell)"
                   target="_blank"
                   >{{ hash_sell.limitString(28) }}</a
                 >
@@ -336,10 +333,7 @@
 
                 <span style="--c: var(--accent)">Transaction Hash</span>
                 <a
-                  :href="
-                    'https://explorer.testnet.near.org/transactions/' +
-                    hash_offer
-                  "
+                  :href="getHashTx(hash_offer)"
                   target="_blank"
                   >{{ hash_offer.limitString(28) }}</a
                 >
@@ -719,10 +713,7 @@
                 <span style="--c: var(--accent)">Transaction Hash</span>
                 <!-- <span>{{hash_redemption}}</span> -->
                 <a
-                  :href="
-                    'https://explorer.testnet.near.org/transactions/' +
-                    hash_redemption
-                  "
+                  :href="getHashTx(hash_redemption)"
                   target="_blank"
                   >{{ hash_redemption.limitString(50) }}</a
                 >
@@ -817,6 +808,13 @@ export default {
     this.getAddress()
   },
   methods: {
+    getHashTx(hash) {
+      if (process.env.VUE_APP_NETWORK === "mainnet") {
+        return "https://nearblocks.io/txns/" + hash
+      } else {
+        return "https://testnet.nearblocks.io/txns/" + hash
+      }
+    },
     saveOrderRedeem(tokenId, hashBurn) {
       const item = {
         wallet_burn: this.$ramper.getAccountId(),
