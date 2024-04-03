@@ -40,7 +40,7 @@
           class="btn activeBtn"
           style="--w: 75%; --min-h: 30px; --p: 0.5em 2em"
           :ripple="false"
-          @click="$parent.$parent.$parent.$refs.connect.modalConnect = true"
+          @click="logIn()"
           >Log In</v-btn
         >
 
@@ -286,6 +286,15 @@ export default {
     // set route push to marketplace
   },
   methods: {
+    async logIn() {
+      const login = await this.$ramper.signIn()
+      if (login) {
+        if (login.user) {
+          // this.$router.go()
+          location.reload()
+        }
+      }
+    },
     async getIsAdmin() {
       if (this.$ramper.getAccountId()) {
         return await this.$axios
