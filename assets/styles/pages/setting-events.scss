@@ -1,0 +1,115 @@
+#setting-events{
+  position: relative;
+  padding-inline: var(--margin-global);
+  padding-bottom: 4em;
+  padding-top: 4em;
+
+  div.card{
+    --bg: rgba(0, 0, 0, .4);
+    padding-inline: 30px;
+    height: 65px!important;
+    padding-block: 0px!important;
+    border-radius: 0px!important;
+    display: flex;
+    align-items: center;
+  }
+
+  .btns-div{
+    .btn{
+      min-width: 150px!important;
+    }
+    .btn-white{
+      background-color: #fff!important;
+      --c: var(--primary)!important;
+    }
+    .btn-yellow{
+      background-color: var(--accent)!important;
+    }
+  }
+
+  .img-table-circle{
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0px 0px 6px 1px red;
+  }
+
+  .v-data-table-header{
+    background: #441010!important;
+  }
+
+  tbody{
+    margin-top: 100px!important;
+  }
+
+  .v-data-table td{
+    border-radius: 0px!important;
+    --c:#fff;
+    --fw:500;
+    font-family: var(--font2);
+    font-size: 16px!important;
+    border-bottom: solid 1px #F7931E!important;
+    height: 75px;
+  }
+
+  .v-data-table tbody tr:nth-child(2n+1){
+    background-color: #441010;
+  }
+
+  .v-data-table tbody tr:nth-child(2n){
+    background-color: #2a0a0a;
+  }
+
+  .v-data-table{
+    background-color: #441010;
+  }
+
+  .v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+    font-weight: 700;
+  }
+}
+
+.v-dialog{
+  .nft-dialog--content{
+    padding: 50px 100px 50px 100px;
+
+    @include media(max, 690px){
+      padding: 30px;
+    }
+
+    .minus-plus-div{
+
+      .btn-plus-minus{
+        min-width: 20px!important;
+        max-width: 20px!important;
+        width: 20px!important;
+        min-height: 20px!important;
+        max-height: 20px!important;
+        height: 20px!important;
+        padding-block: 5px!important;
+        padding-inline: 5px!important;
+      }
+    }
+
+    .search{  
+      .v-input__append-inner{
+        border-left: 0px ;
+      }
+    }
+
+    .v-btn{
+      max-height: 40px!important;
+    }
+  }
+
+  .card-qr{
+    background-color: rgba(0, 0, 0, .4);
+
+    .img-qr{
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

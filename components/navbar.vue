@@ -138,6 +138,18 @@
                 Open Wallet
               </v-list-item-title>
             </v-list-item>
+
+            <v-list-item :ripple="false" @click="$router.push('/my-events'); menuProfile = false; drawer = false">
+              <v-list-item-title class="tcap" :class="{ not_transform: false }">
+                My Events
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item :ripple="false" @click="$router.push('/my-nfts'); menuProfile = false; drawer = false">
+              <v-list-item-title class="tcap" :class="{ not_transform: false }">
+                My NFT
+              </v-list-item-title>
+            </v-list-item>
             <!-- button logout -->
             <v-btn
               :ripple="false"
@@ -204,6 +216,7 @@ export default {
       dataNavbar: [
         { name: 'home', to: '/' },
         // { name: 'events', to: '/events' },
+        { name: 'events', to: '/ticket-events' },
         // { name: 'contest', to: '/contest' },
         { name: 'about', to: '/about' },
         { name: 'artists', to: '/artists' },

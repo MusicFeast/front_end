@@ -1,0 +1,61 @@
+#my-events{
+  position: relative;
+  padding-inline: var(--margin-global);
+  padding-bottom: 4em;
+  padding-top: 4em;
+
+  .btns-div{
+    .btn{
+      min-width: 150px!important;
+    }
+    .btn-white{
+      background-color: #fff!important;
+      --c: var(--primary)!important;
+    }
+  }
+
+  .img-table-circle{
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0px 0px 6px 1px red;
+  }
+
+  .v-data-table-header{
+    background: #441010!important;
+  }
+
+  tbody{
+    margin-top: 100px!important;
+  }
+
+  .v-data-table td{
+    border-radius: 0px!important;
+    --c:#fff;
+    --fw:500;
+    font-family: var(--font2);
+    font-size: 16px!important;
+    border-bottom: solid 1px #F7931E!important;
+    height: 65px;
+  }
+
+  .v-data-table tbody tr:nth-child(2n+1){
+    background-color: #441010;
+  }
+
+  .v-data-table tbody tr:nth-child(2n){
+    background-color: #2a0a0a;
+  }
+
+  .v-data-table{
+    padding-bottom: 40px!important;
+    background-color: #441010;
+  }
+
+  .v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+    font-weight: 700;
+  }
+}
+

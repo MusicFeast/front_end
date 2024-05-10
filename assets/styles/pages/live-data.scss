@@ -1,0 +1,160 @@
+#live-data{
+  position: relative;
+  padding-inline: var(--margin-global);
+  padding-bottom: 4em;
+  padding-top: 4em;
+
+  .card-last-upt{
+    background-color: var(--primary);
+    border-radius: 0px;
+    width: 180px;
+    height: 70px;
+    cursor: pointer;
+  }
+
+  .card-rigth{
+    border-radius: 0px;
+    width: max-content;
+    height: 70px;
+    background-color: rgba(0,0,0,0.4);
+    padding: 15px 20px;
+    position: relative;
+
+    @include media(max, 690px){
+      padding-inline: 0px!important;
+    }
+
+    .accent-color{
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .width100{
+      width: 180px;
+    }
+
+    .absolute-span{
+      position: absolute;
+      right: 20px;
+      bottom: -25px;
+      font-size: .9em;
+    }
+  }
+
+  .search{
+    min-width: 460px!important;
+
+    @include media(max, 690px){
+      min-width: 100%!important;
+    }
+
+    .v-input__append-inner{
+      border-left: 0px ;
+    }
+
+    .mdi-magnify{
+      border-left: 1px solid white;
+      padding-left: 5px;
+    }
+
+    .icon-scan{
+      padding-right: 5px;
+      width: 20px; 
+      height: 20px;
+    }
+  }
+
+  .dynamicBorder{
+    border: 2px solid var(--accent);
+  }
+
+  .btns-div{
+    .btn{
+      min-width: 150px!important;
+    }
+    .btn-white{
+      background-color: #fff!important;
+      --c: var(--primary)!important;
+    }
+    .btn-checkbox{
+      padding-block: 0px!important;
+    }
+    .checkbox-btn{
+      margin-top: 0px;
+    }
+  }
+
+  .img-table-circle{
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0px 0px 6px 1px red;
+    color: #5d0f0f;
+  }
+
+  .v-data-table-header{
+    background: #441010!important;
+  }
+
+  tbody{
+    margin-top: 100px!important;
+  }
+
+  .v-data-table td{
+    border-radius: 0px!important;
+    --c:#fff;
+    --fw:500;
+    font-family: var(--font2);
+    font-size: 16px!important;
+    border-bottom: solid 1px var(--accent)!important;
+    height: 65px;
+  }
+
+  .v-data-table tbody tr:nth-child(2n+1){
+    background-color: #441010;
+  }
+
+  .v-data-table tbody tr:nth-child(2n){
+    background-color: #2a0a0a;
+  }
+
+  .v-data-table{
+    padding-bottom: 40px!important;
+    background-color: #441010;
+  }
+
+  .v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+    font-weight: 700;
+  }
+
+  .delete-mobile{
+    @include media(max, 960px){
+      display: none;
+    }
+  }
+
+  .size-number-mobile{
+    @include media(max, 1200px){
+      font-size: 16px!important;
+    }
+
+    @include media(max, 690px){
+      font-size: 14px!important;
+    }
+  }
+
+  .nop-mobile{
+    @include media(max, 690px){
+      padding: 0px;
+    }
+  }
+
+  .nop-mobile:nth-of-type(1){
+    @include media(max, 690px){
+      padding-right: 5px;
+    }
+  }
+}
+
