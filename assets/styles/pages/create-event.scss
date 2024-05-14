@@ -23,6 +23,27 @@
     }
   }
 
+  .container-ticket-img-5{
+    width: 200px;
+    height: 310px;
+    position: relative;
+
+    .ticket-for-img{
+      max-width: 200px;
+    }
+
+    .internal-img{
+      position: absolute;
+      top: 71px;
+      left: 29.5px;
+      right: 29.5px;
+      width: 141px;
+      border-radius: 0px;
+      height: 167px;
+      object-fit: cover;
+    }
+  }
+
   .container-ticket-img:hover{
     cursor: pointer;
     .no-border-img{
@@ -387,4 +408,16 @@
   .btn-modal{
     max-height: 50px!important;
   }
+}
+
+.v-date-picker-table{
+  background-color: #390e0e!important;
+}
+
+.v-date-picker-header{
+  background-color: #390e0e!important;
+}
+
+.v-date-picker-years{
+  background-color: #390e0e!important;
 }

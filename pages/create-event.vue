@@ -4,7 +4,7 @@
       <v-window-item :value="1">
         <h2 class="Title">Choose your ticket</h2>
 
-        <v-slide-group v-model="carouselTickets" class="mt-10 mb-10" prev-icon="mdi-menu-left" next-icon="mdi-menu-right">
+        <!-- <v-slide-group v-model="carouselTickets" class="mt-10 mb-10" prev-icon="mdi-menu-left" next-icon="mdi-menu-right">
           <v-slide-item v-for="(item, index) in dataTickets" :key="index">
             <div class="container-ticket-img" @click="openDialogTicket(item)">
               <img
@@ -19,14 +19,39 @@
               >
             </div>
           </v-slide-item>
-        </v-slide-group>
+        </v-slide-group> -->
 
-        <div class="btns-div center divrow gap2">
+        <!-- <div class="btns-div center divrow gap2">
           <v-btn class="btn btn-white">Upload my own ticket</v-btn>
           <v-btn class="btn">Choose this one</v-btn>
+        </div> -->
+
+        <div class="center divcol mt-10">
+          <div class="container-ticket-img-5">
+            <img src="~/assets/sources/images/ticket-model-5.png" alt="Ticket" class="ticket-for-img">
+            <img :src="selectedImageNft" alt="" class="internal-img">
+            <v-file-input
+              ref="fileInputNft"
+              v-model="imageNft"
+              class="input-file"
+              prepend-icon="none"
+              style="display: none"
+              accept="image/*"
+              @change="onFileChangeNft"
+            ></v-file-input>
+          </div>
+
+          <div v-if="imageTicketStep == 1" class="btns-div center divrow gap2">
+            <v-btn class="btn btn-white" @click="dialogTicket = false">Back</v-btn>
+            <v-btn class="btn" @click="openFileInputNft">Choose this one</v-btn>
+          </div>
+          <div v-else-if="imageTicketStep == 2" class="btns-div center divrow gap2">
+            <v-btn class="btn btn-white" @click="openFileInputNft">Upload my ticket Image</v-btn>
+            <v-btn class="btn" @click="ticketModelWindow = 2">Next</v-btn>
+          </div>
         </div>
 
-        <v-dialog v-model="dialogTicket">
+        <!-- <v-dialog v-model="dialogTicket">
           <div v-if="ticketType == 1" class="container-ticket-img-1">
             <img src="~/assets/sources/images/ticket-model-1.png" alt="Ticket" class="ticket-for-img">
             <img :src="selectedImageNft" alt="" class="internal-img">
@@ -122,7 +147,7 @@
             <v-btn class="btn btn-white" @click="openFileInputNft">Upload my ticket Image</v-btn>
             <v-btn class="btn" @click="dialogTicket = false; ticketModelWindow = 2">Next</v-btn>
           </div>
-        </v-dialog>
+        </v-dialog> -->
       </v-window-item>
 
       <v-window-item :value="2" class="window-2">
@@ -180,17 +205,127 @@
           Inform attendees when the event starts and ends so they can get organized.
         </p>
         <section class="card">
-          <label for="date">Date</label>
-          <v-text-field
-            id="date"
-            placeholder="02-09-23 a 16-02-23"
-          ></v-text-field>
+          <label for="start_date">Start date</label>
+          <v-menu
+            ref="menu1"
+            v-model="menu1"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                id="start_date"
+                v-model="start_date"
+                placeholder="02-09-23"
+                prepend-inner-icon="mdi-calendar-blank-outline"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="start_date"
+              no-title
+              color="red"
+              @input="menu1 = false"
+            ></v-date-picker>
+          </v-menu>
 
-          <label for="time">Time</label>
-          <v-text-field
-            id="time"
-            placeholder="5:40 - 7:33 pm GMT-6"
-          ></v-text-field>
+          <label for="end_date">End date</label>
+          <v-menu
+            ref="menu2"
+            v-model="menu2"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                id="end_date"
+                v-model="end_date"
+                placeholder="05-09-23"
+                prepend-inner-icon="mdi-calendar-blank-outline"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="end_date"
+              no-title
+              color="red"
+              @input="menu2 = false"
+            ></v-date-picker>
+          </v-menu>
+          
+          <label for="start_time">Start Time</label>
+          <v-menu
+            ref="menu_start_time"
+            v-model="menu_start_time"
+            :close-on-content-click="false"
+            :return-value.sync="start_time"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                id="start_time"
+                v-model="start_time"
+                prepend-inner-icon="mdi-clock-time-four-outline"
+                placeholder="5:40 pm"
+                suffix="GMT - 6"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker
+              v-if="menu_start_time"
+              v-model="start_time"
+              color="white"
+              header-color="#390e0e"
+              full-width
+              @click:minute="$refs.menu_start_time.save(start_time)"
+            ></v-time-picker>
+          </v-menu>
+
+          <label for="end_time">End Time</label>
+          <v-menu
+            ref="menu_end_time"
+            v-model="menu_end_time"
+            :close-on-content-click="false"
+            :return-value.sync="end_time"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-text-field
+                id="end_time"
+                v-model="end_time"
+                prepend-inner-icon="mdi-clock-time-four-outline"
+                placeholder="7:40 pm"
+                suffix="GMT - 6"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker
+              v-if="menu_end_time"
+              v-model="end_time"
+              color="white"
+              header-color="#390e0e"
+              full-width
+              @click:minute="$refs.menu_end_time.save(end_time)"
+            ></v-time-picker>
+          </v-menu>
         </section>
 
         <h2 class="Title">Social Networks</h2>
@@ -383,10 +518,10 @@
 
         <div class="btns-div center divrow gap2">
           <v-btn class="btn btn-white" @click="ticketModelWindow = 3">Back</v-btn>
-          <v-btn class="btn" @click="ticketModelWindow = 5">Next</v-btn>
+          <v-btn class="btn" @click="modalConfirm = true">Next</v-btn>
         </div>
       </v-window-item>
-      <v-window-item :value="5" class="window-5">
+      <!-- <v-window-item :value="5" class="window-5">
         <h2 class="Title h2-title">
           Would you like to give a physical goodie with your ticket? (Drink, popcorn...)
         </h2>
@@ -429,7 +564,7 @@
             <v-btn class="btn" @click="modalConfirm = true">Next</v-btn>
           </div>
         </template>
-      </v-window-item>
+      </v-window-item> -->
     </v-window>
 
     <v-dialog
@@ -459,6 +594,18 @@
     mixins: [computeds],
     data() {
       return {
+        end_time: null,
+        menu_end_time: false,
+
+        start_time: null,
+        menu_start_time: false,
+
+        menu1: false, 
+        start_date: null,
+
+        menu2: false, 
+        end_date: null,
+
         modalConfirm: false,
 
         equalCeroGoodies: true,
@@ -541,8 +688,10 @@
         title,
       }
     },
-    mounted(){
-      
+    computed: {
+      formattedStartTime() {
+        return this.start_time ? this.start_time + " GMT-6" : "";
+      },
     },
     methods: {
       openDialogTicket(item){

@@ -30,7 +30,7 @@
       </template>
     </v-data-table>
 
-    <div class="card">
+    <!-- <div class="card">
       <h4 class="p">Burn a goodie</h4>
     </div>
     <v-data-table
@@ -56,10 +56,10 @@
           </v-btn>
         </div>
       </template>
-    </v-data-table>
+    </v-data-table> -->
 
     <div class="card">
-      <h4 class="p">Tickets</h4>
+      <h4 class="p">Number of Tickets</h4>
     </div>
     <v-data-table
       :headers="headersTicket"
@@ -80,14 +80,17 @@
       <template #[`item.action`]="{ item }">
         <div class="divrow jend gap1 btns-div">
           <v-btn class="btn btn-yellow" @click="modalMoreMint = true">
-            Mint more
-          </v-btn>
-          <v-btn class="btn">
             {{ item.action }}
           </v-btn>
         </div>
       </template>
     </v-data-table>
+
+    <div class="center">
+      <v-btn class="btn" style="--w: 130px;" @click="$router.go(-1)">
+        <v-icon class="mr-3">mdi-arrow-left</v-icon> Back
+      </v-btn>
+    </div>
 
     <!-- Dialog Mint More -->
     <v-dialog
@@ -198,7 +201,7 @@
             tickets_minted: 7,
             tickets_minted_available: 20,
             tickets_listed: 15,
-            action: "List more"
+            action: "Mint more"
           },
         ]
       }

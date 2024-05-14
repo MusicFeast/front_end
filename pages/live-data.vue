@@ -12,10 +12,10 @@
               <h4 class="p mt-2 size-number-mobile tcenter">0 / 0</h4>
             </v-card>
 
-            <v-card class="divcol center card-last-upt" :class="{'dynamicBorder' : activeGoodies}" @click="activateGoodies()">
+            <!-- <v-card class="divcol center card-last-upt" :class="{'dynamicBorder' : activeGoodies}" @click="activateGoodies()">
               <span class="tcenter">Goodies redeemed</span>
               <h4 class="p mt-2 size-number-mobile tcenter">0 / 0</h4>
-            </v-card>
+            </v-card> -->
           </div>
         </div>
       </v-col>
@@ -72,7 +72,7 @@
         <template #[`item.action`]="{ item }">
           <div class="divrow center btns-div">
             <v-btn class="btn btn-checkbox">
-              {{ item.action }} <v-checkbox class="checkbox-btn" color="white" dense hide-details v-model="item.checkbox"></v-checkbox>
+              {{ item.action }} <v-checkbox v-model="item.checkbox" class="checkbox-btn" color="white" dense hide-details></v-checkbox>
             </v-btn>
           </div>
         </template>
@@ -87,7 +87,7 @@
       </div>
     </template>
 
-    <template v-else-if="goodiesState">
+    <!-- <template v-else-if="goodiesState">
       <v-data-table
         :headers="headersGoodies"
         :items="dataGoodies"
@@ -117,7 +117,7 @@
         @pagechanged="handlePageChange"
         />
       </div>
-    </template>
+    </template> -->
   </div>
 </template>
 
