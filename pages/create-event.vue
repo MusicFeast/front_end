@@ -27,9 +27,9 @@
         </div> -->
 
         <div class="center divcol mt-10">
-          <div class="container-ticket-img-5">
+          <div class="container-ticket-img-5" @click="openFileInputNft" style="cursor: pointer;">
             <img src="~/assets/sources/images/ticket-model-5.png" alt="Ticket" class="ticket-for-img">
-            <img :src="selectedImageNft" alt="" class="internal-img">
+            <img :src="selectedImageNft" class="internal-img">
             <v-file-input
               ref="fileInputNft"
               v-model="imageNft"
